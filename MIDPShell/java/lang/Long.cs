@@ -3,8 +3,8 @@ namespace java.lang
 
     public class Long
     {
-        public static sealed override long MIN_VALUE = -9223372036854775808L;
-        public static sealed override long MAX_VALUE = 9223372036854775807L;
+        public static readonly long MIN_VALUE = -9223372036854775808L;
+        public static readonly long MAX_VALUE = 9223372036854775807L;
 
         public Long(long paramLong) { }
 

@@ -13,7 +13,7 @@ using javax.microedition.lcdui.Display;
 using javax.microedition.lcdui.Displayable;
 using javax.microedition.lcdui.Font;
 using javax.microedition.lcdui.Form;
-using javax.microedition.lcdui.Graphics;
+
 using javax.microedition.media.Manager;
 using javax.microedition.media.Player;
 using javax.microedition.midlet.MIDlet;
@@ -41,7 +41,7 @@ namespace aeii
         public static sealed override int var_139c = font0BaselinePos + 8;
         public static sealed override short[] numericAndDelStartingChars = { 45, 43 }; //char 45='/' 43= '-' 44='.' 46='0' 57='9'
         public static sealed override short[] numericEndChars = { 57, 57 };
-        public static sealed override sbyte[][] charFontsCharIndexes = {
+        public static sealed override byte[][] charFontsCharIndexes = {
 			{ 10, 11, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
 			{ 12, -1, 11, -1, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } 
         };
@@ -66,7 +66,7 @@ namespace aeii
         public static sealed override String[] musicNames = { "main_theme", "bg_story",
 			"bg_good", "bg_bad", "battle_good", "battle_bad", "victory",
 			"gameover", "game_complete" };
-        public static sealed override sbyte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        public static sealed override byte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         public static Player[] musicPlayers;
         public static Player currentMusicPlayer;
         public static bool[] musicPlayersLoaded;
@@ -170,12 +170,12 @@ namespace aeii
             return size;
         }
 
-        public static sealed override int getCharedStringWidth(sbyte charId, String str)
+        public static sealed override int getCharedStringWidth(byte charId, String str)
         {
             return charsSprites[charId].frameWidth * str.length;
         }
 
-        public static sealed override int getCharedStringHeight(sbyte charId)
+        public static sealed override int getCharedStringHeight(byte charId)
         {
             return charsSprites[charId].frameHeight;
         }
@@ -221,19 +221,19 @@ namespace aeii
         {
             if ((paramInt4 & 0x8) != 0)
             {
-                inX -= getCharedStringWidth((sbyte)charInd, inStr);
+                inX -= getCharedStringWidth((byte)charInd, inStr);
             }
             else if ((paramInt4 & 0x1) != 0)
             {
-                inX -= getCharedStringWidth((sbyte)charInd, inStr) / 2;
+                inX -= getCharedStringWidth((byte)charInd, inStr) / 2;
             }
             if ((paramInt4 & 0x20) != 0)
             {
-                inY -= getCharedStringHeight((sbyte)charInd);
+                inY -= getCharedStringHeight((byte)charInd);
             }
             else if ((paramInt4 & 0x2) != 0)
             {
-                inY -= getCharedStringHeight((sbyte)charInd) / 2;
+                inY -= getCharedStringHeight((byte)charInd) / 2;
             }
             drawCharedString(gr, inStr, inX, inY, charInd);
         }
@@ -720,7 +720,7 @@ namespace aeii
 
         public sealed override void showMsg(String msg, I_Game game)
         {
-            D_Menu dialog = new D_Menu((sbyte)10, 12);
+            D_Menu dialog = new D_Menu((byte)10, 12);
             dialog.createDescDialogMb(null, msg, E_MainCanvas.canvasWidth, -1);
             dialog.parentMenu = game;
             dialog.var_10c5 = 500;

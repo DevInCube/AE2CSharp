@@ -1,35 +1,36 @@
 namespace javax.microedition.io
 {
 
-    using java.io.IOException;
+    
     using java.lang;
 
     public interface SocketConnection
-      : StreamConnection
+      //: StreamConnection
     {
-        public static sealed override byte DELAY = 0;
-        public static sealed override byte LINGER = 1;
-        public static sealed override byte KEEPALIVE = 2;
-        public static sealed override byte RCVBUF = 3;
-        public static sealed override byte SNDBUF = 4;
+        /*
+        public static readonly byte DELAY = 0;
+        public static readonly byte LINGER = 1;
+        public static readonly byte KEEPALIVE = 2;
+        public static readonly byte RCVBUF = 3;
+        public static readonly byte SNDBUF = 4;
+        */
+         int getLocalPort();
+        
 
-        int getLocalPort()
-          ;
+         int getPort();
+        
 
-      int getPort()
-          ;
+         int getSocketOption(byte paramByte);
+        
 
-        int getSocketOption(byte paramByte)
-          ;
+         String getAddress();
+        
 
-        String getAddress()
-          ;
+         String getLocalAddress();
 
-       String getLocalAddress()
-          ;
 
-         void setSocketOption(byte paramByte, int paramInt)
-          ;
+         void setSocketOption(byte paramByte, int paramInt);
+        
     }
 
 }

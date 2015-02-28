@@ -8,9 +8,9 @@ namespace javax.microedition.lcdui
     public class DateField
       : Item
     {
-        public static sealed override int DATE = 1;
-        public static sealed override int TIME = 2;
-        public static sealed override int DATE_TIME = 3;
+        public static readonly int DATE = 1;
+        public static readonly int TIME = 2;
+        public static readonly int DATE_TIME = 3;
 
         public DateField(String paramString, int paramInt) { }
 

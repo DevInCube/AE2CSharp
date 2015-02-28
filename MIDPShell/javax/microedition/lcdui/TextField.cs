@@ -5,19 +5,19 @@ namespace javax.microedition.lcdui
     public class TextField
       : Item
     {
-        public static sealed override int ANY = 0;
-        public static sealed override int EMAILADDR = 1;
-        public static sealed override int INITIAL_CAPS_WORD = 1048576;
-        public static sealed override int UNEDITABLE = 131072;
-        public static sealed override int NUMERIC = 2;
-        public static sealed override int INITIAL_CAPS_SENTENCE = 2097152;
-        public static sealed override int SENSITIVE = 262144;
-        public static sealed override int PHONENUMBER = 3;
-        public static sealed override int URL = 4;
-        public static sealed override int DECIMAL = 5;
-        public static sealed override int NON_PREDICTIVE = 524288;
-        public static sealed override int CONSTRAINT_MASK = 65535;
-        public static sealed override int PASSWORD = 65536;
+        public static readonly int ANY = 0;
+        public static readonly int EMAILADDR = 1;
+        public static readonly int INITIAL_CAPS_WORD = 1048576;
+        public static readonly int UNEDITABLE = 131072;
+        public static readonly int NUMERIC = 2;
+        public static readonly int INITIAL_CAPS_SENTENCE = 2097152;
+        public static readonly int SENSITIVE = 262144;
+        public static readonly int PHONENUMBER = 3;
+        public static readonly int URL = 4;
+        public static readonly int DECIMAL = 5;
+        public static readonly int NON_PREDICTIVE = 524288;
+        public static readonly int CONSTRAINT_MASK = 65535;
+        public static readonly int PASSWORD = 65536;
 
         public TextField(String paramString1, String paramString2, int paramInt1, int paramInt2) { }
 

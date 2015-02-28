@@ -1,15 +1,16 @@
+using java.lang;
 namespace javax.microedition.lcdui
 {
 
     public class ImageItem
       : Item
     {
-        public static sealed override int LAYOUT_DEFAULT = 0;
-        public static sealed override int LAYOUT_LEFT = 1;
-        public static sealed override int LAYOUT_RIGHT = 2;
-        public static sealed override int LAYOUT_NEWLINE_BEFORE = 256;
-        public static sealed override int LAYOUT_CENTER = 3;
-        public static sealed override int LAYOUT_NEWLINE_AFTER = 512;
+        public static readonly int LAYOUT_DEFAULT = 0;
+        public static readonly int LAYOUT_LEFT = 1;
+        public static readonly int LAYOUT_RIGHT = 2;
+        public static readonly int LAYOUT_NEWLINE_BEFORE = 256;
+        public static readonly int LAYOUT_CENTER = 3;
+        public static readonly int LAYOUT_NEWLINE_AFTER = 512;
 
         public ImageItem(String paramString1, Image paramImage, int paramInt, String paramString2) { }
 

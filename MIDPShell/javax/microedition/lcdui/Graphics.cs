@@ -4,15 +4,15 @@ namespace javax.microedition.lcdui
 
     public class Graphics
     {
-        public static sealed override int SOLID = 0;
-        public static sealed override int DOTTED = 1;
-        public static sealed override int HCENTER = 1;
-        public static sealed override int TOP = 16;
-        public static sealed override int VCENTER = 2;
-        public static sealed override int BOTTOM = 32;
-        public static sealed override int LEFT = 4;
-        public static sealed override int BASELINE = 64;
-        public static sealed override int RIGHT = 8;
+        public static readonly int SOLID = 0;
+        public static readonly int DOTTED = 1;
+        public static readonly int HCENTER = 1;
+        public static readonly int TOP = 16;
+        public static readonly int VCENTER = 2;
+        public static readonly int BOTTOM = 32;
+        public static readonly int LEFT = 4;
+        public static readonly int BASELINE = 64;
+        public static readonly int RIGHT = 8;
 
         public int getBlueComponent()
         {

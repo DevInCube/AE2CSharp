@@ -5,15 +5,15 @@ namespace javax.microedition.lcdui.game
     public abstract class GameCanvas
       : Canvas
     {
-        public static sealed override int GAME_B_PRESSED = 1024;
-        public static sealed override int UP_PRESSED = 2;
-        public static sealed override int GAME_C_PRESSED = 2048;
-        public static sealed override int FIRE_PRESSED = 256;
-        public static sealed override int RIGHT_PRESSED = 32;
-        public static sealed override int LEFT_PRESSED = 4;
-        public static sealed override int GAME_D_PRESSED = 4096;
-        public static sealed override int GAME_A_PRESSED = 512;
-        public static sealed override int DOWN_PRESSED = 64;
+        public static readonly int GAME_B_PRESSED = 1024;
+        public static readonly int UP_PRESSED = 2;
+        public static readonly int GAME_C_PRESSED = 2048;
+        public static readonly int FIRE_PRESSED = 256;
+        public static readonly int RIGHT_PRESSED = 32;
+        public static readonly int LEFT_PRESSED = 4;
+        public static readonly int GAME_D_PRESSED = 4096;
+        public static readonly int GAME_A_PRESSED = 512;
+        public static readonly int DOWN_PRESSED = 64;
 
         protected GameCanvas(bool paramBoolean) { }
 

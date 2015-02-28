@@ -2,8 +2,8 @@ using java.lang;
 
 
 using java.csharp;
-using javax.microedition.lcdui.Graphics;
-using javax.microedition.lcdui.Image;
+
+
 using javax.microedition.lcdui;
 
 namespace aeii

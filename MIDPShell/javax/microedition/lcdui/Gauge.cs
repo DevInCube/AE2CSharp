@@ -5,11 +5,11 @@ namespace javax.microedition.lcdui
     public class Gauge
       : Item
     {
-        public static sealed override int INDEFINITE = -1;
-        public static sealed override int CONTINUOUS_IDLE = 0;
-        public static sealed override int INCREMENTAL_IDLE = 1;
-        public static sealed override int CONTINUOUS_RUNNING = 2;
-        public static sealed override int INCREMENTAL_UPDATING = 3;
+        public static readonly int INDEFINITE = -1;
+        public static readonly int CONTINUOUS_IDLE = 0;
+        public static readonly int INCREMENTAL_IDLE = 1;
+        public static readonly int CONTINUOUS_RUNNING = 2;
+        public static readonly int INCREMENTAL_UPDATING = 3;
 
         public Gauge(String paramString, bool paramBoolean, int paramInt1, int paramInt2) { }
 

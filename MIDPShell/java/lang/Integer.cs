@@ -4,8 +4,8 @@ namespace java.lang
 
     public  class Integer
     {
-        public static sealed override int MIN_VALUE = -2147483648;
-        public static sealed override int MAX_VALUE = 2147483647;
+        public static readonly int MIN_VALUE = -2147483648;
+        public static readonly int MAX_VALUE = 2147483647;
 
         public Integer(int paramInt) { }
 

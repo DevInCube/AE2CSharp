@@ -1,7 +1,7 @@
 namespace javax.microedition.media.control
 {
 
-    using javax.microedition.media.Control;
+    
 
     public interface VolumeControl
       : Control

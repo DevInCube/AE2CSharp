@@ -5,27 +5,27 @@ namespace javax.microedition.lcdui
 
     public abstract class Canvas : Displayable
     {
-        public static sealed override int UP = 1;
-        public static sealed override int GAME_B = 10;
-        public static sealed override int GAME_C = 11;
-        public static sealed override int GAME_D = 12;
-        public static sealed override int LEFT = 2;
-        public static sealed override int KEY_POUND = 35;
-        public static sealed override int KEY_STAR = 42;
-        public static sealed override int KEY_NUM0 = 48;
-        public static sealed override int KEY_NUM1 = 49;
-        public static sealed override int RIGHT = 5;
-        public static sealed override int KEY_NUM2 = 50;
-        public static sealed override int KEY_NUM3 = 51;
-        public static sealed override int KEY_NUM4 = 52;
-        public static sealed override int KEY_NUM5 = 53;
-        public static sealed override int KEY_NUM6 = 54;
-        public static sealed override int KEY_NUM7 = 55;
-        public static sealed override int KEY_NUM8 = 56;
-        public static sealed override int KEY_NUM9 = 57;
-        public static sealed override int DOWN = 6;
-        public static sealed override int FIRE = 8;
-        public static sealed override int GAME_A = 9;
+        public static readonly int UP = 1;
+        public static readonly int GAME_B = 10;
+        public static readonly int GAME_C = 11;
+        public static readonly int GAME_D = 12;
+        public static readonly int LEFT = 2;
+        public static readonly int KEY_POUND = 35;
+        public static readonly int KEY_STAR = 42;
+        public static readonly int KEY_NUM0 = 48;
+        public static readonly int KEY_NUM1 = 49;
+        public static readonly int RIGHT = 5;
+        public static readonly int KEY_NUM2 = 50;
+        public static readonly int KEY_NUM3 = 51;
+        public static readonly int KEY_NUM4 = 52;
+        public static readonly int KEY_NUM5 = 53;
+        public static readonly int KEY_NUM6 = 54;
+        public static readonly int KEY_NUM7 = 55;
+        public static readonly int KEY_NUM8 = 56;
+        public static readonly int KEY_NUM9 = 57;
+        public static readonly int DOWN = 6;
+        public static readonly int FIRE = 8;
+        public static readonly int GAME_A = 9;
 
         protected abstract void paint(Graphics paramGraphics);
 

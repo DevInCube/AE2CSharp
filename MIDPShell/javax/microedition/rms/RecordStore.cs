@@ -4,8 +4,8 @@ namespace javax.microedition.rms
 
     public class RecordStore
     {
-        public static sealed override int AUTHMODE_PRIVATE = 0;
-        public static sealed override int AUTHMODE_ANY = 1;
+        public static readonly int AUTHMODE_PRIVATE = 0;
+        public static readonly int AUTHMODE_ANY = 1;
 
         public byte[] getRecord(int paramInt)
         {

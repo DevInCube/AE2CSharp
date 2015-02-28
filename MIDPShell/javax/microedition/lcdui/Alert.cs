@@ -5,8 +5,8 @@ namespace javax.microedition.lcdui
     public class Alert
       : Screen
     {
-        public static sealed override int FOREVER = -2;
-        public static sealed override Command DISMISS_COMMAND = null;
+        public static readonly int FOREVER = -2;
+        public static readonly Command DISMISS_COMMAND = null;
 
         public Alert(String paramString) { }
 

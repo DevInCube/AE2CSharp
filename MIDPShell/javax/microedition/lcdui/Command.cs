@@ -4,14 +4,14 @@ namespace javax.microedition.lcdui
 
     public class Command
     {
-        public static sealed override int SCREEN = 1;
-        public static sealed override int BACK = 2;
-        public static sealed override int CANCEL = 3;
-        public static sealed override int OK = 4;
-        public static sealed override int HELP = 5;
-        public static sealed override int STOP = 6;
-        public static sealed override int EXIT = 7;
-        public static sealed override int ITEM = 8;
+        public static readonly int SCREEN = 1;
+        public static readonly int BACK = 2;
+        public static readonly int CANCEL = 3;
+        public static readonly int OK = 4;
+        public static readonly int HELP = 5;
+        public static readonly int STOP = 6;
+        public static readonly int EXIT = 7;
+        public static readonly int ITEM = 8;
 
         public Command(String paramString, int paramInt1, int paramInt2) { }
 
