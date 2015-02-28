@@ -1,7 +1,7 @@
 ﻿
 namespace java.lang
 {
-    public class Math : System.Math
+    public class Math
     {
         public static int abs(int p)
         {

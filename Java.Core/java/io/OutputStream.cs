@@ -1,13 +1,14 @@
 ﻿using java.lang;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace java.lang
+namespace java.io
 {
-    public interface Runnable
+    public abstract class OutputStream 
     {
-        void run();
+        
     }
 }

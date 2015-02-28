@@ -16,42 +16,44 @@ namespace java.io
 
         public short readShort()
         {
-            //throw new NotImplementedException();
+            return 0;//throw new NotImplementedException();
         }
 
         public string readUTF()
         {
-            throw new NotImplementedException();
+            return "";// throw new NotImplementedException();
         }
 
         public int readInt()
         {
-            throw new NotImplementedException();
+            return 0;// throw new NotImplementedException();
         }
 
         public void readFully(byte[] p)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void close()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
 
         public byte readByte()
         {
-            throw new NotImplementedException();
+            return 0;//throw new NotImplementedException();
         }
 
         public void skip(int p)
         {
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
         }
 
-        public void readLong()
+        public long readLong()
         {
-            throw new System.NotImplementedException();
+            return 0;// throw new System.NotImplementedException();
         }
+
+        
     }
 }

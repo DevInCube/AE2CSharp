@@ -8,12 +8,10 @@ namespace java.io
 {
     public class DataOutputStream : OutputStream
     {
-        private ByteArrayOutputStream baos;
 
-        public DataOutputStream(ByteArrayOutputStream baos)
+        public DataOutputStream(OutputStream baos)
         {
             // TODO: Complete member initialization
-            this.baos = baos;
         }
 
 
@@ -39,7 +37,7 @@ namespace java.io
 
         public void writeUTF(String p)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
     }
 }
