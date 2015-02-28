@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4EE4BA43-AB05-4397-B247-E8EBBF8F36BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MIDPShell</RootNamespace>
+    <AssemblyName>MIDPShell</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="java\io\ByteArrayInputStream.cs" />
+    <Compile Include="java\io\DataOutputStream.cs" />
+    <Compile Include="java\io\DataInputStream.cs" />
+    <Compile Include="java\io\IOException.cs" />
+    <Compile Include="java\io\OutputStream.cs" />
+    <Compile Include="java\io\InputStream.cs" />
+    <Compile Include="java\lang\Class.cs" />
+    <Compile Include="java\lang\Exception.cs" />
+    <Compile Include="java\lang\Math.cs" />
+    <Compile Include="java\lang\Object.cs" />
+    <Compile Include="java\lang\Runnable.cs" />
+    <Compile Include="java\lang\String.cs" />
+    <Compile Include="java\lang\StringBuffer.cs" />
+    <Compile Include="java\lang\JavaSystem.cs" />
+    <Compile Include="java\lang\Thread.cs" />
+    <Compile Include="java\util\Random.cs" />
+    <Compile Include="java\util\Vector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="java\io\ByteArrayOutputStream.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="java\lang\Byte.cs" />
+    <Compile Include="java\lang\IllegalStateException.cs" />
+    <Compile Include="java\lang\Integer.cs" />
+    <Compile Include="java\lang\Long.cs" />
+    <Compile Include="java\lang\Short.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="java\util\Timer.cs" />
+    <Compile Include="java\util\TimerTask.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="javax\microedition\io\CommConnection.cs" />
+    <Compile Include="javax\microedition\io\HttpConnection.cs" />
+    <Compile Include="javax\microedition\io\HttpsConnection.cs" />
+    <Compile Include="javax\microedition\io\PushRegistry.cs" />
+    <Compile Include="javax\microedition\io\SecureConnection.cs" />
+    <Compile Include="javax\microedition\io\SecurityInfo.cs" />
+    <Compile Include="javax\microedition\io\ServerSocketConnection.cs" />
+    <Compile Include="javax\microedition\io\SocketConnection.cs" />
+    <Compile Include="javax\microedition\io\UDPDatagramConnection.cs" />
+    <Compile Include="javax\microedition\lcdui\Alert.cs" />
+    <Compile Include="javax\microedition\lcdui\AlertType.cs" />
+    <Compile Include="javax\microedition\lcdui\Canvas.cs" />
+    <Compile Include="javax\microedition\lcdui\Choice.cs" />
+    <Compile Include="javax\microedition\lcdui\ChoiceGroup.cs" />
+    <Compile Include="javax\microedition\lcdui\Command.cs" />
+    <Compile Include="javax\microedition\lcdui\CommandListener.cs" />
+    <Compile Include="javax\microedition\lcdui\CustomItem.cs" />
+    <Compile Include="javax\microedition\lcdui\DateField.cs" />
+    <Compile Include="javax\microedition\lcdui\Display.cs" />
+    <Compile Include="javax\microedition\lcdui\Displayable.cs" />
+    <Compile Include="javax\microedition\lcdui\Font.cs" />
+    <Compile Include="javax\microedition\lcdui\Form.cs" />
+    <Compile Include="javax\microedition\lcdui\game\GameCanvas.cs" />
+    <Compile Include="javax\microedition\lcdui\game\Layer.cs" />
+    <Compile Include="javax\microedition\lcdui\game\LayerManager.cs" />
+    <Compile Include="javax\microedition\lcdui\game\Sprite.cs" />
+    <Compile Include="javax\microedition\lcdui\game\TiledLayer.cs" />
+    <Compile Include="javax\microedition\lcdui\Gauge.cs" />
+    <Compile Include="javax\microedition\lcdui\Graphics.cs" />
+    <Compile Include="javax\microedition\lcdui\Image.cs" />
+    <Compile Include="javax\microedition\lcdui\ImageItem.cs" />
+    <Compile Include="javax\microedition\lcdui\Item.cs" />
+    <Compile Include="javax\microedition\lcdui\ItemCommandListener.cs" />
+    <Compile Include="javax\microedition\lcdui\ItemStateListener.cs" />
+    <Compile Include="javax\microedition\lcdui\List.cs" />
+    <Compile Include="javax\microedition\lcdui\Screen.cs" />
+    <Compile Include="javax\microedition\lcdui\Spacer.cs" />
+    <Compile Include="javax\microedition\lcdui\StringItem.cs" />
+    <Compile Include="javax\microedition\lcdui\TextBox.cs" />
+    <Compile Include="javax\microedition\lcdui\TextField.cs" />
+    <Compile Include="javax\microedition\lcdui\Ticker.cs" />
+    <Compile Include="javax\microedition\media\Control.cs" />
+    <Compile Include="javax\microedition\media\Controllable.cs" />
+    <Compile Include="javax\microedition\media\control\ToneControl.cs" />
+    <Compile Include="javax\microedition\media\control\VolumeControl.cs" />
+    <Compile Include="javax\microedition\media\Manager.cs" />
+    <Compile Include="javax\microedition\media\MediaException.cs" />
+    <Compile Include="javax\microedition\media\Player.cs" />
+    <Compile Include="javax\microedition\media\PlayerListener.cs" />
+    <Compile Include="javax\microedition\midlet\MIDlet.cs" />
+    <Compile Include="javax\microedition\midlet\MIDletStateChangeException.cs" />
+    <Compile Include="javax\microedition\pki\Certificate.cs" />
+    <Compile Include="javax\microedition\pki\CertificateException.cs" />
+    <Compile Include="javax\microedition\rms\InvalidRecordIDException.cs" />
+    <Compile Include="javax\microedition\rms\RecordComparator.cs" />
+    <Compile Include="javax\microedition\rms\RecordEnumeration.cs" />
+    <Compile Include="javax\microedition\rms\RecordFilter.cs" />
+    <Compile Include="javax\microedition\rms\RecordListener.cs" />
+    <Compile Include="javax\microedition\rms\RecordStore.cs" />
+    <Compile Include="javax\microedition\rms\RecordStoreException.cs" />
+    <Compile Include="javax\microedition\rms\RecordStoreFullException.cs" />
+    <Compile Include="javax\microedition\rms\RecordStoreNotFoundException.cs" />
+    <Compile Include="javax\microedition\rms\RecordStoreNotOpenException.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
