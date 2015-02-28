@@ -5,14 +5,14 @@ namespace java.io
 
     public class ByteArrayOutputStream : OutputStream
     {
-        protected byte[] buf;
+        protected sbyte[] buf;
         protected int count;
 
         public ByteArrayOutputStream() { }
 
         public ByteArrayOutputStream(int paramInt) { }
 
-        public byte[] toByteArray()
+        public sbyte[] toByteArray()
         {
             return null;
         }
@@ -33,7 +33,7 @@ namespace java.io
 
         public void reset() { }
 
-        public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2) { }
+        public void write(sbyte[] paramArrayOfByte, int paramInt1, int paramInt2) { }
 
         public void write(int paramInt) { }
     }
