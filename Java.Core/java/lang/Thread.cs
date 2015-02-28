@@ -21,7 +21,7 @@ namespace java.lang
 
         public static void sleep(int delay)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
     }
 }

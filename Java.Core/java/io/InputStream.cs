@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace java.io
 {
-    public abstract class InputStream : Stream
+    public abstract class InputStream 
     {
 
         public byte read()
         {
-            throw new NotImplementedException();
+            return 0;// throw new NotImplementedException();
         }
 
         public void close()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

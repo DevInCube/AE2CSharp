@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{68B83A4E-AF01-42DC-ADDB-C181EA1F9D80}</ProjectGuid>
+    <ProjectGuid>{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AE2CSharp</RootNamespace>
-    <AssemblyName>AE2CSharp</AssemblyName>
+    <RootNamespace>Java.Core</RootNamespace>
+    <AssemblyName>Java.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,28 +39,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="java\io\ByteArrayInputStream.cs" />
+    <Compile Include="java\io\DataInputStream.cs" />
+    <Compile Include="java\io\DataOutputStream.cs" />
+    <Compile Include="java\io\InputStream.cs" />
+    <Compile Include="java\io\IOException.cs" />
+    <Compile Include="java\io\OutputStream.cs" />
+    <Compile Include="java\lang\Class.cs" />
+    <Compile Include="java\lang\Exception.cs" />
+    <Compile Include="java\lang\JavaSystem.cs" />
+    <Compile Include="java\lang\Math.cs" />
+    <Compile Include="java\lang\Object.cs" />
+    <Compile Include="java\lang\Runnable.cs" />
+    <Compile Include="java\lang\String.cs" />
+    <Compile Include="java\lang\StringBuffer.cs" />
+    <Compile Include="java\lang\Thread.cs" />
+    <Compile Include="java\utils\Random.cs" />
+    <Compile Include="java\utils\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="A_MenuBase.cs" />
-    <Compile Include="B_MainMIDlet.cs" />
-    <Compile Include="C_Unit.cs" />
-    <Compile Include="D_Menu.cs" />
-    <Compile Include="E_MainCanvas.cs" />
-    <Compile Include="F_Sprite.cs" />
-    <Compile Include="G_FightAnimation.cs" />
-    <Compile Include="H_ImageExt.cs" />
-    <Compile Include="I_Game.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Java.Core\Java.Core.csproj">
-      <Project>{a9fa24a2-0dc8-4e25-8d1d-b6f0ccd52486}</Project>
-      <Name>Java.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MIDPShell\MIDP.csproj">
-      <Project>{4ee4ba43-ab05-4397-b247-e8ebbf8f36bf}</Project>
-      <Name>MIDP</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

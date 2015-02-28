@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace java.lang
 {
-    public class StringBuffer : StringBuilder
+    public class StringBuffer 
     {
-        private String p;
+        private StringBuilder builder;
 
 
         public StringBuffer(string spriteId)
@@ -24,18 +24,17 @@ namespace java.lang
         public StringBuffer(String p)
         {
             // TODO: Complete member initialization
-            this.p = p;
         }
         public void append(object p)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
 
         public int Length { get; set; }
 
         public void append(char p)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
