@@ -29,7 +29,7 @@ namespace java.io
             return 0;// throw new NotImplementedException();
         }
 
-        public void readFully(byte[] p)
+        public void readFully(sbyte[] p)
         {
             //throw new NotImplementedException();
         }
@@ -39,7 +39,7 @@ namespace java.io
            // throw new NotImplementedException();
         }
 
-        public byte readByte()
+        public sbyte readByte()
         {
             return 0;//throw new NotImplementedException();
         }

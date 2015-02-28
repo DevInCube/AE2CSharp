@@ -15,16 +15,16 @@ namespace aeii
     {
 
         public H_ImageExt[] frameImages;
-        private byte[] frameSequence;
+        private sbyte[] frameSequence;
         public int currentFrameIndex = 0;
         public int posXPixel = 0;
         public int posYPixel = 0;
         public bool var_7ec = true;
         public int frameWidth;
         public int frameHeight;
-        public byte[][] frameAnimationsSequences;
+        public sbyte[][] frameAnimationsSequences;
         public int someYVal1;
-        public byte m_spriteType = 0;
+        public sbyte m_spriteType = 0;
         public int var_81c = -1;
         public int frameTime;
         public int mapFrameTime;
@@ -35,7 +35,7 @@ namespace aeii
         public bool var_854;
         public bool var_85c;
         public int randPosCounter = -1;
-        public byte var_86c = -1;
+        public sbyte var_86c = -1;
         public bool m_isRotating;
         public int var_87c;
         public String spriteString;
@@ -45,7 +45,7 @@ namespace aeii
         public int[][] someUnusedArr2;
         public short[][] var_8ac;
         public int someColor = 16769024; //#FFE000 yellow
-        public byte[] someRandUnusedArr;
+        public sbyte[] someRandUnusedArr;
         public bool[] someAlwaysTrueArr;
 
         public F_Sprite(String spriteId)
@@ -56,8 +56,8 @@ namespace aeii
         public F_Sprite(H_ImageExt[] images)
         {
             this.frameImages = images;
-            this.frameSequence = new byte[this.frameImages.Length];
-            for (byte index = 0; index < this.frameImages.Length; index = (byte)(index + 1))
+            this.frameSequence = new sbyte[this.frameImages.Length];
+            for (sbyte index = 0; index < this.frameImages.Length; index = (sbyte)(index + 1))
             {
                 this.frameSequence[index] = index;
             }
@@ -65,7 +65,7 @@ namespace aeii
             this.frameHeight = this.frameImages[0].imageHeight;
         }
 
-        public F_Sprite(String spriteId, byte paramByte)
+        public F_Sprite(String spriteId, sbyte paramByte)
         {
             loadSprite(spriteId, paramByte);
         }
@@ -74,9 +74,9 @@ namespace aeii
 			{
 		InputStream stream = E_MainCanvas.getResourceStream(spriteId
 				+ ".sprite");
-		int Length = (byte)stream.read();
-		this.frameWidth = ((byte) stream.read());
-		this.frameHeight = ((byte) stream.read());
+		int Length = (sbyte)stream.read();
+		this.frameWidth = ((sbyte) stream.read());
+		this.frameHeight = ((sbyte) stream.read());
 		this.frameImages = new H_ImageExt[Length];
 		H_ImageExt[] images = new H_ImageExt[Length];
 		try {
@@ -126,19 +126,19 @@ namespace aeii
 		}
 		int animationsCount = stream.read();
 		if (animationsCount > 0) {
-			this.frameAnimationsSequences = new byte[animationsCount][];
+			this.frameAnimationsSequences = new sbyte[animationsCount][];
 			this.mapFrameTime = (stream.read() * 50);
 			for (int animId = 0; animId < animationsCount; animId++) {
 				int animLength = stream.read();
-				this.frameAnimationsSequences[animId] = new byte[animLength];
+				this.frameAnimationsSequences[animId] = new sbyte[animLength];
 				for (int it = 0; it < animLength; it++) {
-					this.frameAnimationsSequences[animId][it] = ((byte) stream.read());
+					this.frameAnimationsSequences[animId][it] = ((sbyte) stream.read());
 				}
 			}
 		}
 		for (int n1 = 0; n1 < Length; n1++) {
-			byte iX = (byte) stream.read();
-			byte iY = (byte) stream.read();
+			sbyte iX = (sbyte) stream.read();
+			sbyte iY = (sbyte) stream.read();
 			if ((iX == -1) || (iY == -1)) {
 				break;
 			}
@@ -149,8 +149,8 @@ namespace aeii
 			this.frameSequence = this.frameAnimationsSequences[0];
 			return;
 		}
-		this.frameSequence = new byte[Length];
-		for (byte n1 = 0; n1 <Length; n1 = (byte) (n1 + 1)) {
+		this.frameSequence = new sbyte[Length];
+		for (sbyte n1 = 0; n1 <Length; n1 = (sbyte) (n1 + 1)) {
 			this.frameSequence[n1] = n1;
 		}
 	}
@@ -190,7 +190,7 @@ namespace aeii
         {
             if (val < this.frameSequence.Length)
             {
-                this.currentFrameIndex = ((byte)val);
+                this.currentFrameIndex = ((sbyte)val);
             }
         }
 
@@ -209,7 +209,7 @@ namespace aeii
             }
         }
 
-        public sealed override void setFrameSequence(byte[] data)
+        public sealed override void setFrameSequence(sbyte[] data)
         {
             this.frameSequence = data;
             this.currentFrameIndex = 0;
@@ -220,17 +220,17 @@ namespace aeii
         {
             if ((this.frameAnimationsSequences != null) && (animationIndex <= this.frameAnimationsSequences.Length))
             {
-                byte[] frameSeq = this.frameAnimationsSequences[animationIndex];
+                sbyte[] frameSeq = this.frameAnimationsSequences[animationIndex];
                 if (inBool)
                 {
-                    byte[] arrayOfByte = new byte[frameSeq.Length];
+                    sbyte[] arrayOfByte = new sbyte[frameSeq.Length];
                     for (int i = 0; i < arrayOfByte.Length; i++)
                     {
-                        arrayOfByte[i] = ((byte)(frameSeq[i] + getFramesCount() / 2));
+                        arrayOfByte[i] = ((sbyte)(frameSeq[i] + getFramesCount() / 2));
                     }
                     frameSeq = arrayOfByte;
                 }
-                setFrameSequence((byte[])frameSeq);
+                setFrameSequence((sbyte[])frameSeq);
             }
         }
 
@@ -259,7 +259,7 @@ namespace aeii
 
 
 
-        public static sealed override F_Sprite createBouncingText(String str, int inX, int inY, byte charId)
+        public static sealed override F_Sprite createBouncingText(String str, int inX, int inY, sbyte charId)
         {
             int strWidth = E_MainCanvas.getCharedStringWidth(charId, str);
             int strHeight = E_MainCanvas.getCharedStringHeight(charId);
@@ -274,7 +274,7 @@ namespace aeii
 
         public static sealed override F_Sprite someSpriteCopy(F_Sprite sprite,
                 int paramInt1, int paramInt2, int paramInt3, int paramInt4,
-                int frameTime, byte inSprType) {
+                int frameTime, sbyte inSprType) {
 		F_Sprite lspr = null;
 		if (sprite != null) {
 			lspr = new F_Sprite(sprite);
@@ -286,7 +286,7 @@ namespace aeii
 				}
 				lspr.someUnusedArr2 = new int[5][2];
 				lspr.var_8ac = new short[5][2];
-				lspr.someRandUnusedArr = new byte[5];
+				lspr.someRandUnusedArr = new sbyte[5];
 				lspr.someAlwaysTrueArr = new bool[5];
 				for (int k = 0; k < 5; k++) {
 					lspr.someAlwaysTrueArr[k] = true;
@@ -301,7 +301,7 @@ namespace aeii
 						lspr.var_8ac[k][1] = ((short) (Math
 								.abs(E_MainCanvas.random.nextInt()) % 4096 + -2048));
 					}
-					lspr.someRandUnusedArr[k] = ((byte) (Math
+					lspr.someRandUnusedArr[k] = ((sbyte) (Math
 							.abs(E_MainCanvas.random.nextInt()) % 2 + 1));
 				}
 			}

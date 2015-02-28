@@ -12,19 +12,19 @@ using java.io;
 namespace aeii {
 public sealed override class C_Unit : F_Sprite {
 	
-	public static byte m_cpuUnitSpeed = 12; //be careful here, 16,18 causes unit move lock 
-	public static byte m_defaultSpeed = 6;
-	public static byte m_speed = m_defaultSpeed;
+	public static sbyte m_cpuUnitSpeed = 12; //be careful here, 16,18 causes unit move lock 
+	public static sbyte m_defaultSpeed = 6;
+	public static sbyte m_speed = m_defaultSpeed;
 	public static I_Game sGame;
 	public String unitName;
-	public byte level;
+	public sbyte level;
 	public short experience;
-	public byte[][] charsData;
+	public sbyte[][] charsData;
 	public Vector unitMovePathPositions;
 	public short movePathPosIndex;
 	public long unitFrameStartTime;
-	public byte unitTypeId;
-	public byte playerId;
+	public sbyte unitTypeId;
+	public sbyte playerId;
 	public short positionX;
 	public short positionY;
 	public int m_startPosX;
@@ -32,9 +32,9 @@ public sealed override class C_Unit : F_Sprite {
 	public int unitAttackMin;
 	public int unitAttackMax;
 	public int unitDefence;
-	public byte unitHealthMb;
-	public byte m_state;
-	public byte status;
+	public sbyte unitHealthMb;
+	public sbyte m_state;
+	public sbyte status;
 	public short movementStatusBonus;
 	public short defenceStatusBonus;
 	public short attackStatusBonus;
@@ -42,37 +42,37 @@ public sealed override class C_Unit : F_Sprite {
 	public bool m_shakeDirection = true;
 	public int shakingMaxTime;
 	public long shakingStartTime;
-	public byte m_tombMaxTurns;
-	public byte someStatusPlayerId;
+	public sbyte m_tombMaxTurns;
+	public sbyte someStatusPlayerId;
 	public int m_smokeMoveStepIndex;
 	public C_Unit followerUnitMb;
-	public byte kingIndex = 0;
+	public sbyte kingIndex = 0;
 	public int unitId;
 	public short cost;
 	public int m_aiPriority;
-	public static byte[] unitsMoveRanges = new byte[12];
-	public static byte[][] unitsAttackValues = new byte[12][2];
-	public static byte[] unitsDefenceValues = new byte[12];
-	public static byte[] maxUnitRanges = new byte[12];
-	public static byte[] minUnitRanges = new byte[12];
-	public static byte[][][] unitsChars = new byte[12][][];
+	public static sbyte[] unitsMoveRanges = new sbyte[12];
+	public static sbyte[][] unitsAttackValues = new sbyte[12][2];
+	public static sbyte[] unitsDefenceValues = new sbyte[12];
+	public static sbyte[] maxUnitRanges = new sbyte[12];
+	public static sbyte[] minUnitRanges = new sbyte[12];
+	public static sbyte[][][] unitsChars = new sbyte[12][][];
 	public static short[] unitsCosts = new short[12];
 	public static sealed override short[] unitsProperties = new short[12];
 
-	private C_Unit(byte typeId, byte playerId, int posX,
+	private C_Unit(sbyte typeId, sbyte playerId, int posX,
 			int posY, bool showUnit) :base(sGame.sub_87c3(playerId, typeId)) {
 		this.unitTypeId = typeId;
 		this.m_state = 0;
 		this.positionX = ((short) posX);
 		this.positionY = ((short) posY);
 		setSpritePosition(posX * 24, posY * 24);
-		setUnitLevel((byte) 0);
+		setUnitLevel((sbyte) 0);
 		if (showUnit) {
 			sGame.mapUnitsSprites.addElement(this);
 		}
 	}
 
-	public sealed override void setUnitLevel(byte lvl) {
+	public sealed override void setUnitLevel(sbyte lvl) {
 		this.level = (lvl);
 		int lvlBonus = lvl * 2;
 		this.unitAttackMin = (unitsAttackValues[this.unitTypeId][0] + lvlBonus);
@@ -93,11 +93,11 @@ public sealed override class C_Unit : F_Sprite {
 		this.shakingMaxTime = val;
 	}
 
-	public static sealed override C_Unit createUnitOnMap(byte type, byte playerId, int pX, int pY) {
+	public static sealed override C_Unit createUnitOnMap(sbyte type, sbyte playerId, int pX, int pY) {
 		return createUnit(type, playerId, pX, pY, true);
 	}
 
-	public static sealed override C_Unit createUnit(byte type, byte playerId,
+	public static sealed override C_Unit createUnit(sbyte type, sbyte playerId,
 			int pX, int pY, bool showUnit) {
 		C_Unit unit = new C_Unit(type,
 				sGame.playersIndexes[playerId], pX, pY,
@@ -121,7 +121,7 @@ public sealed override class C_Unit : F_Sprite {
 	}
 
 	public sealed override void setKingName(int index) {
-		this.kingIndex = ((byte) index);
+		this.kingIndex = ((sbyte) index);
 		this.unitName = A_MenuBase.getLangString(index + 93);
 	}
 
@@ -175,8 +175,8 @@ public sealed override class C_Unit : F_Sprite {
 		} else if (damage > oUnit.unitHealthMb) {
 			damage = oUnit.unitHealthMb;
 		}
-		oUnit.unitHealthMb -= (byte)damage;
-		this.experience += (byte)(oUnit.getExpKoef() * damage);
+		oUnit.unitHealthMb -= (sbyte)damage;
+		this.experience += (sbyte)(oUnit.getExpKoef() * damage);
 		return damage;
 	}
 
@@ -192,8 +192,8 @@ public sealed override class C_Unit : F_Sprite {
 		if (this.level < 9) {
 			int exp = getLevelExpMax();
 			if (this.experience >= exp) {
-				this.experience -= (byte)exp;
-				setUnitLevel((byte) (this.level + 1));
+				this.experience -= (sbyte)exp;
+				setUnitLevel((sbyte) (this.level + 1));
 				return true;
 			}
 		}
@@ -208,16 +208,16 @@ public sealed override class C_Unit : F_Sprite {
 				&& (minUnitRanges[this.unitTypeId] == 1);
 	}
 
-	public sealed override void applyPoisonStatus(byte paramByte) {
-		this.status = ((byte) (this.status | paramByte));
+	public sealed override void applyPoisonStatus(sbyte paramByte) {
+		this.status = ((sbyte) (this.status | paramByte));
 		calcStatusEffect();
 		if (paramByte == 1) {
 			this.someStatusPlayerId = sGame.playerId;
 		}
 	}
 
-	public sealed override void applyWispStatusMb(byte paramByte) {
-		this.status = ((byte) (this.status & (paramByte ^ 0xFFFFFFFF)));
+	public sealed override void applyWispStatusMb(sbyte paramByte) {
+		this.status = ((sbyte) (this.status & (paramByte ^ 0xFFFFFFFF)));
 		calcStatusEffect();
 	}
 
@@ -256,7 +256,7 @@ public sealed override class C_Unit : F_Sprite {
 				unit, inX, inY)) * this.unitHealthMb / 100;
 	}
 
-	public sealed override void fillAttackRangeData(byte[][] mapdata, int inX,
+	public sealed override void fillAttackRangeData(sbyte[][] mapdata, int inX,
 			int inY) {
 		int minRange = minUnitRanges[this.unitTypeId];
 		int maxRange = maxUnitRanges[this.unitTypeId];
@@ -286,7 +286,7 @@ public sealed override class C_Unit : F_Sprite {
 		}
 	}
 
-	public sealed override void showWhereUnitCanAttack(byte[][] mapRangeData) {
+	public sealed override void showWhereUnitCanAttack(sbyte[][] mapRangeData) {
 		if (hasProperty((short) 512)) { //catapult
 			fillAttackRangeData(mapRangeData, this.positionX, this.positionY);
 			return;
@@ -302,13 +302,13 @@ public sealed override class C_Unit : F_Sprite {
 	}
 
 	public sealed override C_Unit[] getActiveUnitsInAttackRange(int paramInt1, int paramInt2,
-			byte paramByte) {
+			sbyte paramByte) {
 		return getPositionUnitsInAttackRange(paramInt1, paramInt2, minUnitRanges[this.unitTypeId],
 				maxUnitRanges[this.unitTypeId], paramByte);
 	}
 
 	public sealed override C_Unit[] getPositionUnitsInAttackRange(int inX, int inY,
-			int minRange, int maxRange, byte paramByte) {
+			int minRange, int maxRange, sbyte paramByte) {
 		Vector localVector = new Vector();
 		int minX = inX - maxRange;
 		if (minX < 0) {
@@ -333,7 +333,7 @@ public sealed override class C_Unit : F_Sprite {
 					C_Unit aUnit;
 					if (paramByte == 0) {
 						if ((aUnit = sGame.getSomeUnit(x, y,
-								(byte) 0)) != null) {
+								(sbyte) 0)) != null) {
 							if (sGame.playersTeams[aUnit.playerId] != sGame.playersTeams[this.playerId]) {
 								localVector.addElement(aUnit);
 							}
@@ -342,7 +342,7 @@ public sealed override class C_Unit : F_Sprite {
 								&& (sGame.mapTilesIds[x][y] >= sGame.houseTileIdStartIndex)
 								&& (!sGame.isInSameTeam(x, y,
 										sGame.playersTeams[this.playerId]))) {
-							C_Unit unit2 = createUnit((byte) 0, (byte) 0, x,
+							C_Unit unit2 = createUnit((sbyte) 0, (sbyte) 0, x,
 									y, false);
 							unit2.unitTypeId = -1;
 							unit2.m_state = 4;
@@ -350,12 +350,12 @@ public sealed override class C_Unit : F_Sprite {
 						}
 					} else if (paramByte == 1) {
 						if ((aUnit = sGame.getSomeUnit(x, y,
-								(byte) 1)) != null) {
+								(sbyte) 1)) != null) {
 							localVector.addElement(aUnit);
 						}
 					} else if ((paramByte == 2)
 							&& ((aUnit = sGame.getSomeUnit(x, y,
-									(byte) 0)) != null)
+									(sbyte) 0)) != null)
 							&& (sGame.playersTeams[aUnit.playerId] == sGame.playersTeams[this.playerId])) {
 						localVector.addElement(aUnit);
 					}
@@ -378,13 +378,13 @@ public sealed override class C_Unit : F_Sprite {
 			this.unitMovePathPositions = sub_1b48(this.positionX, this.positionY, inX, inY);
 		} else {
 			if ((paramBoolean2)
-					&& (sGame.getSomeUnit(inX, inY, (byte) 0) != null)) {
+					&& (sGame.getSomeUnit(inX, inY, (sbyte) 0) != null)) {
 				int i = 0;
 				for (int j = inX - 1; j <= inX + 1; j++) {
 					for (int k = inY - 1; k <= inY + 1; k++) {
 						if (((j == inX) && (k == inY))
 								|| (((j == inX) || (k == inY)) && (sGame
-										.getSomeUnit(j, k, (byte) 0) == null))) {
+										.getSomeUnit(j, k, (sbyte) 0) == null))) {
 							inX = j;
 							inY = k;
 							i = 1;
@@ -468,18 +468,18 @@ public sealed override class C_Unit : F_Sprite {
 		return localVector;
 	}
 
-	public sealed override void fillWhereUnitCanMove(byte[][] paramArrayOfByte) {
+	public sealed override void fillWhereUnitCanMove(sbyte[][] paramArrayOfByte) {
 		sub_1d7b(paramArrayOfByte, this.positionX, this.positionY,
 				unitsMoveRanges[this.unitTypeId] + this.movementStatusBonus, -1, this.unitTypeId,
 				this.playerId, false);
 	}
 
-	public static sealed override bool sub_1d7b(byte[][] mdata,
+	public static sealed override bool sub_1d7b(sbyte[][] mdata,
 			int inX, int inY, int sTileType, int paramInt4,
-			byte paramByte1, byte paramByte2, bool paramBoolean) {
+			sbyte paramByte1, sbyte paramByte2, bool paramBoolean) {
 		if (sTileType > mdata[inX][inY]) {
-			mdata[inX][inY] = ((byte) sTileType);
-			if ((paramBoolean) && (sGame.getSomeUnit(inX, inY, (byte) 0) == null)) {
+			mdata[inX][inY] = ((sbyte) sTileType);
+			if ((paramBoolean) && (sGame.getSomeUnit(inX, inY, (sbyte) 0) == null)) {
 				return true;
 			}
 		} else {
@@ -522,9 +522,9 @@ public sealed override class C_Unit : F_Sprite {
 				&& (paramBoolean);
 	}
 
-	public static sealed override int getCellMoveValue(int inX, int inY, byte inUnitType, byte inUnitTeam) {
+	public static sealed override int getCellMoveValue(int inX, int inY, sbyte inUnitType, sbyte inUnitTeam) {
 		if ((inX >= 0) && (inY >= 0) && (inX < sGame.mapWidth) && (inY < sGame.mapHeight)) {
-			C_Unit unitOnPos = sGame.getSomeUnit(inX, inY, (byte) 0);
+			C_Unit unitOnPos = sGame.getSomeUnit(inX, inY, (sbyte) 0);
 			if ((unitOnPos != null)
 					&& (sGame.playersTeams[unitOnPos.playerId] != sGame.playersTeams[inUnitTeam])) {
 				return 1000;
@@ -633,7 +633,7 @@ public sealed override class C_Unit : F_Sprite {
 		}
 	}
 
-	public static sealed override bool hasUnitProperty(byte uType, short prop) {
+	public static sealed override bool hasUnitProperty(sbyte uType, short prop) {
 		return (unitsProperties[uType] & prop) != 0;
 	}
 
@@ -643,14 +643,14 @@ public sealed override class C_Unit : F_Sprite {
 
 	public sealed override void endMove() {
 		this.m_state = 2;
-		C_Unit unit1 = sGame.getSomeUnit(this.positionX, this.positionY, (byte) 1);
+		C_Unit unit1 = sGame.getSomeUnit(this.positionX, this.positionY, (sbyte) 1);
 		if (unit1 != null) {
 			unit1.removeFromMap();
 		}
 		if (hasProperty((short) 256)) { //wisp aura
-			C_Unit[] unitsInRange = getPositionUnitsInAttackRange(this.positionX, this.positionY, 1, 2, (byte) 2);
+			C_Unit[] unitsInRange = getPositionUnitsInAttackRange(this.positionX, this.positionY, 1, 2, (sbyte) 2);
 			for (int i = 0; i < unitsInRange.Length; i++) {
-				unitsInRange[i].applyPoisonStatus((byte) 2);
+				unitsInRange[i].applyPoisonStatus((sbyte) 2);
 				sGame.showSpriteOnMap(sGame.sparkSprite,
 						unitsInRange[i].posXPixel,
 						unitsInRange[i].posYPixel, 0, 0, 1, 50);
@@ -659,7 +659,7 @@ public sealed override class C_Unit : F_Sprite {
 		sGame.unitEndTurnMb = this;
 	}
 
-	public static sealed override C_Unit[] getSomUnitsList(byte paramByte) {
+	public static sealed override C_Unit[] getSomUnitsList(sbyte paramByte) {
 		C_Unit[] units = new C_Unit[sGame.playerUnitsCount[paramByte]];
 		int uCount = 0;
 		for (int j = 0; j < units.Length; j++) {
@@ -669,11 +669,11 @@ public sealed override class C_Unit : F_Sprite {
 			}
 		}
 		C_Unit[] units2 = new C_Unit[sGame.unlockedUnitsTypeMax + 1 + uCount]; 
-		for (int k = 0; k < units2.Length; k = (byte) (k + 1)) {
+		for (int k = 0; k < units2.Length; k = (sbyte) (k + 1)) {
 			if (k < uCount) {
 				units2[k] = units[k];
 			} else {
-				units2[k] = createUnit((byte) (k - uCount), paramByte, 0, 0, false);
+				units2[k] = createUnit((sbyte) (k - uCount), paramByte, 0, 0, false);
 			}
 		}
 		return units2;
@@ -738,7 +738,7 @@ public sealed override class C_Unit : F_Sprite {
 			minUnitRanges[i] = localDataInputStream.readByte();
 			unitsCosts[i] = localDataInputStream.readShort();
 			int j = localDataInputStream.readByte();
-			unitsChars[i] = new byte[j][2];
+			unitsChars[i] = new sbyte[j][2];
 			for (int k = 0; k < j; k++) {
 				unitsChars[i][k][0] = localDataInputStream.readByte();
 				unitsChars[i][k][1] = localDataInputStream.readByte();
