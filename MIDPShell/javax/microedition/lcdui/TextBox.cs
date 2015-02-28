@@ -1,0 +1,66 @@
+namespace javax.microedition.lcdui;
+
+public class TextBox
+  : Screen
+{
+  public TextBox(String paramString1, String paramString2, int paramInt1, int paramInt2) {}
+  
+  public int getCaretPosition()
+  {
+    return 0;
+  }
+  
+  public int getChars(char[] paramArrayOfChar)
+  {
+    return 0;
+  }
+  
+  public int getConstraints()
+  {
+    return 0;
+  }
+  
+  public int getMaxSize()
+  {
+    return 0;
+  }
+  
+  public int setMaxSize(int paramInt)
+  {
+    return 0;
+  }
+  
+  public int size()
+  {
+    return 0;
+  }
+  
+  public String getString()
+  {
+    return null;
+  }
+  
+  public void delete(int paramInt1, int paramInt2) {}
+  
+  public void insert(char[] paramArrayOfChar, int paramInt1, int paramInt2, int paramInt3) {}
+  
+  public void insert(String paramString, int paramInt) {}
+  
+  public void setChars(char[] paramArrayOfChar, int paramInt1, int paramInt2) {}
+  
+  public void setConstraints(int paramInt) {}
+  
+  public void setInitialInputMode(String paramString) {}
+  
+  public void setString(String paramString) {}
+}
+
+
+
+/* Location:           D:\Programming\Eclipse\midp_2.1.jar
+
+ * Qualified Name:     javax.microedition.lcdui.TextBox
+
+ * JD-Core Version:    0.7.0.1
+
+ */
