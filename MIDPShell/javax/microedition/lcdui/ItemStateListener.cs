@@ -1,16 +1,9 @@
-namespace javax.microedition.lcdui;
-
-public abstract interface ItemStateListener
+namespace javax.microedition.lcdui
 {
-  public abstract void itemStateChanged(Item paramItem);
+
+    public interface ItemStateListener
+    {
+        void itemStateChanged(Item paramItem);
+    }
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.lcdui.ItemStateListener
-
- * JD-Core Version:    0.7.0.1
-
- */

@@ -2,7 +2,7 @@ using java.lang;
 namespace java.lang
 {
 
-    public sealed override class Integer
+    public  class Integer
     {
         public static sealed override int MIN_VALUE = -2147483648;
         public static sealed override int MAX_VALUE = 2147483647;

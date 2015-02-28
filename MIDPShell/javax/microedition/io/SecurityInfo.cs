@@ -1,24 +1,19 @@
-namespace javax.microedition.io;
-
-using javax.microedition.pki.Certificate;
-
-public abstract interface SecurityInfo
+namespace javax.microedition.io
 {
-  public abstract String getCipherSuite();
-  
-  public abstract String getProtocolName();
-  
-  public abstract String getProtocolVersion();
-  
-  public abstract Certificate getServerCertificate();
+
+    using java.lang;
+    using javax.microedition.pki;
+    using javax.microedition.pki.Certificate;
+
+    public interface SecurityInfo
+    {
+        String getCipherSuite();
+
+        String getProtocolName();
+
+        String getProtocolVersion();
+
+        Certificate getServerCertificate();
+    }
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.io.SecurityInfo
-
- * JD-Core Version:    0.7.0.1
-
- */

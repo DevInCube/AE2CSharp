@@ -3,20 +3,20 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public sealed override class Font
+    public class Font
     {
-        public static sealed override int FACE_SYSTEM = 0;
-        public static sealed override int FONT_STATIC_TEXT = 0;
-        public static sealed override int SIZE_MEDIUM = 0;
-        public static sealed override int STYLE_PLAIN = 0;
-        public static sealed override int FONT_INPUT_TEXT = 1;
-        public static sealed override int STYLE_BOLD = 1;
-        public static sealed override int SIZE_LARGE = 16;
-        public static sealed override int STYLE_ITALIC = 2;
-        public static sealed override int FACE_MONOSPACE = 32;
-        public static sealed override int STYLE_UNDERLINED = 4;
-        public static sealed override int FACE_PROPORTIONAL = 64;
-        public static sealed override int SIZE_SMALL = 8;
+        public static const int FACE_SYSTEM = 0;
+        public static const int FONT_STATIC_TEXT = 0;
+        public static const int SIZE_MEDIUM = 0;
+        public static const int STYLE_PLAIN = 0;
+        public static const int FONT_INPUT_TEXT = 1;
+        public static const int STYLE_BOLD = 1;
+        public static const int SIZE_LARGE = 16;
+        public static const int STYLE_ITALIC = 2;
+        public static const int FACE_MONOSPACE = 32;
+        public static const int STYLE_UNDERLINED = 4;
+        public static const int FACE_PROPORTIONAL = 64;
+        public static const int SIZE_SMALL = 8;
 
         public bool isBold()
         {

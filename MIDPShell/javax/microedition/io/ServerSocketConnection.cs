@@ -1,23 +1,17 @@
-namespace javax.microedition.io;
-
-using java.io.IOException;
-
-public abstract interface ServerSocketConnection
-  : StreamConnectionNotifier
+namespace javax.microedition.io
 {
-  public abstract int getLocalPort()
-    ;
-  
-  public abstract String getLocalAddress()
-    ;
+
+    using java.io.IOException;
+    using java.lang;
+
+    public interface ServerSocketConnection : StreamConnectionNotifier
+    {
+        int getLocalPort()
+          ;
+
+        String getLocalAddress()
+          ;
+    }
+
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.io.ServerSocketConnection
-
- * JD-Core Version:    0.7.0.1
-
- */
