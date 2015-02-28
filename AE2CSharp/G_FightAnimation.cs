@@ -121,7 +121,10 @@ namespace aeii
 				% this.multipleBgImages[0].imageHeight != 0) {
 			this.var_c0d += 1;
 		}
-		this.var_c5d = new sbyte[this.var_c05][this.var_c0d];
+		this.var_c5d = new sbyte[this.var_c05][];
+            for(int i23=0;i23<this.var_c05;i23++){
+                this.var_c5d[i23]=new sbyte[this.var_c0d];
+            }
 		for (int m = 0; m < this.var_c05; m++) {
 			for (int n = 0; n < this.var_c0d; n++) {
 				this.var_c5d[m][n] = ((sbyte) Math.abs(E_MainCanvas.random
@@ -179,7 +182,9 @@ namespace aeii
 			this.kingHeadsBackSprite.startAnimation(0, this.var_b75);
 			this.kingHeadsBackSprite.setCurrentFrameIndex(aUnit.kingIndex);
 		}
-		this.var_c2d = new int[aUnit.charsData.Length][2];
+		this.var_c2d = new int[aUnit.charsData.Length][];
+        for (int i5 = 0; i5 < aUnit.charsData.Length; i5++)
+                this.var_c2d[i5] = new int[2];
 		for (int m = 0; m < this.var_c2d.Length; m++) {
 			this.var_c2d[m][0] = (aUnit.charsData[m][0]
 					* aGame.someCanWidth / 128);

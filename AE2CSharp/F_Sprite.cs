@@ -284,8 +284,12 @@ namespace aeii
 				if (inSprType == 4) {
 					lspr.someColor = 15658751;
 				}
-				lspr.someUnusedArr2 = new int[5][2];
-				lspr.var_8ac = new short[5][2];
+				lspr.someUnusedArr2 = new int[5][];
+				lspr.var_8ac = new short[5][];
+                for(int i=0;i<5;i++){
+                    lspr.someUnusedArr2[i] = new int[2];
+                    lspr.var_8ac[i] = new short[2];
+                }
 				lspr.someRandUnusedArr = new sbyte[5];
 				lspr.someAlwaysTrueArr = new bool[5];
 				for (int k = 0; k < 5; k++) {

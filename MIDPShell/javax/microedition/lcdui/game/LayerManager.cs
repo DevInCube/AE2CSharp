@@ -1,7 +1,6 @@
 namespace javax.microedition.lcdui.game
 {
 
-    using javax.microedition.lcdui.Graphics;
 
     public class LayerManager
     {

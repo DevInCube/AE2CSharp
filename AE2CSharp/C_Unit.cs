@@ -51,13 +51,19 @@ public sealed override class C_Unit : F_Sprite {
 	public short cost;
 	public int m_aiPriority;
 	public static sbyte[] unitsMoveRanges = new sbyte[12];
-	public static sbyte[][] unitsAttackValues = new sbyte[12][2];
+	public static sbyte[][] unitsAttackValues = new sbyte[12][];
 	public static sbyte[] unitsDefenceValues = new sbyte[12];
 	public static sbyte[] maxUnitRanges = new sbyte[12];
 	public static sbyte[] minUnitRanges = new sbyte[12];
 	public static sbyte[][][] unitsChars = new sbyte[12][][];
 	public static short[] unitsCosts = new short[12];
 	public static sealed override short[] unitsProperties = new short[12];
+
+    static C_Unit()
+    {
+        for (int i = 0; i < 12; i++)
+            unitsAttackValues[i] = new sbyte[2];
+    }
 
 	private C_Unit(sbyte typeId, sbyte playerId, int posX,
 			int posY, bool showUnit) :base(sGame.sub_87c3(playerId, typeId)) {
@@ -738,8 +744,9 @@ public sealed override class C_Unit : F_Sprite {
 			minUnitRanges[i] = localDataInputStream.readByte();
 			unitsCosts[i] = localDataInputStream.readShort();
 			int j = localDataInputStream.readByte();
-			unitsChars[i] = new sbyte[j][2];
+			unitsChars[i] = new sbyte[j][];
 			for (int k = 0; k < j; k++) {
+                unitsChars[i][k] = new sbyte[2];
 				unitsChars[i][k][0] = localDataInputStream.readByte();
 				unitsChars[i][k][1] = localDataInputStream.readByte();
 			}

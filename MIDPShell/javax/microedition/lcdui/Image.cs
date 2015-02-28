@@ -1,5 +1,4 @@
 using java.io;
-using java.io.InputStream;
 using java.lang;
 
 namespace javax.microedition.lcdui

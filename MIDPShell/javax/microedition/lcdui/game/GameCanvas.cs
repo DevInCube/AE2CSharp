@@ -1,8 +1,6 @@
 namespace javax.microedition.lcdui.game
 {
 
-    using javax.microedition.lcdui.Canvas;
-    using javax.microedition.lcdui.Graphics;
 
     public abstract class GameCanvas
       : Canvas

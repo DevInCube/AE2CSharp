@@ -4,8 +4,6 @@ using java.lang;
 namespace javax.microedition.media
 {
 
-    using java.io.IOException;
-    using java.io.InputStream;
 
     public class Manager
     {
