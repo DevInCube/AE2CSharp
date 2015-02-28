@@ -16,7 +16,7 @@ namespace aeii
         public int m_bgColorMb = 13553358; // #CECECE light gray
         public static sealed override int someXPadding = E_MainCanvas.canvasHeight <= 143 ? 1 : 2;
         public static sealed override int var_fcd = someXPadding * 2 + 1;
-        public byte var_fd5 = 2;
+        public sbyte var_fd5 = 2;
         public short var_fdd = 3;
         public static I_Game gameVar;
         public String[] menuItemsNamesMb;
@@ -33,14 +33,14 @@ namespace aeii
         public int var_1045;
         public int var_104d;
         public int var_1055;
-        public byte menuType;
+        public sbyte menuType;
         public int someBorderMb;
         public bool var_106d = false;
         public bool var_1075 = false;
         public C_Unit[] buyUnits;
         public int var_1085;
         public int var_108d;
-        public byte portraitSpriteIndex = -1;
+        public sbyte portraitSpriteIndex = -1;
         public int var_109d;
         public int var_10a5;
         public int unitPortraitWidth;
@@ -64,7 +64,7 @@ namespace aeii
         public int var_113d;
         public int var_1145;
         public int var_114d;
-        public byte[][] mapTilesData;
+        public sbyte[][] mapTilesData;
         public Vector mapUnitsList;
         public int var_1165;
         public int var_116d;
@@ -89,10 +89,10 @@ namespace aeii
         public int var_1205;
         public int menuItemFrameWidthMb;
         public int var_1215;
-        public byte var_121d;
+        public sbyte var_121d;
         public F_Sprite wheelItemBgImage;
 
-        public D_Menu(byte inMenuType, int paramInt)
+        public D_Menu(sbyte inMenuType, int paramInt)
         {
             this.menuType = inMenuType;
             this.someBorderMb = paramInt;
@@ -149,7 +149,7 @@ namespace aeii
                 {
                     this.menuHeight += var_fcd + E_MainCanvas.font8BaselinePos;
                     this.menuUnit = gameVar.getSomeUnit(gameVar.someCursorXPos,
-                            gameVar.someCursorYPos, (byte)0);
+                            gameVar.someCursorYPos, (sbyte)0);
                     this.activeItemPositionMb = this.menuUnit.unitTypeId;
                     this.menuWidth = gameVar.someGWidth;
                 }
@@ -207,7 +207,7 @@ namespace aeii
          * @param index
          * @param isEnabled
          */
-        public sealed override void setMenuActionEnabled(byte index, bool isEnabled)
+        public sealed override void setMenuActionEnabled(sbyte index, bool isEnabled)
         {
             this.menuActionsMb[index] = isEnabled;
         }
@@ -221,7 +221,7 @@ namespace aeii
 
         public sealed override D_Menu createTitleMenu(String header)
         {
-            this.somedescMenu = new D_Menu((byte)10, 0);
+            this.somedescMenu = new D_Menu((sbyte)10, 0);
             this.somedescMenu.createDescDialogMb(null, header, gameVar.someGWidth,
                     -1);
             return this.somedescMenu;
@@ -266,13 +266,13 @@ namespace aeii
                 }
                 sY -= this.var_11ad[j];
             }
-            childMenu.setMenuActionEnabled((byte)0, false);
-            childMenu.setMenuActionEnabled((byte)1, false);
+            childMenu.setMenuActionEnabled((sbyte)0, false);
+            childMenu.setMenuActionEnabled((sbyte)1, false);
             this.childrenMenuList.addElement(childMenu);
         }
 
         public sealed override void initMapPreviewMenu(int inWidth, int inHeight,
-                byte[][] mapData, Vector unitsMb)
+                sbyte[][] mapData, Vector unitsMb)
         {
             this.someBorderMb = 15;
             this.mapTilesData = mapData;
@@ -335,7 +335,7 @@ namespace aeii
         }
 
         public sealed override void initPortraitDialog(String msg, int inW,
-                int inH, byte portraintIndex, byte unused)
+                int inH, sbyte portraintIndex, sbyte unused)
         {
             this.portraitSpriteIndex = portraintIndex;
             if (portraintIndex == -1)
@@ -601,7 +601,7 @@ namespace aeii
 
         public sealed override void initWheelMenu(String[] itemString,
                 H_ImageExt[] itemImages, int paramInt1, int inX, int inY,
-                int paramInt4, byte someType)
+                int paramInt4, sbyte someType)
         {
             this.var_121d = someType;
             this.menuItemsNamesMb = itemString;
@@ -808,7 +808,7 @@ namespace aeii
                     }
                     if (i != 0)
                     {
-                        gameVar.sub_6260(this, this.var_111d, "", (byte)0);
+                        gameVar.sub_6260(this, this.var_111d, "", (sbyte)0);
                         return;
                     }
                     for (k = 0; k < this.childrenMenuList.size(); k++)
@@ -900,7 +900,7 @@ namespace aeii
                                     this,
                                     this.activeItemPositionMb,
                                     this.menuItemsNamesMb[this.activeItemPositionMb],
-                                    (byte)0);
+                                    (sbyte)0);
                         }
                     }
                 }
@@ -916,7 +916,7 @@ namespace aeii
                         if (this.menuType == 14)
                         {
                             gameVar.sub_6260(this, this.activeItemPositionMb, null,
-                                    (byte)2);
+                                    (sbyte)2);
                         }
                         this.var_106d = true;
                     }
@@ -930,7 +930,7 @@ namespace aeii
                         if (this.menuType == 14)
                         {
                             gameVar.sub_6260(this, this.activeItemPositionMb, null,
-                                    (byte)2);
+                                    (sbyte)2);
                         }
                         this.var_106d = true;
                     }
@@ -938,7 +938,7 @@ namespace aeii
                     {
                         gameVar.sub_6260(this, this.activeItemPositionMb,
                                 this.menuItemsNamesMb[this.activeItemPositionMb],
-                                (byte)0);
+                                (sbyte)0);
                     }
                 }
                 else if (this.menuType == 3)
@@ -959,7 +959,7 @@ namespace aeii
                     {
                         gameVar.sub_6260(this, this.activeItemPositionMb,
                                 this.menuItemsNamesMb[this.activeItemPositionMb],
-                                (byte)0);
+                                (sbyte)0);
                         return;
                     }
                     if (A_MenuBase.mainCanvas.invertActionCode(4))
@@ -980,7 +980,7 @@ namespace aeii
                         }
                         this.activeItemPositionMb %= this.menuItemsCount;
                         gameVar.sub_6260(this, this.activeItemPositionMb, null,
-                                (byte)2);
+                                (sbyte)2);
                         initMenuItemSparks();
                         this.var_106d = true;
                     }
@@ -999,7 +999,7 @@ namespace aeii
                         }
                         this.activeItemPositionMb %= this.menuItemsCount;
                         gameVar.sub_6260(this, this.activeItemPositionMb, null,
-                                (byte)3);
+                                (sbyte)3);
                         initMenuItemSparks();
                         this.var_106d = true;
                     }
@@ -1045,7 +1045,7 @@ namespace aeii
                                     this,
                                     this.activeItemPositionMb,
                                     this.menuItemsNamesMb[this.activeItemPositionMb],
-                                    (byte)0);
+                                    (sbyte)0);
                             return;
                         }
                         if ((this.menuType != 7)
@@ -1069,7 +1069,7 @@ namespace aeii
                                     this.var_109d -= 1;
                                 }
                                 gameVar.sub_6260(this, this.activeItemPositionMb,
-                                        null, (byte)2);
+                                        null, (sbyte)2);
                                 this.var_106d = true;
                             }
                             else if (this.var_109d > 0)
@@ -1099,7 +1099,7 @@ namespace aeii
                                     this.var_109d += 1;
                                 }
                                 gameVar.sub_6260(this, this.activeItemPositionMb,
-                                        null, (byte)3);
+                                        null, (sbyte)3);
                                 this.var_106d = true;
                             }
                             else if (this.var_109d + this.var_10a5 < this.menuItemsNamesMb.Length)
@@ -1110,7 +1110,7 @@ namespace aeii
                             }
                             else if (this.menuType == 7)
                             {
-                                gameVar.sub_6260(this, 0, null, (byte)0);
+                                gameVar.sub_6260(this, 0, null, (sbyte)0);
                                 return;
                             }
                             A_MenuBase.mainCanvas.clearActions();
@@ -1162,10 +1162,10 @@ namespace aeii
                     {
                         gameVar.sub_6260(this, this.activeItemPositionMb,
                                 this.menuItemsNamesMb[this.activeItemPositionMb],
-                                (byte)1);
+                                (sbyte)1);
                         return;
                     }
-                    gameVar.sub_6260(this, -1, null, (byte)1);
+                    gameVar.sub_6260(this, -1, null, (sbyte)1);
                     return;
                 }
             }
@@ -1581,7 +1581,7 @@ namespace aeii
                     {
                         str = "" + this.menuUnit.cost;
                         gameVar.hudIcons2Sprite.drawFrameAt(gr, 1, menuWid - i6
-                                - E_MainCanvas.getCharedStringWidth((byte)1, str), rotationDeg,
+                                - E_MainCanvas.getCharedStringWidth((sbyte)1, str), rotationDeg,
                                 10);
                     }
                     else

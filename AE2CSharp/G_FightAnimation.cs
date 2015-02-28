@@ -9,26 +9,26 @@ namespace aeii
 
         public static sealed override String[] bgTypeNames = { "road", "grass", "woods", "hill",
 			"mountain", "water", "bridge", "town" };
-        public static sealed override byte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
-        public static sealed override byte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
+        public static sealed override sbyte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
+        public static sealed override sbyte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
         public static sealed override String[] unitTypeNames = { "soldier", "archer", "lizard",
 			"wizard", "wisp", "spider", "golem", "catapult", "wyvern", "king",
 			"skeleton" };
         public I_Game m_game;
         public C_Unit m_unit;
-        public byte unitType;
+        public sbyte unitType;
         public bool var_b2d = false;
         public bool var_b35 = false;
         public bool var_b3d;
-        public byte unitStartHealth;
-        public byte unitHealth3;
-        public byte unitStartCharsCount;
-        public byte unitChars3;
-        public byte unitCharsCount;
-        public byte var_b6d;
+        public sbyte unitStartHealth;
+        public sbyte unitHealth3;
+        public sbyte unitStartCharsCount;
+        public sbyte unitChars3;
+        public sbyte unitCharsCount;
+        public sbyte var_b6d;
         public bool var_b75;
         public int var_b7d = 0;
-        public static sealed override byte[] var_b85 = { 3, -3 };
+        public static sealed override sbyte[] var_b85 = { 3, -3 };
         public F_Sprite var_b8d;
         public F_Sprite kingWaveSprite;
         public F_Sprite archerArrowSprite;
@@ -55,7 +55,7 @@ namespace aeii
         public int var_c45 = 20;
         public int var_c4d;
         public int var_c55;
-        public byte[][] var_c5d;
+        public sbyte[][] var_c5d;
         public F_Sprite kingHeadsSprite;
         public F_Sprite kingHeadsBackSprite;
         public F_Sprite[] var_c75;
@@ -68,9 +68,9 @@ namespace aeii
 		this.m_unit = aUnit;
 		this.unitType = aUnit.unitTypeId;
 		this.otherFightAnim = faInst;
-		this.unitStartHealth = ((byte) aUnit.unitHealthMb);
+		this.unitStartHealth = ((sbyte) aUnit.unitHealthMb);
 		this.unitHealth = this.unitStartHealth;
-		this.unitStartCharsCount = ((byte) aUnit.getAliveCharactersCount());
+		this.unitStartCharsCount = ((sbyte) aUnit.getAliveCharactersCount());
 		this.unitCharsCount = this.unitStartCharsCount;
 		int i = 0;
 		if (faInst == null) {
@@ -121,10 +121,10 @@ namespace aeii
 				% this.multipleBgImages[0].imageHeight != 0) {
 			this.var_c0d += 1;
 		}
-		this.var_c5d = new byte[this.var_c05][this.var_c0d];
+		this.var_c5d = new sbyte[this.var_c05][this.var_c0d];
 		for (int m = 0; m < this.var_c05; m++) {
 			for (int n = 0; n < this.var_c0d; n++) {
-				this.var_c5d[m][n] = ((byte) Math.abs(E_MainCanvas.random
+				this.var_c5d[m][n] = ((sbyte) Math.abs(E_MainCanvas.random
 						.nextInt() % this.multipleBgImages.Length));
 			}
 		}
@@ -318,7 +318,7 @@ namespace aeii
                                             (localClass_f_0456 = F_Sprite.someSpriteCopy(
                                                     this.m_game.smokeSprite, 0, 0, -1, 1,
                                                     E_MainCanvas.getRandomMax(4) * 50,
-                                                    (byte)0))
+                                                    (sbyte)0))
                                                     .setSpritePosition(
                                                             this.unitCharsSprites[j].posXPixel
                                                                     + E_MainCanvas
@@ -333,7 +333,7 @@ namespace aeii
                                         }
                                         (localClass_f_0454 = F_Sprite.someSpriteCopy(
                                                 this.m_game.smokeSprite, -1, 0, -1, 1,
-                                                E_MainCanvas.getRandomMax(4) * 50, (byte)0))
+                                                E_MainCanvas.getRandomMax(4) * 50, (sbyte)0))
                                                 .setSpritePosition(
                                                         this.unitCharsSprites[j].posXPixel,
                                                         this.unitCharsSprites[j].posYPixel
@@ -344,7 +344,7 @@ namespace aeii
                                         this.m_game.addSpriteTo(localClass_f_0454);
                                         (localClass_f_0454 = F_Sprite.someSpriteCopy(
                                                 this.m_game.smokeSprite, 1, 0, -1, 1,
-                                                E_MainCanvas.getRandomMax(4) * 50, (byte)0))
+                                                E_MainCanvas.getRandomMax(4) * 50, (sbyte)0))
                                                 .setSpritePosition(
                                                         this.unitCharsSprites[j].posXPixel
                                                                 + this.var_b8d.frameWidth
@@ -422,7 +422,7 @@ namespace aeii
                             if ((this.unitType == 3) || (this.unitType == 2))
                             {
                                 this.var_c75[this.var_c85] = F_Sprite.someSpriteCopy(
-                                        this.kingWaveSprite, 0, 0, 0, 1, 50, (byte)0);
+                                        this.kingWaveSprite, 0, 0, 0, 1, 50, (sbyte)0);
                                 this.var_c75[this.var_c85]
                                         .setSpritePosition(
                                                 this.unitCharsSprites[this.var_c85].posXPixel
@@ -436,7 +436,7 @@ namespace aeii
                             {
                                 F_Sprite localClass_f_0451;
                                 (localClass_f_0451 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
-                                        0, 0, 0, 1, 0, (byte)0)).startAnimation(1,
+                                        0, 0, 0, 1, 0, (sbyte)0)).startAnimation(1,
                                         this.var_b75);
                                 localClass_f_0451
                                         .setSpritePosition(
@@ -457,7 +457,7 @@ namespace aeii
                                         (localClass_f_0454 = F_Sprite.someSpriteCopy(
                                                 this.m_game.bigSmokeSprite,
                                                 E_MainCanvas.getRandomWithin(-1, 2), 0, 0, 1,
-                                                E_MainCanvas.getRandomMax(4) * 50, (byte)0))
+                                                E_MainCanvas.getRandomMax(4) * 50, (sbyte)0))
                                                 .setSpritePosition(
                                                         this.unitCharsSprites[this.var_c85].posXPixel
                                                                 + this.var_b8d.frameWidth
@@ -471,7 +471,7 @@ namespace aeii
                                 {
                                     F_Sprite localClass_f_0452;
                                     (localClass_f_0452 = F_Sprite.someSpriteCopy(
-                                            this.slashSprite, 0, 0, 0, 1, 200, (byte)0))
+                                            this.slashSprite, 0, 0, 0, 1, 200, (sbyte)0))
                                             .setSpritePosition(this.unitCharsSprites[0].posXPixel,
                                                     this.unitCharsSprites[0].posYPixel
                                                             + this.var_b8d.frameHeight);
@@ -479,7 +479,7 @@ namespace aeii
                                     this.m_game.addSpriteTo(localClass_f_0452);
                                     this.var_c75[0] = F_Sprite.someSpriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3,
-                                            -2, 0, -1, 100, (byte)0);
+                                            -2, 0, -1, 100, (sbyte)0);
                                     int i1 = this.unitCharsSprites[this.var_c85].posXPixel
                                             + sub_1673(
                                                     this.var_c75[this.var_c85],
@@ -490,7 +490,7 @@ namespace aeii
                                     this.var_c75[0].setSpritePosition(i1, i3);
                                     this.var_c75[1] = F_Sprite.someSpriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3, 1,
-                                            0, -1, 100, (byte)0);
+                                            0, -1, 100, (sbyte)0);
                                     this.var_c75[1].setSpritePosition(i1, i3);
                                     this.m_game.addSpriteTo(this.var_c75[1]);
                                     this.var_c75[1].var_86c = this.var_b6d;
@@ -501,7 +501,7 @@ namespace aeii
                                 {
                                     this.var_c75[this.var_c85] = F_Sprite.someSpriteCopy(
                                             null, var_b85[this.var_b6d], 0, 0, -1,
-                                            2000, (byte)6);
+                                            2000, (sbyte)6);
                                     this.var_c75[this.var_c85]
                                             .setSpritePosition(
                                                     this.unitCharsSprites[this.var_c85].posXPixel
@@ -556,7 +556,7 @@ namespace aeii
                                         this.m_game.bigSmokeSprite, var_b85[this.var_b6d]
                                                 * E_MainCanvas.getRandomWithin(1, 4),
                                         E_MainCanvas.getRandomWithin(-2, 3), 0, 1,
-                                        50 * E_MainCanvas.getRandomMax(4), (byte)0))
+                                        50 * E_MainCanvas.getRandomMax(4), (sbyte)0))
                                         .setSpritePosition(
                                                 this.unitCharsSprites[m].posXPixel
                                                         + sub_1673(localClass_f_0455,
@@ -598,7 +598,7 @@ namespace aeii
                         {
                             (localClass_f_0455 = F_Sprite.someSpriteCopy(
                                     this.m_game.bigSmokeSprite, E_MainCanvas.getRandomWithin(-2, 1),
-                                    0, -1, 1, 100, (byte)0)).setSpritePosition(
+                                    0, -1, 1, 100, (sbyte)0)).setSpritePosition(
                                     this.var_c75[m].posXPixel
                                             + sub_1673(this.var_c75[m], 0),
                                     this.var_c75[m].posYPixel + this.var_c75[m].frameHeight
@@ -700,12 +700,12 @@ namespace aeii
                                     || (this.unitType == 1))
                             {
                                 localClass_f_0453 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
-                                        0, 0, 0, 1, 0, (byte)0);
+                                        0, 0, 0, 1, 0, (sbyte)0);
                             }
                             else
                             {
                                 localClass_f_0453 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
-                                        0, 0, 0, -1, 0, (byte)0);
+                                        0, 0, 0, -1, 0, (sbyte)0);
                             }
                             if ((this.unitType == 2) || (this.unitType == 1))
                             {
@@ -742,7 +742,7 @@ namespace aeii
                                             this.m_game.smokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0,
                                             E_MainCanvas.getRandomWithin(-2, 0), 1,
-                                            E_MainCanvas.getRandomMax(4) * 50, (byte)0))
+                                            E_MainCanvas.getRandomMax(4) * 50, (sbyte)0))
                                             .setSpritePosition(
                                                     i2
                                                             + E_MainCanvas
@@ -759,7 +759,7 @@ namespace aeii
                                     (localClass_f_0457 = F_Sprite.someSpriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, -1, 1, 100,
-                                            (byte)0))
+                                            (sbyte)0))
                                             .setSpritePosition(
                                                     i2
                                                             + E_MainCanvas
@@ -826,7 +826,7 @@ namespace aeii
                                     (localClass_f_0451 = F_Sprite.someSpriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, 0, 1, 100,
-                                            (byte)0))
+                                            (sbyte)0))
                                             .setSpritePosition(
                                                     this.unitCharsSprites[i].posXPixel
                                                             + E_MainCanvas
@@ -855,7 +855,7 @@ namespace aeii
                             {
                                 (localClass_f_0451 = F_Sprite
                                         .someSpriteCopy(this.m_game.redsparkSprite, 0, 0, 0, 1,
-                                                50, (byte)0))
+                                                50, (sbyte)0))
                                         .setSpritePosition(
                                                 this.otherFightAnim.unitCharsSprites[i].posXPixel
                                                         + E_MainCanvas
@@ -891,7 +891,7 @@ namespace aeii
             {
                 if (i22 != 0)
                 {
-                    F_Sprite lcSprite1 = F_Sprite.someSpriteCopy(null, 0, 0, 0, 1, 500, (byte)4);
+                    F_Sprite lcSprite1 = F_Sprite.someSpriteCopy(null, 0, 0, 0, 1, 500, (sbyte)4);
                     lcSprite1.setSpritePosition(this.unitCharsSprites[j].posXPixel
                                     + (this.unitCharsSprites[j].frameWidth >> 1),
                                     this.unitCharsSprites[j].posYPixel
@@ -984,7 +984,7 @@ namespace aeii
                                     fSprite1 = F_Sprite.someSpriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, -1, 1, 100,
-                                            (byte)0);
+                                            (sbyte)0);
                                     fSprite1.setSpritePosition(
                                                     this.unitCharsSprites[this.var_c4d].posXPixel
                                                             + E_MainCanvas
@@ -1015,7 +1015,7 @@ namespace aeii
                                         this.unitCharsSprites[kIt].someXVal3 = 0;
                                         this.unitCharsSprites[kIt].var_87c = -1;
                                         fSprite1 = F_Sprite.someSpriteCopy(null,
-                                                0, 0, 0, 1, 800, (byte)2);
+                                                0, 0, 0, 1, 800, (sbyte)2);
                                         fSprite1.setSpritePosition(
                                                 this.unitCharsSprites[kIt].posXPixel
                                                         + sub_1673(fSprite1,
@@ -1024,7 +1024,7 @@ namespace aeii
                                                         + this.var_b8d.frameHeight);
                                         this.m_game.addSpriteTo(fSprite1);
                                         fSprite1 = F_Sprite.someSpriteCopy(this.slashSprite, 0, 0, 0, 1,
-                                                150, (byte)0);
+                                                150, (sbyte)0);
                                         fSprite1.setSpritePosition(
                                                         this.unitCharsSprites[kIt].posXPixel
                                                                 + sub_1673(fSprite1, 24),
@@ -1053,7 +1053,7 @@ namespace aeii
                                     if (this.unitType == 0)
                                     {
                                         fSprite1 = F_Sprite.someSpriteCopy(this.slashSprite, 0, 0, 0, 1,
-                                                150, (byte)0);
+                                                150, (sbyte)0);
                                         fSprite1.setSpritePosition(
                                                         this.unitCharsSprites[kIt].posXPixel
                                                                 + sub_1673(fSprite1, 14),
@@ -1066,7 +1066,7 @@ namespace aeii
                                     {
                                         fSprite1 = F_Sprite.someSpriteCopy(
                                                 this.m_game.redsparkSprite, 0, 0, 0, 1, 50,
-                                                (byte)0);
+                                                (sbyte)0);
                                         fSprite1.setSpritePosition(
                                                         this.unitCharsSprites[kIt].posXPixel
                                                                 + sub_1673(
@@ -1190,7 +1190,7 @@ namespace aeii
             {
                 this.m_game.removeSpriteFrom(this.unitCharsSprites[i]);
                 F_Sprite redSparksSprite = F_Sprite.someSpriteCopy(this.m_game.redsparkSprite, 0,
-                        0, 0, 1, 0, (byte)0);
+                        0, 0, 1, 0, (sbyte)0);
                 redSparksSprite.setSpritePosition(
                                 this.unitCharsSprites[i].posXPixel
                                         + (this.unitCharsSprites[i].frameWidth - redSparksSprite.frameWidth)
@@ -1204,7 +1204,7 @@ namespace aeii
                     sprite1 = F_Sprite.someSpriteCopy(
                             this.m_game.bigSmokeSprite, -1 + k, 0,
                             E_MainCanvas.getRandomWithin(-4, -1), 1,
-                            E_MainCanvas.getRandomMax(4) * 50, (byte)0);
+                            E_MainCanvas.getRandomMax(4) * 50, (sbyte)0);
                     sprite1.setSpritePosition(
                                     this.unitCharsSprites[i].posXPixel
                                             + (this.unitCharsSprites[i].frameWidth - sprite1.frameWidth)
@@ -1214,7 +1214,7 @@ namespace aeii
                     this.m_game.addSpriteTo(sprite1);
                 }
                 sprite1 = F_Sprite.someSpriteCopy(this.m_game.smokeSprite, 0,
-                        0, -1, 1, 200, (byte)0);
+                        0, -1, 1, 200, (sbyte)0);
                 sprite1.setSpritePosition(
                                 this.unitCharsSprites[i].posXPixel
                                         + (this.unitCharsSprites[i].frameWidth - sprite1.frameWidth)
@@ -1228,7 +1228,7 @@ namespace aeii
                     this.unitCharsCount);
             this.unitCharsSprites = someSprites;
             int damageDone = this.unitHealth3 - this.unitStartHealth;
-            F_Sprite someSprite = F_Sprite.createBouncingText("" + damageDone, 0, -4, (byte)1);
+            F_Sprite someSprite = F_Sprite.createBouncingText("" + damageDone, 0, -4, (sbyte)1);
             int j;
             if (this.unitChars3 == 1)
             {

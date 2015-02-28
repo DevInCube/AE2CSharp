@@ -41,7 +41,7 @@ namespace aeii
         public static sealed override int var_139c = font0BaselinePos + 8;
         public static sealed override short[] numericAndDelStartingChars = { 45, 43 }; //char 45='/' 43= '-' 44='.' 46='0' 57='9'
         public static sealed override short[] numericEndChars = { 57, 57 };
-        public static sealed override byte[][] charFontsCharIndexes = {
+        public static sealed override sbyte[][] charFontsCharIndexes = {
 			{ 10, 11, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
 			{ 12, -1, 11, -1, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } 
         };
@@ -66,13 +66,13 @@ namespace aeii
         public static sealed override String[] musicNames = { "main_theme", "bg_story",
 			"bg_good", "bg_bad", "battle_good", "battle_bad", "victory",
 			"gameover", "game_complete" };
-        public static sealed override byte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        public static sealed override sbyte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         public static Player[] musicPlayers;
         public static Player currentMusicPlayer;
         public static bool[] musicPlayersLoaded;
         public static int currentMusicId;
         public static int currentMusicLoopCount;
-        public static byte[][] resourcesData;
+        public static sbyte[][] resourcesData;
         public static String[] resourcesNames;
 
         public E_MainCanvas(MIDlet paramMIDlet)
@@ -110,16 +110,16 @@ namespace aeii
             return random.nextInt();
         }
 
-        public static sealed override byte[] getRecordStoreData(String recName, int recIndex)
+        public static sealed override sbyte[] getRecordStoreData(String recName, int recIndex)
         {
             RecordStore store = RecordStore.openRecordStore(recName, false);
-            byte[] recData = store.getRecord(recIndex + 1);
+            sbyte[] recData = store.getRecord(recIndex + 1);
             store.closeRecordStore();
             return recData;
         }
 
         public static sealed override void saveRecordStoreData(String recordName, int recIndex,
-                byte[] data)
+                sbyte[] data)
         {
             RecordStore recStore = RecordStore.openRecordStore(recordName, true);
             int numRecs = recStore.getNumRecords();
@@ -139,7 +139,7 @@ namespace aeii
             recStore.closeRecordStore();
         }
 
-        public static sealed override int saveDataToStore(String storeName, byte[] data)
+        public static sealed override int saveDataToStore(String storeName, sbyte[] data)
         {
             RecordStore record = RecordStore.openRecordStore(storeName, true);
             int recordSize = record.addRecord(data, 0, data.Length);
@@ -170,12 +170,12 @@ namespace aeii
             return size;
         }
 
-        public static sealed override int getCharedStringWidth(byte charId, String str)
+        public static sealed override int getCharedStringWidth(sbyte charId, String str)
         {
             return charsSprites[charId].frameWidth * str.length;
         }
 
-        public static sealed override int getCharedStringHeight(byte charId)
+        public static sealed override int getCharedStringHeight(sbyte charId)
         {
             return charsSprites[charId].frameHeight;
         }
@@ -221,19 +221,19 @@ namespace aeii
         {
             if ((paramInt4 & 0x8) != 0)
             {
-                inX -= getCharedStringWidth((byte)charInd, inStr);
+                inX -= getCharedStringWidth((sbyte)charInd, inStr);
             }
             else if ((paramInt4 & 0x1) != 0)
             {
-                inX -= getCharedStringWidth((byte)charInd, inStr) / 2;
+                inX -= getCharedStringWidth((sbyte)charInd, inStr) / 2;
             }
             if ((paramInt4 & 0x20) != 0)
             {
-                inY -= getCharedStringHeight((byte)charInd);
+                inY -= getCharedStringHeight((sbyte)charInd);
             }
             else if ((paramInt4 & 0x2) != 0)
             {
-                inY -= getCharedStringHeight((byte)charInd) / 2;
+                inY -= getCharedStringHeight((sbyte)charInd) / 2;
             }
             drawCharedString(gr, inStr, inX, inY, charInd);
         }
@@ -256,7 +256,7 @@ namespace aeii
                     }
                     else
                     {
-                        byte[] charBytes = { (byte)ch };
+                        sbyte[] charBytes = { (sbyte)ch };
                         String str = new String(charBytes);
                         gr.drawString(str, inX, inY, 20);
                         inX += gr.getFont().stringWidth(str);
@@ -685,17 +685,17 @@ namespace aeii
                     arrayOfInt1[k] = (resStream.readInt() + i);
                     arrayOfInt2[k] = resStream.readShort();
                 }
-                resourcesData = new byte[resourcesNames.Length][];
+                resourcesData = new sbyte[resourcesNames.Length][];
                 for (int m = 0; m < resourcesNames.Length; m++)
                 {
-                    resourcesData[m] = new byte[arrayOfInt2[m]];
+                    resourcesData[m] = new sbyte[arrayOfInt2[m]];
                     resStream.readFully(resourcesData[m]);
                 }
                 resStream.close();
             }
         }
 
-        public static sealed override byte[] getResourceData(String resName)
+        public static sealed override sbyte[] getResourceData(String resName)
         {
             for (int i = 0; i < resourcesNames.Length; i++)
             {
@@ -720,7 +720,7 @@ namespace aeii
 
         public sealed override void showMsg(String msg, I_Game game)
         {
-            D_Menu dialog = new D_Menu((byte)10, 12);
+            D_Menu dialog = new D_Menu((sbyte)10, 12);
             dialog.createDescDialogMb(null, msg, E_MainCanvas.canvasWidth, -1);
             dialog.parentMenu = game;
             dialog.var_10c5 = 500;
