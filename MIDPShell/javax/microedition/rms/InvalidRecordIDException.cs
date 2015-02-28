@@ -1,3 +1,4 @@
+using java.lang;
 namespace javax.microedition.rms
 {
 

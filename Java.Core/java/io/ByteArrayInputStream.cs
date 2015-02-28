@@ -8,7 +8,7 @@ namespace java.io
 {
     public class ByteArrayInputStream : InputStream
     {
-        public ByteArrayInputStream(sbyte[] bytes)
+        public ByteArrayInputStream(byte[] bytes)
         {
             //
         }

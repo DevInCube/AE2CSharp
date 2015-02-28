@@ -71,7 +71,7 @@ namespace aeii
 
         public H_ImageExt(String imgId)
         {
-            sbyte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
+            byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
             this.image = Image.createImage(imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());
@@ -80,15 +80,15 @@ namespace aeii
 
         public H_ImageExt(String imgId, int paramInt)
         {
-            sbyte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
+            byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
             if (paramInt != 1)
             {
-                sbyte[] data = new sbyte[imgData.Length];
+                byte[] data = new byte[imgData.Length];
                 System.Array.Copy(imgData, 0, data, 0, imgData.Length);
                 sub_99f(data, paramInt);
                 imgData = data;
             }
-            this.image = Image.createImage((sbyte[])imgData, 0, imgData.Length);
+            this.image = Image.createImage((byte[])imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());
         }
@@ -169,7 +169,7 @@ namespace aeii
                     inY + this.locationY, paramInt3);
         }
 
-        public static sealed override void sub_99f(sbyte[] data, int paramInt)
+        public static sealed override void sub_99f(byte[] data, int paramInt)
         {
             try
             {
@@ -188,9 +188,9 @@ namespace aeii
                     it++;
                 }
                 it = i;
-                Length3 = ((data[it] & 0xFF) << 24
+                Length3 = (int)(((data[it] & 0xFF) << 24
                         | (data[(it + 1)] & 0xFF) << 16
-                        | (data[(it + 2)] & 0xFF) << 8 | data[(it + 3)] & 0xFF) & 0xFFFFFFFF;
+                        | (data[(it + 2)] & 0xFF) << 8 | data[(it + 3)] & 0xFF) & 0xFFFFFFFF);
                 it += 4;
                 int m = -1;
                 for (int n = 0; n < 4; n++)
@@ -211,9 +211,9 @@ namespace aeii
                             i4 = i7 = (i4 + i5 + i6) / 3;
                             i5 = i7;
                             i6 = i7;
-                            data[i3] = ((sbyte)i4);
-                            data[(i3 + 1)] = ((sbyte)i5);
-                            data[(i3 + 2)] = ((sbyte)i6);
+                            data[i3] = ((byte)i4);
+                            data[(i3 + 1)] = ((byte)i5);
+                            data[(i3 + 2)] = ((byte)i6);
                         }
                     }
                     else if (paramInt != 1)
@@ -226,9 +226,9 @@ namespace aeii
                                     && (arrayOfInt1[i8][1] == i5)
                                     && (arrayOfInt1[i8][2] == i6))
                             {
-                                data[i3] = ((sbyte)arrayOfInt2[i8][0]);
-                                data[(i3 + 1)] = ((sbyte)arrayOfInt2[i8][1]);
-                                data[(i3 + 2)] = ((sbyte)arrayOfInt2[i8][2]);
+                                data[i3] = ((byte)arrayOfInt2[i8][0]);
+                                data[(i3 + 1)] = ((byte)arrayOfInt2[i8][1]);
+                                data[(i3 + 2)] = ((byte)arrayOfInt2[i8][2]);
                                 break;
                             }
                         }
@@ -237,12 +237,12 @@ namespace aeii
                     m = sub_cab(data[(i3 + 1)], m);
                     m = sub_cab(data[(i3 + 2)], m);
                 }
-                m ^= 0xFFFFFFFF;
+                m = (int)(m ^ 0xFFFFFFFF);
                 int i33 = i + 8 + Length3;
-                data[i33] = ((sbyte)(m >> 24));
-                data[(i33 + 1)] = ((sbyte)(m >> 16));
-                data[(i33 + 2)] = ((sbyte)(m >> 8));
-                data[(i33 + 3)] = ((sbyte)m);
+                data[i33] = ((byte)(m >> 24));
+                data[(i33 + 1)] = ((byte)(m >> 16));
+                data[(i33 + 2)] = ((byte)(m >> 8));
+                data[(i33 + 3)] = ((byte)m);
                 return;
             }
             catch (Exception ex2)
@@ -251,14 +251,14 @@ namespace aeii
             }
         }
 
-        public static sealed override int sub_cab(sbyte paramByte, int paramInt) {
+        public static sealed override int sub_cab(byte paramByte, int paramInt) {
 		int i = paramByte & 0xFF;
 		paramInt ^= i;
 		for (int j = 0; j < 8; j++) {
 			if ((paramInt & 0x1) != 0) {
-				paramInt = paramInt >>> 1 ^ 0xEDB88320;
+				paramInt = (int)(paramInt >> 1 ^ 0xEDB88320); //>>>
 			} else {
-				paramInt >>>= 1;
+				paramInt >>= 1; //>>>
 			}
 		}
 		return paramInt;

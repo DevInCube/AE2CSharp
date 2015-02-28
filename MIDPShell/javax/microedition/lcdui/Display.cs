@@ -4,7 +4,6 @@ namespace javax.microedition.lcdui
 {
 
     using java.lang;
-    using javax.microedition.midlet.MIDlet;
 
     public class Display
     {

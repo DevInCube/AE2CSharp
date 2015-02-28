@@ -3,8 +3,7 @@ namespace javax.microedition.lcdui
 
     using java.lang;
     using java.util;
-    using java.util.Date;
-    using java.util.TimeZone;
+
 
     public class DateField
       : Item

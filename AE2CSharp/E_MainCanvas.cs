@@ -72,7 +72,7 @@ namespace aeii
         public static bool[] musicPlayersLoaded;
         public static int currentMusicId;
         public static int currentMusicLoopCount;
-        public static sbyte[][] resourcesData;
+        public static byte[][] resourcesData;
         public static String[] resourcesNames;
 
         public E_MainCanvas(MIDlet paramMIDlet)
@@ -110,16 +110,16 @@ namespace aeii
             return random.nextInt();
         }
 
-        public static sealed override sbyte[] getRecordStoreData(String recName, int recIndex)
+        public static sealed override byte[] getRecordStoreData(String recName, int recIndex)
         {
             RecordStore store = RecordStore.openRecordStore(recName, false);
-            sbyte[] recData = store.getRecord(recIndex + 1);
+            byte[] recData = store.getRecord(recIndex + 1);
             store.closeRecordStore();
             return recData;
         }
 
         public static sealed override void saveRecordStoreData(String recordName, int recIndex,
-                sbyte[] data)
+                byte[] data)
         {
             RecordStore recStore = RecordStore.openRecordStore(recordName, true);
             int numRecs = recStore.getNumRecords();
@@ -139,7 +139,7 @@ namespace aeii
             recStore.closeRecordStore();
         }
 
-        public static sealed override int saveDataToStore(String storeName, sbyte[] data)
+        public static sealed override int saveDataToStore(String storeName, byte[] data)
         {
             RecordStore record = RecordStore.openRecordStore(storeName, true);
             int recordSize = record.addRecord(data, 0, data.Length);
@@ -256,7 +256,7 @@ namespace aeii
                     }
                     else
                     {
-                        sbyte[] charBytes = { (sbyte)ch };
+                        byte[] charBytes = { (byte)ch };
                         String str = new String(charBytes);
                         gr.drawString(str, inX, inY, 20);
                         inX += gr.getFont().stringWidth(str);
@@ -685,17 +685,17 @@ namespace aeii
                     arrayOfInt1[k] = (resStream.readInt() + i);
                     arrayOfInt2[k] = resStream.readShort();
                 }
-                resourcesData = new sbyte[resourcesNames.Length][];
+                resourcesData = new byte[resourcesNames.Length][];
                 for (int m = 0; m < resourcesNames.Length; m++)
                 {
-                    resourcesData[m] = new sbyte[arrayOfInt2[m]];
+                    resourcesData[m] = new byte[arrayOfInt2[m]];
                     resStream.readFully(resourcesData[m]);
                 }
                 resStream.close();
             }
         }
 
-        public static sealed override sbyte[] getResourceData(String resName)
+        public static sealed override byte[] getResourceData(String resName)
         {
             for (int i = 0; i < resourcesNames.Length; i++)
             {

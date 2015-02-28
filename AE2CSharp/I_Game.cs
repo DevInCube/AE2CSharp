@@ -480,7 +480,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.slotsDescriptions = new String[3];
 		this.slotsCurrentPlayerIds = new sbyte[3];
 		this.slotsMapIndexes = new int[3];
-		sbyte[] saveData;
+		byte[] saveData;
 		for (int n = 0; n < 3; n++) {
 			this.slotsCurrentPlayerIds[n] = -1;
 			this.slotsMapIndexes[n] = -1;
@@ -494,7 +494,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				this.slotsDescriptions[n] = ("\n" + A_MenuBase.getLangString(79) + "\n "); //NO SAVED GAMES
 			} else {
 				DataInputStream slotDataStream = new DataInputStream(
-						new ByteArrayInputStream((sbyte[]) saveData));
+						new ByteArrayInputStream((byte[]) saveData));
 				int mapMode = slotDataStream.readByte();
 				int mapIndex = slotDataStream.readByte();
 				slotDataStream.readByte();
