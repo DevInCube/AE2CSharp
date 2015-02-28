@@ -7,8 +7,8 @@
     <ProjectGuid>{4EE4BA43-AB05-4397-B247-E8EBBF8F36BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MIDPShell</RootNamespace>
-    <AssemblyName>MIDPShell</AssemblyName>
+    <RootNamespace>MIDP</RootNamespace>
+    <AssemblyName>MIDP</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

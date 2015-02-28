@@ -1,46 +1,39 @@
-namespace javax.microedition.lcdui.game;
-
-using javax.microedition.lcdui.Canvas;
-using javax.microedition.lcdui.Graphics;
-
-public abstract class GameCanvas
-  : Canvas
+namespace javax.microedition.lcdui.game
 {
-  public static sealed override int GAME_B_PRESSED = 1024;
-  public static sealed override int UP_PRESSED = 2;
-  public static sealed override int GAME_C_PRESSED = 2048;
-  public static sealed override int FIRE_PRESSED = 256;
-  public static sealed override int RIGHT_PRESSED = 32;
-  public static sealed override int LEFT_PRESSED = 4;
-  public static sealed override int GAME_D_PRESSED = 4096;
-  public static sealed override int GAME_A_PRESSED = 512;
-  public static sealed override int DOWN_PRESSED = 64;
-  
-  protected GameCanvas(bool  paramBoolean) {}
-  
-  protected Graphics getGraphics()
-  {
-    return null;
-  }
-  
-  public int getKeyStates()
-  {
-    return 0;
-  }
-  
-  public void flushGraphics() {}
-  
-  public void flushGraphics(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {}
-  
-  public void paint(Graphics paramGraphics) {}
+
+    using javax.microedition.lcdui.Canvas;
+    using javax.microedition.lcdui.Graphics;
+
+    public abstract class GameCanvas
+      : Canvas
+    {
+        public static sealed override int GAME_B_PRESSED = 1024;
+        public static sealed override int UP_PRESSED = 2;
+        public static sealed override int GAME_C_PRESSED = 2048;
+        public static sealed override int FIRE_PRESSED = 256;
+        public static sealed override int RIGHT_PRESSED = 32;
+        public static sealed override int LEFT_PRESSED = 4;
+        public static sealed override int GAME_D_PRESSED = 4096;
+        public static sealed override int GAME_A_PRESSED = 512;
+        public static sealed override int DOWN_PRESSED = 64;
+
+        protected GameCanvas(bool paramBoolean) { }
+
+        protected Graphics getGraphics()
+        {
+            return null;
+        }
+
+        public int getKeyStates()
+        {
+            return 0;
+        }
+
+        public void flushGraphics() { }
+
+        public void flushGraphics(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+
+        public void paint(Graphics paramGraphics) { }
+    }
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.lcdui.game.GameCanvas
-
- * JD-Core Version:    0.7.0.1
-
- */

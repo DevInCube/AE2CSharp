@@ -1,25 +1,19 @@
-namespace javax.microedition.media.control;
-
-using javax.microedition.media.Control;
-
-public abstract interface VolumeControl
-  : Control
+namespace javax.microedition.media.control
 {
-  public abstract bool  isMuted();
-  
-  public abstract int getLevel();
-  
-  public abstract int setLevel(int paramInt);
-  
-  public abstract void setMute(bool  paramBoolean);
+
+    using javax.microedition.media.Control;
+
+    public interface VolumeControl
+      : Control
+    {
+        bool isMuted();
+
+        int getLevel();
+
+        int setLevel(int paramInt);
+
+        void setMute(bool paramBoolean);
+    }
+
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.media.control.VolumeControl
-
- * JD-Core Version:    0.7.0.1
-
- */

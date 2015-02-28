@@ -7,7 +7,7 @@ namespace javax.microedition.media
     using java.io.IOException;
     using java.io.InputStream;
 
-    public sealed override class Manager
+    public class Manager
     {
         public static sealed override String TONE_DEVICE_LOCATOR = "device://tone";
 

@@ -1,22 +1,15 @@
-namespace javax.microedition.io;
-
-using java.io.IOException;
-
-public abstract interface HttpsConnection
-  : HttpConnection
+namespace javax.microedition.io
 {
-  public abstract int getPort();
-  
-  public abstract SecurityInfo getSecurityInfo()
-    ;
+
+    using java.io.IOException;
+
+    public interface HttpsConnection
+      : HttpConnection
+    {
+        int getPort();
+
+        SecurityInfo getSecurityInfo()
+          ;
+    }
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.io.HttpsConnection
-
- * JD-Core Version:    0.7.0.1
-
- */

@@ -52,11 +52,14 @@
     <Compile Include="java\lang\Math.cs" />
     <Compile Include="java\lang\Object.cs" />
     <Compile Include="java\lang\Runnable.cs" />
+    <Compile Include="java\lang\RuntimeException.cs" />
     <Compile Include="java\lang\String.cs" />
     <Compile Include="java\lang\StringBuffer.cs" />
     <Compile Include="java\lang\Thread.cs" />
-    <Compile Include="java\utils\Random.cs" />
-    <Compile Include="java\utils\Vector.cs" />
+    <Compile Include="java\util\Date.cs" />
+    <Compile Include="java\util\Random.cs" />
+    <Compile Include="java\util\TimeZone.cs" />
+    <Compile Include="java\util\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

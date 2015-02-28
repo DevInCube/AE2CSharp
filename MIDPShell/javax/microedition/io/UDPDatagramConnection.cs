@@ -1,23 +1,17 @@
-namespace javax.microedition.io;
-
-using java.io.IOException;
-
-public abstract interface UDPDatagramConnection
-  : DatagramConnection
+namespace javax.microedition.io
 {
-  public abstract int getLocalPort()
-    ;
-  
-  public abstract String getLocalAddress()
-    ;
+
+    using java.io.IOException;
+    using java.lang;
+
+    public interface UDPDatagramConnection
+      : DatagramConnection
+    {
+         int getLocalPort()
+          ;
+
+         String getLocalAddress()
+          ;
+    }
+
 }
-
-
-
-/* Location:           D:\Programming\Eclipse\midp_2.1.jar
-
- * Qualified Name:     javax.microedition.io.UDPDatagramConnection
-
- * JD-Core Version:    0.7.0.1
-
- */
