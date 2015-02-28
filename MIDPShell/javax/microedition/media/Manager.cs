@@ -7,7 +7,7 @@ namespace javax.microedition.media
 
     public class Manager
     {
-        public static sealed override String TONE_DEVICE_LOCATOR = "device://tone";
+        public static readonly String TONE_DEVICE_LOCATOR = "device://tone";
 
         public static String[] getSupportedContentTypes(String paramString)
         {

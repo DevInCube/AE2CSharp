@@ -39,7 +39,7 @@ namespace java.io
            // throw new NotImplementedException();
         }
 
-        public sbyte readByte()
+        public byte readByte()
         {
             return 0;//throw new NotImplementedException();
         }

@@ -15,7 +15,7 @@ namespace java.io
         }
 
 
-        public void writeByte(sbyte p)
+        public void writeByte(byte p)
         {
            // throw new NotImplementedException();
         }

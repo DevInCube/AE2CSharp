@@ -3,8 +3,8 @@ namespace java.lang
 
     public  class Byte
     {
-        public static sealed override sbyte MIN_VALUE = -128;
-        public static sealed override sbyte MAX_VALUE = 127;
+        public static readonly sbyte MIN_VALUE = -128;
+        public static readonly sbyte MAX_VALUE = 127;
 
         public Byte(byte paramByte) { }
 

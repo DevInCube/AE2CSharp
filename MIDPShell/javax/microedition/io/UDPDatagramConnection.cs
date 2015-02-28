@@ -4,7 +4,7 @@ namespace javax.microedition.io
     using java.lang;
 
     public interface UDPDatagramConnection
-      : DatagramConnection
+      //: DatagramConnection
     {
          int getLocalPort()
           ;

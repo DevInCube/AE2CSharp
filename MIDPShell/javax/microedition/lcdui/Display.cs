@@ -7,15 +7,15 @@ namespace javax.microedition.lcdui
 
     public class Display
     {
-        public static sealed override int COLOR_BACKGROUND = 0;
-        public static sealed override int COLOR_FOREGROUND = 1;
-        public static sealed override int LIST_ELEMENT = 1;
-        public static sealed override int CHOICE_GROUP_ELEMENT = 2;
-        public static sealed override int COLOR_HIGHLIGHTED_BACKGROUND = 2;
-        public static sealed override int ALERT = 3;
-        public static sealed override int COLOR_HIGHLIGHTED_FOREGROUND = 3;
-        public static sealed override int COLOR_BORDER = 4;
-        public static sealed override int COLOR_HIGHLIGHTED_BORDER = 5;
+        public static readonly int COLOR_BACKGROUND = 0;
+        public static readonly int COLOR_FOREGROUND = 1;
+        public static readonly int LIST_ELEMENT = 1;
+        public static readonly int CHOICE_GROUP_ELEMENT = 2;
+        public static readonly int COLOR_HIGHLIGHTED_BACKGROUND = 2;
+        public static readonly int ALERT = 3;
+        public static readonly int COLOR_HIGHLIGHTED_FOREGROUND = 3;
+        public static readonly int COLOR_BORDER = 4;
+        public static readonly int COLOR_HIGHLIGHTED_BORDER = 5;
 
         public bool flashBacklight(int paramInt)
         {

@@ -3,8 +3,8 @@ namespace java.lang
 
     public class Short
     {
-        public static sealed override short MIN_VALUE = -32768;
-        public static sealed override short MAX_VALUE = 32767;
+        public static readonly short MIN_VALUE = -32768;
+        public static readonly short MAX_VALUE = 32767;
 
         public Short(short paramShort) { }
 

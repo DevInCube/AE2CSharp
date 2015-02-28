@@ -3,7 +3,7 @@ namespace javax.microedition.io
 
     using java.lang;
     using javax.microedition.pki;
-    using javax.microedition.pki.Certificate;
+    
 
     public interface SecurityInfo
     {

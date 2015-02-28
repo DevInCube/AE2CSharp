@@ -5,7 +5,7 @@ namespace javax.microedition.lcdui
     public class List
       : Screen, Choice
     {
-        public static sealed override Command SELECT_COMMAND = null;
+        public static readonly Command SELECT_COMMAND = null;
 
         public List(String paramString, int paramInt) { }
 

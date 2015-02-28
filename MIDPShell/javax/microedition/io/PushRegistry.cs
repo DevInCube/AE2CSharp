@@ -1,7 +1,7 @@
 namespace javax.microedition.io
 {
 
-    using java.io.IOException;
+    
     using java.lang;
 
     public class PushRegistry

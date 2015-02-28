@@ -8,5 +8,10 @@ namespace java.lang
         {
             return System.DateTime.Now.Millisecond;
         }
+
+        public static void gc()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

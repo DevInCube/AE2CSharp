@@ -1,9 +1,6 @@
 namespace javax.microedition.lcdui.game
 {
 
-    using javax.microedition.lcdui.Graphics;
-    using javax.microedition.lcdui.Image;
-
     public class TiledLayer
       : Layer
     {

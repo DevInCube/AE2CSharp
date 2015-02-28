@@ -6,7 +6,7 @@ using java.io.InputStream;
 using java.util.Vector;
 
 using javax.microedition.lcdui.Font;
-using javax.microedition.lcdui.Graphics;
+
 using javax.microedition.lcdui;
 using java.util;
 using java.csharp;

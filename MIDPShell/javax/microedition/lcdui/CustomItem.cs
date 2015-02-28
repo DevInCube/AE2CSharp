@@ -5,15 +5,15 @@ namespace javax.microedition.lcdui
     public abstract class CustomItem
       : Item
     {
-        protected static sealed override int NONE = 0;
-        protected static sealed override int TRAVERSE_HORIZONTAL = 1;
-        protected static sealed override int POINTER_DRAG = 128;
-        protected static sealed override int KEY_REPEAT = 16;
-        protected static sealed override int TRAVERSE_VERTICAL = 2;
-        protected static sealed override int POINTER_PRESS = 32;
-        protected static sealed override int KEY_PRESS = 4;
-        protected static sealed override int POINTER_RELEASE = 64;
-        protected static sealed override int KEY_RELEASE = 8;
+        protected static readonly int NONE = 0;
+        protected static readonly int TRAVERSE_HORIZONTAL = 1;
+        protected static readonly int POINTER_DRAG = 128;
+        protected static readonly int KEY_REPEAT = 16;
+        protected static readonly int TRAVERSE_VERTICAL = 2;
+        protected static readonly int POINTER_PRESS = 32;
+        protected static readonly int KEY_PRESS = 4;
+        protected static readonly int POINTER_RELEASE = 64;
+        protected static readonly int KEY_RELEASE = 8;
 
         protected CustomItem(String paramString) { }
 
