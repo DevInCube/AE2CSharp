@@ -687,7 +687,7 @@ namespace aeii
         }
 
         // @Override
-        public  void onUpdate()
+        public override void onUpdate()
         {
             updateMenu(true);
         }
@@ -1279,7 +1279,7 @@ namespace aeii
         }
 
         // @Override
-        public  void onPaint(Graphics paramGraphics)
+        public override void onPaint(Graphics paramGraphics)
         {
             paintMenu(paramGraphics, 0, 0, false);
         }

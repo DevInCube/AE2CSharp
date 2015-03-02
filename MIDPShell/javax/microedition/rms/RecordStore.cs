@@ -1,4 +1,6 @@
 using java.lang;
+using MIDP.WPF.Data;
+using System.Collections.Generic;
 namespace javax.microedition.rms
 {
 
@@ -7,14 +9,17 @@ namespace javax.microedition.rms
         public static readonly int AUTHMODE_PRIVATE = 0;
         public static readonly int AUTHMODE_ANY = 1;
 
+        private List<byte[]> records = new List<byte[]>();
+
         public byte[] getRecord(int paramInt)
         {
-            return null;
+            return records[paramInt];
         }
 
-        public int addRecord(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+        public int addRecord(byte[] data, int offset, int numBytes)
         {
-            return 0;
+            records.Add(data);//@todo offset numBytes
+            return records.Count - 1;
         }
 
         public int getNextRecordID()
@@ -24,7 +29,7 @@ namespace javax.microedition.rms
 
         public int getNumRecords()
         {
-            return 0;
+            return records.Count;
         }
 
         public int getRecord(int paramInt1, byte[] paramArrayOfByte, int paramInt2)
@@ -44,7 +49,7 @@ namespace javax.microedition.rms
 
         public int getSizeAvailable()
         {
-            return 0;
+            return int.MaxValue; //@todo
         }
 
         public int getVersion()
@@ -72,12 +77,24 @@ namespace javax.microedition.rms
             return null;
         }
 
-        public static RecordStore openRecordStore(String paramString, bool paramBoolean)
+        public static RecordStore openRecordStore(String recordStoreName, bool createIfNecessary)
         {
-            return null;
+            if (RecordStoreManager.Contains(recordStoreName))
+            {
+                return RecordStoreManager.Get(recordStoreName);
+            }
+            else
+            {
+                if (createIfNecessary)
+                {
+                    RecordStoreManager.Create(recordStoreName);
+                    return RecordStoreManager.Get(recordStoreName);
+                }
+                throw new RecordStoreNotFoundException(recordStoreName);
+            }
         }
 
-        public static RecordStore openRecordStore(String paramString, bool paramBoolean1, int paramInt, bool paramBoolean2)
+        public static RecordStore openRecordStore(String recordStoreName, bool createIfNecessary, int authmode, bool writable)
         {
             return null;
         }
@@ -107,9 +124,12 @@ namespace javax.microedition.rms
 
         { }
 
-        public void setRecord(int paramInt1, byte[] paramArrayOfByte, int paramInt2, int paramInt3)
-
-        { }
+        public void setRecord(int recordId, byte[] newData, int offset, int numBytes)
+        {
+            if (recordId < 0 || recordId >= records.Count)
+                throw new InvalidRecordIDException(recordId.ToString());
+            records[recordId] = newData; //@todo offset numBytes
+        }
     }
 
 }

@@ -72,7 +72,7 @@ namespace aeii
             }
             catch (Exception ex)
             {
-                showFatalError(ex.ToString());
+                showFatalError(ex.toString());
             }
         }
 
@@ -516,7 +516,7 @@ namespace aeii
             catch (Exception ex2)
             {
                 ex2.printStackTrace();
-                showFatalError(ex2.ToString());
+                showFatalError(ex2.toString());
             }
         }
 

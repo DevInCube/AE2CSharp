@@ -106,12 +106,12 @@ namespace aeii
                         if (paramInt == 1)
                         {
                             images[it] = new H_ImageExt(
-                                    tileName.ToString());
+                                    tileName.toString());
                         }
                         else
                         {
                             images[it] = new H_ImageExt(
-                                    tileName.ToString(), paramInt);
+                                    tileName.toString(), paramInt);
                         }
                     }
                 }
