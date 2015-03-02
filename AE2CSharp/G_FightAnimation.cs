@@ -4,19 +4,19 @@ using javax.microedition.lcdui;
 
 namespace aeii
 {
-    public sealed override class G_FightAnimation
+    public  class G_FightAnimation
     {
 
-        public static sealed override String[] bgTypeNames = { "road", "grass", "woods", "hill",
+        public static  String[] bgTypeNames = { "road", "grass", "woods", "hill",
 			"mountain", "water", "bridge", "town" };
-        public static sealed override byte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
-        public static sealed override byte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
-        public static sealed override String[] unitTypeNames = { "soldier", "archer", "lizard",
+        public static  byte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
+        public static  byte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
+        public static  String[] unitTypeNames = { "soldier", "archer", "lizard",
 			"wizard", "wisp", "spider", "golem", "catapult", "wyvern", "king",
 			"skeleton" };
         public I_Game m_game;
         public C_Unit m_unit;
-        public byte unitType;
+        public sbyte unitType;
         public bool var_b2d = false;
         public bool var_b35 = false;
         public bool var_b3d;
@@ -25,10 +25,10 @@ namespace aeii
         public byte unitStartCharsCount;
         public byte unitChars3;
         public byte unitCharsCount;
-        public byte var_b6d;
+        public sbyte var_b6d;
         public bool var_b75;
         public int var_b7d = 0;
-        public static sealed override byte[] var_b85 = { 3, -3 };
+        public static  sbyte[] var_b85 = { 3, -3 };
         public F_Sprite var_b8d;
         public F_Sprite kingWaveSprite;
         public F_Sprite archerArrowSprite;
@@ -87,7 +87,7 @@ namespace aeii
 		int k = var_afd[this.tileType];
 		if ((faInst != null) && (k == var_afd[faInst.tileType])) {
 			this.multipleBgImages = new H_ImageExt[faInst.multipleBgImages.Length];
-			System.Array.Copy(faInst.multipleBgImages, 0, this.multipleBgImages, 0,
+			JavaSystem.arraycopy(faInst.multipleBgImages, 0, this.multipleBgImages, 0,
 					this.multipleBgImages.Length);
 		} else {
 			this.multipleBgImages = new F_Sprite(bgTypeNames[k]).frameImages;
@@ -131,8 +131,7 @@ namespace aeii
 						.nextInt() % this.multipleBgImages.Length));
 			}
 		}
-		this.var_b8d = new F_Sprite(unitTypeNames[this.unitType],
-				aGame.playersIndexes[aUnit.playerId]);
+		this.var_b8d = new F_Sprite(unitTypeNames[this.unitType], aGame.playersIndexes[aUnit.playerId]);
 		if ((faInst != null)
 				&& (faInst.unitType == this.unitType)) {
 			if (faInst.slashSprite != null) {
@@ -222,7 +221,7 @@ namespace aeii
 		}
 	}
 
-        public sealed override int sub_1673(F_Sprite sprite, int paramInt)
+        public  int sub_1673(F_Sprite sprite, int paramInt)
         {
             if (this.var_b6d == 1)
             {
@@ -231,14 +230,14 @@ namespace aeii
             return paramInt;
         }
 
-        public sealed override void sub_16bb()
+        public  void sub_16bb()
         {
             this.var_b2d = true;
             this.var_b7d = 1;
             this.someStartTime7 = this.m_game.time;
         }
 
-        public sealed override void sub_16eb()
+        public  void sub_16eb()
         {
             int i;
             int i3;
@@ -792,7 +791,7 @@ namespace aeii
             }
         }
 
-        public sealed override void sub_2730()
+        public  void sub_2730()
         {
             for (int i = 0; i < this.unitCharsCount; i++)
             {
@@ -800,7 +799,7 @@ namespace aeii
             }
         }
 
-        public sealed override void sub_2782()
+        public  void sub_2782()
         {
             switch (this.var_b7d)
             {
@@ -916,7 +915,7 @@ namespace aeii
             }
         }
 
-        public sealed override void sub_2ae8()
+        public  void sub_2ae8()
         {
             if (this.var_c15)
             {
@@ -1185,7 +1184,7 @@ namespace aeii
             }
         }
 
-        public sealed override void sub_3363()
+        public  void sub_3363()
         {
             this.var_b3d = true;
             this.var_c25 = (this.unitStartCharsCount - this.unitChars3);
@@ -1229,7 +1228,7 @@ namespace aeii
                 this.m_game.addSpriteTo(sprite1);
             }
             F_Sprite[] someSprites = new F_Sprite[this.unitCharsCount];
-            System.Array.Copy(this.unitCharsSprites, this.var_c25, someSprites, 0,
+            JavaSystem.arraycopy(this.unitCharsSprites, this.var_c25, someSprites, 0,
                     this.unitCharsCount);
             this.unitCharsSprites = someSprites;
             int damageDone = this.unitHealth3 - this.unitStartHealth;
@@ -1254,7 +1253,7 @@ namespace aeii
             this.m_game.addSpriteTo(someSprite);
         }
 
-        public sealed override void sub_35fd(Graphics gr, int inX, int inY)
+        public  void sub_35fd(Graphics gr, int inX, int inY)
         {
             gr.translate(inX, inY);
             int x = 0;
@@ -1290,14 +1289,14 @@ namespace aeii
             gr.translate(-inX, -inY);
         }
 
-        public sealed override void drawUnitHealth(Graphics gr)
+        public  void drawUnitHealth(Graphics gr)
         {
             int hY = this.m_game.someCanHeight - I_Game.someUnkHeight1 / 2;
             E_MainCanvas.drawCharedString(gr, this.unitHealth + "/" + 100,
                     this.m_game.viewportWidth / 2, hY, 1, 3);
         }
 
-        public sealed override void sub_3788(Graphics gr)
+        public  void sub_3788(Graphics gr)
         {
             gr.setColor(4210752);
             for (int i = 0; i < this.unitCharsCount; i++)

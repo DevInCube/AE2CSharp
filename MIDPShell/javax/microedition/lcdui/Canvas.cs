@@ -27,7 +27,7 @@ namespace javax.microedition.lcdui
         public static readonly int FIRE = 8;
         public static readonly int GAME_A = 9;
 
-        protected abstract void paint(Graphics paramGraphics);
+        public abstract void paint(Graphics paramGraphics);
 
         protected void hideNotify() { }
 
@@ -67,18 +67,18 @@ namespace javax.microedition.lcdui
             return false;
         }
 
-        public sealed override void repaint() { }
+        public  void repaint() { }
 
-        public sealed override void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        public  void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
 
-        public sealed override void serviceRepaints() { }
+        public  void serviceRepaints() { }
 
         public int getGameAction(int paramInt)
         {
             return 0;
         }
 
-        public int getHeight()
+        public override int getHeight()
         {
             return 0;
         }
@@ -88,7 +88,7 @@ namespace javax.microedition.lcdui
             return 0;
         }
 
-        public int getWidth()
+        public override int getWidth()
         {
             return 0;
         }

@@ -11,12 +11,12 @@ namespace javax.microedition.lcdui
             return false;
         }
 
-        public int getHeight()
+        public virtual int getHeight()
         {
             return 0;
         }
 
-        public int getWidth()
+        public virtual int getWidth()
         {
             return 0;
         }

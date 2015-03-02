@@ -14,8 +14,12 @@ namespace java.io
             // TODO: Complete member initialization
         }
 
-
         public void writeByte(byte p)
+        {
+            // throw new NotImplementedException();
+        }
+
+        public void writeByte(sbyte p)
         {
            // throw new NotImplementedException();
         }

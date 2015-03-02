@@ -57,13 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="aeii\E_MainCanvas.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Loaders\ArrayHelper.cs" />
     <Compile Include="Loaders\Map.cs" />
-    <Compile Include="Loaders\ResourceLoader.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -103,6 +102,10 @@
     <ProjectReference Include="..\Java.Core\Java.Core.csproj">
       <Project>{a9fa24a2-0dc8-4e25-8d1d-b6f0ccd52486}</Project>
       <Name>Java.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MIDPShell\MIDP.csproj">
+      <Project>{4ee4ba43-ab05-4397-b247-e8ebbf8f36bf}</Project>
+      <Name>MIDP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

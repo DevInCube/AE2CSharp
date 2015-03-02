@@ -1,7 +1,3 @@
-using java.util.Vector;
-
-using javax.microedition.lcdui.Font;
-
 using javax.microedition.lcdui;
 using java.util;
 using java.lang;
@@ -9,13 +5,13 @@ using java.lang;
 namespace aeii
 {
 
-    public sealed override class D_Menu : A_MenuBase
+    public  class D_Menu : A_MenuBase
     {
 
         public bool[] menuActionsMb = { false, false };
         public int m_bgColorMb = 13553358; // #CECECE light gray
-        public static sealed override int someXPadding = E_MainCanvas.canvasHeight <= 143 ? 1 : 2;
-        public static sealed override int var_fcd = someXPadding * 2 + 1;
+        public static  int someXPadding = E_MainCanvas.canvasHeight <= 143 ? 1 : 2;
+        public static  int var_fcd = someXPadding * 2 + 1;
         public byte var_fd5 = 2;
         public short var_fdd = 3;
         public static I_Game gameVar;
@@ -40,7 +36,7 @@ namespace aeii
         public C_Unit[] buyUnits;
         public int var_1085;
         public int var_108d;
-        public byte portraitSpriteIndex = -1;
+        public sbyte portraitSpriteIndex = -1;
         public int var_109d;
         public int var_10a5;
         public int unitPortraitWidth;
@@ -166,13 +162,13 @@ namespace aeii
             this.var_106d = true;
         }
 
-        public sealed override void onLoad()
+        public  void onLoad()
         {
             initMenu();
         }
 
         //this is on load
-        public sealed override void initMenu()
+        public  void initMenu()
         {
             this.var_1205 = 0;
             if (this.smallSparksMenuSprites != null)
@@ -207,19 +203,19 @@ namespace aeii
          * @param index
          * @param isEnabled
          */
-        public sealed override void setMenuActionEnabled(byte index, bool isEnabled)
+        public  void setMenuActionEnabled(byte index, bool isEnabled)
         {
             this.menuActionsMb[index] = isEnabled;
         }
 
-        public sealed override void setParentMenu(A_MenuBase parMenu)
+        public  void setParentMenu(A_MenuBase parMenu)
         {
             this.parentMenu = parMenu;
             // return to parent action
             this.menuActionsMb[1] = (parMenu != null ? true : false);
         }
 
-        public sealed override D_Menu createTitleMenu(String header)
+        public  D_Menu createTitleMenu(String header)
         {
             this.somedescMenu = new D_Menu((byte)10, 0);
             this.somedescMenu.createDescDialogMb(null, header, gameVar.someGWidth,
@@ -227,7 +223,7 @@ namespace aeii
             return this.somedescMenu;
         }
 
-        public sealed override void addChildMenu(D_Menu childMenu, int locX, int locY,
+        public  void addChildMenu(D_Menu childMenu, int locX, int locY,
                 int paramInt3)
         {
             if (this.childrenMenuList == null)
@@ -271,7 +267,7 @@ namespace aeii
             this.childrenMenuList.addElement(childMenu);
         }
 
-        public sealed override void initMapPreviewMenu(int inWidth, int inHeight,
+        public  void initMapPreviewMenu(int inWidth, int inHeight,
                 byte[][] mapData, Vector unitsMb)
         {
             this.someBorderMb = 15;
@@ -310,7 +306,7 @@ namespace aeii
             this.menuType = 8;
         }
 
-        public sealed override void setMenuLoc(int inX, int inY, int paramInt3)
+        public  void setMenuLoc(int inX, int inY, int paramInt3)
         {
             this.menuLocX = inX;
             this.menuLocY = inY;
@@ -334,8 +330,8 @@ namespace aeii
             this.var_1055 = this.menuLocY;
         }
 
-        public sealed override void initPortraitDialog(String msg, int inW,
-                int inH, byte portraintIndex, byte unused)
+        public  void initPortraitDialog(String msg, int inW,
+                int inH, sbyte portraintIndex, byte unused)
         {
             this.portraitSpriteIndex = portraintIndex;
             if (portraintIndex == -1)
@@ -353,7 +349,7 @@ namespace aeii
             this.menuType = 7;
         }
 
-        public sealed override void sub_1a9a(String header, String[] strLines,
+        public  void sub_1a9a(String header, String[] strLines,
                 int paramInt1, int inHeight)
         {
             this.var_10cd = false;
@@ -427,7 +423,7 @@ namespace aeii
             this.var_fd5 = 2;
         }
 
-        public sealed override void createDescDialogMb(String paramString1,
+        public  void createDescDialogMb(String paramString1,
                 String paramString2, int paramInt1, int paramInt2)
         {
             int i = paramInt1 - this.unitPortraitWidth;
@@ -451,7 +447,7 @@ namespace aeii
             }
         }
 
-        private sealed override void createMenuItemSparks()
+        private  void createMenuItemSparks()
         {
             this.smallSparksMenuSprites = new F_Sprite[3];
             for (int i = 0; i < this.smallSparksMenuSprites.Length; i++)
@@ -461,7 +457,7 @@ namespace aeii
             initMenuItemSparks();
         }
 
-        public sealed override void initMenuItemSparks()
+        public  void initMenuItemSparks()
         {
             for (int i = 0; i < this.smallSparksMenuSprites.Length; i++)
             {
@@ -477,7 +473,7 @@ namespace aeii
             }
         }
 
-        public sealed override void sub_1e97(String[] names, H_ImageExt[] images,
+        public  void sub_1e97(String[] names, H_ImageExt[] images,
                 int paramInt1, int paramInt2, int paramInt3)
         {
             this.someBorderMb = 15;
@@ -510,7 +506,7 @@ namespace aeii
             this.var_fd5 = 2;
         }
 
-        public sealed override void setMenuItemsNames(String[] names, int inWidth,
+        public  void setMenuItemsNames(String[] names, int inWidth,
                 int inHeight)
         {
             this.menuItemsNamesMb = names;
@@ -553,7 +549,7 @@ namespace aeii
             this.var_fd5 = 2;
         }
 
-        public sealed override void createMenuListItems(String[] itemNames, int paramInt1,
+        public  void createMenuListItems(String[] itemNames, int paramInt1,
                 int paramInt2, int paramInt3, int paramInt4, int paramInt5,
                 int paramInt6)
         {
@@ -599,7 +595,7 @@ namespace aeii
             setMenuLoc(paramInt1, paramInt2, paramInt5);
         }
 
-        public sealed override void initWheelMenu(String[] itemString,
+        public  void initWheelMenu(String[] itemString,
                 H_ImageExt[] itemImages, int paramInt1, int inX, int inY,
                 int paramInt4, byte someType)
         {
@@ -617,7 +613,7 @@ namespace aeii
                 if (this.menuItemsCount < 4)
                 {
                     String[] names = new String[4];
-                    System.Array.Copy(this.menuItemsNamesMb, 0, names, 0,
+                    JavaSystem.arraycopy(this.menuItemsNamesMb, 0, names, 0,
                             this.menuItemsCount);
                     this.menuItemsNamesMb = names;
                     this.menuItemsCount = 4;
@@ -666,7 +662,7 @@ namespace aeii
             setMenuLoc(paramInt1, inX, paramInt4);
         }
 
-        public sealed override int sub_254b(int step)
+        public  int sub_254b(int step)
         {
             int i = this.var_111d;
             int j = i;
@@ -691,12 +687,12 @@ namespace aeii
         }
 
         // @Override
-        public sealed override void onUpdate()
+        public  void onUpdate()
         {
             updateMenu(true);
         }
 
-        public sealed override void updateMenu(bool paramBoolean)
+        public  void updateMenu(bool paramBoolean)
         {
             if (this.var_fd5 == 3)
             {
@@ -1271,7 +1267,7 @@ namespace aeii
             }
         }
 
-        public static sealed override void drawRoundedRect(Graphics gr, int inX, int inY, int inW, int inH)
+        public static  void drawRoundedRect(Graphics gr, int inX, int inY, int inW, int inH)
         {
             if (inH <= 2)
             {
@@ -1283,12 +1279,12 @@ namespace aeii
         }
 
         // @Override
-        public sealed override void onPaint(Graphics paramGraphics)
+        public  void onPaint(Graphics paramGraphics)
         {
             paintMenu(paramGraphics, 0, 0, false);
         }
 
-        public sealed override void paintMenu(Graphics gr, int marginX, int marginY, bool isSelected)
+        public  void paintMenu(Graphics gr, int marginX, int marginY, bool isSelected)
         {
             if (this.var_fd5 == 3)
             {
@@ -1780,41 +1776,41 @@ namespace aeii
                     if (this.menuType == 13)
                     {
                         i19 = E_MainCanvas.someMenuShiftHeight;
-                    i20 = (this.menuHeight - i19) / 2;
-                    gr.setColor(I_Game.someColorMethod2(1645370, 16777215, this.var_1105, 5));
-                    drawRoundedRect(gr, 0, i20, this.menuWidth, i19);
-                    gr.setFont(E_MainCanvas.font8);
-                    gr.setColor(16777215);
-                    E_MainCanvas.drawString(gr,
-                            this.menuItemsNamesMb[this.activeItemPositionMb], 16, i20
-                                    + this.var_108d, 20);
-                    i21 = this.menuWidth - this.var_101d;
-                    mapUnitsCount = this.menuItemsCount - 1;
+                        i20 = (this.menuHeight - i19) / 2;
+                        gr.setColor(I_Game.someColorMethod2(1645370, 16777215, this.var_1105, 5));
+                        drawRoundedRect(gr, 0, i20, this.menuWidth, i19);
+                        gr.setFont(E_MainCanvas.font8);
+                        gr.setColor(16777215);
+                        E_MainCanvas.drawString(gr,
+                                this.menuItemsNamesMb[this.activeItemPositionMb], 16, i20
+                                        + this.var_108d, 20);
+                        i21 = this.menuWidth - this.var_101d;
+                        mapUnitsCount = this.menuItemsCount - 1;
 
-                    try
-                    {
-                        //@todo if(what?)
-                        while (mapUnitsCount >= 0)
+                        try
                         {
-                            if (mapUnitsCount == this.activeItemPositionMb)
+                            //@todo if(what?)
+                            while (mapUnitsCount >= 0)
                             {
-                                gameVar.smallCircleSprite.drawFrameAt(gr, 1, i21, 0, 20);
+                                if (mapUnitsCount == this.activeItemPositionMb)
+                                {
+                                    gameVar.smallCircleSprite.drawFrameAt(gr, 1, i21, 0, 20);
+                                }
+                                else
+                                {
+                                    gameVar.smallCircleSprite.drawFrameAt(gr, 0, i21, 0, 20);
+                                }
+                                this.menuItemsImages[mapUnitsCount].drawImageExt(gr, i21
+                                        + gameVar.smallCircleSprite.frameWidth / 2,
+                                        this.menuHeight / 2, 3);
+                                i21 -= this.var_101d;
+                                mapUnitsCount--;
                             }
-                            else
-                            {
-                                gameVar.smallCircleSprite.drawFrameAt(gr, 0, i21, 0, 20);
-                            }
-                            this.menuItemsImages[mapUnitsCount].drawImageExt(gr, i21
-                                    + gameVar.smallCircleSprite.frameWidth / 2,
-                                    this.menuHeight / 2, 3);
-                            i21 -= this.var_101d;
-                            mapUnitsCount--;
                         }
-                    }
-                    catch (Exception exx)
-                    {
-                        //
-                    }
+                        catch (Exception exx)
+                        {
+                            //
+                        }
                     }
 
                     gr.setFont(E_MainCanvas.font8);
@@ -1972,14 +1968,14 @@ namespace aeii
             }
         }
 
-        public static sealed override void sub_5602(Graphics paramGraphics, int paramInt1,
+        public static  void sub_5602(Graphics paramGraphics, int paramInt1,
                 int paramInt2, int paramInt3, int paramInt4, int paramInt5)
         {
             sub_562e(paramGraphics, paramInt1, paramInt2, paramInt3, paramInt4,
                     paramInt5, 2370117, 2370117, 0, 0);
         }
 
-        public static sealed override void sub_562e(Graphics paramGraphics, int paramInt1,
+        public static  void sub_562e(Graphics paramGraphics, int paramInt1,
                 int paramInt2, int paramInt3, int paramInt4, int paramInt5,
                 int paramInt6, int paramInt7, int paramInt8, int paramInt9)
         {

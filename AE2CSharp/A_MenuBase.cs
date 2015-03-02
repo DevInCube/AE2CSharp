@@ -1,12 +1,5 @@
 using java.lang;
 
-
-using java.io.DataInputStream;
-using java.io.InputStream;
-using java.util.Vector;
-
-using javax.microedition.lcdui.Font;
-
 using javax.microedition.lcdui;
 using java.util;
 using java.csharp;
@@ -49,11 +42,11 @@ namespace aeii
             //@todo override
         }
 
-        public static sealed override String[] wrapText(String aString, int maxWidth, Font aFont)
+        public static  String[] wrapText(String aString, int maxWidth, Font aFont)
         {
             Vector localVector = new Vector();
             int i = 0;
-            int k = aString.length;
+            int k = aString.length();
             Object localObject1 = null;
             int m;
             do
@@ -74,7 +67,7 @@ namespace aeii
                     {
                         if (i1 == i)
                         {
-                            for (int i2 = ((String)localObject1).length - 1; i2 > 0; i2--)
+                            for (int i2 = ((String)localObject1).length() - 1; i2 > 0; i2--)
                             {
                                 String str = ((String)localObject1).subString(0,
                                         i2);
@@ -103,7 +96,7 @@ namespace aeii
             return arrayOfString;
         }
 
-        private static sealed override int sub_ab5(String aString, int charPos)
+        private static  int sub_ab5(String aString, int charPos)
         {
             int i = aString.charAt(charPos);
             if (sub_b97(i))
@@ -118,7 +111,7 @@ namespace aeii
             }
             if ((j = k) == -1)
             {
-                j = aString.length;
+                j = aString.length();
             }
             else
             {
@@ -134,14 +127,14 @@ namespace aeii
             return j;
         }
 
-        private static sealed override bool sub_b97(int paramInt)
+        private static  bool sub_b97(int paramInt)
         {
             return ((paramInt >= 11904) && (paramInt < 44032))
                     || ((paramInt >= 63744) && (paramInt < 64256))
                     || ((paramInt >= 65280) && (paramInt < 65504));
         }
 
-        public static sealed override int loadLangStrings(String langFile, bool unusedBool)
+        public static  int loadLangStrings(String langFile, bool unusedBool)
 			{
 		InputStream stream = B_MainMIDlet.midlet.getClass().getResourceAsStream(langFile);
 		DataInputStream dis = new DataInputStream(stream);
@@ -156,12 +149,12 @@ namespace aeii
 		return langStrings.Length;
 	}
 
-        public static sealed override String getLangString(int aStringId)
+        public static  String getLangString(int aStringId)
         {
             return getSomeHelpString(aStringId, false);
         }
 
-        public static sealed override String getSomeHelpString(int strId, bool paramBoolean)
+        public static  String getSomeHelpString(int strId, bool paramBoolean)
         {
             if (strId < langStrings.Length)
             {
@@ -180,7 +173,7 @@ namespace aeii
 							mainCanvas.getKeyName2(2), mainCanvas.getKeyName2(4),
 							mainCanvas.getKeyName2(8) };
                         buf.append(aStringFormat(17, keyNames)); //'%U', '%U', '%U', '%U'
-                        if (buf.Length > 0)
+                        if (buf.length() > 0)
                         {
                             buf.append('/');
                         }
@@ -193,7 +186,7 @@ namespace aeii
             return "?: " + strId;
         }
 
-        public static sealed override String aStringFormat(int paramInt, String[] paramArrayOfString)
+        public static  String aStringFormat(int paramInt, String[] paramArrayOfString)
         {
             String str = new String(getLangString(paramInt));
             for (int i = 0; i < paramArrayOfString.Length; i++)
@@ -203,12 +196,12 @@ namespace aeii
             return str;
         }
 
-        public static sealed override String replaceStringFirst(int strID, String replacement)
+        public static  String replaceStringFirst(int strID, String replacement)
         {
             return replaceString(getLangString(strID), "%U", replacement, false);
         }
 
-        public static sealed override String replaceString(String aString,
+        public static  String replaceString(String aString,
                 String toReplace, String replacement, bool menuTimes)
         {
             String str = aString;
@@ -220,12 +213,12 @@ namespace aeii
                     break;
                 }
                 str = str.subString(0, index) + replacement
-                        + str.subString(index + toReplace.length);
+                        + str.subString(index + toReplace.length());
             } while (menuTimes);
             return str;
         }
 
-        public static sealed override void initSin1024()
+        public static  void initSin1024()
         {
             //
             maxDegreesDiv2 = maxDegrees >> 1;
@@ -245,13 +238,13 @@ namespace aeii
             //sin1024Table[270] = -1024;
         }
 
-        public static sealed override short getSin1024(int degree)
+        public static  short getSin1024(int degree)
         {
             degree %= 360;
             return sin1024Table[degree];
         }
 
-        public static sealed override short getCos2014(int angle)
+        public static  short getCos2014(int angle)
         {
             angle = (angle + maxDegreesDiv4) % 360;
             return sin1024Table[angle];

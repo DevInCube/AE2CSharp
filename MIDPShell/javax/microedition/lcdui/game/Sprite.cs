@@ -2,8 +2,7 @@ namespace javax.microedition.lcdui.game
 {
 
 
-    public class Sprite
-      : Layer
+    public class Sprite : Layer
     {
         public static readonly int TRANS_NONE = 0;
         public static readonly int TRANS_MIRROR_ROT180 = 1;
@@ -20,27 +19,27 @@ namespace javax.microedition.lcdui.game
 
         public Sprite(Sprite paramSprite) { }
 
-        public sealed override bool collidesWith(Image paramImage, int paramInt1, int paramInt2, bool paramBoolean)
+        public  bool collidesWith(Image paramImage, int paramInt1, int paramInt2, bool paramBoolean)
         {
             return false;
         }
 
-        public sealed override bool collidesWith(Sprite paramSprite, bool paramBoolean)
+        public  bool collidesWith(Sprite paramSprite, bool paramBoolean)
         {
             return false;
         }
 
-        public sealed override bool collidesWith(TiledLayer paramTiledLayer, bool paramBoolean)
+        public  bool collidesWith(TiledLayer paramTiledLayer, bool paramBoolean)
         {
             return false;
         }
 
-        public sealed override int getFrame()
+        public  int getFrame()
         {
             return 0;
         }
 
-        public sealed override void paint(Graphics paramGraphics) { }
+        public override void paint(Graphics paramGraphics) { }
 
         public int getFrameSequenceLength()
         {

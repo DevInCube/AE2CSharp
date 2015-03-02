@@ -1,4 +1,5 @@
-﻿using AE2.Tools.Loaders;
+﻿using AE2.Tools.aeii;
+using AE2.Tools.Loaders;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,10 +18,10 @@ namespace AE2.Tools
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            ResourceLoader.loadResourcesPak(null);
+            E_MainCanvas.loadResourcesPak(null);
             Map m = new Map();
-            m.readTilesData(ResourceLoader.getResourceStream("tiles0.prop"));
-            m.loadMap(ResourceLoader.getResourceStream("m6"));
+            m.readTilesData(E_MainCanvas.getResourceStream("tiles0.prop"));
+            m.loadMap(E_MainCanvas.getResourceStream("m6"));
             MainWindow w = new Tools.MainWindow();
             w.DrawMap(m);
             w.Show();

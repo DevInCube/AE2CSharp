@@ -6,27 +6,27 @@ namespace javax.microedition.lcdui.game
     {
         public abstract void paint(Graphics paramGraphics);
 
-        public sealed override bool isVisible()
+        public  bool isVisible()
         {
             return false;
         }
 
-        public sealed override int getHeight()
+        public  int getHeight()
         {
             return 0;
         }
 
-        public sealed override int getWidth()
+        public  int getWidth()
         {
             return 0;
         }
 
-        public sealed override int getX()
+        public  int getX()
         {
             return 0;
         }
 
-        public sealed override int getY()
+        public  int getY()
         {
             return 0;
         }

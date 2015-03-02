@@ -1,22 +1,22 @@
-﻿using AE2.Tools.Properties;
-using java.io;
+﻿using java.io;
 using java.lang;
 
-namespace AE2.Tools.Loaders
+
+namespace AE2.Tools.aeii
 {
-    public static class ResourceLoader
+    public class E_MainCanvas
     {
         private static String[] resourcesNames;
         private static byte[][] resourcesData;
 
-        public static  void loadResourcesPak(String pakFileName)
+        public static void loadResourcesPak(String pakFileName)
         {
             if (resourcesNames == null)
             {
                 resourcesNames = null;
                 int[] arrayOfInt1 = null;
                 int[] arrayOfInt2 = null;
-                InputStream stream = ResourceLoader.getResourceAsStream("Resources/1.pak");
+                InputStream stream = E_MainCanvas.getResourceAsStream("Resources/1.pak");
                 DataInputStream resStream = new DataInputStream(stream);
                 int i = resStream.readShort();
                 int resLength = resStream.readShort();
@@ -41,7 +41,7 @@ namespace AE2.Tools.Loaders
 
         public static void saveUnpackedResources(string dir)
         {
-            for (int i = 0; i < resourcesNames.Length;i++ )
+            for (int i = 0; i < resourcesNames.Length; i++)
             {
                 String key = resourcesNames[i];
                 string path = System.IO.Path.Combine(dir, key.ToString());
@@ -62,12 +62,12 @@ namespace AE2.Tools.Loaders
             return new DataInputStream(ms);
         }
 
-        public static  InputStream getResourceStream(String resName)
+        public static InputStream getResourceStream(String resName)
         {
             return new ByteArrayInputStream(getResourceData(resName));
         }
 
-        public static  byte[] getResourceData(String resName)
+        public static byte[] getResourceData(String resName)
         {
             for (int i = 0; i < resourcesNames.Length; i++)
             {

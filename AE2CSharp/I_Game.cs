@@ -1,13 +1,3 @@
-
-
-using java.io.ByteArrayInputStream;
-using java.io.ByteArrayOutputStream;
-using java.io.DataInputStream;
-using java.io.DataOutputStream;
-using java.util.Vector;
-
-
-
 using java.lang;
 using java.util;
 using javax.microedition.lcdui;
@@ -15,7 +5,7 @@ using java.io;
 using java.csharp;
 
 namespace aeii{
-public sealed override class I_Game : A_MenuBase , Runnable {
+public  class I_Game : A_MenuBase , Runnable {
 	
 	public String appPropVersion = "?";
 	public static byte someUnkHeight1 = 32;
@@ -27,8 +17,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public static String[] skirmishMapsNames = new String[12];
 	public static int[] skMapsUnlockWhenCampLvlFin = { 4, 5, 6, 7, 8, 9, 10, 11 };
 	public bool[] skMapUnlockedArr;
-	public static sealed override short[] skirmishStartMoneyEnum = { 500, 1000, 2000 };
-	public static sealed override short[] skirmishStartUnitsEnum = { 10, 20, 25 };
+	public static  short[] skirmishStartMoneyEnum = { 500, 1000, 2000 };
+	public static  short[] skirmishStartUnitsEnum = { 10, 20, 25 };
 	public int mapStartMoney;
 	public byte mapStartUnitCap;
 	public byte mapModeCampIf0;
@@ -56,27 +46,27 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public byte[] inGameMenuItems = { 0, 6, 5, 7, 8, 9 };
 	public byte[] startMenuItems = { 0, 6, 5, 7, 8, 9 };
 	public byte[] playMenuItems = { 1, 2, 3, 4 };
-	public static sealed override byte[][] cursorFrameSequences = { { 0, 1 }, { 2, 3, 4 }, { 0, 1 },
-			{ 5 } }; // move cursor, attack cursor, move cursor, move unit
-	public static sealed override byte[] poisonFrameSeq = { 0 };
+	public static  byte[][] cursorFrameSequences = { new byte[]{ 0, 1 }, new byte[]{ 2, 3, 4 }, new byte[]{ 0, 1 },
+			new byte[]{ 5 } }; // move cursor, attack cursor, move cursor, move unit
+	public static  byte[] poisonFrameSeq = { 0 };
 	public long cursorFrameStartTime = 0L;
 	public long cursorMovingStartTimeMb;
-	public static sealed override int[][][] var_33b3 = {
+	public static  int[][][] var_33b3 = {
 			new int[0][],
-			{ { 150, 217, 244 }, { 65, 149, 233 }, { 0, 100, 198 },
-					{ 12, 53, 112 } },
-			{ { 244, 158, 156 }, { 219, 36, 113 }, { 161, 0, 112 },
-					{ 95, 5, 120 } },
-			{ { 171, 237, 90 }, { 99, 190, 37 }, { 0, 153, 55 }, { 0, 85, 82 } },
-			{ { 0, 118, 150 }, { 0, 65, 114 }, { 0, 43, 75 }, { 0, 22, 48 } } };
-	public static sealed override int[] playerColors = { 10526880, 26054, 15204434, 39473,
+			new int[][]{ new int[]{ 150, 217, 244 }, new int[]{ 65, 149, 233 }, new int[]{ 0, 100, 198 },
+					new int[]{ 12, 53, 112 } },
+			new int[][]{ new int[]{ 244, 158, 156 }, new int[]{ 219, 36, 113 }, new int[]{ 161, 0, 112 },
+					new int[]{ 95, 5, 120 } },
+			new int[][]{ new int[]{ 171, 237, 90 }, new int[]{ 99, 190, 37 }, new int[]{ 0, 153, 55 }, new int[]{ 0, 85, 82 } },
+			new int[][]{ new int[]{ 0, 118, 150 }, new int[]{ 0, 65, 114 }, new int[]{ 0, 43, 75 }, new int[]{ 0, 22, 48 } } };
+	public static  int[] playerColors = { 10526880, 26054, 15204434, 39473,
 			16754 };
-	public static sealed override int[] playersMusicIdsMb = { -1, 2, 3, 2, 3 };
-	public static sealed override int[] playersFAMusicIds = { -1, 4, 5, 4, 5 };
+	public static  int[] playersMusicIdsMb = { -1, 2, 3, 2, 3 };
+	public static  int[] playersFAMusicIds = { -1, 4, 5, 4, 5 };
 	public F_Sprite[][] playersUnitsSprites;
-	public static sealed override byte[] waterBlinkAnimTilesIndexes = { 1, 2 };
-	public static sealed override byte[] tilesDefences = { 0, 5, 10, 10, 15, 0, 5, 15, 15, 15 };
-	public static sealed override byte[] tilesMovements = { 1, 1, 2, 2, 3, 3, 1, 1, 1, 1 };
+	public static  byte[] waterBlinkAnimTilesIndexes = { 1, 2 };
+	public static  byte[] tilesDefences = { 0, 5, 10, 10, 15, 0, 5, 15, 15, 15 };
+	public static  byte[] tilesMovements = { 1, 1, 2, 2, 3, 3, 1, 1, 1, 1 };
 	public int houseTileIdStartIndex;
 	public H_ImageExt[] smallTilesImages;
 	public byte[] tilesProps;
@@ -122,17 +112,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public int var_3543;
 	public int var_354b;
 	public long someStartTime5;
-	public byte mapMaxPlayersMb = 2;
-	public byte[] somePlayersData = new byte[5];
-	public byte[] playersIndexes = new byte[4];
+	public sbyte mapMaxPlayersMb = 2;
+	public sbyte[] somePlayersData = new sbyte[5];
+	public sbyte[] playersIndexes = new sbyte[4];
 	public byte[] playersTeams = new byte[4];
-	public byte playerId = 0;
+	public sbyte playerId = 0;
 	public short currentTurn;
 	public C_Unit[] playersKings;
 	public C_Unit[][] playerKingsMb;
 	public int[] playerUnitsCount;
 	public short[] playersMoney = new short[4];
-	public byte[][] kingsPositions = new byte[4][2];
+    public byte[][] kingsPositions = JavaArray.New<byte>(4, 2);
 	public byte[] mapPlayersTypes = new byte[4];
 	public D_Menu unitActionsMenu;
 	public Vector mapEffectsSpritesList = new Vector();
@@ -141,7 +131,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public C_Unit var_35db;
 	public long someStartTime6;
 	public C_Unit someSparkingUnit;
-	public byte someSprkingUnitPlayerId;
+	public sbyte someSprkingUnitPlayerId;
 	public long someSparksStartTime13;
 	public int var_3603;
 	public bool canCancelMb = false;
@@ -226,7 +216,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public bool isSaethDead;
 	public String mapName;
 	public String[] slotsDescriptions;
-	public byte[] slotsCurrentPlayerIds;
+	public sbyte[] slotsCurrentPlayerIds;
 	public int[] slotsMapIndexes;
 	public D_Menu loadSlotsMenu;
 	public D_Menu saveSlotsMenu;
@@ -261,7 +251,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public H_ImageExt gameOverImage;
 	public Image[][] alphaMappedTilesImages;
 	public int loadingProgress;
-	public static sealed override String[] var_39a3 = { "14281428", "18241824" };
+	public static  String[] var_39a3 = { "14281428", "18241824" };
 	public StringBuffer m_strBuf = new StringBuffer();
 	public C_Unit m_tempUnit;
 	public int someCameraVelocityMb = 12;
@@ -285,7 +275,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	public int var_3a4b = 8;
 	public int var_3a53 = 8 >> 1;
 	public int playerIncomeMb;
-	public static sealed override byte[] someUnitsValuesForAImb = { 0, 2, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3 };
+	public static  byte[] someUnitsValuesForAImb = { 0, 2, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3 };
 	public byte someAIAtkStateMb = 0;
 	public int var_3a73;
 	public int someTileType;
@@ -367,7 +357,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	}
 	
 	//@Override
-	public sealed override void onLoad() {
+	public  void onLoad() {
 		//sub_4d3f();
 		//sub_87e6();
 		//clearActiveUnit();
@@ -377,7 +367,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		//sub_1447e();
 	}
 
-	public sealed override void runLoading() {
+	public  void runLoading() {
 		setLoadingProgress(0);
 		E_MainCanvas.loadResourcesPak("");
 		setLoadingProgress(18);
@@ -478,7 +468,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.downloadStoreAvailableSize = E_MainCanvas.getRecordStoreAvailableSize("download");
 		setLoadingProgress(84);
 		this.slotsDescriptions = new String[3];
-		this.slotsCurrentPlayerIds = new byte[3];
+		this.slotsCurrentPlayerIds = new sbyte[3];
 		this.slotsMapIndexes = new int[3];
 		byte[] saveData;
 		for (int n = 0; n < 3; n++) {
@@ -499,7 +489,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				int mapIndex = slotDataStream.readByte();
 				slotDataStream.readByte();
 				slotDataStream.readByte();
-				byte currentPlayerId = slotDataStream.readByte();
+				sbyte currentPlayerId = (sbyte)slotDataStream.readByte();
 				int currentTurn = slotDataStream.readShort();
 				slotDataStream.close();
 				this.slotsCurrentPlayerIds[n] = currentPlayerId;
@@ -543,12 +533,12 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.gameMode2Mb = 0;
 	}
 
-	public sealed override void setLoadingProgress(int value) {
+	public  void setLoadingProgress(int value) {
 		this.loadingProgress = value;
 		A_MenuBase.mainCanvas.repaintAll();
 	}
 
-	public sealed override String getSlotDescription(int campaignModeIf0, int mapIndex, int currentTurn) {
+	public  String getSlotDescription(int campaignModeIf0, int mapIndex, int currentTurn) {
 		String mapName;
 		if (campaignModeIf0 == 0) {
 			mapName = A_MenuBase.getLangString(121 + mapIndex);
@@ -560,11 +550,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				+ "Current turn: " + (currentTurn + 1); // slot description
 	}
 
-	public sealed override bool sub_4789() {
+	public  bool sub_4789() {
 		return (this.isUpdatingMb) && (A_MenuBase.mainCanvas.mainDrawElement == this);
 	}
 
-	public sealed override void checkResources() {
+	public  void checkResources() {
 		this.msLogoImage = null;
 		this.splashImage = null;
 		this.logoImage = null;
@@ -579,9 +569,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.gameMode2Mb = 1;
 		C_Unit.loadUnitsProps(this);
 		E_MainCanvas.loadResourcesPak("/1.pak");
-		this.playersUnitsSprites = new F_Sprite[5][12];
+		this.playersUnitsSprites = JavaArray.New<F_Sprite>(5, 12);
 		F_Sprite sprite1;
-		for (byte playerIndex = 0; playerIndex < 5; playerIndex = (byte) (playerIndex + 1)) {
+		for (sbyte playerIndex = 0; playerIndex < 5; playerIndex = (sbyte) (playerIndex + 1)) {
 			sprite1 = new F_Sprite("unit_icons", playerIndex);
 			int j = sprite1.getFramesCount() / 12;
 			for (int unitTypeId = 0; unitTypeId < 12; unitTypeId = (byte) (unitTypeId + 1)) {
@@ -603,19 +593,16 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.houseTileIdStartIndex = tilesImages.Length;
 		H_ImageExt[] buildingsImages = new H_ImageExt[10];
 		F_Sprite spr1;
-		for (byte b = 0; b <= 4; b = (byte) (b + 1)) {
+		for (sbyte b = 0; b <= 4; b = (sbyte) (b + 1)) {
 			spr1 = new F_Sprite("buildings", b);
 			for (int i = 0; i < 2; i = (byte) (i + 1)) {
 				buildingsImages[(b * 2 + i)] = spr1.frameImages[i];
 			}
 		}
-		this.allTilesImages = new H_ImageExt[tilesImages.Length
-				+ buildingsImages.Length];
-		System.Array.Copy(tilesImages, 0, this.allTilesImages, 0,
-				tilesImages.Length);
-		System.Array.Copy(buildingsImages, 0, this.allTilesImages, this.houseTileIdStartIndex,
-				buildingsImages.Length);
-		this.alphaMappedTilesImages = new Image[2][this.allTilesImages.Length];
+		this.allTilesImages = new H_ImageExt[tilesImages.Length + buildingsImages.Length];
+		JavaSystem.arraycopy(tilesImages, 0, this.allTilesImages, 0, tilesImages.Length);
+		JavaSystem.arraycopy(buildingsImages, 0, this.allTilesImages, this.houseTileIdStartIndex, buildingsImages.Length);
+		this.alphaMappedTilesImages = JavaArray.New<Image>(2, this.allTilesImages.Length);
 		for (byte alphaId = 0; alphaId < 2; alphaId = (byte) (alphaId + 1)) {
 			for (byte tileId = 0; tileId < this.allTilesImages.Length; tileId = (byte) (tileId + 1)) {
 				Image img = Image.createImage(24, 24);
@@ -636,7 +623,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.levelupSprite = new F_Sprite("levelup");
 		this.kingHeadsSprites = new F_Sprite[2];
 		this.kingHeadsSprites[0] = new F_Sprite("king_head_icons");
-		this.kingHeadsSprites[1] = new F_Sprite("king_head_icons", (byte) 0);
+		this.kingHeadsSprites[1] = new F_Sprite("king_head_icons", (sbyte) 0);
 		this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
 		this.moveUnitCursorSprite = new F_Sprite(this.cursorSprite);
 		this.moveUnitCursorSprite.setFrameSequence(cursorFrameSequences[3]);
@@ -647,7 +634,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.bigSmokeSprite = new F_Sprite("b_smoke");
 	}
 
-	public sealed override void sub_4bfe(int paramInt1, int paramInt2) {
+	public  void sub_4bfe(int paramInt1, int paramInt2) {
 		if ((this.mapModeCampIf0 == 0) && (this.gameMode2Mb == 1)
 				&& (this.unkState == 0)) {
 			int i = 0;
@@ -675,26 +662,26 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void sub_4d3f() {
+	public  void sub_4d3f() {
 		this.var_397b = true;
 		this.var_3983 = true;
 		this.var_3bf3 = true;
 		this.var_3beb = true;
 	}
 
-	public sealed override byte[] saveMapDataBytes() {
+	public  byte[] saveMapDataBytes() {
 		this.kingsPositions[this.playerId][0] = ((byte) this.someCursorXPos);
 		this.kingsPositions[this.playerId][1] = ((byte) this.someCursorYPos);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream stream = new DataOutputStream(baos);
 		stream.writeByte(this.mapModeCampIf0);
 		stream.writeByte(this.scenarioMapIndex);
-		stream.writeByte(this.mapMaxPlayersMb);
-		stream.writeByte(this.playerId);
-		stream.writeByte(this.playersIndexes[this.playerId]);
+		stream.writeByte((byte)this.mapMaxPlayersMb);
+		stream.writeByte((byte)this.playerId);
+		stream.writeByte((byte)this.playersIndexes[this.playerId]);
 		stream.writeShort(this.currentTurn);
 		stream.writeByte(this.unlockedUnitsTypeMax);
-		stream.writeByte(this.mapMaxPlayersMb);
+		stream.writeByte((byte)this.mapMaxPlayersMb);
 		for (int i = 0; i < this.mapMaxPlayersMb; i++) {
 			stream.writeByte(this.playersTeams[i]);
 			stream.writeByte(this.mapPlayersTypes[i]);
@@ -712,8 +699,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		int mapSpritesLength = this.mapUnitsSprites.size();
 		while (i234 < mapSpritesLength) {
 			C_Unit unit = (C_Unit) this.mapUnitsSprites.elementAt(i234);
-			stream.writeByte(unit.unitTypeId);
-			stream.writeByte(unit.playerId);
+			stream.writeByte((byte)unit.unitTypeId);
+			stream.writeByte((byte)unit.playerId);
 			stream.writeByte(unit.m_state);
 			stream.writeByte(unit.status);
 			stream.writeByte(unit.unitHealthMb);
@@ -722,7 +709,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			stream.writeShort(unit.positionX);
 			stream.writeShort(unit.positionY);
 			stream.writeByte(unit.m_tombMaxTurns);
-			stream.writeByte(unit.someStatusPlayerId);
+			stream.writeByte((byte)unit.someStatusPlayerId);
 			if (unit.unitTypeId == 9) {
 				stream.writeByte(unit.kingIndex);
 				stream.writeShort(unit.cost);
@@ -739,17 +726,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return arrayOfByte;
 	}
 
-	public sealed override void loadMapDataBytes(byte[] data) {
+	public  void loadMapDataBytes(byte[] data) {
 		DataInputStream stream = new DataInputStream(new ByteArrayInputStream(data));
 		this.mapModeCampIf0 = stream.readByte();
 		this.scenarioMapIndex = stream.readByte();
-		this.mapMaxPlayersMb = stream.readByte();
+		this.mapMaxPlayersMb = (sbyte)stream.readByte();
 		loadMap(this.scenarioMapIndex);
-		this.playerId = stream.readByte();
+		this.playerId = (sbyte)stream.readByte();
 		stream.readByte();
 		this.currentTurn = stream.readShort();
 		this.unlockedUnitsTypeMax = stream.readByte();
-		this.mapMaxPlayersMb = stream.readByte();
+		this.mapMaxPlayersMb = (sbyte)stream.readByte();
 		for (int i = 0; i < this.mapMaxPlayersMb; i++) {
 			this.playersTeams[i] = stream.readByte();
 			this.mapPlayersTypes[i] = stream.readByte();
@@ -762,14 +749,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.mapTilesIds[this.housesDataArr[i][0]][this.housesDataArr[i][1]] = stream
 					.readByte();
 		}
-		this.playerKingsMb = new C_Unit[this.mapMaxPlayersMb][4];
+		this.playerKingsMb = JavaArray.New<C_Unit>(this.mapMaxPlayersMb, 4);
 		this.playerUnitsCount = new int[this.mapMaxPlayersMb];
 		sub_87e6();
 		int j = 0;
 		int Length =  stream.readByte();
 		while (j <Length) {
-			byte uType = stream.readByte();
-			byte b2 = stream.readByte();
+			sbyte uType = (sbyte)stream.readByte();
+			sbyte b2 = (sbyte)stream.readByte();
 			byte b3 = stream.readByte();
 			byte b4 = stream.readByte();
 			byte m = stream.readByte();
@@ -778,7 +765,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			short i1 = stream.readShort();
 			short i2 = stream.readShort();
 			byte b6 = stream.readByte();
-			byte b7 = stream.readByte();
+			sbyte b7 = (sbyte)stream.readByte();
 			C_Unit lUnit = C_Unit.createUnitOnMap(uType, b2, i1, i2);
 			lUnit.m_state = b3;
 			lUnit.experience = n;
@@ -818,7 +805,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		E_MainCanvas.playMusicLooped2(playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
 	}
 
-	public sealed override void saveToSlotMenuShow(int paramInt, A_MenuBase parentMenu) {
+	public  void saveToSlotMenuShow(int paramInt, A_MenuBase parentMenu) {
 		try {
 			E_MainCanvas.saveRecordStoreData("save", paramInt, saveMapDataBytes());
 			this.slotsDescriptions[paramInt] = getSlotDescription(this.mapModeCampIf0, this.scenarioMapIndex,
@@ -837,7 +824,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public static sealed override void loadSettings() {
+	public static  void loadSettings() {
 		try {
 			byte[] settingsBytes = E_MainCanvas.getRecordStoreData("settings", 0);
 			for (int i = 0; i < 4; i++) {
@@ -850,7 +837,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void saveSettings() {
+	public  void saveSettings() {
 		try {
 			byte[] settinsBytes = new byte[1];
 			for (int i = 0; i < 4; i++) {
@@ -867,13 +854,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void targetUnit(C_Unit unit) {
+	public  void targetUnit(C_Unit unit) {
 		this.heavensFuryStatesMb = 0;
 		moveCursorToPos(unit.positionX, unit.positionY);
 		this.furyTargetUnit = unit;
 	}
 
-	public sealed override void sub_55bd(C_Unit unit1, C_Unit unit2) {
+	public  void sub_55bd(C_Unit unit1, C_Unit unit2) {
 		if (unit2.m_state == 4) {
 			this.var_35db = unit2;
 			showSpriteOnMap(this.redsparkSprite, this.var_35db.posXPixel,
@@ -902,7 +889,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void afterUnitsAttacked() {
+	public  void afterUnitsAttacked() {
 		clearActiveUnit();
 		if (this.attackerUnitMb.unitHealthMb <= 0) {
 			this.dyingUnit = this.attackerUnitMb;
@@ -946,7 +933,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.attackerUnitMb = null;
 	}
 
-	public sealed override F_Sprite showSpriteOnMap(F_Sprite sprite, int inX, int inY, 
+	public  F_Sprite showSpriteOnMap(F_Sprite sprite, int inX, int inY, 
 			int paramInt3, int paramInt4,
 			int paramInt5, int inTime) {
 		F_Sprite aSprinte = F_Sprite.someSpriteCopy(sprite, paramInt3,
@@ -956,7 +943,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return aSprinte;
 	}
 
-	public sealed override void sub_58af(C_Unit unit) {
+	public  void sub_58af(C_Unit unit) {
 		this.canApplyMb = true;
 		this.canCancelMb = (!this.var_3723);
 		this.alphaWindowWTF = 12;
@@ -969,7 +956,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.cursorSprite.setFrameSequence(cursorFrameSequences[2]);
 	}
 
-	public sealed override void showPlayMenu(byte[] data, int cX, int cY, A_MenuBase menu) {
+	public  void showPlayMenu(byte[] data, int cX, int cY, A_MenuBase menu) {
 		D_Menu playWheelMenu = new D_Menu((byte) 0, 0);
 		this.someMenuWidth = cX;
 		this.someMenuHeight = cY;
@@ -993,7 +980,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		A_MenuBase.mainCanvas.showMenu(playWheelMenu);
 	}
 
-	public sealed override void initUnitActionsMenu(byte[] data, C_Unit unitUnused) {
+	public  void initUnitActionsMenu(byte[] data, C_Unit unitUnused) {
 		this.unitActionsMenu = new D_Menu((byte) 0, 0);
 		int Length = data.Length;
 		String[] names = new String[Length];
@@ -1012,7 +999,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		A_MenuBase.mainCanvas.showMenu(this.unitActionsMenu);
 	}
 
-	public sealed override D_Menu createSlotsMenu(String desc, H_ImageExt image) {
+	public  D_Menu createSlotsMenu(String desc, H_ImageExt image) {
 		String[] slotNames = new String[3];
 		for (int i = 0; i < 3; i++) {
 			slotNames[i] = ("SLOT " + (i + 1) + "/" + 3);
@@ -1039,7 +1026,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return menu1;
 	}
 
-	public sealed override void sub_5d1a(A_MenuBase menu) {
+	public  void sub_5d1a(A_MenuBase menu) {
 		int Length = this.var_3c2b.Length;
 		String[] arrayOfString = new String[Length];
 		int[] arrayOfInt1 = new int[Length];
@@ -1072,8 +1059,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		} else {
 			String[] itemsNames = new String[j];
 			int[] arrayOfInt2 = new int[j];
-			System.Array.Copy(arrayOfString, 0, itemsNames, 0, j);
-			System.Array.Copy(arrayOfInt1, 0, arrayOfInt2, 0, j);
+			JavaSystem.arraycopy(arrayOfString, 0, itemsNames, 0, j);
+			JavaSystem.arraycopy(arrayOfInt1, 0, arrayOfInt2, 0, j);
 			this.downloadMenu = new D_Menu((byte) 10, 0);
 			String str = getByteSizeString(this.downloadStoreAvailableSize);
 			this.downloadMenu.createDescDialogMb(
@@ -1100,7 +1087,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.var_3943.setParentMenu(menu);
 	}
 
-	public sealed override D_Menu sub_5fed(A_MenuBase menu) {
+	public  D_Menu sub_5fed(A_MenuBase menu) {
 		D_Menu localClass_d_0231;
 		if (this.extraSkirmishMapNamesMb.Length == 0) {
 			localClass_d_0231 = new D_Menu((byte) 10, 0);
@@ -1126,7 +1113,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return this.deleteMapMenu;
 	}
 
-	public sealed override int sub_60ce(int paramInt) {
+	public  int sub_60ce(int paramInt) {
 		if (paramInt >= skirmishMapsNames.Length) {
 			return this.var_3903[(paramInt - skirmishMapsNames.Length)]
 					+ skirmishMapsNames.Length;
@@ -1134,7 +1121,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return paramInt;
 	}
 
-	public sealed override DataInputStream getSkirmishMapData(int paramInt) {
+	public  DataInputStream getSkirmishMapData(int paramInt) {
 		if (paramInt >= skirmishMapsNames.Length) {
 			int i = paramInt - skirmishMapsNames.Length;
 			return new DataInputStream(new ByteArrayInputStream(
@@ -1143,7 +1130,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return new DataInputStream(E_MainCanvas.getResourceStream("s" + paramInt));
 	}
 
-	public sealed override String getSkirmishMapName(int paramInt) {
+	public  String getSkirmishMapName(int paramInt) {
 		if (paramInt >= skirmishMapsNames.Length) {
 			int i = paramInt - skirmishMapsNames.Length;
 			for (int j = 0; j < this.var_3903.Length; j++) {
@@ -1156,14 +1143,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return skirmishMapsNames[paramInt];
 	}
 
-	public sealed override String getByteSizeString(int bytes) {
+	public  String getByteSizeString(int bytes) {
 		int i = bytes * 100 / 1024;
 		int j = i / 100;
 		int k = i % 100;
 		return j + "." + k;
 	}
 
-	public sealed override void sub_6260(D_Menu menu, int itemNumber,
+	public  void sub_6260(D_Menu menu, int itemNumber,
 			String itemName, byte paramByte) {
 		this.var_3c73 = true;
 		if ((menu == this.unitActionsMenu) && (paramByte == 1)) {
@@ -1389,9 +1376,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				DataInputStream dis1 = getSkirmishMapData(this.var_34e3);
 				i4 = dis1.readInt();
 				i7 = dis1.readInt();
-				byte[][] lo61 = new byte[i4][i7];
+				byte[][] lo61 = JavaArray.New<byte>(i4, i7);
 				this.somePlayerIds = new byte[4];
-				byte[] lo71 = new byte[5];
+				sbyte[] lo71 = new sbyte[5];
 				for (int i13 = 0; i13 < 5; i13++) {
 					lo71[i13] = -1;
 				}
@@ -1405,7 +1392,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 										(byte[][]) lo61)) != 0)
 								&& (lo71[ii] == -1)) {
 							this.somePlayerIds[this.mapTeamsCount] = ((byte) ii);
-							lo71[ii] = this.mapTeamsCount;
+							lo71[ii] = (sbyte)this.mapTeamsCount;
 							this.mapTeamsCount = ((byte) (this.mapTeamsCount + 1));
 						}
 					}
@@ -1757,8 +1744,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				}
 			}
 			String[] allSkMapsCaptions = new String[12 + this.countExtraMapsMb];
-			System.Array.Copy(skMapsNamesCaptions, 0, allSkMapsCaptions, 0, 12);
-			System.Array.Copy(this.extraSkirmishMapNamesMb, 0, allSkMapsCaptions, 12,
+			JavaSystem.arraycopy(skMapsNamesCaptions, 0, allSkMapsCaptions, 0, 12);
+			JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, 0, allSkMapsCaptions, 12,
 					this.countExtraMapsMb);
 			this.skirmishMapsItemsMenu = new D_Menu((byte) 0, 0);
 			this.skirmishMapsItemsMenu.createMenuListItems(allSkMapsCaptions, 0, 0, this.someGWidth,
@@ -2021,7 +2008,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override C_Unit buyUnit(C_Unit unit, int inX, int inY) {
+	public  C_Unit buyUnit(C_Unit unit, int inX, int inY) {
 		this.playersMoney[this.playerId] -= unit.cost;
 		unit.unitHealthMb = 100;
 		unit.setUnitPosition(inX, inY);
@@ -2032,24 +2019,24 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return unit;
 	}
 
-	public sealed override C_Unit aiBuyUnit(byte uType, int inX, int inY) {
+	public  C_Unit aiBuyUnit(sbyte uType, int inX, int inY) {
 		this.playersMoney[this.playerId] -= C_Unit.unitsCosts[uType];
 		this.var_397b = true;
 		return C_Unit.createUnitOnMap(uType, this.playerId, inX, inY);
 	}
 
-	public sealed override F_Sprite sub_87c3(byte paramByte1, byte paramByte2) {
+	public  F_Sprite sub_87c3(sbyte paramByte1, sbyte paramByte2) {
 		return this.playersUnitsSprites[paramByte1][paramByte2];
 	}
 
-	public sealed override void sub_87e6() {
+	public  void sub_87e6() {
 		this.mapUnitsSprites = new Vector();
 		this.activeUnit = null;
 		this.var_34f3 = null;
 		this.m_tempUnit = null;
 	}
 
-	public sealed override void loadMap(int mapId) {
+	public  void loadMap(int mapId) {
 		E_MainCanvas.stopMusic();
 		this.mapEffectsSpritesList = new Vector();
 		this.isFadingIn = false;
@@ -2086,13 +2073,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 		this.mapWidth = dis.readInt();
 		this.mapHeight = dis.readInt();
-		this.mapTilesIds = new byte[this.mapWidth][this.mapHeight];
-		this.someMapData = new byte[this.mapWidth][this.mapHeight];
-		this.someMData = new byte[this.mapWidth][this.mapHeight];
+		this.mapTilesIds = JavaArray.New<byte>(this.mapWidth,this.mapHeight);
+		this.someMapData = JavaArray.New<byte>(this.mapWidth,this.mapHeight);
+		this.someMData = JavaArray.New<byte>(this.mapWidth,this.mapHeight);
 		this.mapCastlesCount = 0;
 		int countHouses = 0;
-		byte[][] housesArr = new byte[30][3];
-		byte[][] mapCastlesPositions = new byte[30][2];
+		byte[][] housesArr = JavaArray.New<byte>(30,3);
+		byte[][] mapCastlesPositions = JavaArray.New<byte>(30,2);
 		int m;
 		for (short i = 0; i < this.mapWidth; i = (short) (i + 1)) {
 			for (short j = 0; j < this.mapHeight; j = (short) (j + 1)) {
@@ -2108,9 +2095,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					if (getTileType(i, j) == 9) { //castle
 						if ((this.mapModeCampIf0 == 1) && (m != 0)
 								&& (this.somePlayersData[m] == -1)) {
-							this.playersIndexes[this.mapMaxPlayersMb] = ((byte) m);
+							this.playersIndexes[this.mapMaxPlayersMb] = ((sbyte) m);
 							this.somePlayersData[m] = this.mapMaxPlayersMb;
-							this.mapMaxPlayersMb = ((byte) (this.mapMaxPlayersMb + 1));
+							this.mapMaxPlayersMb = ((sbyte) (this.mapMaxPlayersMb + 1));
 						}
 						mapCastlesPositions[this.mapCastlesCount][0] = ((byte) i);
 						mapCastlesPositions[this.mapCastlesCount][1] = ((byte) j);
@@ -2124,8 +2111,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		for (short i = 0; i < countHouses; i = (short) (i + 1)) {
 			this.housesDataArr[i] = housesArr[i];
 		}
-		this.var_373b = new byte[this.mapCastlesCount][2];
-		System.Array.Copy(mapCastlesPositions, 0, this.var_373b, 0, this.mapCastlesCount);
+		this.var_373b = JavaArray.New<byte>(this.mapCastlesCount, 2);
+		JavaSystem.arraycopy(mapCastlesPositions, 0, this.var_373b, 0, this.mapCastlesCount);
 		this.mapWidthPixel = (this.mapWidth * 24);
 		this.mapHeightPixel = (this.mapHeight * 24);
 		
@@ -2158,14 +2145,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		dis.skip(m1 * 4);
 		int sLength = dis.readInt();
 		this.playersKings = new C_Unit[this.mapMaxPlayersMb];
-		this.playerKingsMb = new C_Unit[this.mapMaxPlayersMb][4];
+		this.playerKingsMb = JavaArray.New<C_Unit>(this.mapMaxPlayersMb,4);
 		this.playerUnitsCount = new int[this.mapMaxPlayersMb];
 		for (short i = 0; i < sLength; i = (short) (i + 1)) {
 			int uType = dis.readByte();
 			int posX = dis.readShort() / 24;
 			int posY = dis.readShort() / 24;
-			byte unitType = (byte) (uType % 12);
-			byte playerID = (byte) sub_e276(1 + uType / 12);
+			sbyte unitType = (sbyte) (uType % 12);
+			sbyte playerID = (sbyte) sub_e276(1 + uType / 12);
 			if (this.mapPlayersTypes[playerID] != 2) { //not NONE
 				C_Unit unit1 = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
 				if (unitType == 9) {
@@ -2202,7 +2189,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.isUpdatingMb = true;
 			for (short i = 0; i < this.mapMaxPlayersMb; i = (short) (i + 1)) {
 				if (this.mapPlayersTypes[i] != 2) { // not NONE
-					this.playerId = ((byte) i);
+					this.playerId = ((sbyte) i);
 					break;
 				}
 				this.currentTurn = ((short) (this.currentTurn + 1));
@@ -2230,7 +2217,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}*/
 	}
 
-	public sealed override void clearActiveUnit() {
+	public  void clearActiveUnit() {
 		this.var_34eb = 0;
 		this.activeUnit = null;
 		this.var_34f3 = new C_Unit[0];
@@ -2239,7 +2226,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.unitAttackCellsHighlighted = false;
 	}
 
-	public sealed override void fillArrayWithValue(byte[][] data, int type) {
+	public  void fillArrayWithValue(byte[][] data, int type) {
 		for (int i = 0; i < this.mapWidth; i++) {
 			for (int j = 0; j < this.mapHeight; j++) {
 				data[i][j] = ((byte) type);
@@ -2247,7 +2234,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void initSomeUnitData(C_Unit unit) {
+	public  void initSomeUnitData(C_Unit unit) {
 		E_MainCanvas.stopMusicPlayer(10);
 		this.m_tempUnit = null;
 		fillArrayWithValue(this.someMapData, 0);
@@ -2267,7 +2254,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override byte[] getUnitActionsData(C_Unit unit, byte moveIf1) {
+	public  byte[] getUnitActionsData(C_Unit unit, byte moveIf1) {
 		int actionsCount = 0;
 		byte[] data = new byte[this.unitActionsNames.Length];
 		//castle and is owner		
@@ -2297,11 +2284,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			data[(actionsCount++)] = 6;
 		}
 		byte[] actionsData = new byte[actionsCount];
-		System.Array.Copy(data, 0, actionsData, 0, actionsCount);
+		JavaSystem.arraycopy(data, 0, actionsData, 0, actionsCount);
 		return actionsData;
 	}
 
-	public sealed override void updateIntro() {
+	public  void updateIntro() {
 		switch (this.introMode) {
 		case 0: // mslogoStill
 			long showMSLogoStillTime = 0L;
@@ -2376,7 +2363,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	}
 
 	//@Override
-	public sealed override void onUpdate() {
+	public  void onUpdate() {
 		this.time += 50L;
 		if (this.gameMode2Mb == 2) { //game mode
 			updateGameSprites();
@@ -2395,7 +2382,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			if (E_MainCanvas.settings[2] != false) { // help setting
 				D_Menu aHelpDialog1 = showUnitDialogMsg(
 						A_MenuBase.getSomeHelpString(196 + this.helpTipId, true),
-						(byte) -1, (byte) 2); //Use %KM to move the cursor...
+						(sbyte) -1, (byte) 2); //Use %KM to move the cursor...
 				aHelpDialog1.var_117d = 7831691; //#77808B
 				aHelpDialog1.titleGradientColor = 7831691;  //#77808B
 				aHelpDialog1.m_bgColorMb = 16250855; //#F7F7E7
@@ -2850,7 +2837,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 							if (this.time - this.someSparksStartTime13 >= 400L) {
 								this.someSparkingUnit.removeFromMap();
 								(descUnit = C_Unit.createUnitOnMap(
-										(byte) 10, this.someSprkingUnitPlayerId,
+										(sbyte) 10, this.someSprkingUnitPlayerId,
 										this.someSparkingUnit.positionX,
 										this.someSparkingUnit.positionY)).endMove();
 								this.someSparkingUnit = null;
@@ -3179,7 +3166,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.someSpritesVector1.removeAllElements();
 	}
 
-	public sealed override void showHeavensFuryAfterEffect(C_Unit unit) {
+	public  void showHeavensFuryAfterEffect(C_Unit unit) {
 		int i = unit.posYPixel + 24;
 		showSpriteOnMap(this.smokeSprite, unit.posXPixel, i
 				- this.smokeSprite.frameHeight, 0, -2, 1, 100);
@@ -3192,7 +3179,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		showSpriteOnMap(this.sparkSprite, unit.posXPixel, unit.posYPixel, 0, 0, 1, 100);
 	}
 
-	public sealed override void setSomeSparkingUnitMb(C_Unit unit1, byte inPlayerId) {
+	public  void setSomeSparkingUnitMb(C_Unit unit1, sbyte inPlayerId) {
 		this.someSparkingUnit = unit1;
 		this.someSprkingUnitPlayerId = inPlayerId;
 		showSpriteOnMap(this.sparkSprite, unit1.posXPixel - 8,
@@ -3206,7 +3193,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.someSparksStartTime13 = this.time;
 	}
 
-	public sealed override void sub_b79b() {
+	public  void sub_b79b() {
 		if (this.m_tempUnit == null) {
 			sub_b9f2(this.cursorSprite.posXPixel + 12, this.cursorSprite.posYPixel + 12);
 			return;
@@ -3214,16 +3201,16 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		sub_b9f2(this.m_tempUnit.posXPixel + 12, this.m_tempUnit.posYPixel + 12);
 	}
 
-	public sealed override bool sub_b7ff(int inX, int inY) {
+	public  bool sub_b7ff(int inX, int inY) {
 		return (this.someCursorCenterXPix == someXWithin(inX))
 				&& (this.someCursorCenterYPix == someYWithin(inY));
 	}
 
-	public sealed override bool sub_b848(int inX, int inY) {
+	public  bool sub_b848(int inX, int inY) {
 		return sub_b7ff(inX * 24 + 12, inY * 24 + 12);
 	}
 
-	public sealed override int someXWithin(int paramInt) {
+	public  int someXWithin(int paramInt) {
 		int px;
 		if (this.mapWidthPixel > this.someGWidth) {
 			px = this.viewportWidth - paramInt;
@@ -3238,7 +3225,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return px;
 	}
 
-	public sealed override int someYWithin(int inY) {
+	public  int someYWithin(int inY) {
 		int py;
 		if (this.mapHeightPixel > this.someGHeight) {
 			py = this.viewportHeight - inY;
@@ -3253,16 +3240,16 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return py;
 	}
 
-	public sealed override void setSomeCursorCenterPix(int pX, int pY) {
+	public  void setSomeCursorCenterPix(int pX, int pY) {
 		this.someCursorCenterXPix = someXWithin(pX);
 		this.someCursorCenterYPix = someYWithin(pY);
 	}
 
-	public sealed override void setSomeCurcorCenterPos(int inX, int inY) {
+	public  void setSomeCurcorCenterPos(int inX, int inY) {
 		setSomeCursorCenterPix(inX * 24 + 12, inY * 24 + 12);
 	}
 
-	public sealed override void sub_b9f2(int inX, int inY) {
+	public  void sub_b9f2(int inX, int inY) {
 		this.var_39cb = true;
 		int x = someXWithin(inX);
 		int y = someYWithin(inY);
@@ -3303,7 +3290,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void moveCursorToPos(int px, int py) {
+	public  void moveCursorToPos(int px, int py) {
 		this.someCursorXPos = px;
 		this.someCursorYPos = py;
 		this.cursorSprite.setSpritePosition(px * 24, py * 24);
@@ -3311,7 +3298,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.var_3983 = true;
 	}
 
-	public sealed override void sub_bbf2(Graphics gr) {
+	public  void sub_bbf2(Graphics gr) {
 		int i = -this.someCursorCenterXPix / 24;
 		int j;
 		if ((j = -this.someCursorCenterYPix / 24) < 0) {
@@ -3368,7 +3355,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void paintBlackScreenLoading(Graphics gr) {
+	public  void paintBlackScreenLoading(Graphics gr) {
 		gr.setFont(E_MainCanvas.font8);
 		gr.setColor(0);
 		gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
@@ -3378,7 +3365,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				(this.someCanHeight - E_MainCanvas.font8.getHeight()) / 2, 17);
 	}
 
-	public static sealed override int someColorMethod2(int paramInt1, int paramInt2,
+	public static  int someColorMethod2(int paramInt1, int paramInt2,
 			int paramInt3, int paramInt4) {
 		if (paramInt3 == 0) {
 			return paramInt1;
@@ -3397,14 +3384,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return m | n | i1;
 	}
 
-	public static sealed override int someColorMethod(int paramInt1, int paramInt2, int paramInt3) {
+	public static  int someColorMethod(int paramInt1, int paramInt2, int paramInt3) {
 		int i = (paramInt1 & 0xFF0000) * paramInt2 / paramInt3 & 0xFF0000;
 		int j = (paramInt1 & 0xFF00) * paramInt2 / paramInt3 & 0xFF00;
 		int k = (paramInt1 & 0xFF) * paramInt2 / paramInt3;
 		return i | j | k;
 	}
 
-	public sealed override void loadIntro(int introId, int paramInt2, int paramInt3)
+	public  void loadIntro(int introId, int paramInt2, int paramInt3)
 			{
 		this.var_3a1b = paramInt2;
 		this.var_3a23 = paramInt3;
@@ -3440,7 +3427,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.gameMode2Mb = 3;
 	}
 
-	public sealed override void gameOverVictory(String text) {
+	public  void gameOverVictory(String text) {
 		this.var_3a13 = this.gameMode2Mb;
 		this.introText = A_MenuBase.wrapText(text, this.someCanWidth, E_MainCanvas.font0);
 		this.waveImageAmplitude = 16;
@@ -3456,7 +3443,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.gameMode2Mb = 3;
 	}
 
-	public sealed override void sub_c1eb() {
+	public  void sub_c1eb() {
 		if (this.var_3a0b) {
 			this.waveImageAmplitude -= 1;
 			if (this.waveImageAmplitude < 0) {
@@ -3493,7 +3480,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void playIntro(Graphics gr) {
+	public  void playIntro(Graphics gr) {
 		gr.setFont(E_MainCanvas.font0);
 		gr.setColor(0); //black
 		gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
@@ -3563,7 +3550,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void paintStartLogos(Graphics gr) {
+	public  void paintStartLogos(Graphics gr) {
 		if (this.introMode == 0) { // ms logo still image
 			gr.setColor(16777215); //white
 			gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
@@ -3623,7 +3610,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public static sealed override void drawHighlightedString(Graphics gr,
+	public static  void drawHighlightedString(Graphics gr,
 			String aString, int inX, int inY, int paramInt3,
 			int aStringColor, int highlightColor) {
 		gr.setColor(highlightColor);
@@ -3635,7 +3622,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		gr.drawString(aString, inX, inY, paramInt3);
 	}
 
-	public sealed override void onPaint(Graphics gr) {
+	public  void onPaint(Graphics gr) {
 		int sprLength;
 		if (this.gameMode2Mb == 4) { // loading progress
 			gr.setColor(16777215);
@@ -3904,7 +3891,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void drawMenuBorderRect(Graphics gr, int inX, int inY, int inW, int inH) {
+	public  void drawMenuBorderRect(Graphics gr, int inX, int inY, int inW, int inH) {
 		gr.setColor(4344163); //#424963 dark gray blue
 		gr.fillRect(inX, inY, inW, inH);
 		gr.setColor(11384493); //#ADB6AD light green blue
@@ -3913,7 +3900,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		gr.fillRect(inX + 3, inY + 3, inW - 6, inH - 6);
 	}
 
-	public sealed override void drawAttackStatMenu(Graphics gr, C_Unit unit1, C_Unit unit2, int paramInt) {
+	public  void drawAttackStatMenu(Graphics gr, C_Unit unit1, C_Unit unit2, int paramInt) {
 		int i = this.var_3a43 - 2;
 		gr.setColor(11384493); //#ADB6AD light green blue
 		gr.fillRect(0, paramInt, this.someGWidth, i);
@@ -4009,7 +3996,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void drawActionButton(Graphics gr, int btn1024or2048, int frameInd, int inY) {
+	public  void drawActionButton(Graphics gr, int btn1024or2048, int frameInd, int inY) {
 		int pX = 0;
 		int j = 0;
 		if (btn1024or2048 == 1024) {
@@ -4021,7 +4008,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.buttonsSprite.drawFrameAt(gr, frameInd, pX, inY, j);
 	}
 
-	public sealed override C_Unit getSomeUnit(int inX, int inY, byte paramByte) {
+	public  C_Unit getSomeUnit(int inX, int inY, byte paramByte) {
 		int it = 0;
 		int count = this.mapUnitsSprites.size();
 		while (it < count) {
@@ -4047,11 +4034,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return null;
 	}
 
-	public sealed override byte getTileType(int paramInt1, int paramInt2) {
+	public  byte getTileType(int paramInt1, int paramInt2) {
 		return this.tilesProps[this.mapTilesIds[paramInt1][paramInt2]];
 	}
 
-	public sealed override void sub_dd85() {
+	public  void sub_dd85() {
 		E_MainCanvas.stopMusic();
 		this.var_354b = 0;
 		this.var_378b = 0;
@@ -4059,11 +4046,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.someStartTime5 = this.time;
 	}
 
-	public sealed override void sub_ddbb() {
+	public  void sub_ddbb() {
 		this.kingsPositions[this.playerId][0] = ((byte) this.someCursorXPos);
 		this.kingsPositions[this.playerId][1] = ((byte) this.someCursorYPos);
 		this.currentTurn = ((short) (this.currentTurn + 1));
-		this.playerId = ((byte) ((this.playerId + 1) % this.mapMaxPlayersMb));
+		this.playerId = ((sbyte) ((this.playerId + 1) % this.mapMaxPlayersMb));
 		if (this.mapPlayersTypes[this.playerId] == 2) { // NONE?
 			sub_ddbb();
 			return;
@@ -4122,14 +4109,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override bool canRepairVillages(int paramInt1, int paramInt2,
+	public  bool canRepairVillages(int paramInt1, int paramInt2,
 			C_Unit unit) {
 		return (unit.hasProperty((short) 8))
 				&& (getTileType(unit.positionX, unit.positionY) == 8)
 				&& (this.mapTilesIds[unit.positionX][unit.positionY] < this.houseTileIdStartIndex);
 	}
 
-	public sealed override bool canOccupyVillageOrTown(int paramInt1, int paramInt2, C_Unit unit) {
+	public  bool canOccupyVillageOrTown(int paramInt1, int paramInt2, C_Unit unit) {
 		if ((unit.hasProperty((short) 8)) //can occupy villages
 				&& (getTileType(unit.positionX, unit.positionY) == 8)
 				&& (this.mapTilesIds[unit.positionX][unit.positionY] >= this.houseTileIdStartIndex)
@@ -4144,36 +4131,36 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 						this.playersTeams[unit.playerId]));
 	}
 
-	public sealed override void repairDestroyedHouse(byte paramByte, int inX, int inY) {
+	public  void repairDestroyedHouse(byte paramByte, int inX, int inY) {
 		this.mapTilesIds[inX][inY] = paramByte;
 	}
 
-	public sealed override void occupyHouse(int inX, int inY, int playerId) {
+	public  void occupyHouse(int inX, int inY, int playerId) {
 		if (this.mapTilesIds[inX][inY] >= this.houseTileIdStartIndex) {
 			byte var = (byte) (this.houseTileIdStartIndex + playerId * 2 + (this.mapTilesIds[inX][inY] - this.houseTileIdStartIndex) % 2);
 			repairDestroyedHouse(var, inX, inY);
 		}
 	}
 
-	public sealed override int tileOwnerPlayerIndex(int inX, int inY) {
+	public  int tileOwnerPlayerIndex(int inX, int inY) {
 		return houseOwnerPlayerIndex(inX, inY, this.mapTilesIds);
 	}
 
-	public sealed override int houseOwnerPlayerIndex(int inX, int inY, byte[][] mapData) {
+	public  int houseOwnerPlayerIndex(int inX, int inY, byte[][] mapData) {
 		if (mapData[inX][inY] >= this.houseTileIdStartIndex) {
 			return (mapData[inX][inY] - this.houseTileIdStartIndex) / 2;
 		}
 		return -1;
 	}
 
-	public sealed override int sub_e276(int playerId) {
+	public  int sub_e276(int playerId) {
 		if ((playerId != -1) && (playerId != 0)) {
 			return this.somePlayersData[playerId];
 		}
 		return -1;
 	}
 
-	public sealed override bool isInSameTeam(int inX, int inY, int playerTeamId) {
+	public  bool isInSameTeam(int inX, int inY, int playerTeamId) {
 		int playerId = sub_e276(tileOwnerPlayerIndex(inX, inY));
 		if (playerId > -1) {
 			return playerTeamId == this.playersTeams[playerId];
@@ -4181,11 +4168,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return false;
 	}
 
-	public sealed override bool playerIsOwnerOfTile(int inX, int inY, int playerId) {
+	public  bool playerIsOwnerOfTile(int inX, int inY, int playerId) {
 		return tileOwnerPlayerIndex(inX, inY) == this.playersIndexes[playerId];
 	}
 
-	public sealed override int countPlayerOwnerCastles(int playerId) {
+	public  int countPlayerOwnerCastles(int playerId) {
 		int i = 0;
 		for (int j = 0; j < this.mapCastlesCount; j++) {
 			if (playerIsOwnerOfTile(this.var_373b[j][0], this.var_373b[j][1], playerId)) {
@@ -4195,7 +4182,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return i;
 	}
 
-	public sealed override int countUnits(int unitType, int unitState, byte inPlayer) {
+	public  int countUnits(int unitType, int unitState, sbyte inPlayer) {
 		int i = 0;
 		int it = 0;
 		int Length = this.mapUnitsSprites.size();
@@ -4210,7 +4197,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return i;
 	}
 
-	public sealed override C_Unit[] getUnitsOfTypeStatePlayer(int uType, int unitState, byte uPlayer) {
+	public  C_Unit[] getUnitsOfTypeStatePlayer(int uType, int unitState, sbyte uPlayer) {
 		Vector localVector = new Vector();
 		int i = 0;
 		int count = this.mapUnitsSprites.size();
@@ -4227,7 +4214,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return units;
 	}
 
-	public static sealed override void waveImage(Graphics gr, int amplitude,
+	public static  void waveImage(Graphics gr, int amplitude,
 			int paramInt2, int paramInt3, H_ImageExt image,
 			int paramInt4, int paramInt5, int paramInt6) {
 		int i;
@@ -4262,7 +4249,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public static sealed override void sub_e77a(Graphics gr, int paramInt1,
+	public static  void sub_e77a(Graphics gr, int paramInt1,
 			int fadeColor, int paramInt3, int paramInt4,
 			H_ImageExt image, int paramInt5, int paramInt6,
 			int paramInt7, int paramInt8) {
@@ -4296,7 +4283,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override bool sub_e943(byte inByte, int inX, int inY) {
+	public  bool sub_e943(sbyte inByte, int inX, int inY) {
 		int plUnitsCount = countUnits(-1, -1, this.playerId) - countUnits(10, -1, this.playerId);
 		if ((this.mapStartUnitCap > plUnitsCount)
 				&& (inByte <= this.unlockedUnitsTypeMax)
@@ -4310,7 +4297,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return false;
 	}
 
-	public sealed override bool unitCanBeBought(C_Unit unit, int inX, int inY) {
+	public  bool unitCanBeBought(C_Unit unit, int inX, int inY) {
 		int plUnitsCount = countUnits(-1, -1, this.playerId) - countUnits(10, -1, this.playerId);
 		if ((this.mapStartUnitCap > plUnitsCount)
 				&& ((unit.unitTypeId <= this.unlockedUnitsTypeMax) || (unit.unitTypeId == 9))
@@ -4322,7 +4309,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return false;
 	}
 
-	public sealed override void initCPUPlayerMb() {
+	public  void initCPUPlayerMb() {
 		C_Unit[] units = getUnitsOfTypeStatePlayer(-1, 0, this.playerId);
 		this.someUnitsVector34 = new Vector(units.Length);
 		for (int i = 0; i < units.Length; i++) {
@@ -4347,7 +4334,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.someAIAtkStateMb = 0;
 	}
 
-	public sealed override void sub_ebb9() {
+	public  void sub_ebb9() {
 		if (A_MenuBase.mainCanvas.invertActionCode(m_actionApply)) {
 			showPlayMenu(this.startMenuItems, this.viewportHeight, this.someGHeight, this);
 			A_MenuBase.mainCanvas.clearActions();
@@ -4445,7 +4432,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 						if ((this.mapModeCampIf0 == 0) && (this.scenarioMapIndex == 7)
 								&& (this.activeUnit == this.playersKings[1])) {
 							this.m_tempUnit = null;
-							C_Unit[] unitsOf0 = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+							C_Unit[] unitsOf0 = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 							if (unitsOf0.Length > 0) {
 								targetUnit(unitsOf0[E_MainCanvas.getRandomMax(unitsOf0.Length)]);
 							}
@@ -4549,29 +4536,29 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 						}
 					}
 					if (aiUnit == null) {
-						if ((countUnits(0, -1, this.playerId) < 2) && (sub_e943((byte) 0, m, n))) {
+						if ((countUnits(0, -1, this.playerId) < 2) && (sub_e943((sbyte) 0, m, n))) {
 							//buy soldiers
-							aiUnit = aiBuyUnit((byte) 0, m, n);
-						} else if ((countUnits(1, -1, this.playerId) < 2) && (sub_e943((byte) 1, m, n))) {
+							aiUnit = aiBuyUnit((sbyte) 0, m, n);
+						} else if ((countUnits(1, -1, this.playerId) < 2) && (sub_e943((sbyte) 1, m, n))) {
 							//buy archers
-							aiUnit = aiBuyUnit((byte) 1, m, n);
+							aiUnit = aiBuyUnit((sbyte) 1, m, n);
 						} else {
 							int i1 = 0;
 							pX = 0;
 							for (int pIt = 0; pIt < this.mapMaxPlayersMb; pIt = (byte) (pIt + 1)) {
 								if (this.playersTeams[pIt] == this.playersTeams[this.playerId]) {
-									i1 += countUnits(-1, -1, (byte) pIt);
+									i1 += countUnits(-1, -1, (sbyte) pIt);
 								} else {
-									pX += countUnits(-1, -1, (byte) pIt);
+									pX += countUnits(-1, -1, (sbyte) pIt);
 								}
 							}
 							if ((this.playersMoney[this.playerId] >= 1000)
 									|| (countUnits(-1, -1, this.playerId) < 8)
 									|| (i1 < pX)) {
 								int buyUnitsCount = 0;
-								byte[] unitsToBuy = new byte[12];			
+								sbyte[] unitsToBuy = new sbyte[12];			
 								//@todo why 1?
-								for (byte u1 = 1; u1 < 12; u1 = (byte) (u1 + 1)) {
+								for (sbyte u1 = 1; u1 < 12; u1 = (sbyte) (u1 + 1)) {
 									if (((countUnits(u1, -1, this.playerId) < 1) || (C_Unit.unitsCosts[u1] >= 600))
 											&& (sub_e943(u1, m, n))) {
 										unitsToBuy[buyUnitsCount] = u1;
@@ -4580,7 +4567,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 								}
 								if (buyUnitsCount > 0) {
 									int uBuyType = unitsToBuy[(Math.abs(E_MainCanvas.getRandomInt()) % buyUnitsCount)];
-									aiUnit = aiBuyUnit((byte) uBuyType, m, n);
+									aiUnit = aiBuyUnit((sbyte) uBuyType, m, n);
 								}
 							}
 						}
@@ -4615,7 +4602,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void someAIPriorityCals(C_Unit pxUnit) {
+	public  void someAIPriorityCals(C_Unit pxUnit) {
 		this.activeUnit = pxUnit;
 		this.isCursorVisible = true;
 		fillArrayWithValue(this.someMapData, 0);
@@ -4625,7 +4612,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		int i = 0;
 		int j = this.playersKings.Length + this.someUnits5.Length
 				+ this.housesDataArr.Length;
-		this.someAIPosAValArr = new int[j][5];
+		this.someAIPosAValArr = JavaArray.New<int>(j,5);
 		this.var_3ad3 = 0;
 		int m = 10000;
 		this.someXPos = -1;
@@ -4910,7 +4897,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.someAIAtkStateMb = 3;
 	}
 
-	public sealed override int getUnitCellPriority(C_Unit cUnit21, int inX, int inY, C_Unit cUnit1, C_Unit inUnit) {
+	public  int getUnitCellPriority(C_Unit cUnit21, int inX, int inY, C_Unit cUnit1, C_Unit inUnit) {
 		int priority = 0;
 		if ((this.var_3b03 != -1) && (this.playersKings[cUnit21.playerId] != null)) {
 			if (this.someXPos != -1) {
@@ -5014,7 +5001,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				/ (C_Unit.unitsMoveRanges[cUnit21.unitTypeId] - 1);
 	}
 
-	public sealed override int getMapHouseId(int inX, int inY) {
+	public  int getMapHouseId(int inX, int inY) {
 		for (int i = 0; i < this.housesDataArr.Length; i++) {
 			if ((this.housesDataArr[i][0] == inX)
 					&& (this.housesDataArr[i][1] == inY)) {
@@ -5024,12 +5011,12 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return -1;
 	}
 
-	public sealed override void waitScript(int val) {
+	public  void waitScript(int val) {
 		this.waitTimeValue = val;
 		this.isWaiting = true;
 	}
 
-	public sealed override D_Menu showUnitDialogMsg(String msg, byte paramByte1, byte paramByte2) {
+	public  D_Menu showUnitDialogMsg(String msg, sbyte paramByte1, byte paramByte2) {
 		D_Menu dialog = new D_Menu((byte) 7, 12);
 		int i = E_MainCanvas.someMenuShiftHeight * 3;
 		dialog.initPortraitDialog(msg, this.someCanWidth, i, paramByte1, paramByte2);
@@ -5038,12 +5025,12 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return dialog;
 	}
 
-	public sealed override D_Menu createDialog(String header,
+	public  D_Menu createDialog(String header,
 			String msg, int paramInt1, int showTime) {
 		return createDialog(header, msg, paramInt1, -1, showTime);
 	}
 
-	public sealed override D_Menu createDialog(String header,
+	public  D_Menu createDialog(String header,
 			String msg, int paramInt1, int paramInt2, int showTime) {
 		D_Menu dialog = new D_Menu((byte) 10, 12);
 		dialog.createDescDialogMb(header, msg, this.someCanWidth, paramInt2);
@@ -5053,7 +5040,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return dialog;
 	}
 
-	public sealed override void initScenarioMap() {
+	public  void initScenarioMap() {
 		this.crystal3Unit = null;
 		if (this.mapModeCampIf0 == 0) {
 			this.var_378b = someUnkHeight1;
@@ -5121,9 +5108,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			C_Unit.m_speed = 4;
 			this.playersMoney[0] = 400;
 			this.playersMoney[1] = 400;
-			this.skeleton1Map2 = C_Unit.createUnitOnMap((byte) 0, (byte) 0, -1, 5);
-			this.crystalOfWisdom = C_Unit.createUnitOnMap((byte) 2, (byte) 0, -2, 5);
-			this.skeleton2Map2 = C_Unit.createUnitOnMap((byte) 3, (byte) 0, -3, 5);
+			this.skeleton1Map2 = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 0, -1, 5);
+			this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 0, -2, 5);
+			this.skeleton2Map2 = C_Unit.createUnitOnMap((sbyte) 3, (sbyte) 0, -3, 5);
 			this.skeleton1Map2.goToPosition(3, 4, false);
 			this.crystalOfWisdom.goToPosition(4, 4, false);
 			this.skeleton2Map2.goToPosition(2, 4, false);
@@ -5185,11 +5172,10 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			C_Unit.m_speed = 4;
 			this.playersMoney[0] = 400;
 			this.playersMoney[1] = 600;
-			cUnit = C_Unit.createUnitOnMap((byte) 0, (byte) 0, 13, -1);
-			cUnit2 = C_Unit.createUnitOnMap((byte) 1, (byte) 0, 13, -1);
-			cUnit3 = C_Unit.createUnitOnMap((byte) 3, (byte) 0, 13, -1);
-			C_Unit localClass_c_0324 = C_Unit.createUnitOnMap((byte) 11,
-					(byte) 0, 13, -1);
+			cUnit = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 0, 13, -1);
+			cUnit2 = C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 0, 13, -1);
+			cUnit3 = C_Unit.createUnitOnMap((sbyte) 3, (sbyte) 0, 13, -1);
+			C_Unit localClass_c_0324 = C_Unit.createUnitOnMap((sbyte) 11, (sbyte) 0, 13, -1);
 			this.playersKings[0].followerUnitMb = cUnit;
 			cUnit.followerUnitMb = cUnit2;
 			cUnit2.followerUnitMb = cUnit3;
@@ -5226,7 +5212,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void updateMapScript() {
+	public  void updateMapScript() {
 		if ((this.waitTimeValue > 0) && (--this.waitTimeValue > 0)) {
 			return;
 		}
@@ -5375,7 +5361,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 5:
 				//Help us! We are under attack!...
-				showUnitDialogMsg(A_MenuBase.getLangString(221), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(221), (sbyte) 2, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
@@ -5390,7 +5376,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 7:
 				//Aargh... we've failed!
-				showUnitDialogMsg(A_MenuBase.getLangString(222), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(222), (sbyte) 2, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 8:
@@ -5410,13 +5396,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				this.scriptStep += 1;
 				break;
 			case 11:
-				showUnitDialogMsg(A_MenuBase.getLangString(223), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(223), (sbyte) 0, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 12:
 				//Forward troops! Make these raiders pay!
-				showUnitDialogMsg(A_MenuBase.getLangString(224), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(224), (sbyte) 5, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 13:
@@ -5449,7 +5435,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				}
 				break;
 			case 18:
-				if (countUnits(-1, 2, (byte) 0) >= 3) { // 2 - has no turn, noboby has turn
+				if (countUnits(-1, 2, (sbyte) 0) >= 3) { // 2 - has no turn, noboby has turn
 					this.helpTipId = 4;
 					this.scriptStep += 1;
 				} else if (this.currentTurn >= 1) {
@@ -5473,7 +5459,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				}
 				break;
 			case 22:
-				if (countUnits(-1, -1, (byte) 1) == 0) { // no enemy troops
+				if (countUnits(-1, -1, (sbyte) 1) == 0) { // no enemy troops
 					this.isUpdatingMb = false;
 					waitScript(20);
 					this.scriptStep += 1;
@@ -5483,7 +5469,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(1, 1);
 				break;
 			case 24:
-				C_Unit newArcher = C_Unit.createUnitOnMap((byte) 1, (byte) 1, 1, 1); //archer
+				C_Unit newArcher = C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 1, 1, 1); //archer
 				newArcher.goToPosition(1, 2, false, true);
 				waitScript(10);
 				this.scriptStep += 1;
@@ -5492,7 +5478,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(10, 10);
 				break;
 			case 26:
-				C_Unit newSoldier = C_Unit.createUnitOnMap((byte) 0, (byte) 1, 10, 10);
+				C_Unit newSoldier = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, 10, 10);
 				newSoldier.goToPosition(10, 9, false, true);
 				waitScript(10);
 				this.scriptStep += 1;
@@ -5501,17 +5487,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 				break;
 			case 28:
-				showUnitDialogMsg(A_MenuBase.getLangString(225), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(225), (sbyte) 5, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 29:
-				showUnitDialogMsg(A_MenuBase.getLangString(226), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(226), (sbyte) 0, (byte) 4);
 				this.isUpdatingMb = true;
 				this.scriptStep += 1;
 				break;
 			case 30:
-				if ((countUnits(-1, -1, (byte) 1) == 0) && (this.unkState == 0)) {
+				if ((countUnits(-1, -1, (sbyte) 1) == 0) && (this.unkState == 0)) {
 					this.isUpdatingMb = false;
 					this.isCursorVisible = false;
 					waitScript(30);
@@ -5526,22 +5512,22 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 32:
 				//Thank you, your Majesty, you must help ...
-				showUnitDialogMsg(A_MenuBase.getLangString(227), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(227), (sbyte) 2, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
 			case 33:
-				showUnitDialogMsg(A_MenuBase.getLangString(228), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(228), (sbyte) 0, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 34:
-				showUnitDialogMsg(A_MenuBase.getLangString(229), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(229), (sbyte) 2, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 35:
-				showUnitDialogMsg(A_MenuBase.getLangString(230), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(230), (sbyte) 0, (byte) 4);
 				waitScript(15);
 				this.scriptStep += 1;
 				break;
@@ -5562,23 +5548,23 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(12, 3);
 				break;
 			case 3:
-				showUnitDialogMsg(A_MenuBase.getLangString(231), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(231), (sbyte) 1, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
 			case 4:
-				showUnitDialogMsg(A_MenuBase.getLangString(232), (byte) 3, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(232), (sbyte) 3, (byte) 4);
 				moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 				break;
 			case 5:
-				showUnitDialogMsg(A_MenuBase.getLangString(233), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(233), (sbyte) 5, (byte) 4);
 				moveCameraTo(7, 3);
 				break;
 			case 6:
 				C_Unit.m_speed = 2;
-				this.skeleton1Map2 = C_Unit.createUnitOnMap((byte) 0, (byte) 1, 7, 3);
-				this.crystalOfWisdom = C_Unit.createUnitOnMap((byte) 11, (byte) 1, 7, 3);
-				this.skeleton2Map2 = C_Unit.createUnitOnMap((byte) 0, (byte) 1, 7, 3);
+				this.skeleton1Map2 = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, 7, 3);
+				this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte) 11, (sbyte) 1, 7, 3);
+				this.skeleton2Map2 = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, 7, 3);
 				this.skeleton1Map2.followerUnitMb = this.crystalOfWisdom;
 				this.crystalOfWisdom.followerUnitMb = this.skeleton2Map2;
 				this.skeleton1Map2.goToPosition(6, -2, false);
@@ -5588,11 +5574,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			case 7:
 				if ((this.skeleton2Map2.positionX == 6) && (this.skeleton2Map2.positionY == 1)) {
 					C_Unit.m_speed = 4;
-					this.wisdomCrystalKeeper = C_Unit.createUnitOnMap((byte) 0, (byte) 0, 7, 3);
+					this.wisdomCrystalKeeper = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 0, 7, 3);
 					this.wisdomCrystalKeeper.goToPosition(6, 2, false);
 					this.crystalOfWisdom.followerUnitMb = null;
 					//The Crystal of Wisdom! Do not let them escape!
-					showUnitDialogMsg(A_MenuBase.getLangString(234), (byte) 2, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(234), (sbyte) 2, (byte) 4);
 					this.scriptStep += 1;
 				}
 				break;
@@ -5608,7 +5594,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 9:
 				//Aarrghh!
-				showUnitDialogMsg(A_MenuBase.getLangString(235), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(235), (sbyte) 2, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
@@ -5633,18 +5619,18 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 				break;
 			case 12:
-				showUnitDialogMsg(A_MenuBase.getLangString(236), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(236), (sbyte) 5, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 13:
-				showUnitDialogMsg(A_MenuBase.getLangString(237), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(237), (sbyte) 1, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 14:
 				moveCameraTo(3, 5);
 				break;
 			case 15:
-				showUnitDialogMsg(A_MenuBase.getLangString(238), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(238), (sbyte) 5, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 16:
@@ -5680,7 +5666,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 23:
 				// no enemies and no enemy castle
-				if ((countUnits(-1, -1, (byte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) { 
+				if ((countUnits(-1, -1, (sbyte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) { 
 					this.isUpdatingMb = false;
 					waitScript(20);
 					this.scriptStep += 1;
@@ -5690,11 +5676,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 				break;
 			case 25:
-				showUnitDialogMsg(A_MenuBase.getLangString(239), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(239), (sbyte) 1, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 26:
-				showUnitDialogMsg(A_MenuBase.getLangString(240), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(240), (sbyte) 5, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
@@ -5726,17 +5712,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.crystalOfWisdom = null;
 			this.skeleton2Map2 = null;
 			//Your Majesty, this forest is known to be...
-			showUnitDialogMsg(A_MenuBase.getLangString(241), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(241), (sbyte) 5, (byte) 4);
 			waitScript(5);
 			this.scriptStep += 1;
 			break;
 		case 3:
-			showUnitDialogMsg(A_MenuBase.getLangString(242), (byte) 0, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(242), (sbyte) 0, (byte) 4);
 			waitScript(5);
 			this.scriptStep += 1;
 			break;
 		case 4:
-			showUnitDialogMsg(A_MenuBase.getLangString(243), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(243), (sbyte) 5, (byte) 4);
 			waitScript(5);
 			this.scriptStep += 1;
 			break;
@@ -5751,14 +5737,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		case 7:
 			if ((this.playerId == 0)
 					&& (this.var_378b == 0)
-					&& (countUnits(-1, 3, (byte) -1) >= 1)) { //there are dead units
+					&& (countUnits(-1, 3, (sbyte) -1) >= 1)) { //there are dead units
 				this.helpTipId = 15;
 				this.scriptStep += 1;
 			}
 			break;
 		case 8:
 			int k = 0;
-			C_Unit[] unitsEndTurn = getUnitsOfTypeStatePlayer(-1, 2, (byte) 0); //2 - End turn
+			C_Unit[] unitsEndTurn = getUnitsOfTypeStatePlayer(-1, 2, (sbyte) 0); //2 - End turn
 			while (k < unitsEndTurn.Length) {
 				if ((unitsEndTurn[k].positionX <= 4) || (unitsEndTurn[k].positionY <= 10)) {
 					waitScript(10);
@@ -5773,33 +5759,33 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			break;
 		case 9:
 			moveCameraTo(0, 8);
-			C_Unit.createUnitOnMap((byte) 5, (byte) 1, -1, 8)
+			C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, -1, 8)
 					.goToPosition(0, 8, false); //wolf
-			C_Unit.createUnitOnMap((byte) 5, (byte) 1, -2, 7)
+			C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, -2, 7)
 					.goToPosition(1, 7, false); //wolf
 			waitScript(20);
 			this.scriptStep += 1;
 			break;
 		case 10:
 			moveCameraTo(8, 6);
-			C_Unit.createUnitOnMap((byte) 5, (byte) 1, 12, 6)
+			C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 12, 6)
 					.goToPosition(8, 6, false); //wolf
 			waitScript(20);
 			this.scriptStep += 1;
 			break;
 		case 11:
 			moveCameraTo(2, 1);
-			C_Unit.createUnitOnMap((byte) 5, (byte) 1, 1, -2)
+			C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 1, -2)
 					.goToPosition(1, 2, false); //wolf
-			C_Unit.createUnitOnMap((byte) 5, (byte) 1, 3, -2)
+			C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 3, -2)
 					.goToPosition(3, 2, false); //wolf
-			C_Unit.createUnitOnMap((byte) 4, (byte) 1, 2, -1)
+			C_Unit.createUnitOnMap((sbyte) 4, (sbyte) 1, 2, -1)
 					.goToPosition(2, 1, false); //wisp
 			waitScript(20);
 			this.scriptStep += 1;
 			break;
 		case 12:
-			showUnitDialogMsg(A_MenuBase.getLangString(244), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(244), (sbyte) 5, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 			break;
@@ -5809,9 +5795,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.scriptStep += 1;
 			break;
 		case 14:
-			C_Unit el1Unit = C_Unit.createUnitOnMap((byte) 2, (byte) 1, 3, 8); // elemental
-			C_Unit el2Unit = C_Unit.createUnitOnMap((byte) 2, (byte) 1, 4, 7); // elemental
-			C_Unit el3Unit = C_Unit.createUnitOnMap((byte) 2, (byte) 1, 5, 8); // elemental
+			C_Unit el1Unit = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 1, 3, 8); // elemental
+			C_Unit el2Unit = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 1, 4, 7); // elemental
+			C_Unit el3Unit = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 1, 5, 8); // elemental
 			showSpriteOnMap(this.sparkSprite, el1Unit.posXPixel, el1Unit.posYPixel, 0, 0, 1, 50);
 			showSpriteOnMap(this.sparkSprite, el2Unit.posXPixel, el2Unit.posYPixel, 0, 0, 1, 50);
 			showSpriteOnMap(this.sparkSprite, el3Unit.posXPixel, el3Unit.posYPixel, 0, 0, 1, 50);
@@ -5819,17 +5805,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.scriptStep += 1;
 			break;
 		case 15:
-			showUnitDialogMsg(A_MenuBase.getLangString(245), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(245), (sbyte) 5, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 		    break;
 		case 16:
-			showUnitDialogMsg(A_MenuBase.getLangString(246), (byte) -1, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(246), (sbyte) -1, (byte) 4);
 			waitScript(5);
 			this.scriptStep += 1;
 			 break;
 		case 17:
-			showUnitDialogMsg(A_MenuBase.getLangString(247), (byte) 0, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(247), (sbyte) 0, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 			break;
@@ -5842,9 +5828,9 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			getSomeUnit(3, 8, (byte) 0).removeFromMap();
 			getSomeUnit(4, 7, (byte) 0).removeFromMap();
 			getSomeUnit(5, 8, (byte) 0).removeFromMap();
-			C_Unit el1 = C_Unit.createUnitOnMap((byte) 2, (byte) 0, 3, 8); 
-			C_Unit el2 = C_Unit.createUnitOnMap((byte) 2, (byte) 0, 4, 7);
-			C_Unit el3 = C_Unit.createUnitOnMap((byte) 2, (byte) 0, 5, 8);
+			C_Unit el1 = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 0, 3, 8); 
+			C_Unit el2 = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 0, 4, 7);
+			C_Unit el3 = C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 0, 5, 8);
 			showSpriteOnMap(this.sparkSprite, el1.posXPixel, el1.posYPixel, 0, 0, 1, 50);
 			showSpriteOnMap(this.sparkSprite, el2.posXPixel, el2.posYPixel, 0, 0, 1, 50);
 			showSpriteOnMap(this.sparkSprite, el3.posXPixel, el3.posYPixel, 0, 0, 1, 50);
@@ -5858,7 +5844,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.scriptStep += 1;
 		   break;
 		case 21:
-			if (countUnits(-1, -1, (byte) 1) == 0) { // no enemies
+			if (countUnits(-1, -1, (sbyte) 1) == 0) { // no enemies
 				this.isUpdatingMb = false;
 				waitScript(10);
 				this.scriptStep += 1;
@@ -5870,7 +5856,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 	
-	public sealed override void updateScenarioScript4(){
+	public  void updateScenarioScript4(){
 		switch (this.scriptStep) {
 		case 0:
 			A_MenuBase.mainCanvas.showMenu(this.mapNameDialog);
@@ -5893,17 +5879,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			break;
 		case 3:
 			//Your Majesty, thank the Creator you are here! 
-			showUnitDialogMsg(A_MenuBase.getLangString(249), (byte) 2, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(249), (sbyte) 2, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 			break;
 		case 4:
-			showUnitDialogMsg(A_MenuBase.getLangString(250), (byte) 0, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(250), (sbyte) 0, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 			break;
 		case 5:
-			showUnitDialogMsg(A_MenuBase.getLangString(251), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(251), (sbyte) 5, (byte) 4);
 			moveCursorToPos(13, 3);
 			setSomeCursorCenterPix(312, 72);
 			this.playersKings[0].setUnitPosition(7, 1);
@@ -5950,7 +5936,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			waitScript(15);
 			break;
 		case 11:
-			this.var_35db = C_Unit.createUnit((byte) 0, (byte) 0, 4, 9,
+			this.var_35db = C_Unit.createUnit((sbyte) 0, (sbyte) 0, 4, 9,
 					false);
 			this.var_35db.unitTypeId = -1;
 			this.var_35db.m_state = 4;
@@ -5960,11 +5946,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			break;
 		case 12:
 			//They are destroying our buildings to cripple...
-			showUnitDialogMsg(A_MenuBase.getLangString(252), (byte) 5, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(252), (sbyte) 5, (byte) 4);
 			moveCameraTo(7, 1);
 			break;
 		case 13:
-			showUnitDialogMsg(A_MenuBase.getLangString(253), (byte) 0, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(253), (sbyte) 0, (byte) 4);
 			waitScript(5);
 			this.scriptStep += 1;
 			break;
@@ -5977,7 +5963,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			this.scriptStep += 1;
 			break;
 		case 16:
-			if ((countUnits(-1, -1, (byte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
+			if ((countUnits(-1, -1, (sbyte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
 				waitScript(15);
 				this.isUpdatingMb = false;
 				this.scriptStep += 1;
@@ -5985,13 +5971,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			break;
 		case 17:
 			//Your Majesty, We have stopped the attack.
-			showUnitDialogMsg(A_MenuBase.getLangString(254), (byte) 5, (byte) 4); 
+			showUnitDialogMsg(A_MenuBase.getLangString(254), (sbyte) 5, (byte) 4); 
 			waitScript(5);
 			this.scriptStep += 1;
 			break;
 		case 18:
 			//Well done, Captain! Prepare the troops to march to Thorin!
-			showUnitDialogMsg(A_MenuBase.getLangString(255), (byte) 0, (byte) 4);
+			showUnitDialogMsg(A_MenuBase.getLangString(255), (sbyte) 0, (byte) 4);
 			waitScript(10);
 			this.scriptStep += 1;
 			break;
@@ -6001,10 +5987,10 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 	
-	public sealed override void updateScenarioScript5(){
+	public  void updateScenarioScript5(){
 		
 			if (this.crystal3Unit == null) {
-				this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (byte) 0)[0];
+				this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (sbyte) 0)[0];
 			}
 			if (this.crystal3Unit.m_state == 3) { //dead?
 				this.crystal3Unit = null;
@@ -6018,12 +6004,12 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					break;
 				case 1:
 					//Your Highness, I do not like the look
-					showUnitDialogMsg(A_MenuBase.getLangString(256), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(256), (sbyte) 5, (byte) 4);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 2:
-					showUnitDialogMsg(A_MenuBase.getLangString(257), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(257), (sbyte) 0, (byte) 4);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
@@ -6032,7 +6018,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					this.scriptStep += 1;
 					break;
 				case 4:
-					C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+					C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 					int m = 0;
 					while (m < plUnits.Length) {
 						if ((plUnits[m].m_state == 2) && (plUnits[m].positionX <= 8)) {
@@ -6051,23 +6037,23 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					this.scriptStep += 1;
 					break;
 				case 6:
-					C_Unit.createUnitOnMap((byte) 10, (byte) 1, 4, 4).goToPosition(4, 1, false, true); //skeleton
+					C_Unit.createUnitOnMap((sbyte) 10, (sbyte) 1, 4, 4).goToPosition(4, 1, false, true); //skeleton
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 7:
-					C_Unit.createUnitOnMap((byte) 1, (byte) 1, 4, 4).goToPosition(5, 2, false, true); //archer
+					C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 1, 4, 4).goToPosition(5, 2, false, true); //archer
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 8:
-					C_Unit.createUnitOnMap((byte) 10, (byte) 1, 4, 4).goToPosition(4, 3, false, true); //skeleton
+					C_Unit.createUnitOnMap((sbyte) 10, (sbyte) 1, 4, 4).goToPosition(4, 3, false, true); //skeleton
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 9:
 					//Ambush! Protect the Crystal at all cost!...
-					showUnitDialogMsg(A_MenuBase.getLangString(258), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(258), (sbyte) 5, (byte) 4);
 					moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 					this.scriptStep += 1;
 					break;
@@ -6077,7 +6063,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					this.scriptStep += 1;
 					break;
 				case 11:
-					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 					m = 0;
 					while (m < plUnits.Length) {
 						if ((plUnits[m].m_state == 2)
@@ -6093,23 +6079,23 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 12:
-					C_Unit.createUnitOnMap((byte) 1, (byte) 1, 6, 10).goToPosition(5, 10, false, true); //archer
+					C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 1, 6, 10).goToPosition(5, 10, false, true); //archer
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 13:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1, 6, 10).goToPosition(7, 8, false, true); //wolf
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 6, 10).goToPosition(7, 8, false, true); //wolf
 					waitScript(15);
 					this.scriptStep += 1;
 					break;
 				case 14:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1, 6, 10).goToPosition(7, 9, false, true); //wolf
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 6, 10).goToPosition(7, 9, false, true); //wolf
 					this.isUpdatingMb = true;
 					this.isCursorVisible = true;
 					this.scriptStep += 1;
 					break;
 				case 15:
-					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 					m = 0;
 					while (m < plUnits.Length) {
 						if ((plUnits[m].m_state == 2)
@@ -6126,23 +6112,23 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 16:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1, 12, 5).goToPosition(	12, 7, false, true);//wolf
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 12, 5).goToPosition(	12, 7, false, true);//wolf
 					waitScript(15);
 					this.scriptStep += 1;
 					break;
 				case 17:
-					C_Unit.createUnitOnMap((byte) 6, (byte) 1, 12, 5).goToPosition(	12, 6, false, true); //golem
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 1, 12, 5).goToPosition(	12, 6, false, true); //golem
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 18:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1, 12, 5).goToPosition(	12, 5, false, true); //wolf
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 12, 5).goToPosition(	12, 5, false, true); //wolf
 					this.isUpdatingMb = true;
 					this.isCursorVisible = true;
 					this.scriptStep += 1;
 					break;
 				case 19:
-					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+					plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 					m = 0;
 					while (m < plUnits.Length) {
 						if ((plUnits[m].m_state == 2)
@@ -6159,27 +6145,27 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 20:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1, 18, 8).goToPosition(16, 10, false, true);
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 18, 8).goToPosition(16, 10, false, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 21:
-					C_Unit.createUnitOnMap((byte) 6, (byte) 1, 18, 8).goToPosition(17, 10, false, true);
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 1, 18, 8).goToPosition(17, 10, false, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 22:
-					C_Unit.createUnitOnMap((byte) 5, (byte) 1,	18, 8).goToPosition(18,	10, false, true);
+					C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1,	18, 8).goToPosition(18,	10, false, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 23:
-					C_Unit.createUnitOnMap((byte) 1, (byte) 1, 18, 8).goToPosition(18, 9, false, true);
+					C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 1, 18, 8).goToPosition(18, 9, false, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 24:
-					showUnitDialogMsg(A_MenuBase.getLangString(259), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(259), (sbyte) 0, (byte) 4);
 					this.isUpdatingMb = true;
 					this.isCursorVisible = true;
 					this.scriptStep += 1;
@@ -6194,7 +6180,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 						this.scriptStep = 26;
 						return;
 					}
-					if (countUnits(-1, -1, (byte) 1) == 0) { // no enemies
+					if (countUnits(-1, -1, (sbyte) 1) == 0) { // no enemies
 						this.isUpdatingMb = false;
 						this.isCursorVisible = false;
 						waitScript(10);
@@ -6208,7 +6194,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			}
 	}
 	
-	public sealed override void updateScenarioScript6(){
+	public  void updateScenarioScript6(){
 		switch (this.scriptStep) {
 			case 0:
 				waitScript(10);
@@ -6216,7 +6202,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 1:
 				//The enemy is planning to attack King Galamar...
-				showUnitDialogMsg(A_MenuBase.getLangString(260), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(260), (sbyte) 1, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 2:
@@ -6224,7 +6210,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				this.scriptStep += 1;
 				break;
 			case 3:
-				if ((countUnits(-1, -1, (byte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
+				if ((countUnits(-1, -1, (sbyte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
 					this.isUpdatingMb = false;
 					this.isCursorVisible = false;
 					waitScript(15);
@@ -6236,7 +6222,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 5:
 				//Let us hurry North to meet Galamar...
-				showUnitDialogMsg(A_MenuBase.getLangString(261), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(261), (sbyte) 0, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
@@ -6246,11 +6232,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 	
-	public sealed override void updateScenarioScript7(){
+	public  void updateScenarioScript7(){
 
 			if (this.scriptStep <= 10) {
 				if (this.crystal3Unit == null) {
-					this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (byte) 0)[0];
+					this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (sbyte) 0)[0];
 				}
 				if (this.crystal3Unit.m_state == 3) {
 					this.crystal3Unit = null;
@@ -6268,17 +6254,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 1:
-					showUnitDialogMsg(A_MenuBase.getLangString(262), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(262), (sbyte) 5, (byte) 4);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 2:
-					showUnitDialogMsg(A_MenuBase.getLangString(263), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(263), (sbyte) 0, (byte) 4);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 3:
-					C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (byte) 0);
+					C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte) 0);
 					for (int m = 0; m < plUnits.Length; m++) {
 						plUnits[m].followerUnitMb = null;
 					}
@@ -6294,49 +6280,49 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 5:
-					C_Unit unit2 = C_Unit.createUnitOnMap((byte) 5, (byte) 1, 11, 8); //wolf
+					C_Unit unit2 = C_Unit.createUnitOnMap((sbyte) 5, (sbyte) 1, 11, 8); //wolf
 					unit2.fillWhereUnitCanMove(this.someMapData);
 					unit2.goToPosition(14, 7, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 6:
-					C_Unit unit3 = C_Unit.createUnitOnMap((byte) 0, (byte) 1, 11, 8); //soldier
+					C_Unit unit3 = C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, 11, 8); //soldier
 					unit3.fillWhereUnitCanMove(this.someMapData);
 					unit3.goToPosition(13, 7, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 7:
-					C_Unit unit4 = C_Unit.createUnitOnMap((byte) 3, (byte) 1, 11, 8); //magi
+					C_Unit unit4 = C_Unit.createUnitOnMap((sbyte) 3, (sbyte) 1, 11, 8); //magi
 					unit4.fillWhereUnitCanMove(this.someMapData);
 					unit4.goToPosition(12, 7, true);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 8:
-					C_Unit unit5 = C_Unit.createUnitOnMap((byte) 1, (byte) 1, 11, 8); //archer
+					C_Unit unit5 = C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 1, 11, 8); //archer
 					unit5.goToPosition(13, 8, false);
 					waitScript(20);
 					this.scriptStep += 1;
 					break;
 				case 9:
 					//Another ambush! Don't let the Crystal leave your sight!
-					showUnitDialogMsg(A_MenuBase.getLangString(264), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(264), (sbyte) 5, (byte) 4);
 					this.isUpdatingMb = true;
 					this.isCursorVisible = true;
 					moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 					break;
 				case 10:
 					bool outsideTheRegion = false;
-					C_Unit[] unitsEndedTurn = getUnitsOfTypeStatePlayer(-1, 2, (byte) 0);
+					C_Unit[] unitsEndedTurn = getUnitsOfTypeStatePlayer(-1, 2, (sbyte) 0);
 					for (int uT = 0; uT < unitsEndedTurn.Length; uT++) {
 						if ((unitsEndedTurn[uT].positionX <= 9) || (unitsEndedTurn[uT].positionY >= 10)) {
 							outsideTheRegion = true;
 							break;
 						}
 					}
-					if ((outsideTheRegion) || (countUnits(-1, -1, (byte) 1) == 0)) {
+					if ((outsideTheRegion) || (countUnits(-1, -1, (sbyte) 1) == 0)) {
 						this.isCursorVisible = false;
 						this.isUpdatingMb = false;
 						waitScript(10);
@@ -6344,8 +6330,8 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					}
 					break;
 				case 11:
-					this.skeleton1Map2 = getUnitsOfTypeStatePlayer(11, -1, (byte) 0)[0]; //crystal
-					this.crystalOfWisdom = C_Unit.createUnitOnMap((byte) 8, (byte) 1,
+					this.skeleton1Map2 = getUnitsOfTypeStatePlayer(11, -1, (sbyte) 0)[0]; //crystal
+					this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte) 8, (sbyte) 1,
 							this.mapWidth, this.skeleton1Map2.positionY); // dragon
 					moveCameraTo(this.mapWidth - 1, this.skeleton1Map2.positionY);
 					this.isCursorVisible = false;
@@ -6357,14 +6343,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					break;
 				case 13:
 					// Troops! That dragon is heading...
-					showUnitDialogMsg(A_MenuBase.getLangString(265), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(265), (sbyte) 5, (byte) 4);
 					this.m_tempUnit = this.crystalOfWisdom;
 					this.scriptStep += 1;
 					break;
 				case 14:
 					if (this.crystalOfWisdom.m_state != 1) { //stopped running
 						// It is the Crystal it is after! May the Creator protect us!...
-						showUnitDialogMsg(A_MenuBase.getLangString(266), (byte) 0, (byte) 4);
+						showUnitDialogMsg(A_MenuBase.getLangString(266), (sbyte) 0, (byte) 4);
 						this.crystalOfWisdom.goToPosition(-1, this.crystalOfWisdom.positionY, false);
 						waitScript(3);
 						this.scriptStep += 1;
@@ -6390,54 +6376,54 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					moveCameraTo(1, 9);
 					break;
 				case 18:
-					this.playersKings[1] = C_Unit.createUnitOnMap((byte) 9, (byte) 1, -2, 8);
+					this.playersKings[1] = C_Unit.createUnitOnMap((sbyte) 9, (sbyte) 1, -2, 8);
 					this.playersKings[1].goToPosition(0, 8, false);
-					C_Unit.createUnitOnMap((byte) 0, (byte) 1, -1, 8).goToPosition(3, 8, false);
-					C_Unit.createUnitOnMap((byte) 0, (byte) 1, -1, 10).goToPosition(1, 10, false);
-					C_Unit.createUnitOnMap((byte) 8, (byte) 1, -3, 7).goToPosition(4, 8, false);
-					C_Unit.createUnitOnMap((byte) 8, (byte) 1, -3, 11).goToPosition(2, 10, false);
-					C_Unit.createUnitOnMap((byte) 4, (byte) 1, -2, 9).goToPosition(2, 9, false);
-					C_Unit.createUnitOnMap((byte) 6, (byte) 1, -4, 9).goToPosition(4, 9, false);
-					C_Unit.createUnitOnMap((byte) 6, (byte) 1, -6, 9).goToPosition(5, 10, false);
+					C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, -1, 8).goToPosition(3, 8, false);
+					C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, -1, 10).goToPosition(1, 10, false);
+					C_Unit.createUnitOnMap((sbyte) 8, (sbyte) 1, -3, 7).goToPosition(4, 8, false);
+					C_Unit.createUnitOnMap((sbyte) 8, (sbyte) 1, -3, 11).goToPosition(2, 10, false);
+					C_Unit.createUnitOnMap((sbyte) 4, (sbyte) 1, -2, 9).goToPosition(2, 9, false);
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 1, -4, 9).goToPosition(4, 9, false);
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 1, -6, 9).goToPosition(5, 10, false);
 					waitScript(50);
 					this.scriptStep += 1;
 					break;
 				case 19:
 					//Run, pitiful human, before it is too late!...
-					showUnitDialogMsg(A_MenuBase.getLangString(267), (byte) 3, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(267), (sbyte) 3, (byte) 4);
 					this.scriptStep += 1;
 					break;
 				case 20:
 					moveCameraTo(13, 14);
 					break;
 				case 21:
-					C_Unit.createUnitOnMap((byte) 0, (byte) 1, 13, 14).goToPosition(12, 14, false);
+					C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 1, 13, 14).goToPosition(12, 14, false);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 22:
-					C_Unit.createUnitOnMap((byte) 6, (byte) 1, 13, 14).goToPosition(14, 14, false);
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 1, 13, 14).goToPosition(14, 14, false);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 23:
-					C_Unit.createUnitOnMap((byte) 2, (byte) 1, 13, 14).goToPosition(13, 12, false);
+					C_Unit.createUnitOnMap((sbyte) 2, (sbyte) 1, 13, 14).goToPosition(13, 12, false);
 					waitScript(5);
 					this.scriptStep += 1;
 					break;
 				case 24:
-					C_Unit.createUnitOnMap((byte) 3, (byte) 1, 13, 14).goToPosition(13, 15, false);
+					C_Unit.createUnitOnMap((sbyte) 3, (sbyte) 1, 13, 14).goToPosition(13, 15, false);
 					waitScript(15);
 					this.scriptStep += 1;
 					break;
 				case 25:
 					//The enemy force looks formidable, I recommend retreat...
-					showUnitDialogMsg(A_MenuBase.getLangString(268), (byte) 5, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(268), (sbyte) 5, (byte) 4);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
 				case 26:
-					showUnitDialogMsg(A_MenuBase.getLangString(269), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(269), (sbyte) 0, (byte) 4);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
@@ -6445,19 +6431,19 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					moveCameraTo(13, 17);
 					break;
 				case 28:
-					C_Unit valadorn  = C_Unit.createUnitOnMap((byte) 9, (byte) 0, 13, 18); // valadorn
+					C_Unit valadorn  = C_Unit.createUnitOnMap((sbyte) 9, (sbyte) 0, 13, 18); // valadorn
 					valadorn.setKingName(2);
 					valadorn.goToPosition(13, 16, false);
-					C_Unit.createUnitOnMap((byte) 6, (byte) 0, 12, 18).goToPosition(12, 16, false);
-					C_Unit.createUnitOnMap((byte) 8, (byte) 0, 14, 19).goToPosition(14, 16, false);
-					C_Unit.createUnitOnMap((byte) 4, (byte) 0, 13, 19).goToPosition(13, 17, false);
-					C_Unit.createUnitOnMap((byte) 1, (byte) 0, 12, 19).goToPosition(12, 17, false);
+					C_Unit.createUnitOnMap((sbyte) 6, (sbyte) 0, 12, 18).goToPosition(12, 16, false);
+					C_Unit.createUnitOnMap((sbyte) 8, (sbyte) 0, 14, 19).goToPosition(14, 16, false);
+					C_Unit.createUnitOnMap((sbyte) 4, (sbyte) 0, 13, 19).goToPosition(13, 17, false);
+					C_Unit.createUnitOnMap((sbyte) 1, (sbyte) 0, 12, 19).goToPosition(12, 17, false);
 					waitScript(20);
 					this.scriptStep += 1;
 					break;
 				case 29:
 					//Galamar! We came as fast as we could! Let us fight side by side!...
-					showUnitDialogMsg(A_MenuBase.getLangString(270), (byte) 1, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(270), (sbyte) 1, (byte) 4);
 					waitScript(10);
 					this.scriptStep += 1;
 					break;
@@ -6480,7 +6466,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					this.scriptStep += 1;
 					break;
 				case 33:
-					if ((countUnits(-1, -1, (byte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
+					if ((countUnits(-1, -1, (sbyte) 1) == 0) && (countPlayerOwnerCastles(1) == 0)) {
 						this.isUpdatingMb = false;
 						this.isCursorVisible = false;
 						waitScript(10);
@@ -6493,7 +6479,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			}
 	}
 	
-	public sealed override void updateScenarioScript8() {
+	public  void updateScenarioScript8() {
 		//intro missing @todo
 		switch (this.scriptStep) {
 			case 0:
@@ -6504,7 +6490,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			case 1:
 				if (!this.var_380b) {
 					//The Ruins of the Ancient Citadel... and Saeth! With the Crystals!
-					showUnitDialogMsg(A_MenuBase.getLangString(271), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(271), (sbyte) 0, (byte) 4);
 					this.scriptStep += 1;
 				}
 				break;
@@ -6514,17 +6500,17 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 3:
 				//At last, Galamar and Valadorn!...
-				showUnitDialogMsg(A_MenuBase.getLangString(272), (byte) 4, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(272), (sbyte) 4, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
 			case 4:
-				showUnitDialogMsg(A_MenuBase.getLangString(273), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(273), (sbyte) 1, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
 			case 5:
-				showUnitDialogMsg(A_MenuBase.getLangString(274), (byte) 4, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(274), (sbyte) 4, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 6:
@@ -6577,7 +6563,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			case 13:
 				if (this.heavensFuryStatesMb >= 2) {
 					//What in the name of the Creator is that!
-					showUnitDialogMsg(A_MenuBase.getLangString(275), (byte) 0, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(275), (sbyte) 0, (byte) 4);
 					C_Unit targetedUnit = getSomeUnit(9, 15, (byte) 0);
 					targetedUnit.removeFromMap();
 					this.showFuryAfterEffect = true;
@@ -6588,11 +6574,11 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			case 14:
 				this.isCursorVisible = false;
 				// Pathetic creatures, this is something ancient...
-				showUnitDialogMsg(A_MenuBase.getLangString(276), (byte) 4, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(276), (sbyte) 4, (byte) 4);
 				this.scriptStep += 1;
 				break;
 			case 15:
-				showUnitDialogMsg(A_MenuBase.getLangString(277), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(277), (sbyte) 1, (byte) 4);
 				waitScript(10);
 				this.scriptStep += 1;
 				break;
@@ -6606,7 +6592,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 18:
 				this.someCameraVelocityMb = 12;
-				showUnitDialogMsg(A_MenuBase.getLangString(278), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(278), (sbyte) 5, (byte) 4);
 				moveCameraTo(this.playersKings[0].positionX, this.playersKings[0].positionY);
 				break;
 			case 19:
@@ -6632,13 +6618,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 					setSomeCurcorCenterPos(7, 2);
 					moveCursorToPos(7, 2);
 					sub_87e6();
-					this.playersKings[1] = C_Unit.createUnitOnMap((byte) 9, (byte) 1, 7, 2);
+					this.playersKings[1] = C_Unit.createUnitOnMap((sbyte) 9, (sbyte) 1, 7, 2);
 					this.playersKings[1].setKingName(3);
-					C_Unit.createUnitOnMap((byte) 9, (byte) 0, 6, 3);
-					C_Unit luuUnit = C_Unit.createUnitOnMap((byte) 9, (byte) 0, 8, 3);
+					C_Unit.createUnitOnMap((sbyte) 9, (sbyte) 0, 6, 3);
+					C_Unit luuUnit = C_Unit.createUnitOnMap((sbyte) 9, (sbyte) 0, 8, 3);
 					luuUnit.setKingName(2);
-					C_Unit.createUnitOnMap((byte) 0, (byte) 0, 6, 1);
-					C_Unit.createUnitOnMap((byte) 0, (byte) 0, 8, 1);
+					C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 0, 6, 1);
+					C_Unit.createUnitOnMap((sbyte) 0, (sbyte) 0, 8, 1);
 					waitScript(10);
 					this.scriptStep += 1;
 					E_MainCanvas.playMusicLooped2(8, 0);
@@ -6653,18 +6639,18 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 			case 24:
 				if (this.fadeInColor >= 16) {
 					//Pitiful wretches. You will not live...
-					showUnitDialogMsg(A_MenuBase.getLangString(281), (byte) 4, (byte) 4);
+					showUnitDialogMsg(A_MenuBase.getLangString(281), (sbyte) 4, (byte) 4);
 					waitScript(15);
 					this.scriptStep += 1;
 				}
 				break;
 			case 25:
-				showUnitDialogMsg(A_MenuBase.getLangString(282), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(282), (sbyte) 0, (byte) 4);
 				waitScript(8);
 				this.scriptStep += 1;
 				break;
 			case 26:
-				showUnitDialogMsg(A_MenuBase.getLangString(283), (byte) 4, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(283), (sbyte) 4, (byte) 4);
 				waitScript(15);
 				this.scriptStep += 1;
 				break;
@@ -6682,22 +6668,22 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 				break;
 			case 29:
 				//Your Majesty, the Ruins are falling apart!...
-				showUnitDialogMsg(A_MenuBase.getLangString(284), (byte) 5, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(284), (sbyte) 5, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 30:
-				showUnitDialogMsg(A_MenuBase.getLangString(285), (byte) 2, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(285), (sbyte) 2, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 31:
-				showUnitDialogMsg(A_MenuBase.getLangString(286), (byte) 1, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(286), (sbyte) 1, (byte) 4);
 				waitScript(5);
 				this.scriptStep += 1;
 				break;
 			case 32:
-				showUnitDialogMsg(A_MenuBase.getLangString(287), (byte) 0, (byte) 4);
+				showUnitDialogMsg(A_MenuBase.getLangString(287), (sbyte) 0, (byte) 4);
 				this.isFadingIn = true;
 				this.fadeInColor = 0;
 				this.scriptStep += 1;
@@ -6726,7 +6712,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 	
-	public sealed override void showObjective() {
+	public  void showObjective() {
 		this.mapNameDialog = null;
 		this.someCameraVelocityMb = 12;
 		C_Unit.m_speed = C_Unit.m_defaultSpeed;
@@ -6739,14 +6725,14 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		E_MainCanvas.playMusicLooped2(2, 0);
 	}
 
-	public sealed override void moveCameraTo(int inX, int inY) {
+	public  void moveCameraTo(int inX, int inY) {
 		this.cameraX = inX;
 		this.cameraY = inY;
 		moveCursorToPos(inX, inY);
 		this.scriptStep += 1;
 	}
 
-	public sealed override void missionComplete() {
+	public  void missionComplete() {
 		E_MainCanvas.stopMusic();
 		E_MainCanvas.playMusicLooped(6, 1);
 		D_Menu dialog = createDialog(null, A_MenuBase.getLangString(72),
@@ -6758,7 +6744,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.unkState = 10;
 	}
 
-	public sealed override void sub_1447e() {
+	public  void sub_1447e() {
 		this.var_3b7b = true;
 		this.scriptStep = 0;
 		waitScript(20);
@@ -6766,7 +6752,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		E_MainCanvas.playMusicLooped(7, 1);
 	}
 
-	public sealed override void setupUnitsFAmb(C_Unit unit1, C_Unit unit2) {
+	public  void setupUnitsFAmb(C_Unit unit1, C_Unit unit2) {
 		JavaSystem.gc();
 		this.var_3bfb = (this.someGHeight - this.var_3a43);
 		this.var_3be3 = true;
@@ -6794,16 +6780,16 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		this.gameMode2Mb = 2;
 	}
 
-	public sealed override void addSpriteTo(F_Sprite sprite) {
+	public  void addSpriteTo(F_Sprite sprite) {
 		this.gameSprites.addElement(sprite);
 	}
 
-	public sealed override void removeSpriteFrom(F_Sprite sprite) {
+	public  void removeSpriteFrom(F_Sprite sprite) {
 		this.gameSprites.removeElement(sprite);
 	}
 	
 	//
-	public sealed override void updateGameSprites() {
+	public  void updateGameSprites() {
 		if ((this.isShakingScreen) && (this.time - this.shakeScreenStartTime >= this.shakeScreenMaxTime)) {
 			this.isShakingScreen = false;
 		}
@@ -6860,7 +6846,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void sub_1480f(Graphics gr) {
+	public  void sub_1480f(Graphics gr) {
 		int i = 0;
 		int j = 0;
 		if (this.isShakingScreen) {
@@ -6936,13 +6922,13 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void startShakingScreen(int val) {
+	public  void startShakingScreen(int val) {
 		this.isShakingScreen = true;
 		this.shakeScreenMaxTime = val;
 		this.shakeScreenStartTime = this.time;
 	}
 
-	public sealed override D_Menu createOnlineNewsMenu(String[] unusedArr, A_MenuBase pMenu) {
+	public  D_Menu createOnlineNewsMenu(String[] unusedArr, A_MenuBase pMenu) {
 		D_Menu menu1;
 		D_Menu menu2;//@unused?
 		if (this.var_3c13.Length > 0) {
@@ -6965,7 +6951,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		return menu1;
 	}
 
-	public sealed override void retrieveOnlineNewsData(byte[] data) {
+	public  void retrieveOnlineNewsData(byte[] data) {
 		DataInputStream dis;
 		try {
 			dis = new DataInputStream(new ByteArrayInputStream(data));
@@ -7042,7 +7028,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		A_MenuBase.mainCanvas.showMenu((A_MenuBase) localObject);
 	}
 
-	public sealed override void startRetrievingData(int paramInt, String resName,
+	public  void startRetrievingData(int paramInt, String resName,
 			String langCode, A_MenuBase inMenu) {
 		this.var_3c83 = paramInt;
 		this.someOnlineParentMenu = inMenu;
@@ -7071,20 +7057,20 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 	}
 
 	/* Error */
-	public sealed override void run() {
+	public  void run() {
 		//@todo
 	}
 
-	public sealed override void saveSlots(int index) {
+	public  void saveSlots(int index) {
 		int i = this.var_3903[index];
 		this.countExtraMapsMb -= 1;
 		String[] arrayOfString = new String[this.countExtraMapsMb];
 		int[] arrayOfInt = new int[this.countExtraMapsMb];
-		System.Array.Copy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, index);
-		System.Array.Copy(this.extraSkirmishMapNamesMb, index + 1, arrayOfString, index,
+		JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, index);
+		JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, index + 1, arrayOfString, index,
 				this.countExtraMapsMb - index);
-		System.Array.Copy(this.var_3903, 0, arrayOfInt, 0, index);
-		System.Array.Copy(this.var_3903, index + 1, arrayOfInt, index,
+		JavaSystem.arraycopy(this.var_3903, 0, arrayOfInt, 0, index);
+		JavaSystem.arraycopy(this.var_3903, index + 1, arrayOfInt, index,
 				this.countExtraMapsMb - index);
 		this.extraSkirmishMapNamesMb = arrayOfString;
 		this.var_3903 = arrayOfInt;
@@ -7101,12 +7087,12 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		}
 	}
 
-	public sealed override void sub_15568(String paramString, byte[] someData)
+	public  void sub_15568(String paramString, byte[] someData)
 			{
 		String[] arrayOfString = new String[this.countExtraMapsMb + 1];
 		int[] arrayOfInt = new int[this.countExtraMapsMb + 1];
-		System.Array.Copy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, this.countExtraMapsMb);
-		System.Array.Copy(this.var_3903, 0, arrayOfInt, 0, this.countExtraMapsMb);
+		JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, this.countExtraMapsMb);
+		JavaSystem.arraycopy(this.var_3903, 0, arrayOfInt, 0, this.countExtraMapsMb);
 		this.extraSkirmishMapNamesMb = arrayOfString;
 		this.var_3903 = arrayOfInt;
 		this.var_3903[this.countExtraMapsMb] = E_MainCanvas.saveDataToStore("download", someData);
@@ -7116,7 +7102,7 @@ public sealed override class I_Game : A_MenuBase , Runnable {
 		saveSettingsMb();
 	}
 
-	public sealed override void saveSettingsMb() {
+	public  void saveSettingsMb() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		dos.writeInt(this.countExtraMapsMb);

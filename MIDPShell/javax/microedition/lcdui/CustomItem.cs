@@ -32,16 +32,16 @@ namespace javax.microedition.lcdui
             return false;
         }
 
-        protected sealed override int getInteractionModes()
+        protected  int getInteractionModes()
         {
             return 0;
         }
 
-        protected sealed override void invalidate() { }
+        protected  void invalidate() { }
 
-        protected sealed override void repaint() { }
+        protected  void repaint() { }
 
-        protected sealed override void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        protected  void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
 
         protected void hideNotify() { }
 

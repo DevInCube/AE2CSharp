@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AE2.Tools.Loaders
+namespace java.csharp
 {
-    public static class ArrayHelper
+    public static class JavaArray
     {
 
-        public static T[][] createArray<T>(int n, int m)
+        public static T[][] New<T>(int n, int m)
         {
             T[][] arr = new T[n][];
             for (int i = 0; i < n; i++)
                 arr[i] = new T[m];
             return arr;
         }
+
     }
 }

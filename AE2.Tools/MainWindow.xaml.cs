@@ -1,4 +1,6 @@
-﻿using AE2.Tools.Loaders;
+﻿using AE2.Tools.aeii;
+using AE2.Tools.Loaders;
+using java.csharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,22 +31,28 @@ namespace AE2.Tools
 
         internal void DrawMap(Map m)
         {
-            Image[][] carImg = ArrayHelper.createArray<Image>(m.mapHeight, m.mapWidth);
+            Image[][] carImg = JavaArray.New<Image>(m.mapHeight, m.mapWidth);
             for (int i = 0; i < m.mapHeight; i++)
                 for (int j = 0; j < m.mapWidth;j++ )
                 {
                     byte tileId = m.mapTilesIds[j][i];
-                    string id = (tileId < 10) ? ("0" + tileId) : tileId.ToString();
-                    BitmapImage carBitmap = Convert(ResourceLoader.getResourceData("tiles0_" + id + ".png"));
+                    BitmapImage carBitmap = getTileImage(tileId);
                     if (carBitmap == null) continue;
                     carImg[i][j] = new Image();
                     carImg[i][j].Source = carBitmap;
                     carImg[i][j].Width = carBitmap.Width;
                     carImg[i][j].Height = carBitmap.Height;
-                    Canvas.SetLeft(carImg[i][j], j*24);
-                    Canvas.SetTop(carImg[i][j], i*24);
+                    Canvas.SetLeft(carImg[i][j], j * carBitmap.Width);
+                    Canvas.SetTop(carImg[i][j], i * carBitmap.Height);
                     Canvas.Children.Add(carImg[i][j]);
                 }
+        }
+
+        private BitmapImage getTileImage(byte tileId)
+        {
+            string id = (tileId < 10) ? ("0" + tileId) : tileId.ToString();
+            BitmapImage carBitmap = Convert(E_MainCanvas.getResourceData("tiles0_" + id + ".png"));
+            return carBitmap;
         }
 
         private BitmapImage Convert(byte[] byteVal)
@@ -58,8 +66,6 @@ namespace AE2.Tools
                 myBitmapImage = new BitmapImage();
                 myBitmapImage.BeginInit();
                 myBitmapImage.StreamSource = strmImg;
-              //  myBitmapImage.Width = 24;
-              //  myBitmapImage.Height = 24;
                 myBitmapImage.EndInit();
             }
             catch { }

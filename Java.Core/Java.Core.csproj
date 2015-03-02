@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="java\csharp\Extensions.cs" />
+    <Compile Include="java\csharp\JavaArray.cs" />
     <Compile Include="java\io\ByteArrayInputStream.cs" />
     <Compile Include="java\io\DataInputStream.cs" />
     <Compile Include="java\io\DataOutputStream.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="java\lang\Integer.cs" />
     <Compile Include="java\lang\JavaSystem.cs" />
     <Compile Include="java\lang\Math.cs" />
+    <Compile Include="java\lang\NullPointerException.cs" />
     <Compile Include="java\lang\Object.cs" />
     <Compile Include="java\lang\Runnable.cs" />
     <Compile Include="java\lang\RuntimeException.cs" />

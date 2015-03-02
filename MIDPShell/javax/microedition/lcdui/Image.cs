@@ -6,62 +6,78 @@ namespace javax.microedition.lcdui
 
     public class Image
     {
+
+        private System.Drawing.Image image;
+
+        public Image(System.Drawing.Image image1)
+        {
+            this.image = image1;
+        }
+
         public bool isMutable()
         {
-            return false;
+            return true;
         }
 
         public int getHeight()
         {
-            return 0;
+            return image.Height;
         }
 
         public int getWidth()
         {
-            return 0;
+            return image.Width;
         }
 
         public Graphics getGraphics()
         {
-            return null;
+            System.Drawing.Graphics newGraphics = System.Drawing.Graphics.FromImage(image);
+            return new Graphics(newGraphics);
         }
 
-        public static Image createImage(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+        public static Image createImage(byte[] imageData, int imageOffset, int imageLength)
         {
-            return null;
+            //@todo width height
+            System.Drawing.Bitmap bmp;
+            using (var ms = new System.IO.MemoryStream(imageData))
+            {
+                bmp = new System.Drawing.Bitmap(ms);
+            }
+            return new Image(bmp);
         }
 
-        public static Image createImage(int paramInt1, int paramInt2)
+        public static Image createImage(int w, int h)
         {
-            return null;
+            return new Image(new System.Drawing.Bitmap(w, h));
         }
 
-        public static Image createImage(InputStream paramInputStream)
+        public static Image createImage(InputStream stream)
         {
-            return null;
+            return new Image(System.Drawing.Image.FromStream(stream.Stream));
         }
 
-        public static Image createImage(String paramString)
+        public static Image createImage(String name)
         {
+            if (name == null) throw new NullPointerException("name");
             return null;
         }
 
         public static Image createImage(Image paramImage)
         {
-            return null;
+            return new Image(paramImage.image);
         }
 
-        public static Image createImage(Image paramImage, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5)
+        public static Image createImage(Image image, int x, int y, int width, int height, int transform)
         {
             return null;
         }
 
-        public static Image createRGBImage(int[] paramArrayOfInt, int paramInt1, int paramInt2, bool paramBoolean)
+        public static Image createRGBImage(int[] rgb, int width, int height, bool processAlpha)
         {
             return null;
         }
 
-        public void getRGB(int[] paramArrayOfInt, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
+        public void getRGB(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height) { }
     }
 
 }

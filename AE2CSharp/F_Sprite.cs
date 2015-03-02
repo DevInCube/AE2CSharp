@@ -1,9 +1,5 @@
 using java.lang;
 
-
-using java.io.InputStream;
-
-
 using javax.microedition.lcdui;
 using java.io;
 using java.lang;
@@ -65,95 +61,117 @@ namespace aeii
             this.frameHeight = this.frameImages[0].imageHeight;
         }
 
-        public F_Sprite(String spriteId, byte paramByte)
+        public F_Sprite(String spriteId, sbyte paramByte)
         {
             loadSprite(spriteId, paramByte);
         }
 
-        private sealed override void loadSprite(String spriteId, int paramInt)
-			{
-		InputStream stream = E_MainCanvas.getResourceStream(spriteId
-				+ ".sprite");
-		int Length = (byte)stream.read();
-		this.frameWidth = ((byte) stream.read());
-		this.frameHeight = ((byte) stream.read());
-		this.frameImages = new H_ImageExt[Length];
-		H_ImageExt[] images = new H_ImageExt[Length];
-		try {
-			H_ImageExt localClass_h_017 = new H_ImageExt(spriteId, paramInt);
-			int numberOfFramesX = localClass_h_017.imageWidth
-					/ this.frameWidth;
-			int numberOfFramesY = localClass_h_017.imageHeight / this.frameHeight;
-			int i1 = 0;
-			for (int i2 = 0; i2 < numberOfFramesY; i2++) {
-				for (int i3 = 0; i3 < numberOfFramesX; i3++) {
-					images[i1] = new H_ImageExt(localClass_h_017,
-							i3, i2, this.frameWidth, this.frameHeight);
-					i1++;
-				}
-			}
-		} catch (Exception ex) {
-			try {
-				for (int it = 0; it <Length; it++) {
-					StringBuffer tileName = new StringBuffer(spriteId);
-					tileName.append('_');
-					if (it < 10) {
-						tileName.append('0');
-					}
-					tileName.append(it);
-					if (paramInt == 1) {
-						images[it] = new H_ImageExt(
-								tileName.ToString());
-					} else {
-						images[it] = new H_ImageExt(
-								tileName.ToString(), paramInt);
-					}
-				}
-			} catch (Exception ex2) {
-				//
-			}
-		}
-		for (int j = 0; j < Length; j++) {
-			int n1 = stream.read();
-			int n = stream.read();
-			this.frameImages[j] = new H_ImageExt(images[n1], n);
-		}
-		int jj2 = stream.read();
-		if (jj2 > 0) {
-			for (int it = 0; it < Length; it++) {
-				this.frameImages[it].sub_6d9(jj2, this.frameWidth, this.frameHeight);
-			}
-		}
-		int animationsCount = stream.read();
-		if (animationsCount > 0) {
-			this.frameAnimationsSequences = new byte[animationsCount][];
-			this.mapFrameTime = (stream.read() * 50);
-			for (int animId = 0; animId < animationsCount; animId++) {
-				int animLength = stream.read();
-				this.frameAnimationsSequences[animId] = new byte[animLength];
-				for (int it = 0; it < animLength; it++) {
-					this.frameAnimationsSequences[animId][it] = ((byte) stream.read());
-				}
-			}
-		}
-		for (int n1 = 0; n1 < Length; n1++) {
-			byte iX = (byte) stream.read();
-			byte iY = (byte) stream.read();
-			if ((iX == -1) || (iY == -1)) {
-				break;
-			}
-			this.frameImages[n1].translateImage(iX, iY);
-		}
-		stream.close();
-		if (this.frameAnimationsSequences != null) {
-			this.frameSequence = this.frameAnimationsSequences[0];
-			return;
-		}
-		this.frameSequence = new byte[Length];
-		for (byte n1 = 0; n1 <Length; n1 = (byte) (n1 + 1)) {
-			this.frameSequence[n1] = n1;
-		}
-	}
+        private  void loadSprite(String spriteId, int paramInt)
+        {
+            InputStream stream = E_MainCanvas.getResourceStream(spriteId + ".sprite");
+            int Length = (byte)stream.read();
+            this.frameWidth = ((byte)stream.read());
+            this.frameHeight = ((byte)stream.read());
+            this.frameImages = new H_ImageExt[Length];
+            H_ImageExt[] images = new H_ImageExt[Length];
+            try
+            {
+                H_ImageExt localClass_h_017 = new H_ImageExt(spriteId, paramInt);
+                int numberOfFramesX = localClass_h_017.imageWidth
+                        / this.frameWidth;
+                int numberOfFramesY = localClass_h_017.imageHeight / this.frameHeight;
+                int i1 = 0;
+                for (int i2 = 0; i2 < numberOfFramesY; i2++)
+                {
+                    for (int i3 = 0; i3 < numberOfFramesX; i3++)
+                    {
+                        images[i1] = new H_ImageExt(localClass_h_017,
+                                i3, i2, this.frameWidth, this.frameHeight);
+                        i1++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    for (int it = 0; it < Length; it++)
+                    {
+                        StringBuffer tileName = new StringBuffer(spriteId);
+                        tileName.append('_');
+                        if (it < 10)
+                        {
+                            tileName.append('0');
+                        }
+                        tileName.append(it);
+                        if (paramInt == 1)
+                        {
+                            images[it] = new H_ImageExt(
+                                    tileName.ToString());
+                        }
+                        else
+                        {
+                            images[it] = new H_ImageExt(
+                                    tileName.ToString(), paramInt);
+                        }
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    //
+                }
+            }
+            for (int j = 0; j < Length; j++)
+            {
+                int n1 = stream.read();
+                int n = stream.read();
+                this.frameImages[j] = new H_ImageExt(images[n1], n);
+            }
+            int jj2 = stream.read();
+            if (jj2 > 0)
+            {
+                for (int it = 0; it < Length; it++)
+                {
+                    this.frameImages[it].sub_6d9(jj2, this.frameWidth, this.frameHeight);
+                }
+            }
+            int animationsCount = stream.read();
+            if (animationsCount > 0)
+            {
+                this.frameAnimationsSequences = new byte[animationsCount][];
+                this.mapFrameTime = (stream.read() * 50);
+                for (int animId = 0; animId < animationsCount; animId++)
+                {
+                    int animLength = stream.read();
+                    this.frameAnimationsSequences[animId] = new byte[animLength];
+                    for (int it = 0; it < animLength; it++)
+                    {
+                        this.frameAnimationsSequences[animId][it] = ((byte)stream.read());
+                    }
+                }
+            }
+            for (int n1 = 0; n1 < Length; n1++)
+            {
+                sbyte iX = (sbyte)stream.read();
+                sbyte iY = (sbyte)stream.read();
+                if ((iX == -1) || (iY == -1))
+                {
+                    break;
+                }
+                this.frameImages[n1].translateImage(iX, iY);
+            }
+            stream.close();
+            if (this.frameAnimationsSequences != null)
+            {
+                this.frameSequence = this.frameAnimationsSequences[0];
+                return;
+            }
+            this.frameSequence = new byte[Length];
+            for (byte n1 = 0; n1 < Length; n1 = (byte)(n1 + 1))
+            {
+                this.frameSequence[n1] = n1;
+            }
+        }
 
         public F_Sprite(F_Sprite sprite)
         {
@@ -176,17 +194,17 @@ namespace aeii
             this.frameHeight = height;
         }
 
-        public sealed override int getFrameSequenceLength()
+        public  int getFrameSequenceLength()
         {
             return this.frameSequence.Length;
         }
 
-        public sealed override int getFramesCount()
+        public  int getFramesCount()
         {
             return this.frameImages.Length;
         }
 
-        public sealed override void setCurrentFrameIndex(int val)
+        public  void setCurrentFrameIndex(int val)
         {
             if (val < this.frameSequence.Length)
             {
@@ -194,13 +212,13 @@ namespace aeii
             }
         }
 
-        public sealed override void setSpritePosition(int pX, int pY)
+        public  void setSpritePosition(int pX, int pY)
         {
             this.posXPixel = ((short)pX);
             this.posYPixel = ((short)pY);
         }
 
-        public sealed override void nextFrame()
+        public  void nextFrame()
         {
             this.currentFrameIndex += 1;
             if (this.currentFrameIndex >= this.frameSequence.Length)
@@ -209,14 +227,14 @@ namespace aeii
             }
         }
 
-        public sealed override void setFrameSequence(byte[] data)
+        public  void setFrameSequence(byte[] data)
         {
             this.frameSequence = data;
             this.currentFrameIndex = 0;
             this.frameTime = 0;
         }
 
-        public sealed override void startAnimation(int animationIndex, bool inBool)
+        public  void startAnimation(int animationIndex, bool inBool)
         {
             if ((this.frameAnimationsSequences != null) && (animationIndex <= this.frameAnimationsSequences.Length))
             {
@@ -234,7 +252,7 @@ namespace aeii
             }
         }
 
-        public sealed override void drawFrameAt(Graphics gr, int frameIndex,
+        public  void drawFrameAt(Graphics gr, int frameIndex,
                 int inX, int inY, int paramInt4)
         {
             if ((this.m_spriteType == 2) || (this.m_spriteType == 4) || (this.m_spriteType == 3))
@@ -250,7 +268,7 @@ namespace aeii
             }
         }
 
-        public sealed override void drawCurrentFrame(Graphics gr, int inX,
+        public  void drawCurrentFrame(Graphics gr, int inX,
                 int inY, int paramInt3)
         {
             drawFrameAt(gr, this.frameSequence[this.currentFrameIndex], inX,
@@ -259,7 +277,7 @@ namespace aeii
 
 
 
-        public static sealed override F_Sprite createBouncingText(String str, int inX, int inY, byte charId)
+        public static  F_Sprite createBouncingText(String str, int inX, int inY, byte charId)
         {
             int strWidth = E_MainCanvas.getCharedStringWidth(charId, str);
             int strHeight = E_MainCanvas.getCharedStringHeight(charId);
@@ -272,7 +290,7 @@ namespace aeii
             return sprite;
         }
 
-        public static sealed override F_Sprite someSpriteCopy(F_Sprite sprite,
+        public static  F_Sprite someSpriteCopy(F_Sprite sprite,
                 int paramInt1, int paramInt2, int paramInt3, int paramInt4,
                 int frameTime, byte inSprType) {
 		F_Sprite lspr = null;
@@ -320,7 +338,7 @@ namespace aeii
 		return lspr;
 	}
 
-        public sealed override void sub_19ce()
+        public  void sub_19ce()
         {
             if (this.m_spriteType != 4)
             {
