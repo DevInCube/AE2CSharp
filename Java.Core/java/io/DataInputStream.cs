@@ -9,49 +9,68 @@ namespace java.io
     public class DataInputStream : InputStream
     {
 
-        public DataInputStream(InputStream stream)
+        private System.IO.BinaryReader reader;
+
+        public DataInputStream(InputStream stream) : base(stream)
         {
-            //
+            reader = new System.IO.BinaryReader(Stream);            
+        }
+
+        public DataInputStream(System.IO.MemoryStream fileStream) : base(fileStream)
+        {
+            fileStream.Seek(0, System.IO.SeekOrigin.Begin);
+            reader = new System.IO.BinaryReader(Stream);
         }
 
         public short readShort()
         {
-            return 0;//throw new NotImplementedException();
+            byte b1 = this.readByte();
+            byte b2 = this.readByte();
+            return (short)(b1 << 8 | b2);
         }
 
         public string readUTF()
         {
-            return "";// throw new NotImplementedException();
+            short len = this.readShort();
+            byte[] bytes = reader.ReadBytes(len);
+            return System.Text.Encoding.UTF8.GetString(bytes);
         }
 
         public int readInt()
         {
-            return 0;// throw new NotImplementedException();
+            byte b1 = this.readByte();
+            byte b2 = this.readByte();
+            byte b3 = this.readByte();
+            byte b4 = this.readByte();
+            return (int)(b1 << 32 | b2 << 16 | b3 << 8 | b4);
         }
 
         public void readFully(byte[] p)
         {
-            //throw new NotImplementedException();
+            byte[] bs = this.reader.ReadBytes(p.Length);
+            for (int i = 0; i < p.Length; i++)
+                p[i] = bs[i];
         }
 
         public void close()
         {
-           // throw new NotImplementedException();
+            this.reader.Close();
         }
 
         public byte readByte()
         {
-            return 0;//throw new NotImplementedException();
+            return this.reader.ReadByte();
         }
 
         public void skip(int p)
         {
-           // throw new System.NotImplementedException();
+            while (p-- > 0)
+                reader.ReadByte();
         }
 
         public long readLong()
         {
-            return 0;// throw new System.NotImplementedException();
+            return (long)reader.ReadInt64();
         }
 
         

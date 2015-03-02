@@ -2,8 +2,7 @@ using java.lang;
 namespace javax.microedition.midlet
 {
 
-    public class MIDletStateChangeException
-      : Exception
+    public class MIDletStateChangeException : Exception
     {
         public MIDletStateChangeException() { }
 

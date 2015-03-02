@@ -4,32 +4,56 @@ namespace javax.microedition.midlet
 {
     public abstract class MIDlet
     {
-        protected abstract void destroyApp(bool paramBoolean);
+        protected abstract void destroyApp(bool unconditional);
 
         protected abstract void pauseApp();
 
         protected abstract void startApp();
 
-        public sealed override bool platformRequest(String paramString)
+        /// <summary>
+        ///  Requests that the device handle (for example, display or install) the indicated URL.
+        /// </summary>
+        /// <param name="paramString"></param>
+        /// <returns></returns>
+        public bool platformRequest(String URL)
         {
             return false;
         }
 
-        public sealed override int checkPermission(String paramString)
+        /// <summary>
+        /// Get the status of the specified permission.
+        /// </summary>
+        /// <param name="paramString"></param>
+        /// <returns></returns>
+        public int checkPermission(String paramString)
         {
             return 0;
         }
 
-        public sealed override String getAppProperty(String paramString)
+        /// <summary>
+        ///  Provides a MIDlet with a mechanism to retrieve named properties from the application management software.
+        /// </summary>
+        /// <param name="paramString"></param>
+        /// <returns></returns>
+        public String getAppProperty(String paramString)
         {
             return null;
         }
 
-        public sealed override void notifyDestroyed() { }
+        /// <summary>
+        /// Used by an MIDlet to notify the application management software that it has entered into the Destroyed state.
+        /// </summary>
+        public void notifyDestroyed() { }
 
-        public sealed override void notifyPaused() { }
+        /// <summary>
+        ///  Notifies the application management software that the MIDlet does not want to be active and has entered the Paused state.
+        /// </summary>
+        public void notifyPaused() { }
 
-        public sealed override void resumeRequest() { }
+        /// <summary>
+        ///  Provides a MIDlet with a mechanism to retrieve named properties from the application management software.
+        /// </summary>
+        public void resumeRequest() { }
     }
 
 }
