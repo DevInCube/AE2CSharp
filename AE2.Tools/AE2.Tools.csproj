@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,17 +54,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\EmulatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="aeii\E_MainCanvas.cs" />
+    <Compile Include="Emulation\WPFResourceLoader.cs" />
+    <Compile Include="Loaders\E_MainCanvas.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Emulation\EmulatorVM.cs" />
     <Compile Include="Loaders\Map.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\EmulatorWindow.xaml.cs">
+      <DependentUpon>EmulatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -91,6 +101,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Resources\lang.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\1.pak">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -99,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AE2CSharp\AE2CSharp.csproj">
+      <Project>{68b83a4e-af01-42dc-addb-c181ea1f9d80}</Project>
+      <Name>AE2CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Java.Core\Java.Core.csproj">
       <Project>{a9fa24a2-0dc8-4e25-8d1d-b6f0ccd52486}</Project>
       <Name>Java.Core</Name>
@@ -107,6 +124,11 @@
       <Project>{4ee4ba43-ab05-4397-b247-e8ebbf8f36bf}</Project>
       <Name>MIDP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\gameicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

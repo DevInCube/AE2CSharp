@@ -134,20 +134,21 @@ namespace aeii
                     || ((paramInt >= 65280) && (paramInt < 65504));
         }
 
-        public static  int loadLangStrings(String langFile, bool unusedBool)
-			{
-		InputStream stream = B_MainMIDlet.midlet.getClass().getResourceAsStream(langFile);
-		DataInputStream dis = new DataInputStream(stream);
-		langStrings = new String[dis.readInt()];
-		int i = 0;
-		int Length = langStrings.Length;
-		while (i < Length) {
-			langStrings[i] = dis.readUTF();
-			i++;
-		}
-		dis.close();
-		return langStrings.Length;
-	}
+        public static int loadLangStrings(String langFile, bool unusedBool)
+        {
+            InputStream stream = B_MainMIDlet.midlet.getClass().getResourceAsStream(langFile);
+            DataInputStream dis = new DataInputStream(stream);
+            langStrings = new String[dis.readInt()];
+            int i = 0;
+            int Length = langStrings.Length;
+            while (i < Length)
+            {
+                langStrings[i] = dis.readUTF();
+                i++;
+            }
+            dis.close();
+            return langStrings.Length;
+        }
 
         public static  String getLangString(int aStringId)
         {

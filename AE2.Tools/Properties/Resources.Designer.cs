@@ -69,5 +69,25 @@ namespace AE2.Tools.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gameicon {
+            get {
+                object obj = ResourceManager.GetObject("gameicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lang {
+            get {
+                object obj = ResourceManager.GetObject("lang", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

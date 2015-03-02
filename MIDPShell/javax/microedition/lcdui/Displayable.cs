@@ -5,7 +5,7 @@ namespace javax.microedition.lcdui
     public abstract class Displayable
     {
 
-        public abstract System.Windows.Controls.Control WPFControl { get; } 
+        public abstract System.Windows.FrameworkElement WPFControl { get; } 
 
         protected void sizeChanged(int paramInt1, int paramInt2) { }
 

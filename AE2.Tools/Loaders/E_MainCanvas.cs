@@ -2,7 +2,7 @@
 using java.lang;
 
 
-namespace AE2.Tools.aeii
+namespace AE2.Tools
 {
     public class E_MainCanvas
     {

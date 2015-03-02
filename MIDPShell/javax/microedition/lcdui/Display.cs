@@ -18,7 +18,8 @@ namespace javax.microedition.lcdui
         public static readonly int COLOR_HIGHLIGHTED_BORDER = 5;
 
         private static Display stDisplay = new Display();
-        private MIDP.WPF.Views.DisplayControl displayControl = new MIDP.WPF.Views.DisplayControl(); 
+        private MIDP.WPF.Views.DisplayControl displayControl = new MIDP.WPF.Views.DisplayControl();
+        public System.Windows.Controls.Control Control { get { return displayControl; } }
 
         public bool flashBacklight(int paramInt)
         {

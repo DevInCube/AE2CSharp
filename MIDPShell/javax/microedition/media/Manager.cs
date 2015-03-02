@@ -19,9 +19,9 @@ namespace javax.microedition.media
             return null;
         }
 
-        public static Player createPlayer(InputStream paramInputStream, String paramString)
+        public static Player createPlayer(InputStream stream, String contentType)
         {
-            return null;
+            return new MIDP.WPF.Media.AudioPlayer(stream, contentType);
         }
 
         public static Player createPlayer(String paramString)

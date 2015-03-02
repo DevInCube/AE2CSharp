@@ -79,7 +79,7 @@ namespace aeii
             if (paramInt != 1)
             {
                 byte[] data = new byte[imgData.Length];
-                JavaSystem.arraycopy(imgData, 0, data, 0, imgData.Length);
+                System.Array.Copy(imgData, 0, data, 0, imgData.Length);
                 sub_99f(data, paramInt);
                 imgData = data;
             }
