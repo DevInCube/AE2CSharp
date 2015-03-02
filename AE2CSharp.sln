@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDP", "MIDPShell\MIDP.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Java.Core", "Java.Core\Java.Core.csproj", "{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AE2.Tools", "AE2.Tools\AE2.Tools.csproj", "{0B67A5BE-E9B3-4FCB-8534-345C24CCE072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B67A5BE-E9B3-4FCB-8534-345C24CCE072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B67A5BE-E9B3-4FCB-8534-345C24CCE072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B67A5BE-E9B3-4FCB-8534-345C24CCE072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B67A5BE-E9B3-4FCB-8534-345C24CCE072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

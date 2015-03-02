@@ -7,17 +7,38 @@ using System.Threading.Tasks;
 
 namespace java.io
 {
-    public abstract class InputStream 
+    public abstract class InputStream
     {
+
+        private  MemoryStream stream;
+
+        public MemoryStream Stream { get { return stream; } }
+
+        public InputStream(byte[] bytes)
+        {
+            stream = new MemoryStream(bytes);
+        }
+
+        public InputStream(InputStream stream)
+        {
+            this.stream = stream.stream;
+        }
+
+        public InputStream(MemoryStream fileStream)
+        {
+            this.stream = fileStream;
+            this.stream.Seek(0, SeekOrigin.Begin);
+        }
 
         public byte read()
         {
-            return 0;// throw new NotImplementedException();
+            return (byte)stream.ReadByte();
         }
 
         public void close()
         {
-            //throw new NotImplementedException();
+            stream.Close();
         }
+
     }
 }
