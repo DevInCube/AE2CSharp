@@ -7,11 +7,11 @@ namespace javax.microedition.lcdui
 
         public abstract System.Windows.FrameworkElement WPFControl { get; } 
 
-        protected void sizeChanged(int paramInt1, int paramInt2) { }
+        protected virtual void sizeChanged(int paramInt1, int paramInt2) { }
 
         public bool isShown()
         {
-            return false;
+            return true;//@todo
         }
 
         public virtual int getHeight()

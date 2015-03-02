@@ -357,7 +357,7 @@ public  class I_Game : A_MenuBase , Runnable {
 	}
 	
 	//@Override
-	public  void onLoad() {
+	public void onLoad() {
 		//sub_4d3f();
 		//sub_87e6();
 		//clearActiveUnit();
@@ -639,7 +639,7 @@ public  class I_Game : A_MenuBase , Runnable {
 				&& (this.unkState == 0)) {
 			int i = 0;
 			this.m_strBuf.append(paramInt2);
-			String str = this.m_strBuf.ToString();
+			String str = this.m_strBuf.toString();
 			for (int j = 0; j < var_39a3.Length; j++) {
 				if (str.Equals(var_39a3[j])) {
 					if (j == 0) {
@@ -2363,7 +2363,7 @@ public  class I_Game : A_MenuBase , Runnable {
 	}
 
 	//@Override
-	public  void onUpdate() {
+	public  override void onUpdate() {
 		this.time += 50L;
 		if (this.gameMode2Mb == 2) { //game mode
 			updateGameSprites();
@@ -2987,7 +2987,7 @@ public  class I_Game : A_MenuBase , Runnable {
 													strBuf1.append(A_MenuBase.getLangString(99)); //POISON
 												}
 												strBuf1.append("\n-----------\n");
-												str = strBuf1.ToString() + str;
+												str = strBuf1.toString() + str;
 											}
 											descUnitMenu.createDescDialogMb(
 															null,
@@ -3622,7 +3622,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		gr.drawString(aString, inX, inY, paramInt3);
 	}
 
-	public  void onPaint(Graphics gr) {
+	public override void onPaint(Graphics gr) {
 		int sprLength;
 		if (this.gameMode2Mb == 4) { // loading progress
 			gr.setColor(16777215);

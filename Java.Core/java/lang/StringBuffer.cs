@@ -11,24 +11,18 @@ namespace java.lang
 
         private StringBuilder builder;
 
-
-        public StringBuffer(string spriteId) : this()
-        {
-            builder.Append(spriteId);
-        }
-
         public StringBuffer()
         {
             builder = new StringBuilder();
         }
 
-        public StringBuffer(String p) : this(p.ToString())
+        public StringBuffer(String p) : this()
         {
-            //
+            this.builder.Append(p.ToString());
         }
         public void append(object p)
         {
-            builder.Append(p);
+            builder.Append(p.ToString());
         }
 
         public void append(char p)

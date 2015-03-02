@@ -12,5 +12,10 @@ namespace java.lang
         {
             //
         }
+
+        public String toString()
+        {
+            return this.ToString();
+        }
     }
 }

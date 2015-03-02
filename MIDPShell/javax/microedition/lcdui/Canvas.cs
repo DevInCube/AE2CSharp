@@ -1,4 +1,5 @@
 using java.lang;
+using System.ComponentModel;
 
 namespace javax.microedition.lcdui
 {
@@ -27,18 +28,77 @@ namespace javax.microedition.lcdui
         public static readonly int FIRE = 8;
         public static readonly int GAME_A = 9;
 
-        private System.Windows.Controls.Canvas canvas;
+        private Graphics graphics;
+        private System.Drawing.Image canvasImage;
+        private System.Windows.Controls.Image image;
 
         public override System.Windows.FrameworkElement WPFControl
         {
-            get { return canvas; }
+            get { return image; }
         }
 
+        private BackgroundWorker paintWorker;
+
         public Canvas()
+        {         
+            canvasImage = new System.Drawing.Bitmap(300, 500);
+            image = new System.Windows.Controls.Image();
+            System.Windows.Media.ImageSourceConverter c = new System.Windows.Media.ImageSourceConverter();            
+            graphics = new Graphics(System.Drawing.Graphics.FromImage(canvasImage));
+            paintWorker = new BackgroundWorker(){
+                WorkerSupportsCancellation = true,
+            };
+            paintWorker.DoWork += paintWorker_DoWork;
+            paintWorker.RunWorkerAsync();
+        }
+
+        public static System.Windows.Media.Imaging.BitmapSource CreateBitmapSourceFromGdiBitmap(System.Drawing.Bitmap bitmap)
         {
-            canvas = new System.Windows.Controls.Canvas();
-            canvas.Width = 400; //@todo
-            canvas.Height = 700;
+            if (bitmap == null)
+                throw new System.ArgumentNullException("bitmap");
+
+            var rect = new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height);
+
+            var bitmapData = bitmap.LockBits(
+                rect,
+                System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            try
+            {
+                var size = (rect.Width * rect.Height) * 4;
+
+                return System.Windows.Media.Imaging.BitmapSource.Create(
+                    bitmap.Width,
+                    bitmap.Height,
+                    bitmap.HorizontalResolution,
+                    bitmap.VerticalResolution,
+                    System.Windows.Media.PixelFormats.Bgra32,
+                    null,
+                    bitmapData.Scan0,
+                    size,
+                    bitmapData.Stride);
+            }
+            finally
+            {
+                bitmap.UnlockBits(bitmapData);
+            }
+        }
+
+        void paintWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            while (!worker.CancellationPending)
+            {
+                if (isShown())
+                {
+                    this.paint(graphics);
+                    System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
+                   {
+                       image.Source = (System.Windows.Media.ImageSource)CreateBitmapSourceFromGdiBitmap(canvasImage as System.Drawing.Bitmap);
+                   }));
+                }
+            }
         }
 
         public abstract void paint(Graphics paramGraphics);
@@ -59,7 +119,7 @@ namespace javax.microedition.lcdui
 
         protected void showNotify() { }
 
-        protected void sizeChanged(int paramInt1, int paramInt2) { }
+        protected override void sizeChanged(int paramInt1, int paramInt2) { }
 
         public bool hasPointerEvents()
         {
@@ -81,7 +141,9 @@ namespace javax.microedition.lcdui
             return false;
         }
 
-        public  void repaint() { }
+        public  void repaint() { 
+            //@todo
+        }
 
         public  void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
 
@@ -97,7 +159,7 @@ namespace javax.microedition.lcdui
             int height = 0; //@todo
             System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
             {
-                height = (int)canvas.Height;
+                height = canvasImage.Height;
             }));
             return height;
         }
@@ -111,7 +173,7 @@ namespace javax.microedition.lcdui
         {
             int width = 0; //@todo
             System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {
-                width = (int)canvas.Width;
+                width = canvasImage.Width;
             }));
             return width;
         }
@@ -121,7 +183,11 @@ namespace javax.microedition.lcdui
             return null;
         }
 
-        public void setFullScreenMode(bool paramBoolean) { }
+        public void setFullScreenMode(bool paramBoolean) {
+            //@todo
+        }
+
+
     }
 
 }

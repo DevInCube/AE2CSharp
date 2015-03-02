@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WPF\Data\RecordStoreManager.cs" />
     <Compile Include="WPF\Media\AudioPlayer.cs" />
     <Compile Include="WPF\ViewModels\ObservableObject.cs" />
     <Compile Include="WPF\Views\DisplayControl.xaml.cs">

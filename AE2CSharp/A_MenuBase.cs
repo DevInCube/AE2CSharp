@@ -32,12 +32,12 @@ namespace aeii
             //@todo override or not?
         }
 
-        public void onUpdate()
+        public virtual void onUpdate()
         {
             //@todo override
         }
 
-        public void onPaint(Graphics graphics)
+        public virtual void onPaint(Graphics graphics)
         {
             //@todo override
         }
@@ -179,7 +179,7 @@ namespace aeii
                             buf.append('/');
                         }
                         buf.append(getLangString(18)); //direction pad
-                        str = replaceString(str, "%KM", buf.ToString(), true);
+                        str = replaceString(str, "%KM", buf.toString(), true);
                     }
                 }
                 return str;

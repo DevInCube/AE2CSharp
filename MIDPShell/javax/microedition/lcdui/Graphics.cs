@@ -15,6 +15,7 @@ namespace javax.microedition.lcdui
         public static readonly int RIGHT = 8;
 
         private System.Drawing.Graphics gr;
+        private Font font;
 
         public Graphics(System.Drawing.Graphics newGraphics)
         {
@@ -91,7 +92,7 @@ namespace javax.microedition.lcdui
             return null;
         }
 
-        public void clipRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        public void clipRect(int x, int y, int width, int height) { }
 
         public void copyArea(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7) { }
 
@@ -101,7 +102,11 @@ namespace javax.microedition.lcdui
 
         public void drawChars(char[] paramArrayOfChar, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5) { }
 
-        public void drawImage(Image paramImage, int paramInt1, int paramInt2, int paramInt3) { }
+        public void drawImage(Image img, int x, int y, int anchor) {
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {
+                this.gr.DrawImage(img.WPFImage, x, y);
+            }));
+        }
 
         public void drawLine(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
 
@@ -113,7 +118,15 @@ namespace javax.microedition.lcdui
 
         public void drawRoundRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
 
-        public void drawString(String paramString, int paramInt1, int paramInt2, int paramInt3) { }
+        public void drawString(String str, int x, int y, int anchor) 
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
+            {
+                System.Drawing.Font wpfFont = System.Drawing.SystemFonts.DefaultFont;
+                System.Drawing.Brush wpfBrush = System.Drawing.Brushes.DarkRed;
+                this.gr.DrawString(str.ToString(), wpfFont, wpfBrush, (float)x, (float)y);//@todo
+            }));
+        }
 
         public void drawSubstring(String paramString, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5) { }
 
@@ -131,7 +144,10 @@ namespace javax.microedition.lcdui
 
         public void setColor(int paramInt1, int paramInt2, int paramInt3) { }
 
-        public void setFont(Font paramFont) { }
+        public void setFont(Font font)
+        {
+            this.font = font;
+        }
 
         public void setGrayScale(int paramInt) { }
 

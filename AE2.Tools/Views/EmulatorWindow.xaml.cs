@@ -23,5 +23,10 @@ namespace AE2.Tools.Views
         {
             InitializeComponent();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(0); //@todo
+        }
     }
 }
