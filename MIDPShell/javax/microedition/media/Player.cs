@@ -2,6 +2,15 @@ using java.lang;
 namespace javax.microedition.media
 {
 
+    public enum PlayerState : int
+    {
+        CLOSED = 0,
+        UNREALIZED = 100,
+        REALIZED = 200,
+        PREFETCHED = 300,
+        STARTED = 400,
+    }
+
     public interface Player : Controllable
     {
         /*

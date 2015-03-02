@@ -8,8 +8,14 @@ namespace java.lang
 {
     public class Thread
     {
+
+        private System.Threading.Thread thread;
+
         public Thread() { }
-        public Thread(Runnable target) { }
+        public Thread(Runnable target)
+        {
+            this.thread = new System.Threading.Thread(target.run);
+        }
         public Thread(Runnable target, String name) { }
         public Thread(String name) { }
         /*public Thread(ThreadGroup group, Runnable target) { }
@@ -17,11 +23,15 @@ namespace java.lang
         public Thread(ThreadGroup group, Runnable target, String name, long stackSize) { }
         public Thread(ThreadGroup group, String name) { }*/
 
-        public void start() { }
+        public void start()
+        {
+            if (thread == null) throw new RuntimeException("Thread not created");
+            thread.Start();
+        }
 
         public static void sleep(int delay)
         {
-           // throw new NotImplementedException();
+            System.Threading.Thread.Sleep(delay);
         }
     }
 }

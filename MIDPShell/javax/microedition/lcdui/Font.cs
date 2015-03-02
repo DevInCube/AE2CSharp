@@ -18,6 +18,19 @@ namespace javax.microedition.lcdui
         public static readonly int FACE_PROPORTIONAL = 64;
         public static readonly int SIZE_SMALL = 8;
 
+        private int face;
+        private int style;
+        private int size;
+
+        public Font(int face, int style, int size)
+        {
+            // TODO: Complete member initialization
+            this.face = face;
+            this.style = style;
+            this.size = size;
+            //throw IllegalArgumentException 
+        }
+
         public bool isBold()
         {
             return false;
@@ -88,14 +101,14 @@ namespace javax.microedition.lcdui
             return null;
         }
 
-        public static Font getFont(int paramInt)
+        public static Font getFont(int fontSpecifier)
         {
             return null;
         }
 
-        public static Font getFont(int paramInt1, int paramInt2, int paramInt3)
+        public static Font getFont(int face, int style, int size)
         {
-            return null;
+            return new Font(face, style, size);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace MIDP.WPF.Views
     /// </summary>
     public partial class DisplayControl : UserControl, INotifyPropertyChanged
     {
-
+        public ObservableCollection<FrameworkElement> Items { get; set; }
         private Control _Control;
 
         public Control Control
@@ -33,12 +34,14 @@ namespace MIDP.WPF.Views
         public DisplayControl()
         {
             InitializeComponent();
+            Items = new ObservableCollection<FrameworkElement>();
             this.DataContext = this;
         }
 
-        public void setControl(Control c)
+        public void setControl(FrameworkElement c)
         {
-            this.Control = c;
+            this.Items.Clear();
+            this.Items.Add(c);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

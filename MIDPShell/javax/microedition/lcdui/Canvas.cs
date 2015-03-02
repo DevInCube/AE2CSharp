@@ -27,6 +27,20 @@ namespace javax.microedition.lcdui
         public static readonly int FIRE = 8;
         public static readonly int GAME_A = 9;
 
+        private System.Windows.Controls.Canvas canvas;
+
+        public override System.Windows.FrameworkElement WPFControl
+        {
+            get { return canvas; }
+        }
+
+        public Canvas()
+        {
+            canvas = new System.Windows.Controls.Canvas();
+            canvas.Width = 400; //@todo
+            canvas.Height = 700;
+        }
+
         public abstract void paint(Graphics paramGraphics);
 
         protected void hideNotify() { }
@@ -80,7 +94,12 @@ namespace javax.microedition.lcdui
 
         public override int getHeight()
         {
-            return 0;
+            int height = 0; //@todo
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
+            {
+                height = (int)canvas.Height;
+            }));
+            return height;
         }
 
         public int getKeyCode(int paramInt)
@@ -90,7 +109,11 @@ namespace javax.microedition.lcdui
 
         public override int getWidth()
         {
-            return 0;
+            int width = 0; //@todo
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {
+                width = (int)canvas.Width;
+            }));
+            return width;
         }
 
         public String getKeyName(int paramInt)

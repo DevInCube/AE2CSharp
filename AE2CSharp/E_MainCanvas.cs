@@ -457,7 +457,7 @@ namespace aeii
             charsSprites[1] = new F_Sprite("lchars");
         }
 
-        public  void run()
+        public void run()
         {
             try
             {

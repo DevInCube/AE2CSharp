@@ -7,7 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
-        public override System.Windows.Controls.Control WPFControl
+        public override System.Windows.FrameworkElement WPFControl
         {
             get { return textBox; }
         }

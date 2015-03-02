@@ -7,7 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.GroupBox control = new System.Windows.Controls.GroupBox();
 
-        public override System.Windows.Controls.Control WPFControl
+        public override System.Windows.FrameworkElement WPFControl
         {
             get { return control; }
         }
