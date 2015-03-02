@@ -61,6 +61,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Loaders\ArrayHelper.cs" />
+    <Compile Include="Loaders\Map.cs" />
     <Compile Include="Loaders\ResourceLoader.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
