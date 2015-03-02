@@ -76,16 +76,15 @@ namespace aeii
             H_ImageExt[] images = new H_ImageExt[Length];
             try
             {
-                H_ImageExt localClass_h_017 = new H_ImageExt(spriteId, paramInt);
-                int numberOfFramesX = localClass_h_017.imageWidth
-                        / this.frameWidth;
-                int numberOfFramesY = localClass_h_017.imageHeight / this.frameHeight;
+                H_ImageExt spriteFrame = new H_ImageExt(spriteId, paramInt);
+                int numberOfFramesX = spriteFrame.imageWidth / this.frameWidth;
+                int numberOfFramesY = spriteFrame.imageHeight / this.frameHeight;
                 int i1 = 0;
                 for (int i2 = 0; i2 < numberOfFramesY; i2++)
                 {
                     for (int i3 = 0; i3 < numberOfFramesX; i3++)
                     {
-                        images[i1] = new H_ImageExt(localClass_h_017,
+                        images[i1] = new H_ImageExt(spriteFrame,
                                 i3, i2, this.frameWidth, this.frameHeight);
                         i1++;
                     }
