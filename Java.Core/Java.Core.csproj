@@ -48,6 +48,7 @@
     <Compile Include="java\io\OutputStream.cs" />
     <Compile Include="java\lang\Class.cs" />
     <Compile Include="java\lang\Exception.cs" />
+    <Compile Include="java\lang\Integer.cs" />
     <Compile Include="java\lang\JavaSystem.cs" />
     <Compile Include="java\lang\Math.cs" />
     <Compile Include="java\lang\Object.cs" />

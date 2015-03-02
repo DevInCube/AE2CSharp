@@ -18,8 +18,14 @@ namespace AE2.Tools
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             ResourceLoader.loadResourcesPak(null);
-            ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
-            Environment.Exit(0);
+            Map m = new Map();
+            m.readTilesData(ResourceLoader.getResourceStream("tiles0.prop"));
+            m.loadMap(ResourceLoader.getResourceStream("m6"));
+            MainWindow w = new Tools.MainWindow();
+            w.DrawMap(m);
+            w.Show();
+            //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
+            //Environment.Exit(0);
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

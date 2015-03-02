@@ -52,14 +52,6 @@ namespace java.lang
             return value;
         }
 
-        public int length
-        {
-            get
-            {
-                return value.Length;
-            }
-        }
-
         public int indexOf(String toReplace)
         {
             return value.IndexOf(toReplace.ToString());
@@ -83,6 +75,42 @@ namespace java.lang
         public String subString(int p)
         {
             return value.Substring(p);
+        }
+
+        public override bool Equals(object obj)
+        {
+            String str = obj as String;
+            return this.value.Equals(str.value);
+        }
+
+        private String[] toArr(string[] strs)
+        {
+            String[] res = new String[strs.Length];
+            for (int i = 0; i < strs.Length; i++)
+                res[i] = strs[i];
+            return res;
+        }
+
+        public String[] split(string p)
+        {
+            string[] strs = this.value.Split(new string[] { p }, System.StringSplitOptions.None);
+            return toArr(strs);
+        }
+
+        public int length()
+        {
+            return value.Length;
+        }
+
+        public bool equalsIgnoreCase(string p)
+        {
+            return this.value.Equals(p, System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        public String[] split(char p)
+        {
+            string[] strs = this.value.Split(p);
+            return toArr(strs);
         }
     }
 }

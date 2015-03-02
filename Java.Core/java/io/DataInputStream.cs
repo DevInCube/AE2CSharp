@@ -59,7 +59,7 @@ namespace java.io
 
         public byte readByte()
         {
-            return this.reader.ReadByte();
+            return (byte)this.reader.ReadByte();
         }
 
         public void skip(int p)

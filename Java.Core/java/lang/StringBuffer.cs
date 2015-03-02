@@ -8,33 +8,42 @@ namespace java.lang
 {
     public class StringBuffer 
     {
+
         private StringBuilder builder;
 
 
-        public StringBuffer(string spriteId)
+        public StringBuffer(string spriteId) : this()
         {
-            //
+            builder.Append(spriteId);
         }
 
         public StringBuffer()
         {
-            // TODO: Complete member initialization
+            builder = new StringBuilder();
         }
 
-        public StringBuffer(String p)
+        public StringBuffer(String p) : this(p.ToString())
         {
-            // TODO: Complete member initialization
+            //
         }
         public void append(object p)
         {
-           // throw new NotImplementedException();
+            builder.Append(p);
         }
-
-        public int Length { get; set; }
 
         public void append(char p)
         {
-            //throw new NotImplementedException();
+            builder.Append(p);
+        }
+
+        public String toString()
+        {
+            return builder.ToString();
+        }
+
+        public int length()
+        {
+            return builder.Length;
         }
     }
 }

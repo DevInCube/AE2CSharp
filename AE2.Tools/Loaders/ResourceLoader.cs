@@ -58,6 +58,7 @@ namespace AE2.Tools.Loaders
                 file.Read(bytes, 0, (int)file.Length);
                 ms.Write(bytes, 0, (int)file.Length);
             }
+            ms.Seek(0, System.IO.SeekOrigin.Begin);
             return new DataInputStream(ms);
         }
 
