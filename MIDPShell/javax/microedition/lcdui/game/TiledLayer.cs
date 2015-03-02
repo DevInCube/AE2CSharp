@@ -1,32 +1,31 @@
 namespace javax.microedition.lcdui.game
 {
 
-    public class TiledLayer
-      : Layer
+    public class TiledLayer : Layer
     {
         public TiledLayer(int paramInt1, int paramInt2, Image paramImage, int paramInt3, int paramInt4) { }
 
-        public sealed override int getCellHeight()
+        public  int getCellHeight()
         {
             return 0;
         }
 
-        public sealed override int getCellWidth()
+        public  int getCellWidth()
         {
             return 0;
         }
 
-        public sealed override int getColumns()
+        public  int getColumns()
         {
             return 0;
         }
 
-        public sealed override int getRows()
+        public  int getRows()
         {
             return 0;
         }
 
-        public sealed override void paint(Graphics paramGraphics) { }
+        public override void paint(Graphics paramGraphics) { }
 
         public int createAnimatedTile(int paramInt)
         {

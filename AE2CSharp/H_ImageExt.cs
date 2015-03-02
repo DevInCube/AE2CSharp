@@ -1,15 +1,11 @@
 using java.lang;
-
-
 using java.csharp;
-
-
 using javax.microedition.lcdui;
 
 namespace aeii
 {
 
-    public sealed override class H_ImageExt
+    public class H_ImageExt
     {
 
         public Image image;
@@ -22,8 +18,7 @@ namespace aeii
         private int locationY;
         public int var_4fb = 0;
 
-        public H_ImageExt(H_ImageExt image, int paramInt1,
-                int paramInt2, int imWidth, int imHeight)
+        public H_ImageExt(H_ImageExt image, int paramInt1, int paramInt2, int imWidth, int imHeight)
         {
             this.image = image.image;
             this.imageWidth = imWidth;
@@ -84,7 +79,7 @@ namespace aeii
             if (paramInt != 1)
             {
                 byte[] data = new byte[imgData.Length];
-                System.Array.Copy(imgData, 0, data, 0, imgData.Length);
+                JavaSystem.arraycopy(imgData, 0, data, 0, imgData.Length);
                 sub_99f(data, paramInt);
                 imgData = data;
             }
@@ -93,7 +88,7 @@ namespace aeii
             this.imageHeight = ((short)this.image.getHeight());
         }
 
-        public sealed override void sub_6d9(int paramInt1, int paramInt2, int paramInt3)
+        public void sub_6d9(int paramInt1, int paramInt2, int paramInt3)
         {
             if (this.var_4c3)
             {
@@ -142,19 +137,19 @@ namespace aeii
             }
         }
 
-        public sealed override void translateImage(int inX, int inY)
+        public void translateImage(int inX, int inY)
         {
             this.locationX += inX;
             this.locationY += inY;
         }
 
-        public sealed override void drawImageExt(Graphics gr, int inX,
+        public void drawImageExt(Graphics gr, int inX,
                 int inY)
         {
             drawImageExt(gr, inX, inY, 20);
         }
 
-        public sealed override void drawImageExt(Graphics gr, int inX,
+        public void drawImageExt(Graphics gr, int inX,
                 int inY, int paramInt3)
         {
             if ((this.var_4c3) || (this.var_4fb != 0))
@@ -169,7 +164,7 @@ namespace aeii
                     inY + this.locationY, paramInt3);
         }
 
-        public static sealed override void sub_99f(byte[] data, int paramInt)
+        public static void sub_99f(byte[] data, int paramInt)
         {
             try
             {
@@ -251,18 +246,23 @@ namespace aeii
             }
         }
 
-        public static sealed override int sub_cab(byte paramByte, int paramInt) {
-		int i = paramByte & 0xFF;
-		paramInt ^= i;
-		for (int j = 0; j < 8; j++) {
-			if ((paramInt & 0x1) != 0) {
-				paramInt = (int)(paramInt >> 1 ^ 0xEDB88320); //>>>
-			} else {
-				paramInt >>= 1; //>>>
-			}
-		}
-		return paramInt;
-	}
+        public static int sub_cab(byte paramByte, int paramInt)
+        {
+            int i = paramByte & 0xFF;
+            paramInt ^= i;
+            for (int j = 0; j < 8; j++)
+            {
+                if ((paramInt & 0x1) != 0)
+                {
+                    paramInt = (int)(paramInt >> 1 ^ 0xEDB88320); //>>>
+                }
+                else
+                {
+                    paramInt >>= 1; //>>>
+                }
+            }
+            return paramInt;
+        }
     }
 
 }

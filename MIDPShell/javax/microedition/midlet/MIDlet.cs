@@ -4,11 +4,11 @@ namespace javax.microedition.midlet
 {
     public abstract class MIDlet
     {
-        protected abstract void destroyApp(bool unconditional);
+        public abstract void destroyApp(bool unconditional);
 
-        protected abstract void pauseApp();
+        public abstract void pauseApp();
 
-        protected abstract void startApp();
+        public abstract void startApp();
 
         /// <summary>
         ///  Requests that the device handle (for example, display or install) the indicated URL.

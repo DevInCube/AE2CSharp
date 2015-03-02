@@ -12,7 +12,7 @@ namespace aeii
         public static B_MainMIDlet midlet;
         public static E_MainCanvas canvas;
 
-        public sealed override void startApp()
+        public override void startApp()
         {
             if (midlet == null)
             {
@@ -21,7 +21,7 @@ namespace aeii
             }
         }
 
-        public sealed override void destroyApp(bool inBool)
+        public override void destroyApp(bool inBool)
         {
             if (canvas != null)
             {
@@ -31,7 +31,7 @@ namespace aeii
             midlet = null;
         }
 
-        public sealed override void pauseApp()
+        public override void pauseApp()
         {
             //
         }

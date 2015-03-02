@@ -31,7 +31,7 @@ namespace javax.microedition.lcdui.game
 
         public void flushGraphics(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
 
-        public void paint(Graphics paramGraphics) { }
+        public override void paint(Graphics paramGraphics) { }
     }
 
 }

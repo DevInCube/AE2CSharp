@@ -14,6 +14,13 @@ namespace javax.microedition.lcdui
         public static readonly int BASELINE = 64;
         public static readonly int RIGHT = 8;
 
+        private System.Drawing.Graphics gr;
+
+        public Graphics(System.Drawing.Graphics newGraphics)
+        {
+            this.gr = newGraphics;
+        }
+
         public int getBlueComponent()
         {
             return 0;
