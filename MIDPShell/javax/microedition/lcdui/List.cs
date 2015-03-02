@@ -2,9 +2,16 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class List
-      : Screen, Choice
+    public class List : Screen, Choice
     {
+
+        private System.Windows.Controls.ListView control = new System.Windows.Controls.ListView();
+
+        public override System.Windows.Controls.Control WPFControl
+        {
+            get { return control; }
+        }
+
         public static readonly Command SELECT_COMMAND = null;
 
         public List(String paramString, int paramInt) { }
