@@ -30,6 +30,7 @@ namespace aeii
 
         public H_ImageExt(H_ImageExt image, int paramInt)
         {
+            if (image == null) throw new Exception("Image is null");
             this.image = image.image;
             this.imageWidth = image.imageWidth;
             this.imageHeight = image.imageHeight;
@@ -67,6 +68,7 @@ namespace aeii
         public H_ImageExt(String imgId)
         {
             byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
+            if (imgData == null) throw new Exception("No resource `" + imgId + ".png`");
             this.image = Image.createImage(imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());
@@ -83,6 +85,7 @@ namespace aeii
                 sub_99f(data, paramInt);
                 imgData = data;
             }
+            if (imgData == null) throw new Exception();//
             this.image = Image.createImage((byte[])imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());

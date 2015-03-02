@@ -6,7 +6,7 @@ namespace java.lang
 
         public Exception() { }
 
-        public Exception(String msg) { }
+        public Exception(String msg):base(msg.ToString()) { }
 
         public void printStackTrace()
         {

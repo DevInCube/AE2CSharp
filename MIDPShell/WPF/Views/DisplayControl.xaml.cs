@@ -40,8 +40,11 @@ namespace MIDP.WPF.Views
 
         public void setControl(FrameworkElement c)
         {
-            this.Items.Clear();
-            this.Items.Add(c);
+            Application.Current.Dispatcher.Invoke((Action)(() => {
+                this.Items.Clear();
+                this.Items.Add(c);
+            }));
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

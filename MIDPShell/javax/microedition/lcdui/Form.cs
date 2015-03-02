@@ -5,20 +5,34 @@ namespace javax.microedition.lcdui
     public class Form : Screen
     {
 
-        private System.Windows.Controls.GroupBox control = new System.Windows.Controls.GroupBox();
+        private System.Windows.Controls.GroupBox control;
 
         public override System.Windows.FrameworkElement WPFControl
         {
             get { return control; }
         }
 
-        public Form(String paramString) { }
+        public Form(String header) {
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {
+                control = new System.Windows.Controls.GroupBox();
+                control.Content = new System.Windows.Controls.ItemsControl();
+                control.Header = header;
+            }));
+        }
 
         public Form(String paramString, Item[] paramArrayOfItem) { }
 
-        public int append(String paramString)
+        public int append(String msg)
         {
-            return 0;
+            int index = 0;
+            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
+            {
+                var lbl = new System.Windows.Controls.Label();
+                lbl.Content = msg;
+                (control.Content as System.Windows.Controls.ItemsControl).Items.Add(lbl);
+                index = (control.Content as System.Windows.Controls.ItemsControl).Items.Count - 1;
+            }));
+            return index;
         }
 
         public int append(Image paramImage)

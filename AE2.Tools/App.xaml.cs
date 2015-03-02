@@ -22,7 +22,7 @@ namespace AE2.Tools
             var vm = new Emulation.EmulatorVM();
             emu.DataContext = vm;
             vm.LoadMIDlet(new aeii.B_MainMIDlet());
-
+            emu.Show();
             //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
         }
