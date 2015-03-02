@@ -2,9 +2,16 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class TextBox
-      : Screen
+    public class TextBox : Screen
     {
+
+        private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
+
+        public override System.Windows.Controls.Control WPFControl
+        {
+            get { return textBox; }
+        }
+
         public TextBox(String paramString1, String paramString2, int paramInt1, int paramInt2) { }
 
         public int getCaretPosition()

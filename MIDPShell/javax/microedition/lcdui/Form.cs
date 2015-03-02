@@ -4,6 +4,14 @@ namespace javax.microedition.lcdui
 
     public class Form : Screen
     {
+
+        private System.Windows.Controls.GroupBox control = new System.Windows.Controls.GroupBox();
+
+        public override System.Windows.Controls.Control WPFControl
+        {
+            get { return control; }
+        }
+
         public Form(String paramString) { }
 
         public Form(String paramString, Item[] paramArrayOfItem) { }

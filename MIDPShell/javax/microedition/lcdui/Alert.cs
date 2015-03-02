@@ -2,9 +2,16 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class Alert
-      : Screen
+    public class Alert : Screen
     {
+
+        private System.Windows.Controls.Label control = new System.Windows.Controls.Label();
+
+        public override System.Windows.Controls.Control WPFControl
+        {
+            get { return control; }
+        }
+
         public static readonly int FOREVER = -2;
         public static readonly Command DISMISS_COMMAND = null;
 
