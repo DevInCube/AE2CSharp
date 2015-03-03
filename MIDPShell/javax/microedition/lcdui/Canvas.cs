@@ -112,9 +112,9 @@ namespace javax.microedition.lcdui
 
         protected void hideNotify() { }
 
-        public virtual void keyPressed(int paramInt) { }
+        public virtual void keyPressed(int keyCode) { }
 
-        public virtual void keyReleased(int paramInt) { }
+        public virtual void keyReleased(int keyCode) { }
 
         protected void keyRepeated(int paramInt) { }
 
