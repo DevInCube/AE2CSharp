@@ -1826,8 +1826,7 @@ namespace aeii
                     i1 = 0;
                     if (this.wrappedHeaderMb != null)
                     {
-                        gr.setColor(I_Game.someColorMethod2(16777215, this.var_117d,
-                                this.var_1105, 5));
+                        gr.setColor(I_Game.someColorMethod2(16777215, this.var_117d, this.var_1105, 5));
                         for (int i23 = 0; i23 < this.wrappedHeaderMb.Length; i23++)
                         {
                             E_MainCanvas.drawString(gr, this.wrappedHeaderMb[i23],
