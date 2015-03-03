@@ -19,7 +19,6 @@ namespace javax.microedition.lcdui
         private System.Drawing.Graphics gr;
         private System.Drawing.Color wpfColor;
         private System.Drawing.Font wpfFont;
-        private int colorInt;
 
         public System.Drawing.Graphics WPFGraphics { get { return gr; } }
 
@@ -113,7 +112,8 @@ namespace javax.microedition.lcdui
 
         public void drawImage(Image img, int x, int y, int anchor)
         {
-            this.gr.DrawImage(img.WPFImage, x, y);
+            System.Drawing.PointF p = applyAnchor(x, y, img.WPFImage.Size, anchor);
+            this.gr.DrawImage(img.WPFImage, p.X, p.Y);
         }
 
         public void drawLine(int x1, int y1, int x2, int y2)
@@ -139,7 +139,8 @@ namespace javax.microedition.lcdui
             int anchor)
         {
             var srcRect = new System.Drawing.Rectangle(x_src, y_src, width, height);
-            this.gr.DrawImage(src.WPFImage, x_dest, y_dest, srcRect, System.Drawing.GraphicsUnit.Pixel);
+            System.Drawing.PointF dest = applyAnchor(x_dest, y_dest, new System.Drawing.Size(width, height), anchor);
+            this.gr.DrawImage(src.WPFImage, dest.X, dest.Y, srcRect, System.Drawing.GraphicsUnit.Pixel);
         }
 
         public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) { }
@@ -149,17 +150,20 @@ namespace javax.microedition.lcdui
             var b = new System.Drawing.SolidBrush(this.wpfColor);
             System.Drawing.SizeF stringSize = new System.Drawing.SizeF();
             stringSize = this.gr.MeasureString(str.ToString(), wpfFont);
+            System.Drawing.PointF pos = applyAnchor(x, y, stringSize, anchor);
+            this.gr.DrawString(str.ToString(), wpfFont, b, pos.X, pos.Y); 
+        }
+
+        private System.Drawing.PointF applyAnchor(int x, int y, System.Drawing.SizeF size, int anchor)
+        {
             float fx = (float)x;
             float fy = (float)y;
-            if ((anchor & Graphics.HCENTER) != 0)
-            {
-                fx -= stringSize.Width / 2.0F;
-            }
-            if ((anchor & Graphics.BOTTOM) != 0)
-            {
-                fy -= stringSize.Height;
-            }
-            this.gr.DrawString(str.ToString(), wpfFont, b, fx, fy);//@todo
+            if ((anchor & Graphics.HCENTER) != 0) fx -= size.Width / 2.0F;
+            if ((anchor & Graphics.RIGHT) != 0) fx -= size.Width;
+            if ((anchor & Graphics.VCENTER) != 0) fy -= size.Height / 2.0F;            
+            if ((anchor & Graphics.BOTTOM) != 0) fy -= size.Height;
+            if ((anchor & Graphics.BASELINE) != 0) fy -= size.Height;
+            return new System.Drawing.PointF(fx, fy);
         }
 
         public void drawSubstring(String str, int offset, int len, int x, int y, int anchor) { }
