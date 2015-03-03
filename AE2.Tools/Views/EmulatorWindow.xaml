@@ -1,9 +1,10 @@
 ﻿<Window x:Class="AE2.Tools.Views.EmulatorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:AE2.Tools.Views"
-        Title="Emulator" Height="370" Width="250" Closed="Window_Closed">
-    <DockPanel>
+        xmlns:local="clr-namespace:AE2.Tools.Views" ResizeMode="CanMinimize"
+         WindowStartupLocation="CenterScreen"
+        Title="Emulator" Height="370" Width="270" Closed="Window_Closed">
+    <DockPanel Background="WhiteSmoke">
         <ContentControl Content="{Binding Control}" Width="240" Height="320" DockPanel.Dock="Left"/>
     </DockPanel>
 </Window>

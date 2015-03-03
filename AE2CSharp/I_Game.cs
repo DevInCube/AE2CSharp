@@ -171,7 +171,7 @@ public  class I_Game : A_MenuBase , Runnable {
 	public D_Menu selectLevelMenu;
 	public bool var_3723 = false;
 	public int var_372b;
-	public byte[][] housesDataArr;
+	public sbyte[][] housesDataArr;
 	public byte[][] var_373b;
 	public F_Sprite bigCircleSprite;
 	public F_Sprite smallCircleSprite;
@@ -2078,7 +2078,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		this.someMData = JavaArray.New<byte>(this.mapWidth,this.mapHeight);
 		this.mapCastlesCount = 0;
 		int countHouses = 0;
-		byte[][] housesArr = JavaArray.New<byte>(30,3);
+		sbyte[][] housesArr = JavaArray.New<sbyte>(30,3);
 		byte[][] mapCastlesPositions = JavaArray.New<byte>(30,2);
 		int m;
 		for (short i = 0; i < this.mapWidth; i = (short) (i + 1)) {
@@ -2088,9 +2088,9 @@ public  class I_Game : A_MenuBase , Runnable {
 				if ((this.mapTilesIds[i][j] >= this.houseTileIdStartIndex)
 						|| (this.mapTilesIds[i][j] == 27)) { //is house
 					m = tileOwnerPlayerIndex(i, j);
-					housesArr[countHouses][0] = ((byte) i);
-					housesArr[countHouses][1] = ((byte) j);
-					housesArr[countHouses][2] = ((byte) m);
+					housesArr[countHouses][0] = ((sbyte) i);
+					housesArr[countHouses][1] = ((sbyte) j);
+					housesArr[countHouses][2] = ((sbyte) m);
 					countHouses++;
 					if (getTileType(i, j) == 9) { //castle
 						if ((this.mapModeCampIf0 == 1) && (m != 0)
@@ -2107,7 +2107,7 @@ public  class I_Game : A_MenuBase , Runnable {
 			}
 		}
 		this.var_3acb = new int[countHouses];
-		this.housesDataArr = new byte[countHouses][];
+		this.housesDataArr = new sbyte[countHouses][];
 		for (short i = 0; i < countHouses; i = (short) (i + 1)) {
 			this.housesDataArr[i] = housesArr[i];
 		}
@@ -2148,7 +2148,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		this.playerKingsMb = JavaArray.New<C_Unit>(this.mapMaxPlayersMb,4);
 		this.playerUnitsCount = new int[this.mapMaxPlayersMb];
 		for (short i = 0; i < sLength; i = (short) (i + 1)) {
-			int uType = dis.readByte();
+            sbyte uType = (sbyte)dis.readByte();
 			int posX = dis.readShort() / 24;
 			int posY = dis.readShort() / 24;
 			sbyte unitType = (sbyte) (uType % 12);
@@ -4696,7 +4696,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		byte pY;
 		for (int i4 = 0; i4 < this.housesDataArr.Length; i4++) {
 			pX = this.housesDataArr[i4][0];
-			pY = this.housesDataArr[i4][1];
+			pY = (byte)this.housesDataArr[i4][1];
 			tileType = getTileType(pX, pY);
 			bool isOwner = playerIsOwnerOfTile(pX, pY, pxUnit.playerId);
 			this.someAIPosAValArr[i][2] = -6666;

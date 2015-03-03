@@ -162,7 +162,7 @@ namespace aeii
             this.var_106d = true;
         }
 
-        public  void onLoad()
+        public override void onLoad()
         {
             initMenu();
         }

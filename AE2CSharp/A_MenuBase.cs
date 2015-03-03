@@ -22,7 +22,7 @@ namespace aeii
         public static int maxDegreesDiv2 = 0;
         public static int maxDegreesDiv4 = 0;
 
-        public void onLoad()
+        public virtual void onLoad()
         {
             //@todo override
         }
