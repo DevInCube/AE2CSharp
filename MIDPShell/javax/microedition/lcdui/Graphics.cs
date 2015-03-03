@@ -139,6 +139,7 @@ namespace javax.microedition.lcdui
             int x_dest, int y_dest,
             int anchor)
         {
+            //transform //Sprite.TRANS_NONE
             var srcRect = new System.Drawing.Rectangle(x_src, y_src, width, height);
             System.Drawing.PointF dest = applyAnchor(x_dest, y_dest, new System.Drawing.Size(width, height), anchor);
             this.gr.DrawImage(src.WPFImage, dest.X, dest.Y, srcRect, System.Drawing.GraphicsUnit.Pixel);
