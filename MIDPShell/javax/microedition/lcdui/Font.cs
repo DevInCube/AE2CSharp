@@ -5,18 +5,18 @@ namespace javax.microedition.lcdui
 
     public class Font
     {
-        public static readonly int FACE_SYSTEM = 0;
-        public static readonly int FONT_STATIC_TEXT = 0;
-        public static readonly int SIZE_MEDIUM = 0;
-        public static readonly int STYLE_PLAIN = 0;
-        public static readonly int FONT_INPUT_TEXT = 1;
-        public static readonly int STYLE_BOLD = 1;
-        public static readonly int SIZE_LARGE = 16;
-        public static readonly int STYLE_ITALIC = 2;
-        public static readonly int FACE_MONOSPACE = 32;
-        public static readonly int STYLE_UNDERLINED = 4;
-        public static readonly int FACE_PROPORTIONAL = 64;
-        public static readonly int SIZE_SMALL = 8;
+        public const int FACE_SYSTEM = 0;
+        public const int FONT_STATIC_TEXT = 0;
+        public const int SIZE_MEDIUM = 0;
+        public const int STYLE_PLAIN = 0;
+        public const int FONT_INPUT_TEXT = 1;
+        public const int STYLE_BOLD = 1;
+        public const int SIZE_LARGE = 16;
+        public const int STYLE_ITALIC = 2;
+        public const int FACE_MONOSPACE = 32;
+        public const int STYLE_UNDERLINED = 4;
+        public const int FACE_PROPORTIONAL = 64;
+        public const int SIZE_SMALL = 8;
 
         private int face;
         private int style;
