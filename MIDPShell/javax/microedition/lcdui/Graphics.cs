@@ -1,4 +1,5 @@
 using java.lang;
+using javax.microedition.lcdui.game;
 namespace javax.microedition.lcdui
 {
 
@@ -140,6 +141,10 @@ namespace javax.microedition.lcdui
             int anchor)
         {
             //transform //Sprite.TRANS_NONE
+            if ((transform & Sprite.TRANS_MIRROR)!=0)
+            {
+
+            }
             var srcRect = new System.Drawing.Rectangle(x_src, y_src, width, height);
             System.Drawing.PointF dest = applyAnchor(x_dest, y_dest, new System.Drawing.Size(width, height), anchor);
             this.gr.DrawImage(src.WPFImage, dest.X, dest.Y, srcRect, System.Drawing.GraphicsUnit.Pixel);

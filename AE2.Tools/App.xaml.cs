@@ -19,14 +19,12 @@ namespace AE2.Tools
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            EmulatorWindow emu = new EmulatorWindow();
-            KeyboardWindow key = new KeyboardWindow();
+            EmulatorWindow emu = new EmulatorWindow();            
             var vm = new Emulation.EmulatorVM();
             emu.DataContext = vm;
-            vm.SetEventSource((key.DataContext as IEventSource));
+            vm.SetEventSource((vm as IEventSource));
             vm.LoadMIDlet(new aeii.B_MainMIDlet());
             emu.Show();
-            key.Show();
             //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
         }

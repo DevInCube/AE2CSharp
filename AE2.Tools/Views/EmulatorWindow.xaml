@@ -3,8 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AE2.Tools.Views" ResizeMode="CanMinimize"
          WindowStartupLocation="CenterScreen"
-        Title="Emulator" Height="370" Width="270" Closed="Window_Closed">
+        Title="Ancient Empires II" Height="555" Width="405" Closed="Window_Closed">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding KeyDict[L].Command}" Key="{Binding KeyDict[L].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[R].Command}" Key="{Binding KeyDict[R].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[1].Command}" Key="{Binding KeyDict[1].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[2].Command}" Key="{Binding KeyDict[2].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[3].Command}" Key="{Binding KeyDict[3].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[4].Command}" Key="{Binding KeyDict[4].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[5].Command}" Key="{Binding KeyDict[5].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[6].Command}" Key="{Binding KeyDict[6].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[7].Command}" Key="{Binding KeyDict[7].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[8].Command}" Key="{Binding KeyDict[8].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[9].Command}" Key="{Binding KeyDict[9].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[0].Command}" Key="{Binding KeyDict[0].Key}"/>
+    </Window.InputBindings>
     <DockPanel Background="WhiteSmoke">
-        <ContentControl Content="{Binding Control}" Width="240" Height="320" DockPanel.Dock="Left"/>
+        <ContentControl Content="{Binding Control}"  DockPanel.Dock="Left"/>
     </DockPanel>
 </Window>
