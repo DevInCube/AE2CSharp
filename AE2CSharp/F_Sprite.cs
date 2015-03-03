@@ -134,7 +134,7 @@ namespace aeii
                     this.frameImages[it].sub_6d9(jj2, this.frameWidth, this.frameHeight);
                 }
             }
-            int animationsCount = stream.read();
+            sbyte animationsCount = (sbyte)stream.read();
             if (animationsCount > 0)
             {
                 this.frameAnimationsSequences = new byte[animationsCount][];
@@ -270,8 +270,8 @@ namespace aeii
         public  void drawCurrentFrame(Graphics gr, int inX,
                 int inY, int paramInt3)
         {
-            drawFrameAt(gr, this.frameSequence[this.currentFrameIndex], inX,
-                    inY, paramInt3);
+            byte index = (byte)this.frameSequence[this.currentFrameIndex];
+            drawFrameAt(gr, index, inX, inY, paramInt3);
         }
 
 

@@ -1,10 +1,11 @@
 using java.lang;
+using MIDP.WPF.ViewModels;
 using System.ComponentModel;
 
 namespace javax.microedition.lcdui
 {
 
-    public abstract class Canvas : Displayable
+    public abstract class Canvas : Displayable, IEventListener
     {
         public static readonly int UP = 1;
         public static readonly int GAME_B = 10;

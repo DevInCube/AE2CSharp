@@ -53,5 +53,19 @@ namespace MIDP.WPF.Views
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        private IEventListener eventListener;
+        internal void SetEventListener(IEventListener eventListener)
+        {
+            this.eventListener = eventListener;
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (eventListener != null)
+            {
+                eventListener.keyPressed(0);//@todo
+            }
+        }
     }
 }

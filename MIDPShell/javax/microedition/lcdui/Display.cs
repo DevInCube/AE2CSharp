@@ -4,6 +4,7 @@ namespace javax.microedition.lcdui
 {
 
     using java.lang;
+    using MIDP.WPF.ViewModels;
 
     public class Display
     {
@@ -83,6 +84,10 @@ namespace javax.microedition.lcdui
         public void setCurrent(Displayable disp) 
         {
             this.displayControl.setControl(disp.WPFControl);
+            if (disp is Canvas)
+            {
+                this.displayControl.SetEventListener(disp as IEventListener);
+            }
         }
 
         public void setCurrentItem(Item paramItem) { }
