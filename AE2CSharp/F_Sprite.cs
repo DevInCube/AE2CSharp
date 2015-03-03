@@ -126,7 +126,7 @@ namespace aeii
                 int n = stream.read();
                 this.frameImages[j] = new H_ImageExt(images[n1], n);
             }
-            int jj2 = stream.read();
+            sbyte jj2 = (sbyte)stream.read();
             if (jj2 > 0)
             {
                 for (int it = 0; it < Length; it++)

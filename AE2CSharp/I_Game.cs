@@ -4454,8 +4454,7 @@ public  class I_Game : A_MenuBase , Runnable {
 					if (this.time - this.aSomeOtherStartTime >= 200L) {
 						this.someCursorXPos = this.var_3a73;
 						this.someCursorYPos = this.someTileType;
-						this.cursorSprite.setSpritePosition(this.var_3a73 * 24,
-								this.someTileType * 24);
+						this.cursorSprite.setSpritePosition(this.var_3a73 * 24, this.someTileType * 24);
 						this.var_353b = this.activeUnit.sub_1b48(
 								this.activeUnit.positionX, this.activeUnit.positionY,
 								this.someCursorXPos, this.someCursorYPos);
