@@ -40,11 +40,15 @@ namespace java.lang
 
         public static String operator +(String s1, String s2)
         {
-            return s1.ToString() + s2.ToString();
+            string ss1 = (s1 == null) ? "" : s1.ToString();
+            string ss2 = (s2 == null) ? "" : s2.ToString();
+            return ss1 + ss2;
         }
         public static String operator +(String s1, object s2)
         {
-            return s1.ToString() + s2.ToString();
+            string ss1 = (s1 == null) ? "" : s1.ToString();
+            string ss2 = (s2 == null) ? "" : s2.ToString();
+            return ss1 + ss2;
         }
 
         public override string ToString()
@@ -67,9 +71,10 @@ namespace java.lang
             return value[it];
         }
 
-        public String subString(int p, int i2)
+        public String subString(int startIndex, int endIndex)
         {
-            return value.Substring(p, i2);
+            int length = endIndex - startIndex;
+            return value.Substring(startIndex, length);
         }
 
         public String subString(int p)

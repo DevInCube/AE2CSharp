@@ -205,17 +205,7 @@ namespace javax.microedition.lcdui
 
         public void setFont(Font font)
         {
-            var defFont = System.Drawing.SystemFonts.DefaultFont;
-            float fontSize = 10;
-            if ((font.getSize() & Font.SIZE_SMALL) != 0) fontSize = 8;
-            if ((font.getSize() & Font.SIZE_LARGE) != 0) fontSize = 12;
-            int fStyle = font.getStyle();
-            System.Drawing.FontStyle style = System.Drawing.FontStyle.Regular;
-            if ((fStyle & Font.STYLE_BOLD) != 0) style |= System.Drawing.FontStyle.Bold;
-            if ((fStyle & Font.STYLE_ITALIC) != 0) style |= System.Drawing.FontStyle.Italic;
-            if ((fStyle & Font.STYLE_UNDERLINED) != 0) style |= System.Drawing.FontStyle.Underline;
-            string fontName = System.Drawing.FontFamily.GenericMonospace.Name;
-            this.wpfFont = new System.Drawing.Font(fontName, fontSize, style);            
+            this.wpfFont = font.WPFFont;            
             this.font = font;
         }
 

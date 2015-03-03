@@ -22,6 +22,9 @@ namespace javax.microedition.lcdui
         private int style;
         private int size;
 
+        private System.Drawing.Font wpfFont;
+        internal System.Drawing.Font WPFFont { get { return wpfFont; } }
+
         public Font(int face, int style, int size)
         {
             // TODO: Complete member initialization
@@ -29,26 +32,37 @@ namespace javax.microedition.lcdui
             this.style = style;
             this.size = size;
             //throw IllegalArgumentException 
+            var defFont = System.Drawing.SystemFonts.DefaultFont;
+            float fontSize = 12;
+            if ((this.getSize() & Font.SIZE_SMALL) != 0) fontSize = 10;
+            if ((this.getSize() & Font.SIZE_LARGE) != 0) fontSize = 14;
+            int fStyle = this.getStyle();
+            System.Drawing.FontStyle ffstyle = System.Drawing.FontStyle.Regular;
+            if ((fStyle & Font.STYLE_BOLD) != 0) ffstyle |= System.Drawing.FontStyle.Bold;
+            if ((fStyle & Font.STYLE_ITALIC) != 0) ffstyle |= System.Drawing.FontStyle.Italic;
+            if ((fStyle & Font.STYLE_UNDERLINED) != 0) ffstyle |= System.Drawing.FontStyle.Underline;
+            string fontName = System.Drawing.FontFamily.GenericMonospace.Name;
+            this.wpfFont = new System.Drawing.Font(fontName, fontSize, ffstyle); 
         }
 
         public bool isBold()
         {
-            return false;
+            return (style & Font.STYLE_BOLD) != 0;
         }
 
         public bool isItalic()
         {
-            return false;
+            return (style & Font.STYLE_ITALIC) != 0;
         }
 
         public bool isPlain()
         {
-            return false;
+            return (style & Font.STYLE_PLAIN) != 0;
         }
 
         public bool isUnderlined()
         {
-            return false;
+            return (style & Font.STYLE_UNDERLINED) != 0;
         }
 
         public int charWidth(char paramChar)
@@ -63,32 +77,38 @@ namespace javax.microedition.lcdui
 
         public int getBaselinePosition()
         {
-            return 0;
+            var gr = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(500, 20));
+            System.Drawing.FontFamily ff = wpfFont.FontFamily;
+            float lineSpace = ff.GetLineSpacing(wpfFont.Style);
+            float ascent = ff.GetCellAscent(wpfFont.Style);
+            float baseline = wpfFont.GetHeight(gr) * ascent / lineSpace;
+            return (int)baseline;
         }
 
         public int getFace()
         {
-            return 0;
+            return this.face;
         }
 
         public int getHeight()
         {
-            return 0;
+            return this.wpfFont.Height;
         }
 
         public int getSize()
         {
-            return 0;
+            return this.size;
         }
 
         public int getStyle()
         {
-            return 0;
+            return this.style;
         }
 
-        public int stringWidth(String paramString)
+        public int stringWidth(String str)
         {
-            return 0;
+            var gr = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(500, 20));
+            return (int)gr.MeasureString(str.ToString(), wpfFont).Width;
         }
 
         public int substringWidth(String paramString, int paramInt1, int paramInt2)
