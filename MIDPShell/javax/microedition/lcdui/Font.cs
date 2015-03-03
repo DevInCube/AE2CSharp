@@ -41,7 +41,7 @@ namespace javax.microedition.lcdui
             if ((fStyle & Font.STYLE_BOLD) != 0) ffstyle |= System.Drawing.FontStyle.Bold;
             if ((fStyle & Font.STYLE_ITALIC) != 0) ffstyle |= System.Drawing.FontStyle.Italic;
             if ((fStyle & Font.STYLE_UNDERLINED) != 0) ffstyle |= System.Drawing.FontStyle.Underline;
-            string fontName = System.Drawing.FontFamily.GenericMonospace.Name;
+            string fontName = System.Drawing.FontFamily.GenericSansSerif.Name;
             this.wpfFont = new System.Drawing.Font(fontName, fontSize, ffstyle); 
         }
 
@@ -78,7 +78,7 @@ namespace javax.microedition.lcdui
         public int getBaselinePosition()
         {
             var gr = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(500, 20));
-            System.Drawing.FontFamily ff = wpfFont.FontFamily;
+            System.Drawing.FontFamily ff = wpfFont.FontFamily;            
             float lineSpace = ff.GetLineSpacing(wpfFont.Style);
             float ascent = ff.GetCellAscent(wpfFont.Style);
             float baseline = wpfFont.GetHeight(gr) * ascent / lineSpace;

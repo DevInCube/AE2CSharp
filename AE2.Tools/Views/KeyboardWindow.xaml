@@ -6,6 +6,20 @@
     <Window.DataContext>
         <emu:KeyboardVM/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding KeyL}" Key="F1"/>
+        <KeyBinding Command="{Binding KeyR}" Key="F2"/>
+        <KeyBinding Command="{Binding Key1}" Key="NumPad7"/>
+        <KeyBinding Command="{Binding Key2}" Key="NumPad8"/>
+        <KeyBinding Command="{Binding Key3}" Key="NumPad9"/>
+        <KeyBinding Command="{Binding Key4}" Key="NumPad4"/>
+        <KeyBinding Command="{Binding Key5}" Key="NumPad5"/>
+        <KeyBinding Command="{Binding Key6}" Key="NumPad6"/>
+        <KeyBinding Command="{Binding Key7}" Key="NumPad1"/>
+        <KeyBinding Command="{Binding Key8}" Key="NumPad2"/>
+        <KeyBinding Command="{Binding Key9}" Key="NumPad3"/>
+        <KeyBinding Command="{Binding Key0}" Key="NumPad0"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
