@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace AE2.Tools.Views
 {
     /// <summary>
-    /// Interaction logic for KeyboardControl.xaml
+    /// Interaction logic for KeyboardWindow.xaml
     /// </summary>
-    public partial class KeyboardControl : UserControl
+    public partial class KeyboardWindow : Window
     {
-        public KeyboardControl()
+        public KeyboardWindow()
         {
             InitializeComponent();
         }

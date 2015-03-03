@@ -58,7 +58,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\KeyboardControl.xaml">
+    <Page Include="Views\KeyboardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,8 +78,8 @@
     <Compile Include="Views\EmulatorWindow.xaml.cs">
       <DependentUpon>EmulatorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeyboardControl.xaml.cs">
-      <DependentUpon>KeyboardControl.xaml</DependentUpon>
+    <Compile Include="Views\KeyboardWindow.xaml.cs">
+      <DependentUpon>KeyboardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
