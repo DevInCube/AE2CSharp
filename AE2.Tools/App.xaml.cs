@@ -21,6 +21,7 @@ namespace AE2.Tools
         {
             EmulatorWindow emu = new EmulatorWindow();            
             var vm = new Emulation.EmulatorVM();
+            vm.ClosedAction += () => { emu.Close(); };
             emu.DataContext = vm;
             vm.SetEventSource((vm as IEventSource));
             vm.LoadMIDlet(new aeii.B_MainMIDlet());
