@@ -78,6 +78,7 @@ namespace aeii
         public H_ImageExt(String imgId, int paramInt)
         {
             byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
+            if (imgData == null) throw new Exception(); //
             if (paramInt != 1)
             {
                 byte[] data = new byte[imgData.Length];
@@ -85,7 +86,6 @@ namespace aeii
                 sub_99f(data, paramInt);
                 imgData = data;
             }
-            if (imgData == null) throw new Exception();//
             this.image = Image.createImage((byte[])imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());

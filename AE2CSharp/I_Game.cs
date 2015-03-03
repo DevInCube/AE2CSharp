@@ -98,8 +98,8 @@ public  class I_Game : A_MenuBase , Runnable {
 	public long time;
 	public byte scenarioMapIndex;
 	public int var_34e3;
-	public int var_34eb;
-	public C_Unit[] var_34f3;
+	public int attackAimUnitIndex;
+	public C_Unit[] attackTargetUnits;
 	public C_Unit activeUnit;
 	public int var_3503;
 	public int var_350b;
@@ -1893,16 +1893,16 @@ public  class I_Game : A_MenuBase , Runnable {
 			this.var_34cb = this.unkState;
 			this.unkState = 6;
 			this.cursorIsMovingMb = true;
-			this.var_34f3 = this.activeUnit.getActiveUnitsInAttackRange(this.activeUnit.positionX,
+			this.attackTargetUnits = this.activeUnit.getActiveUnitsInAttackRange(this.activeUnit.positionX,
 					this.activeUnit.positionY, (byte) 0);
-			this.var_34eb = 0;
+			this.attackAimUnitIndex = 0;
 			this.var_351b = true;
 			this.unitAttackCellsHighlighted = true;
 			this.activeUnit.fillAttackRangeData(this.someMapData, this.activeUnit.positionX,
 					this.activeUnit.positionY);
 			this.cursorSprite.setFrameSequence(cursorFrameSequences[1]);
-			moveCursorToPos(this.var_34f3[this.var_34eb].positionX,
-					this.var_34f3[this.var_34eb].positionY);
+			moveCursorToPos(this.attackTargetUnits[this.attackAimUnitIndex].positionX,
+					this.attackTargetUnits[this.attackAimUnitIndex].positionY);
 			this.canCancelMb = true;
 			this.canApplyMb = true;
 			A_MenuBase.mainCanvas.showMenu(this);
@@ -1969,7 +1969,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		}
 		if (itemName.Equals(A_MenuBase.getLangString(69))) {
 			this.unkState = 7;
-			this.var_34f3 = this.activeUnit.getActiveUnitsInAttackRange(this.activeUnit.positionX,
+			this.attackTargetUnits = this.activeUnit.getActiveUnitsInAttackRange(this.activeUnit.positionX,
 					this.activeUnit.positionY, (byte) 1);
 			this.var_351b = true;
 			this.unitAttackCellsHighlighted = true;
@@ -2032,7 +2032,7 @@ public  class I_Game : A_MenuBase , Runnable {
 	public  void sub_87e6() {
 		this.mapUnitsSprites = new Vector();
 		this.activeUnit = null;
-		this.var_34f3 = null;
+		this.attackTargetUnits = null;
 		this.m_tempUnit = null;
 	}
 
@@ -2119,7 +2119,7 @@ public  class I_Game : A_MenuBase , Runnable {
 		
 		if (this.mapModeCampIf0 == 1) {
 			for (short i = 0; i < this.mapMaxPlayersMb; i = (short) (i + 1)) {
-				this.playersMoney[i] = (byte)this.mapStartMoney;
+				this.playersMoney[i] = (short)this.mapStartMoney;
 			}
 		}
 		else {
@@ -2218,9 +2218,9 @@ public  class I_Game : A_MenuBase , Runnable {
 	}
 
 	public  void clearActiveUnit() {
-		this.var_34eb = 0;
+		this.attackAimUnitIndex = 0;
 		this.activeUnit = null;
-		this.var_34f3 = new C_Unit[0];
+		this.attackTargetUnits = new C_Unit[0];
 		fillArrayWithValue(this.someMapData, 0);
 		this.var_351b = false;
 		this.unitAttackCellsHighlighted = false;
@@ -2861,26 +2861,26 @@ public  class I_Game : A_MenuBase , Runnable {
 										|| (this.unkState == 7)) {
 									if ((A_MenuBase.mainCanvas.invertActionCode(4))
 											|| (A_MenuBase.mainCanvas.invertActionCode(1))) {
-										this.var_34eb -= 1;
-										if (this.var_34eb < 0) {
-											this.var_34eb = (this.var_34f3.Length - 1);
+										this.attackAimUnitIndex -= 1;
+										if (this.attackAimUnitIndex < 0) {
+											this.attackAimUnitIndex = (this.attackTargetUnits.Length - 1);
 										}
 										A_MenuBase.mainCanvas.clearActionCode(4);
 										A_MenuBase.mainCanvas.clearActionCode(1);
 										this.cursorIsMovingMb = true;
 									} else if ((A_MenuBase.mainCanvas.invertActionCode(8))
 											|| (A_MenuBase.mainCanvas.invertActionCode(2))) {
-										this.var_34eb += 1;
-										if (this.var_34eb >= this.var_34f3.Length) {
-											this.var_34eb = 0;
+										this.attackAimUnitIndex += 1;
+										if (this.attackAimUnitIndex >= this.attackTargetUnits.Length) {
+											this.attackAimUnitIndex = 0;
 										}
 										A_MenuBase.mainCanvas.clearActionCode(8);
 										A_MenuBase.mainCanvas.clearActionCode(2);
 										this.cursorIsMovingMb = true;
 									}
 									moveCursorToPos(
-											this.var_34f3[this.var_34eb].positionX,
-											this.var_34f3[this.var_34eb].positionY);
+											this.attackTargetUnits[this.attackAimUnitIndex].positionX,
+											this.attackTargetUnits[this.attackAimUnitIndex].positionY);
 									if (this.cursorIsMovingMb) {
 										this.someCursorUnit2 = getSomeUnit(this.someCursorXPos,
 												this.someCursorYPos, (byte) 0);
@@ -2890,10 +2890,10 @@ public  class I_Game : A_MenuBase , Runnable {
 										if (this.unkState == 6) {
 											sub_55bd(
 													this.activeUnit,
-													this.var_34f3[this.var_34eb]);
+													this.attackTargetUnits[this.attackAimUnitIndex]);
 										} else if (this.unkState == 7) {
 											setSomeSparkingUnitMb(
-													this.var_34f3[this.var_34eb],
+													this.attackTargetUnits[this.attackAimUnitIndex],
 													this.playerId);
 											this.activeUnit.endMove();
 											this.unkState = 0;
@@ -3861,14 +3861,14 @@ public  class I_Game : A_MenuBase , Runnable {
 				}
 			}
 			if ((this.unkState == 6)
-					&& (this.var_34f3[this.var_34eb].m_state != 4)) {
+					&& (this.attackTargetUnits[this.attackAimUnitIndex].m_state != 4)) {
 				i3 = 0;
 				if (this.someCursorYPos * 24 <= this.someGHeight / 2 - 24) {
 					i3 = this.someGHeight - this.buttonsSprite.frameHeight - this.var_3a43
 							+ 2;
 				}
 				drawAttackStatMenu(gr, this.activeUnit,
-						this.var_34f3[this.var_34eb], i3);
+						this.attackTargetUnits[this.attackAimUnitIndex], i3);
 			}
 		}
 		if (sub_4789()) {
@@ -4855,13 +4855,13 @@ public  class I_Game : A_MenuBase , Runnable {
 						}
 					}
 					if (pxUnit.hasProperty((short) 32)) { //raise
-						this.var_34f3 = pxUnit.getActiveUnitsInAttackRange(it2, tileType, (byte) 1);
-						for (int i12 = 0; i12 < this.var_34f3.Length; i12++) {
+						this.attackTargetUnits = pxUnit.getActiveUnitsInAttackRange(it2, tileType, (byte) 1);
+						for (int i12 = 0; i12 < this.attackTargetUnits.Length; i12++) {
 							cellPrior = getUnitCellPriority(pxUnit, it2, tileType,
-									null, this.var_34f3[i12]);
+									null, this.attackTargetUnits[i12]);
 							if (cellPrior > i4w) {
 								this.var_3a83 = null;
-								this.var_3a8b = this.var_34f3[i12];
+								this.var_3a8b = this.attackTargetUnits[i12];
 								i4w = cellPrior;
 								this.var_3a73 = it2;
 								this.someTileType = tileType;
