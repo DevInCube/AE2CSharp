@@ -44,6 +44,7 @@ namespace javax.microedition.lcdui
         {         
             canvasImage = new System.Drawing.Bitmap(240, 320);
             image = new System.Windows.Controls.Image();
+            System.Windows.Media.RenderOptions.SetBitmapScalingMode(image, System.Windows.Media.BitmapScalingMode.NearestNeighbor);
             System.Windows.Media.ImageSourceConverter c = new System.Windows.Media.ImageSourceConverter();            
             graphics = new Graphics(System.Drawing.Graphics.FromImage(canvasImage));
             paintWorker = new BackgroundWorker(){
