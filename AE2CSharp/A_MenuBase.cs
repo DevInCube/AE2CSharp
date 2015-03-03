@@ -155,7 +155,7 @@ namespace aeii
             return getSomeHelpString(aStringId, false);
         }
 
-        public static  String getSomeHelpString(int strId, bool paramBoolean)
+        public static String getSomeHelpString(int strId, bool paramBoolean)
         {
             if (strId < langStrings.Length)
             {

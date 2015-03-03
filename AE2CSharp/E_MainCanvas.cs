@@ -372,7 +372,7 @@ namespace aeii
             return base.getKeyName(i);
         }
 
-        public  void keyPressed(int paramInt)
+        public override void keyPressed(int paramInt)
         {
             int actionCode = getGameAction(paramInt);
             addActionCode(actionCode);
@@ -406,7 +406,7 @@ namespace aeii
             return (this.someActionsSum & actCode) != 0;
         }
 
-        public  void keyReleased(int keyCode)
+        public override void keyReleased(int keyCode)
         {
             int actionCode = getGameAction(keyCode);
             clearActionCode(actionCode);

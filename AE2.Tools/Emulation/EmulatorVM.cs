@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using java.csharp;
+using System.Windows.Input;
 
 namespace AE2.Tools.Emulation
 {
     public class EmulatorVM : ObservableObject
     {
+
 
         private System.Windows.Controls.Control _Control;
 

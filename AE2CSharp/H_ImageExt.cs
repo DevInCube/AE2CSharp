@@ -16,7 +16,7 @@ namespace aeii
         public int imageHeight;
         private int locationX;
         private int locationY;
-        public int var_4fb = 0;
+        public int imageTransformation = 0;
 
         public H_ImageExt(H_ImageExt image, int paramInt1, int paramInt2, int imWidth, int imHeight)
         {
@@ -41,27 +41,27 @@ namespace aeii
             this.var_4c3 = image.var_4c3;
             if ((paramInt & 0x1) != 0)
             {
-                this.var_4fb = 2;
+                this.imageTransformation = 2;
                 return;
             }
             if ((paramInt & 0x2) != 0)
             {
-                this.var_4fb = 1;
+                this.imageTransformation = 1;
                 return;
             }
             if ((paramInt & 0x4) != 0)
             {
-                this.var_4fb = 6;
+                this.imageTransformation = 6;
                 return;
             }
             if ((paramInt & 0x8) != 0)
             {
-                this.var_4fb = 3;
+                this.imageTransformation = 3;
                 return;
             }
             if ((paramInt & 0x10) != 0)
             {
-                this.var_4fb = 5;
+                this.imageTransformation = 5;
             }
         }
 
@@ -99,7 +99,7 @@ namespace aeii
             }
             int i = paramInt1 & 0xD;
             int j = paramInt1 & 0x32;
-            if (this.var_4fb == 2)
+            if (this.imageTransformation == 2)
             {
                 if ((i & 0x4) != 0)
                 {
@@ -110,7 +110,7 @@ namespace aeii
                     i = 4;
                 }
             }
-            else if (this.var_4fb == 1)
+            else if (this.imageTransformation == 1)
             {
                 if ((j & 0x10) != 0)
                 {
@@ -152,19 +152,21 @@ namespace aeii
             drawImageExt(gr, inX, inY, 20);
         }
 
-        public void drawImageExt(Graphics gr, int inX,
-                int inY, int paramInt3)
+        public void drawImageExt(Graphics gr, int inX, int inY, int inAnchor)
         {
-            if ((this.var_4c3) || (this.var_4fb != 0))
+            int x_dest = inX + this.locationX;
+            int y_dest = inY + this.locationY;
+            if ((this.var_4c3) || (this.imageTransformation != 0))
             {
-                gr.drawRegion(this.image, this.var_4cb, this.var_4d3,
-                                this.imageWidth, this.imageHeight, this.var_4fb, inX
-                                        + this.locationX, inY + this.locationY,
-                                paramInt3);
+                int x_src = this.var_4cb;
+                int y_src = this.var_4d3;
+                gr.drawRegion(this.image, x_src,  y_src,
+                              this.imageWidth, this.imageHeight, 
+                              this.imageTransformation, x_dest, y_dest,
+                              inAnchor);
                 return;
             }
-            gr.drawImage(this.image, inX + this.locationX,
-                    inY + this.locationY, paramInt3);
+            gr.drawImage(this.image, x_dest, y_dest, inAnchor);
         }
 
         public static void sub_99f(byte[] data, int paramInt)
