@@ -4,6 +4,9 @@ namespace javax.microedition.midlet
 {
     public abstract class MIDlet
     {
+
+        public event System.Action Destroyed;
+
         public abstract void destroyApp(bool unconditional);
 
         public abstract void pauseApp();
@@ -43,7 +46,11 @@ namespace javax.microedition.midlet
         /// <summary>
         /// Used by an MIDlet to notify the application management software that it has entered into the Destroyed state.
         /// </summary>
-        public void notifyDestroyed() { }
+        public void notifyDestroyed() 
+        {
+            if (Destroyed != null)
+                Destroyed();
+        }
 
         /// <summary>
         ///  Notifies the application management software that the MIDlet does not want to be active and has entered the Paused state.

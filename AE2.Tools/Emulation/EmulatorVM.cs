@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using java.csharp;
 using System.Windows.Input;
 using MIDP.WPF.Views;
+using System.Windows;
 
 namespace AE2.Tools.Emulation
 {
@@ -28,6 +29,7 @@ namespace AE2.Tools.Emulation
     {
         public event Action<int> KeyPressed;
         public event Action<int> KeyReleased;
+        public event Action ClosedAction;
         public Dictionary<string, KeyCommand> KeyDict { get; set; }
 
         private IEventSource eventSource;
@@ -75,10 +77,25 @@ namespace AE2.Tools.Emulation
         internal void LoadMIDlet(MIDlet midlet)
         {
             midlet.getClass().setResourceLoader(new WPFResourceLoader("Resources"));
+            midlet.Destroyed += midlet_Destroyed;
             Display display = Display.getDisplay(midlet);
             this.Control = display.Control;
             (display.Control as DisplayControl).SetEventSource(eventSource);
             midlet.startApp();
+        }
+
+        void midlet_Destroyed()
+        {
+            CloseWindow();
+        }
+
+        private void CloseWindow()
+        {
+            Application.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                if (ClosedAction != null)
+                    ClosedAction();
+            }));
         }
     }
 }

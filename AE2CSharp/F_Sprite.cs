@@ -84,6 +84,7 @@ namespace aeii
                 {
                     for (int i3 = 0; i3 < numberOfFramesX; i3++)
                     {
+                        if (i1 >= images.Length) throw new Exception(); //
                         images[i1] = new H_ImageExt(spriteFrame,
                                 i3, i2, this.frameWidth, this.frameHeight);
                         i1++;
