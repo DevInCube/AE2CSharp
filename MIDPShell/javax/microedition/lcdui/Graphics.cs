@@ -4,18 +4,24 @@ namespace javax.microedition.lcdui
 
     public class Graphics
     {
-        public static readonly int SOLID = 0;
-        public static readonly int DOTTED = 1;
-        public static readonly int HCENTER = 1;
-        public static readonly int TOP = 16;
-        public static readonly int VCENTER = 2;
-        public static readonly int BOTTOM = 32;
-        public static readonly int LEFT = 4;
-        public static readonly int BASELINE = 64;
-        public static readonly int RIGHT = 8;
+        public const int SOLID = 0;
+        public const int DOTTED = 1;
+        public const int HCENTER = 1;
+        public const int TOP = 16;
+        public const int VCENTER = 2;
+        public const int BOTTOM = 32;
+        public const int LEFT = 4;
+        public const int BASELINE = 64;
+        public const int RIGHT = 8;
+
+        private Font font;
 
         private System.Drawing.Graphics gr;
-        private Font font;
+        private System.Drawing.Color wpfColor;
+        private System.Drawing.Font wpfFont;
+        private int colorInt;
+
+        public System.Drawing.Graphics WPFGraphics { get { return gr; } }
 
         public Graphics(System.Drawing.Graphics newGraphics)
         {
@@ -89,10 +95,13 @@ namespace javax.microedition.lcdui
 
         public Font getFont()
         {
-            return null;
+            return font;
         }
 
-        public void clipRect(int x, int y, int width, int height) { }
+        public void clipRect(int x, int y, int width, int height)
+        {
+            //@todo
+        }
 
         public void copyArea(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7) { }
 
@@ -102,50 +111,100 @@ namespace javax.microedition.lcdui
 
         public void drawChars(char[] paramArrayOfChar, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5) { }
 
-        public void drawImage(Image img, int x, int y, int anchor) {
-            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {
-                this.gr.DrawImage(img.WPFImage, x, y);
-            }));
-        }
-
-        public void drawLine(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
-
-        public void drawRGB(int[] paramArrayOfInt, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, bool paramBoolean) { }
-
-        public void drawRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
-
-        public void drawRegion(Image paramImage, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7, int paramInt8) { }
-
-        public void drawRoundRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
-
-        public void drawString(String str, int x, int y, int anchor) 
+        public void drawImage(Image img, int x, int y, int anchor)
         {
-            System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
-            {
-                System.Drawing.Font wpfFont = System.Drawing.SystemFonts.DefaultFont;
-                System.Drawing.Brush wpfBrush = System.Drawing.Brushes.DarkRed;
-                this.gr.DrawString(str.ToString(), wpfFont, wpfBrush, (float)x, (float)y);//@todo
-            }));
+            this.gr.DrawImage(img.WPFImage, x, y);
         }
 
-        public void drawSubstring(String paramString, int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5) { }
+        public void drawLine(int x1, int y1, int x2, int y2)
+        {
+            var pen = new System.Drawing.Pen(this.wpfColor);
+            this.gr.DrawLine(new System.Drawing.Pen(wpfColor), x1, y1, x2, y2);
+        }
 
-        public void fillArc(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
+        public void drawRGB(int[] rgbData, int offset, int scanlength, int x, int y, int width, int height, bool processAlpha) { }
 
-        public void fillRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        public void drawRect(int x, int y, int width, int height) {
+            var brush = new System.Drawing.SolidBrush(this.wpfColor);
+            var pen = new System.Drawing.Pen(brush);
+            this.gr.DrawRectangle(pen, x, y, width, height);
+        }
+
+        public void drawRegion(
+            Image src,
+            int x_src, int y_src,
+            int width, int height,
+            int transform,
+            int x_dest, int y_dest,
+            int anchor)
+        {
+            var srcRect = new System.Drawing.Rectangle(x_src, y_src, width, height);
+            this.gr.DrawImage(src.WPFImage, x_dest, y_dest, srcRect, System.Drawing.GraphicsUnit.Pixel);
+        }
+
+        public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) { }
+
+        public void drawString(String str, int x, int y, int anchor)
+        {            
+            var b = new System.Drawing.SolidBrush(this.wpfColor);
+            System.Drawing.SizeF stringSize = new System.Drawing.SizeF();
+            stringSize = this.gr.MeasureString(str.ToString(), wpfFont);
+            float fx = (float)x;
+            float fy = (float)y;
+            if ((anchor & Graphics.HCENTER) != 0)
+            {
+                fx -= stringSize.Width / 2.0F;
+            }
+            if ((anchor & Graphics.BOTTOM) != 0)
+            {
+                fy -= stringSize.Height;
+            }
+            this.gr.DrawString(str.ToString(), wpfFont, b, fx, fy);//@todo
+        }
+
+        public void drawSubstring(String str, int offset, int len, int x, int y, int anchor) { }
+
+        public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle)
+        {
+            var brush = new System.Drawing.SolidBrush(this.wpfColor);
+            this.gr.FillPie(brush, x, y, width, height, startAngle, arcAngle);
+        }
+
+        public void fillRect(int x, int y, int width, int height)
+        {
+            var brush = new System.Drawing.SolidBrush(this.wpfColor);
+            this.gr.FillRectangle(brush, x, y, width, height);
+        }
 
         public void fillRoundRect(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
 
         public void fillTriangle(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6) { }
 
-        public void setClip(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        public void setClip(int x, int y, int width, int height) {
+            this.gr.SetClip(new System.Drawing.Rectangle(x, y, width, height));
+        }
 
-        public void setColor(int paramInt) { }
+        public void setColor(int colorInt)
+        {
+            int r = (colorInt >> 16) & 255;
+            int g = (colorInt >> 8) & 255;
+            int b = (colorInt) & 255;
+            setColor(r, g, b);
+        }
 
-        public void setColor(int paramInt1, int paramInt2, int paramInt3) { }
+        public void setColor(int r, int g, int b) 
+        {
+            int alpha = 255;
+            this.wpfColor = System.Drawing.Color.FromArgb(alpha, r, g, b);
+        }
 
         public void setFont(Font font)
         {
+            var defFont = System.Drawing.SystemFonts.DefaultFont;
+            float fontSize = (float)font.getSize();
+            if (fontSize == 0) fontSize = 10;
+            this.wpfFont = new System.Drawing.Font(System.Drawing.FontFamily.GenericMonospace.Name, fontSize);
+            //@todo init font
             this.font = font;
         }
 
@@ -153,7 +212,10 @@ namespace javax.microedition.lcdui
 
         public void setStrokeStyle(int paramInt) { }
 
-        public void translate(int paramInt1, int paramInt2) { }
+        public void translate(int x, int y)
+        {
+            this.gr.TranslateTransform((float)x, (float)y);
+        }
     }
 
 }

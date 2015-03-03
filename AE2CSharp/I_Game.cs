@@ -3611,15 +3611,15 @@ public  class I_Game : A_MenuBase , Runnable {
 	}
 
 	public static  void drawHighlightedString(Graphics gr,
-			String aString, int inX, int inY, int paramInt3,
+			String aString, int inX, int inY, int inAnchor,
 			int aStringColor, int highlightColor) {
 		gr.setColor(highlightColor);
-		gr.drawString(aString, inX - 1, inY - 1, paramInt3);
-		gr.drawString(aString, inX - 1, inY + 1, paramInt3);
-		gr.drawString(aString, inX + 1, inY + 1, paramInt3);
-		gr.drawString(aString, inX + 1, inY - 1, paramInt3);
+		gr.drawString(aString, inX - 1, inY - 1, inAnchor);
+		gr.drawString(aString, inX - 1, inY + 1, inAnchor);
+		gr.drawString(aString, inX + 1, inY + 1, inAnchor);
+		gr.drawString(aString, inX + 1, inY - 1, inAnchor);
 		gr.setColor(aStringColor);
-		gr.drawString(aString, inX, inY, paramInt3);
+		gr.drawString(aString, inX, inY, inAnchor);
 	}
 
 	public override void onPaint(Graphics gr) {

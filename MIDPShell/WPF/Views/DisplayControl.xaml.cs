@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MIDP.WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,15 +23,12 @@ namespace MIDP.WPF.Views
     /// </summary>
     public partial class DisplayControl : UserControl, INotifyPropertyChanged
     {
+
+        public event Action<int> KeyPressed;
+        public event Action<int> KeyReleased;
+
         public ObservableCollection<FrameworkElement> Items { get; set; }
-        private Control _Control;
-
-        public Control Control
-        {
-            get { return _Control; }
-            set { _Control = value; OnPropertyChanged("Control"); }
-        }
-
+        
         public DisplayControl()
         {
             InitializeComponent();
@@ -38,13 +36,14 @@ namespace MIDP.WPF.Views
             this.DataContext = this;
         }
 
+        //public void 
+
         public void setControl(FrameworkElement c)
         {
             Application.Current.Dispatcher.Invoke((Action)(() => {
                 this.Items.Clear();
                 this.Items.Add(c);
             }));
-            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

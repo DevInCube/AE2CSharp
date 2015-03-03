@@ -41,7 +41,7 @@ namespace javax.microedition.lcdui
 
         public Canvas()
         {         
-            canvasImage = new System.Drawing.Bitmap(300, 500);
+            canvasImage = new System.Drawing.Bitmap(240, 320);
             image = new System.Windows.Controls.Image();
             System.Windows.Media.ImageSourceConverter c = new System.Windows.Media.ImageSourceConverter();            
             graphics = new Graphics(System.Drawing.Graphics.FromImage(canvasImage));
@@ -49,7 +49,7 @@ namespace javax.microedition.lcdui
                 WorkerSupportsCancellation = true,
             };
             paintWorker.DoWork += paintWorker_DoWork;
-            paintWorker.RunWorkerAsync();
+            //paintWorker.RunWorkerAsync();
         }
 
         public static System.Windows.Media.Imaging.BitmapSource CreateBitmapSourceFromGdiBitmap(System.Drawing.Bitmap bitmap)
@@ -90,14 +90,21 @@ namespace javax.microedition.lcdui
             BackgroundWorker worker = sender as BackgroundWorker;
             while (!worker.CancellationPending)
             {
-                if (isShown())
+                Paint();
+            }
+        }
+
+        private void Paint()
+        {
+            if (isShown())
+            {
+                this.paint(graphics);
+                System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
                 {
-                    this.paint(graphics);
-                    System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() =>
-                   {
-                       image.Source = (System.Windows.Media.ImageSource)CreateBitmapSourceFromGdiBitmap(canvasImage as System.Drawing.Bitmap);
-                   }));
-                }
+                    var bitmap = canvasImage as System.Drawing.Bitmap;
+                    System.Windows.Media.ImageSource imSource = (System.Windows.Media.ImageSource)CreateBitmapSourceFromGdiBitmap(bitmap);
+                    image.Source = imSource;
+                }));
             }
         }
 
@@ -105,9 +112,9 @@ namespace javax.microedition.lcdui
 
         protected void hideNotify() { }
 
-        protected void keyPressed(int paramInt) { }
+        public virtual void keyPressed(int paramInt) { }
 
-        protected void keyReleased(int paramInt) { }
+        public virtual void keyReleased(int paramInt) { }
 
         protected void keyRepeated(int paramInt) { }
 
@@ -119,7 +126,7 @@ namespace javax.microedition.lcdui
 
         protected void showNotify() { }
 
-        protected override void sizeChanged(int paramInt1, int paramInt2) { }
+        protected override void sizeChanged(int w, int h) { }
 
         public bool hasPointerEvents()
         {
@@ -141,15 +148,19 @@ namespace javax.microedition.lcdui
             return false;
         }
 
-        public  void repaint() { 
+        public  void repaint() {
+            Paint();
             //@todo
         }
 
-        public  void repaint(int paramInt1, int paramInt2, int paramInt3, int paramInt4) { }
+        public  void repaint(int x, int y, int w, int h) { }
 
-        public  void serviceRepaints() { }
+        public void serviceRepaints()
+        {
+            //@todo
+        }
 
-        public int getGameAction(int paramInt)
+        public int getGameAction(int keyCode)
         {
             return 0;
         }
@@ -185,6 +196,7 @@ namespace javax.microedition.lcdui
 
         public void setFullScreenMode(bool paramBoolean) {
             //@todo
+            var p = this.image.Parent;
         }
 
 

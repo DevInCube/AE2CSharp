@@ -58,6 +58,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\KeyboardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,9 +73,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Emulation\EmulatorVM.cs" />
+    <Compile Include="Emulation\KeyboardVM.cs" />
     <Compile Include="Loaders\Map.cs" />
     <Compile Include="Views\EmulatorWindow.xaml.cs">
       <DependentUpon>EmulatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\KeyboardControl.xaml.cs">
+      <DependentUpon>KeyboardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
