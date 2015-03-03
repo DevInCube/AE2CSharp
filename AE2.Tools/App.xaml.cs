@@ -1,5 +1,6 @@
 ﻿using AE2.Tools.Loaders;
 using AE2.Tools.Views;
+using MIDP.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,10 +20,13 @@ namespace AE2.Tools
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             EmulatorWindow emu = new EmulatorWindow();
+            KeyboardWindow key = new KeyboardWindow();
             var vm = new Emulation.EmulatorVM();
             emu.DataContext = vm;
+            vm.SetEventSource((key.DataContext as IEventSource));
             vm.LoadMIDlet(new aeii.B_MainMIDlet());
             emu.Show();
+            key.Show();
             //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
         }

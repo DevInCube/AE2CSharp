@@ -7,27 +7,27 @@ namespace javax.microedition.lcdui
 
     public abstract class Canvas : Displayable, IEventListener
     {
-        public static readonly int UP = 1;
-        public static readonly int GAME_B = 10;
-        public static readonly int GAME_C = 11;
-        public static readonly int GAME_D = 12;
-        public static readonly int LEFT = 2;
-        public static readonly int KEY_POUND = 35;
-        public static readonly int KEY_STAR = 42;
-        public static readonly int KEY_NUM0 = 48;
-        public static readonly int KEY_NUM1 = 49;
-        public static readonly int RIGHT = 5;
-        public static readonly int KEY_NUM2 = 50;
-        public static readonly int KEY_NUM3 = 51;
-        public static readonly int KEY_NUM4 = 52;
-        public static readonly int KEY_NUM5 = 53;
-        public static readonly int KEY_NUM6 = 54;
-        public static readonly int KEY_NUM7 = 55;
-        public static readonly int KEY_NUM8 = 56;
-        public static readonly int KEY_NUM9 = 57;
-        public static readonly int DOWN = 6;
-        public static readonly int FIRE = 8;
-        public static readonly int GAME_A = 9;
+        public const int UP = 1;
+        public const int GAME_B = 10;
+        public const int GAME_C = 11;
+        public const int GAME_D = 12;
+        public const int LEFT = 2;
+        public const int KEY_POUND = 35;
+        public const int KEY_STAR = 42;
+        public const int KEY_NUM0 = 48;
+        public const int KEY_NUM1 = 49;
+        public const int RIGHT = 5;
+        public const int KEY_NUM2 = 50;
+        public const int KEY_NUM3 = 51;
+        public const int KEY_NUM4 = 52;
+        public const int KEY_NUM5 = 53;
+        public const int KEY_NUM6 = 54;
+        public const int KEY_NUM7 = 55;
+        public const int KEY_NUM8 = 56;
+        public const int KEY_NUM9 = 57;
+        public const int DOWN = 6;
+        public const int FIRE = 8;
+        public const int GAME_A = 9;
 
         private Graphics graphics;
         private System.Drawing.Image canvasImage;

@@ -55,17 +55,34 @@ namespace MIDP.WPF.Views
         }
 
         private IEventListener eventListener;
+        private IEventSource eventSource;
+
+        public void SetEventSource(IEventSource eventSource)
+        {
+            this.eventSource = eventSource;
+            if (eventSource != null)
+            {
+                eventSource.KeyPressed += eventSource_KeyPressed;
+                eventSource.KeyReleased += eventSource_KeyReleased;
+            }
+        }
+
+        void eventSource_KeyReleased(int code)
+        {
+            if (eventListener != null)
+                eventListener.keyReleased(code);
+        }
+
+        void eventSource_KeyPressed(int code)
+        {
+            if (eventListener != null)
+                eventListener.keyPressed(code);
+        }
+
         internal void SetEventListener(IEventListener eventListener)
         {
             this.eventListener = eventListener;
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (eventListener != null)
-            {
-                eventListener.keyPressed(0);//@todo
-            }
-        }
     }
 }

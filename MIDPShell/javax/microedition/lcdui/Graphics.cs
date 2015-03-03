@@ -4,6 +4,7 @@ namespace javax.microedition.lcdui
 
     public class Graphics
     {
+
         public const int SOLID = 0;
         public const int DOTTED = 1;
         public const int HCENTER = 1;
@@ -99,7 +100,7 @@ namespace javax.microedition.lcdui
 
         public void clipRect(int x, int y, int width, int height)
         {
-            //@todo
+            this.gr.IntersectClip(new System.Drawing.Rectangle(x, y, width, height));
         }
 
         public void copyArea(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, int paramInt6, int paramInt7) { }
@@ -223,7 +224,7 @@ namespace javax.microedition.lcdui
         public void setStrokeStyle(int paramInt) { }
 
         public void translate(int x, int y)
-        {
+        {            
             this.gr.TranslateTransform((float)x, (float)y);
         }
     }

@@ -588,6 +588,7 @@ namespace aeii
         {
             try
             {
+                if (musicId >= musicPlayersLoaded.Length) throw new Exception("music index out of bound");
                 if (musicPlayersLoaded[musicId] == false)
                 {
                     return;
@@ -628,6 +629,7 @@ namespace aeii
         {
             try
             {
+                if (index >= musicPlayersLoaded.Length) throw new Exception("music index out of bound");
                 if (musicPlayersLoaded[index] == false)
                 {
                     return;
