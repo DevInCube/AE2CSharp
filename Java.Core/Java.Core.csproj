@@ -53,6 +53,7 @@
     <Compile Include="java\lang\Integer.cs" />
     <Compile Include="java\lang\JavaSystem.cs" />
     <Compile Include="java\lang\Math.cs" />
+    <Compile Include="java\lang\IllegalArgumentException.cs" />
     <Compile Include="java\lang\NullPointerException.cs" />
     <Compile Include="java\lang\Object.cs" />
     <Compile Include="java\lang\Runnable.cs" />

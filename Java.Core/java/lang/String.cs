@@ -38,6 +38,11 @@ namespace java.lang
             return new String(d);
         }
 
+        public static implicit operator string(String d)
+        {
+            return d.value;
+        }
+
         public static String operator +(String s1, String s2)
         {
             string ss1 = (s1 == null) ? "" : s1.ToString();

@@ -6,14 +6,22 @@ namespace javax.microedition.rms
 
     public class RecordStore
     {
-        public static readonly int AUTHMODE_PRIVATE = 0;
-        public static readonly int AUTHMODE_ANY = 1;
+
+        public const int AUTHMODE_PRIVATE = 0;
+        public const int AUTHMODE_ANY = 1;
+
+        private String name;
+
+        private RecordStore(String name)
+        {
+            this.name = name;
+        }
 
         private List<byte[]> records = new List<byte[]>();
 
-        public byte[] getRecord(int paramInt)
+        public byte[] getRecord(int index)
         {
-            return records[paramInt];
+            return records[index];
         }
 
         public int addRecord(byte[] data, int offset, int numBytes)
@@ -24,7 +32,7 @@ namespace javax.microedition.rms
 
         public int getNextRecordID()
         {
-            return 0;
+            return getNumRecords() + 1;
         }
 
         public int getNumRecords()
@@ -32,12 +40,12 @@ namespace javax.microedition.rms
             return records.Count;
         }
 
-        public int getRecord(int paramInt1, byte[] paramArrayOfByte, int paramInt2)
+        public int getRecord(int recordId, byte[] buffer, int offset)
         {
             return 0;
         }
 
-        public int getRecordSize(int paramInt)
+        public int getRecordSize(int recordId)
         {
             return 0;
         }
@@ -59,7 +67,7 @@ namespace javax.microedition.rms
 
         public String getName()
         {
-            return null;
+            return name;
         }
 
         public RecordEnumeration enumerateRecords(RecordFilter paramRecordFilter, RecordComparator paramRecordComparator, bool paramBoolean)
@@ -79,6 +87,8 @@ namespace javax.microedition.rms
 
         public static RecordStore openRecordStore(String recordStoreName, bool createIfNecessary)
         {
+            if (string.IsNullOrEmpty(recordStoreName)) throw new IllegalArgumentException("recordStoreName");
+
             if (RecordStoreManager.Contains(recordStoreName))
             {
                 return RecordStoreManager.Get(recordStoreName);
@@ -96,32 +106,42 @@ namespace javax.microedition.rms
 
         public static RecordStore openRecordStore(String recordStoreName, bool createIfNecessary, int authmode, bool writable)
         {
-            return null;
+            RecordStore store = openRecordStore(recordStoreName, createIfNecessary);
+            //@todo
+            return store;
         }
 
-        public static RecordStore openRecordStore(String paramString1, String paramString2, String paramString3)
+        /// <summary>
+        ///  Open a record store associated with the named MIDlet suite.
+        /// </summary>
+        /// <param name="recordStoreName"></param>
+        /// <param name="vendorName"></param>
+        /// <param name="suiteName"></param>
+        /// <returns></returns>
+        public static RecordStore openRecordStore(String recordStoreName, String vendorName, String suiteName)
         {
             return null;
         }
 
-        public static void deleteRecordStore(String paramString)
+        public static void deleteRecordStore(String name)
+        {
+            RecordStoreManager.Delete(name);
+        }
 
-        { }
-
-        public void addRecordListener(RecordListener paramRecordListener) { }
+        public void addRecordListener(RecordListener listenter) 
+        { 
+            //
+        }
 
         public void closeRecordStore()
-
         { }
 
         public void deleteRecord(int paramInt)
-
         { }
 
         public void removeRecordListener(RecordListener paramRecordListener) { }
 
         public void setMode(int paramInt, bool paramBoolean)
-
         { }
 
         public void setRecord(int recordId, byte[] newData, int offset, int numBytes)

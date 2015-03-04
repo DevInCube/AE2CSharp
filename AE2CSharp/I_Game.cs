@@ -805,15 +805,15 @@ public  class I_Game : A_MenuBase , Runnable {
 		E_MainCanvas.playMusicLooped2(playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
 	}
 
-	public  void saveToSlotMenuShow(int paramInt, A_MenuBase parentMenu) {
+	public  void saveToSlotMenuShow(int recordIndex, A_MenuBase parentMenu) {
 		try {
-			E_MainCanvas.saveRecordStoreData("save", paramInt, saveMapDataBytes());
-			this.slotsDescriptions[paramInt] = getSlotDescription(this.mapModeCampIf0, this.scenarioMapIndex,
+			E_MainCanvas.saveRecordStoreData("save", recordIndex, saveMapDataBytes());
+			this.slotsDescriptions[recordIndex] = getSlotDescription(this.mapModeCampIf0, this.scenarioMapIndex,
 					this.currentTurn);
-			this.slotsCurrentPlayerIds[paramInt] = this.playersIndexes[this.playerId];
-			this.slotsMapIndexes[paramInt] = this.scenarioMapIndex;
-			this.slotDescMenu.createDescDialogMb(null, this.slotsDescriptions[paramInt], this.someGWidth, -1);
-			this.slotDescMenu.titleGradientColor = playerColors[this.slotsCurrentPlayerIds[paramInt]];
+			this.slotsCurrentPlayerIds[recordIndex] = this.playersIndexes[this.playerId];
+			this.slotsMapIndexes[recordIndex] = this.scenarioMapIndex;
+			this.slotDescMenu.createDescDialogMb(null, this.slotsDescriptions[recordIndex], this.someGWidth, -1);
+			this.slotDescMenu.titleGradientColor = playerColors[this.slotsCurrentPlayerIds[recordIndex]];
 			this.slotDescMenu.onLoad();
 			D_Menu slotSavedDialog = createDialog(null, A_MenuBase.getLangString(77), this.someGHeight, 1000); // GAME SAVED
 			slotSavedDialog.parentMenu = parentMenu;
