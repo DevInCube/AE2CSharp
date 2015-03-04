@@ -12,7 +12,7 @@ namespace javax.microedition.rms
 
         private String name;
 
-        private RecordStore(String name)
+        public RecordStore(String name)
         {
             this.name = name;
         }

@@ -22,35 +22,18 @@ namespace javax.microedition.media
         public static readonly int STARTED = 400;
         */
         int getState();
-
         String getContentType();
-
         long getDuration();
-
         long getMediaTime();
-
-        long setMediaTime(long paramLong);
-        
-
-        void addPlayerListener(PlayerListener paramPlayerListener);
-
+        long setMediaTime(long mediaTime);       
+        void addPlayerListener(PlayerListener listener);
+        void removePlayerListener(PlayerListener listener);
         void close();
-
         void deallocate();
-
-        void prefetch();
-        
-
+        void prefetch();        
         void realize();
-        
-
-        void removePlayerListener(PlayerListener paramPlayerListener);
-
-        void setLoopCount(int paramInt);
-
-        void start();
-        
-
+        void setLoopCount(int count);
+        void start();        
         void stop();
         
     }

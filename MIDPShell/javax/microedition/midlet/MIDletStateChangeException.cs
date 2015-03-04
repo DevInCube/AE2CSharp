@@ -6,7 +6,7 @@ namespace javax.microedition.midlet
     {
         public MIDletStateChangeException() { }
 
-        public MIDletStateChangeException(String paramString) { }
+        public MIDletStateChangeException(String msg) { }
     }
 
 }

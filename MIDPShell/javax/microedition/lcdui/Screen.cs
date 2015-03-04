@@ -1,8 +1,7 @@
 namespace javax.microedition.lcdui
 {
 
-    public abstract class Screen
-      : Displayable
+    public abstract class Screen : Displayable 
     { }
 
 }

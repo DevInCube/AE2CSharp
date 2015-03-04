@@ -2,8 +2,7 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class Spacer
-      : Item
+    public class Spacer : Item
     {
         public Spacer(int paramInt1, int paramInt2) { }
 

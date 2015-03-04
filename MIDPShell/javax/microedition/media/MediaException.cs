@@ -6,7 +6,7 @@ namespace javax.microedition.media
     {
         public MediaException() { }
 
-        public MediaException(String paramString) { }
+        public MediaException(String msg) { }
     }
 
 }

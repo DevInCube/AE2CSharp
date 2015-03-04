@@ -2,22 +2,21 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class TextField
-      : Item
+    public class TextField : Item
     {
-        public static readonly int ANY = 0;
-        public static readonly int EMAILADDR = 1;
-        public static readonly int INITIAL_CAPS_WORD = 1048576;
-        public static readonly int UNEDITABLE = 131072;
-        public static readonly int NUMERIC = 2;
-        public static readonly int INITIAL_CAPS_SENTENCE = 2097152;
-        public static readonly int SENSITIVE = 262144;
-        public static readonly int PHONENUMBER = 3;
-        public static readonly int URL = 4;
-        public static readonly int DECIMAL = 5;
-        public static readonly int NON_PREDICTIVE = 524288;
-        public static readonly int CONSTRAINT_MASK = 65535;
-        public static readonly int PASSWORD = 65536;
+        public const int ANY = 0;
+        public const int EMAILADDR = 1;
+        public const int INITIAL_CAPS_WORD = 1048576;
+        public const int UNEDITABLE = 131072;
+        public const int NUMERIC = 2;
+        public const int INITIAL_CAPS_SENTENCE = 2097152;
+        public const int SENSITIVE = 262144;
+        public const int PHONENUMBER = 3;
+        public const int URL = 4;
+        public const int DECIMAL = 5;
+        public const int NON_PREDICTIVE = 524288;
+        public const int CONSTRAINT_MASK = 65535;
+        public const int PASSWORD = 65536;
 
         public TextField(String paramString1, String paramString2, int paramInt1, int paramInt2) { }
 
