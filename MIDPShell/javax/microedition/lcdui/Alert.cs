@@ -12,7 +12,7 @@ namespace javax.microedition.lcdui
             get { return control; }
         }
 
-        public static readonly int FOREVER = -2;
+        public const int FOREVER = -2;
         public static readonly Command DISMISS_COMMAND = null;
 
         public Alert(String paramString) { }

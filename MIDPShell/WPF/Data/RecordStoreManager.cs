@@ -14,7 +14,7 @@ namespace MIDP.WPF.Data
 
         internal static void Create(java.lang.String recordStoreName)
         {
-            stores.Add(recordStoreName.ToString(), new RecordStore());
+            stores.Add(recordStoreName.ToString(), new RecordStore(recordStoreName));
         }
 
         internal static javax.microedition.rms.RecordStore Get(java.lang.String recordStoreName)

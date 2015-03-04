@@ -70,7 +70,7 @@ namespace javax.microedition.lcdui
             return 0;
         }
 
-        public int charsWidth(char[] paramArrayOfChar, int paramInt1, int paramInt2)
+        public int charsWidth(char[] chars, int paramInt1, int paramInt2)
         {
             return 0;
         }

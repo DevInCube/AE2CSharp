@@ -2,8 +2,7 @@ using java.lang;
 namespace javax.microedition.lcdui
 {
 
-    public class StringItem
-      : Item
+    public class StringItem : Item
     {
         public StringItem(String paramString1, String paramString2) { }
 

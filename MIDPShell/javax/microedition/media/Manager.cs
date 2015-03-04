@@ -4,9 +4,9 @@ using java.lang;
 namespace javax.microedition.media
 {
 
-
     public class Manager
     {
+
         public static readonly String TONE_DEVICE_LOCATOR = "device://tone";
 
         public static String[] getSupportedContentTypes(String paramString)

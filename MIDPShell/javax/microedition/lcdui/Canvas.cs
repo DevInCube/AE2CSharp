@@ -38,8 +38,6 @@ namespace javax.microedition.lcdui
             get { return image; }
         }
 
-        private BackgroundWorker paintWorker;
-
         public Canvas()
         {         
             canvasImage = new System.Drawing.Bitmap(240, 320);
@@ -48,11 +46,6 @@ namespace javax.microedition.lcdui
             System.Windows.Media.RenderOptions.SetBitmapScalingMode(image, System.Windows.Media.BitmapScalingMode.NearestNeighbor);
             System.Windows.Media.ImageSourceConverter c = new System.Windows.Media.ImageSourceConverter();            
             graphics = new Graphics(System.Drawing.Graphics.FromImage(canvasImage));
-            paintWorker = new BackgroundWorker(){
-                WorkerSupportsCancellation = true,
-            };
-            paintWorker.DoWork += paintWorker_DoWork;
-            //paintWorker.RunWorkerAsync();
         }
 
         public static System.Windows.Media.Imaging.BitmapSource CreateBitmapSourceFromGdiBitmap(System.Drawing.Bitmap bitmap)
@@ -85,15 +78,6 @@ namespace javax.microedition.lcdui
             finally
             {
                 bitmap.UnlockBits(bitmapData);
-            }
-        }
-
-        void paintWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            while (!worker.CancellationPending)
-            {
-                Paint();
             }
         }
 
