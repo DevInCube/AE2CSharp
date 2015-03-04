@@ -81,14 +81,12 @@ namespace java.io
 
         public override void write(byte[] bytearr)
         {
-            foreach (byte b in bytearr)
-                stream.write(b);
+            stream.write(bytearr, 0, bytearr.Length);
         }
 
         public override void write(byte[] bytearr, int off, int len)
         {
-            for (int i = off; (off - i) < len; i++)
-                stream.write(bytearr[i]);
+            stream.write(bytearr, off, len);
         }
     }
 }

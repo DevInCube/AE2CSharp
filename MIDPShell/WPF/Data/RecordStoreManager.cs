@@ -26,5 +26,10 @@ namespace MIDP.WPF.Data
         {
             return stores.ContainsKey(recordStoreName.ToString());
         }
+
+        internal static void Delete(java.lang.String name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

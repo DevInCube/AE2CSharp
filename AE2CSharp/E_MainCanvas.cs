@@ -91,16 +91,15 @@ namespace aeii
             return random.nextInt();
         }
 
-        public static  byte[] getRecordStoreData(String recName, int recIndex)
+        public static byte[] getRecordStoreData(String recName, int recIndex)
         {
             RecordStore store = RecordStore.openRecordStore(recName, false);
-            byte[] recData = store.getRecord(recIndex + 1);
+            byte[] recData = store.getRecord(recIndex); //@my  + 1
             store.closeRecordStore();
             return recData;
         }
 
-        public static  void saveRecordStoreData(String recordName, int recIndex,
-                byte[] data)
+        public static void saveRecordStoreData(String recordName, int recIndex, byte[] data)
         {
             RecordStore recStore = RecordStore.openRecordStore(recordName, true);
             int numRecs = recStore.getNumRecords();
