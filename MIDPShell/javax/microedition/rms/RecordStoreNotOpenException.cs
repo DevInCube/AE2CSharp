@@ -2,11 +2,10 @@ using java.lang;
 namespace javax.microedition.rms
 {
 
-    public class RecordStoreNotOpenException
-      : RecordStoreException
+    public class RecordStoreNotOpenException : RecordStoreException
     {
         public RecordStoreNotOpenException() { }
 
-        public RecordStoreNotOpenException(String paramString) { }
+        public RecordStoreNotOpenException(String msg) { }
     }
 }
