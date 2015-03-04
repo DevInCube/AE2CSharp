@@ -5,6 +5,7 @@ namespace java.io
 
     public class ByteArrayOutputStream : OutputStream
     {
+
         protected byte[] buf;
         protected int count;
 
@@ -27,15 +28,16 @@ namespace java.io
             return null;
         }
 
-        public void close()
-
+        public override void close()
         { }
 
         public void reset() { }
 
-        public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2) { }
+        public override void write(byte[] bytearr, int off, int len) { }
 
-        public void write(int paramInt) { }
+        public override void write(int paramInt) { }
+
+        public override void flush() { }
     }
 
 }
