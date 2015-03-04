@@ -3,7 +3,7 @@ namespace javax.microedition.rms
 
     public interface RecordFilter
     {
-        bool matches(byte[] paramArrayOfByte);
+        bool matches(byte[] data);
     }
 
 }

@@ -2,12 +2,11 @@ using java.lang;
 namespace javax.microedition.rms
 {
 
-    public class RecordStoreNotFoundException
-      : RecordStoreException
+    public class RecordStoreNotFoundException : RecordStoreException
     {
         public RecordStoreNotFoundException() { }
 
-        public RecordStoreNotFoundException(String paramString) { }
+        public RecordStoreNotFoundException(String msg) { }
     }
 
 }
