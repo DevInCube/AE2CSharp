@@ -274,7 +274,7 @@ public  class I_Game : A_MenuBase , Runnable {
 	public int var_3a43 = 24;
 	public int var_3a4b = 8;
 	public int var_3a53 = 8 >> 1;
-	public int playerIncomeMb;
+	public int playerIncome;
 	public static  byte[] someUnitsValuesForAImb = { 0, 2, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3 };
 	public byte someAIAtkStateMb = 0;
 	public int var_3a73;
@@ -2517,7 +2517,7 @@ public  class I_Game : A_MenuBase , Runnable {
 						this.var_354b = 1;
 						sub_ddbb();
 						if (this.mapPlayersTypes[this.playerId] == 1) { // PLAYER
-							incomeStr = "" + this.playerIncomeMb;
+							incomeStr = "" + this.playerIncome;
 						} else { //CPU
 							incomeStr = "?";
 						}
@@ -4076,19 +4076,19 @@ public  class I_Game : A_MenuBase , Runnable {
 				aunit.m_aiPriority = 0;
 			}
 		}
-		this.playerIncomeMb = 0;
+		this.playerIncome = 0;
 		for (int i = 0; i < this.mapTilesIds.Length; i++) {
 			for (int j = 0; j < this.mapTilesIds[i].Length; j++) {
 				if (playerIsOwnerOfTile(i, j, this.playerId)) {
-					if (getTileType(i, j) == 8) {
-						this.playerIncomeMb += 30;
-					} else if (getTileType(i, j) == 9) {
-						this.playerIncomeMb += 50;
+					if (getTileType(i, j) == 8) { // house
+						this.playerIncome += 30;
+					} else if (getTileType(i, j) == 9) { //catle
+						this.playerIncome += 50;
 					}
 				}
 			}
 		}
-		this.playersMoney[this.playerId] += (byte)this.playerIncomeMb;
+		this.playersMoney[this.playerId] += (short)this.playerIncome;
 		for (int i = 0; i < this.housesDataArr.Length; i++) {
 			this.var_3acb[i] = 0;
 		}
@@ -4471,6 +4471,10 @@ public  class I_Game : A_MenuBase , Runnable {
 				}
 				return;
 			}
+            if (this.someUnitsVector34 == null)
+            {
+                initCPUPlayerMb(); //@my
+            }
 			if (this.someUnitsVector34.size() == 0) {
 				aiUnit = null;
 				int j = 0;

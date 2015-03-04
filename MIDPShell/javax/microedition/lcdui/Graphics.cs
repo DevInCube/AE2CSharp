@@ -140,14 +140,28 @@ namespace javax.microedition.lcdui
             int x_dest, int y_dest,
             int anchor)
         {
-            //transform //Sprite.TRANS_NONE
+            System.Drawing.Image bmp = new System.Drawing.Bitmap(src.WPFImage);
+            System.Drawing.Graphics gr = System.Drawing.Graphics.FromImage(bmp);
+            System.Drawing.Size size = new System.Drawing.Size(width, height);   
+         
             if ((transform & Sprite.TRANS_MIRROR)!=0)
-            {
+                bmp.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipX);
+            if ((transform & Sprite.TRANS_MIRROR_ROT90) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipX);
+            if ((transform & Sprite.TRANS_MIRROR_ROT180) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipX);
+            if ((transform & Sprite.TRANS_MIRROR_ROT270) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipX);
+            if ((transform & Sprite.TRANS_ROT90) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate90FlipNone);
+            if ((transform & Sprite.TRANS_ROT180) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+            if ((transform & Sprite.TRANS_ROT270) != 0)
+                bmp.RotateFlip(System.Drawing.RotateFlipType.Rotate270FlipNone);
 
-            }
             var srcRect = new System.Drawing.Rectangle(x_src, y_src, width, height);
-            System.Drawing.PointF dest = applyAnchor(x_dest, y_dest, new System.Drawing.Size(width, height), anchor);
-            this.gr.DrawImage(src.WPFImage, dest.X, dest.Y, srcRect, System.Drawing.GraphicsUnit.Pixel);
+            System.Drawing.PointF dest = applyAnchor(x_dest, y_dest, size, anchor);
+            this.gr.DrawImage(bmp, dest.X, dest.Y, srcRect, System.Drawing.GraphicsUnit.Pixel);
         }
 
         public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) { }
