@@ -55,6 +55,7 @@
     <Compile Include="WPF\ViewModels\IEventSource.cs" />
     <Compile Include="WPF\ViewModels\ObservableObject.cs" />
     <Compile Include="WPF\ViewModels\RelayCommand.cs" />
+    <Compile Include="WPF\ViewModels\SimpleCommand.cs" />
     <Compile Include="WPF\Views\DisplayControl.xaml.cs">
       <DependentUpon>DisplayControl.xaml</DependentUpon>
     </Compile>

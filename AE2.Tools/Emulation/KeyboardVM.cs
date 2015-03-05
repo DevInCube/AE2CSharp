@@ -16,6 +16,9 @@ namespace AE2.Tools.Emulation
 
         public event Action<int> KeyPressed;
         public event Action<int> KeyReleased;
+        public event Action<System.Drawing.Point> PointerMoved;
+        public event Action<System.Drawing.Point> PointerPressed;
+        public event Action<System.Drawing.Point> PointerReleased;
 
         public ICommand CustomKey { get; set; }
         public ICommand KeyL { get; set; }
@@ -33,7 +36,7 @@ namespace AE2.Tools.Emulation
 
         public KeyboardVM()
         {            
-            CustomKey = new RelayCommand(() =>
+            CustomKey = new SimpleCommand(() =>
             {
                 int code = 0;
                 if (int.TryParse(CustomCode, out code))
@@ -41,51 +44,51 @@ namespace AE2.Tools.Emulation
                     OnKeyPressed(code);
                 }
             });
-            KeyL = new RelayCommand(() =>
+            KeyL = new SimpleCommand(() =>
             {
                 OnKeyPressed(-6);
             });
-            KeyR = new RelayCommand(() =>
+            KeyR = new SimpleCommand(() =>
             {
                 OnKeyPressed(-7);
             });
-            Key1 = new RelayCommand(() =>
+            Key1 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM1);
             });
-            Key2 = new RelayCommand(() =>
+            Key2 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM2);
             });
-            Key3 = new RelayCommand(() =>
+            Key3 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM3);
             });
-            Key4 = new RelayCommand(() =>
+            Key4 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM4);
             });
-            Key5 = new RelayCommand(() =>
+            Key5 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM5);
             });
-            Key6 = new RelayCommand(() =>
+            Key6 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM6);
             });
-            Key7 = new RelayCommand(() =>
+            Key7 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM7);
             });
-            Key8 = new RelayCommand(() =>
+            Key8 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM8);
             });
-            Key9 = new RelayCommand(() =>
+            Key9 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM9);
             });
-            Key0 = new RelayCommand(() =>
+            Key0 = new SimpleCommand(() =>
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM0);
             });
@@ -102,5 +105,8 @@ namespace AE2.Tools.Emulation
                 this.KeyReleased(code);
             }
         }
+
+
+        
     }
 }

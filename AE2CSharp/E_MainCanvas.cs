@@ -381,6 +381,17 @@ namespace aeii
             }
         }
 
+        public override void pointerDragged(int x, int y)
+        {
+            if (mainDrawElement != null)
+                mainDrawElement.onPointerDragged(x, y);
+        }
+
+        public override void pointerPressed(int x, int y)
+        {
+            keyPressed(KEY_NUM5);
+        }
+
         public  bool isAnyActionPressed()
         {
             return this.someActionsSum != 0;

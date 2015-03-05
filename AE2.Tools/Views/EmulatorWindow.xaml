@@ -19,6 +19,10 @@
         <KeyBinding Command="{Binding KeyDict[0].Command}" Key="{Binding KeyDict[0].Key}"/>
     </Window.InputBindings>
     <DockPanel Background="WhiteSmoke">
-        <ContentControl Content="{Binding Control}"  DockPanel.Dock="Left"/>
+        <ContentControl Content="{Binding Control}" Width="360" Height="480"
+                        DockPanel.Dock="Left" 
+                        MouseMove="ContentControl_MouseMove"
+                        MouseDown="ContentControl_MouseDown"
+                        MouseUp="ContentControl_MouseUp"/>
     </DockPanel>
 </Window>
