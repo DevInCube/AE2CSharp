@@ -14,7 +14,7 @@ namespace aeii{
         public int someGHeight;
         public int viewportWidth;
         public int viewportHeight;
-        public int unlockedScenarioLevelsCount = 0;
+        public int unlockedScenarioLevelsCount = 6;//@my 0
         public static String[] skirmishMapsNames = new String[12];
         public static int[] skMapsUnlockWhenCampLvlFin = { 4, 5, 6, 7, 8, 9, 10, 11 };
         public bool[] skMapUnlockedArr;
@@ -280,8 +280,8 @@ namespace aeii{
         public byte someAIAtkStateMb = 0;
         public int var_3a73;
         public int someTileType;
-        public C_Unit var_3a83;
-        public C_Unit var_3a8b;
+        public C_Unit targetAttUnitCandidateMb;
+        public C_Unit targetActionUnitCandidateMb;
         public C_Unit var_3a93;
         public int var_3a9b;
         public long aiUnitActionStartTime;
@@ -298,7 +298,7 @@ namespace aeii{
         public int var_3afb;
         public int var_3b03;
         public Vector someUnitsVector34;
-        public bool var_3b13 = false;
+        public bool unusedFalseBool = false;
         public int waitTimeValue;
         public D_Menu mapNameDialog;
         public C_Unit skeleton1Map2;
@@ -824,7 +824,7 @@ namespace aeii{
             }
             this.playerKingsMb = JavaArray.New<C_Unit>(this.mapMaxPlayersMb, 4);
             this.playerUnitsCount = new int[this.mapMaxPlayersMb];
-            sub_87e6();
+            someUnitValuesReset();
             int j = 0;
             int Length = stream.readByte();
             while (j < Length)
@@ -2349,12 +2349,12 @@ namespace aeii{
             return C_Unit.createUnitOnMap(uType, this.playerId, inX, inY);
         }
 
-        public F_Sprite sub_87c3(sbyte paramByte1, sbyte paramByte2)
+        public F_Sprite getSomePosUnitSprite(sbyte inX, sbyte inY)
         {
-            return this.playersUnitsSprites[paramByte1][paramByte2];
+            return this.playersUnitsSprites[inX][inY];
         }
 
-        public void sub_87e6()
+        public void someUnitValuesReset()
         {
             this.mapUnitsSprites = new Vector();
             this.activeUnit = null;
@@ -2380,7 +2380,7 @@ namespace aeii{
             this.playerId = 0;
             this.playerId = 0;
             this.scriptStep = 0;
-            sub_87e6();
+            someUnitValuesReset();
             this.playersKings = null;
             this.mapTilesIds = ((byte[][])null);
             this.someMapData = ((byte[][])null);
@@ -2840,7 +2840,7 @@ namespace aeii{
                     else
                     {
                         setupUnitsFAmb(this.attackerUnitMb, this.attackedUnitMb);
-                        this.var_3a83 = null;
+                        this.targetAttUnitCandidateMb = null;
                         clearActiveUnit();
                     }
                     this.var_364b = false;
@@ -2939,7 +2939,6 @@ namespace aeii{
             else
             {
                 String incomeStr;
-                Object localObject5;
                 if (this.unkState == 8)
                 {
                     if (this.var_354b == 0)
@@ -3039,7 +3038,6 @@ namespace aeii{
                 }
                 else
                 {
-                    Object localObject3;
                     if ((this.unkState == 10) || (this.unkState == 14))
                     {
                         if ((this.var_3b93 == 1)
@@ -5212,7 +5210,7 @@ namespace aeii{
                     && (C_Unit.unitsCosts[inByte] > 0))
             {
                 fillArrayWithValue(this.someMapData, 0);
-                return C_Unit.sub_1d7b(this.someMapData, inX, inY,
+                return C_Unit.fillWhereUnitcanMove(this.someMapData, inX, inY,
                         C_Unit.unitsMoveRanges[inByte], -1, inByte,
                         this.playerId, true);
             }
@@ -5227,7 +5225,7 @@ namespace aeii{
                     && (unit.cost <= this.playersMoney[this.playerId]))
             {
                 fillArrayWithValue(this.someMapData, 0);
-                return C_Unit.sub_1d7b(this.someMapData, inX, inY, C_Unit.unitsMoveRanges[unit.unitTypeId], -1,
+                return C_Unit.fillWhereUnitcanMove(this.someMapData, inX, inY, C_Unit.unitsMoveRanges[unit.unitTypeId], -1,
                         unit.unitTypeId, this.playerId, true);
             }
             return false;
@@ -5271,28 +5269,28 @@ namespace aeii{
                 A_MenuBase.mainCanvas.clearActions();
                 return;
             }
-            if (this.var_3b13)
+            if (this.unusedFalseBool)
             {
                 return;
             }
             if (this.someAIAtkStateMb == 4)
             {
-                if ((this.var_3a83 != null) || (this.var_3a8b != null))
+                if ((this.targetAttUnitCandidateMb != null) || (this.targetActionUnitCandidateMb != null))
                 {
                     this.someAIAtkStateMb = 5;
                     this.activeUnit.fillAttackRangeData(this.someMapData, this.activeUnit.positionX,
-                            this.activeUnit.positionY);
+                            this.activeUnit.positionY); //yellow cells
                     this.unitAttackCellsHighlighted = true;
                     this.var_351b = true;
                     this.aiUnitActionStartTime = this.time;
-                    if (this.var_3a83 != null)
+                    if (this.targetAttUnitCandidateMb != null)
                     {
-                        this.cursorSprite.setFrameSequence(cursorFrameSequences[1]);
-                        moveCursorToPos(this.var_3a83.positionX, this.var_3a83.positionY);
+                        this.cursorSprite.setFrameSequence(cursorFrameSequences[1]); //attack cursor
+                        moveCursorToPos(this.targetAttUnitCandidateMb.positionX, this.targetAttUnitCandidateMb.positionY);
                     }
-                    else if (this.var_3a8b != null)
+                    else if (this.targetActionUnitCandidateMb != null)
                     {
-                        moveCursorToPos(this.var_3a8b.positionX, this.var_3a8b.positionY);
+                        moveCursorToPos(this.targetActionUnitCandidateMb.positionX, this.targetActionUnitCandidateMb.positionY);
                     }
                 }
                 else
@@ -5347,14 +5345,14 @@ namespace aeii{
             {
                 if (this.time - this.aiUnitActionStartTime >= 200L) //show attack aim
                 {
-                    if (this.var_3a83 != null)
+                    if (this.targetAttUnitCandidateMb != null)
                     {
-                        sub_55bd(this.activeUnit, this.var_3a83);
+                        sub_55bd(this.activeUnit, this.targetAttUnitCandidateMb);
                     }
-                    else if (this.var_3a8b != null)
+                    else if (this.targetActionUnitCandidateMb != null)
                     {
-                        setSomeSparkingUnitMb(this.var_3a8b, this.playerId);
-                        this.var_3a8b = null;
+                        setSomeSparkingUnitMb(this.targetActionUnitCandidateMb, this.playerId);
+                        this.targetActionUnitCandidateMb = null;
                         this.someAIAtkStateMb = 7;
                         this.activeUnit.endMove();
                     }
@@ -5374,7 +5372,7 @@ namespace aeii{
             {
                 if (this.time - this.aiUnitActionStartTime >= 500L) //after aiUnit action done
                 {
-                    this.var_3a83 = null;
+                    this.targetAttUnitCandidateMb = null;
                     this.someAIAtkStateMb = 0;
                     this.unkState = 0;
                 }
@@ -5837,7 +5835,7 @@ namespace aeii{
                 this.someXPos = this.housesDataArr[i3s][0];
                 this.someYPos = this.housesDataArr[i3s][1];
                 fillArrayWithValue(this.someMData, 0);
-                C_Unit.sub_1d7b(this.someMData, this.someXPos, this.someYPos,
+                C_Unit.fillWhereUnitcanMove(this.someMData, this.someXPos, this.someYPos,
                         10, -1, pxUnit.unitTypeId, this.playerId, false);
             }
             else if ((this.playersKings[this.playerId] != null)
@@ -5849,7 +5847,7 @@ namespace aeii{
                 this.someXPos = this.housesDataArr[i2][0];
                 this.someYPos = this.housesDataArr[i2][1];
                 fillArrayWithValue(this.someMData, 0);
-                C_Unit.sub_1d7b(this.someMData, this.someXPos, this.someYPos,
+                C_Unit.fillWhereUnitcanMove(this.someMData, this.someXPos, this.someYPos,
                         10, -1, pxUnit.unitTypeId, this.playerId, false);
             }
             else
@@ -5891,7 +5889,7 @@ namespace aeii{
                     this.someXPos = this.someAIPosAValArr[i4w][0];
                     this.someYPos = this.someAIPosAValArr[i4w][1];
                     fillArrayWithValue(this.someMData, 0);
-                    C_Unit.sub_1d7b(this.someMData, this.someXPos,
+                    C_Unit.fillWhereUnitcanMove(this.someMData, this.someXPos,
                             this.someYPos, 10, -1, pxUnit.unitTypeId,
                             this.playerId, false);
                 }
@@ -5922,8 +5920,8 @@ namespace aeii{
                                 cellPrior = getUnitCellPriority(pxUnit, it2, tileType, arUnit[it13], null);
                                 if (cellPrior > i4w)
                                 {
-                                    this.var_3a8b = null;
-                                    this.var_3a83 = arUnit[it13];
+                                    this.targetActionUnitCandidateMb = null;
+                                    this.targetAttUnitCandidateMb = arUnit[it13];
                                     i4w = cellPrior;
                                     this.var_3a73 = it2;
                                     this.someTileType = tileType;
@@ -5939,8 +5937,8 @@ namespace aeii{
                                         null, this.attackTargetUnits[i12]);
                                 if (cellPrior > i4w)
                                 {
-                                    this.var_3a83 = null;
-                                    this.var_3a8b = this.attackTargetUnits[i12];
+                                    this.targetAttUnitCandidateMb = null;
+                                    this.targetActionUnitCandidateMb = this.attackTargetUnits[i12];
                                     i4w = cellPrior;
                                     this.var_3a73 = it2;
                                     this.someTileType = tileType;
@@ -5950,8 +5948,8 @@ namespace aeii{
                         cellPrior = getUnitCellPriority(pxUnit, it2, tileType, null, null);
                         if (cellPrior > i4w)
                         {
-                            this.var_3a83 = null;
-                            this.var_3a8b = null;
+                            this.targetAttUnitCandidateMb = null;
+                            this.targetActionUnitCandidateMb = null;
                             i4w = cellPrior;
                             this.var_3a73 = it2;
                             this.someTileType = tileType;
@@ -7872,7 +7870,7 @@ namespace aeii{
                     {
                         setSomeCurcorCenterPos(7, 2);
                         moveCursorToPos(7, 2);
-                        sub_87e6();
+                        someUnitValuesReset();
                         this.playersKings[1] = C_Unit.createUnitOnMap((sbyte)9, (sbyte)1, 7, 2);
                         this.playersKings[1].setKingName(3);
                         C_Unit.createUnitOnMap((sbyte)9, (sbyte)0, 6, 3);
