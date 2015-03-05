@@ -10,24 +10,27 @@ namespace javax.microedition.rms
         public const int AUTHMODE_PRIVATE = 0;
         public const int AUTHMODE_ANY = 1;
 
+        private static IRecordStoreManager recordStoreManager = new FileRSM();
+
         private String name;
+        private Dictionary<int, byte[]> records = new  Dictionary<int, byte[]>();
 
         public RecordStore(String name)
         {
             this.name = name;
         }
 
-        private List<byte[]> records = new List<byte[]>();
-
         public byte[] getRecord(int index)
         {
-            return records[index];
+            if (!records.ContainsKey(index)) throw new InvalidRecordIDException(index.ToString());
+            return records[index];            
         }
 
         public int addRecord(byte[] data, int offset, int numBytes)
         {
-            records.Add(data);//@todo offset numBytes
-            return records.Count - 1;
+            int id = getNextRecordID();
+            records.Add(id, data);
+            return id;
         }
 
         public int getNextRecordID()
@@ -70,9 +73,9 @@ namespace javax.microedition.rms
             return name;
         }
 
-        public RecordEnumeration enumerateRecords(RecordFilter paramRecordFilter, RecordComparator paramRecordComparator, bool paramBoolean)
+        public RecordEnumeration enumerateRecords(RecordFilter f, RecordComparator c, bool paramBoolean)
         {
-            return null;
+            return new RecordList(records);
         }
 
         public long getLastModified()
@@ -89,19 +92,25 @@ namespace javax.microedition.rms
         {
             if (string.IsNullOrEmpty(recordStoreName)) throw new IllegalArgumentException("recordStoreName");
 
-            if (RecordStoreManager.Contains(recordStoreName))
+            RecordStore rs = null;
+            if (recordStoreManager.Contains(recordStoreName))
             {
-                return RecordStoreManager.Get(recordStoreName);
+                rs = recordStoreManager.Get(recordStoreName);
             }
             else
             {
                 if (createIfNecessary)
                 {
-                    RecordStoreManager.Create(recordStoreName);
-                    return RecordStoreManager.Get(recordStoreName);
+                    recordStoreManager.Create(recordStoreName);
+                    rs = recordStoreManager.Get(recordStoreName);
                 }
-                throw new RecordStoreNotFoundException(recordStoreName);
+                else
+                {
+                    throw new RecordStoreNotFoundException(recordStoreName);
+                }
             }
+            recordStoreManager.Open(rs.getName());
+            return rs;
         }
 
         public static RecordStore openRecordStore(String recordStoreName, bool createIfNecessary, int authmode, bool writable)
@@ -125,7 +134,7 @@ namespace javax.microedition.rms
 
         public static void deleteRecordStore(String name)
         {
-            RecordStoreManager.Delete(name);
+            recordStoreManager.Delete(name);
         }
 
         public void addRecordListener(RecordListener listenter) 
@@ -134,20 +143,21 @@ namespace javax.microedition.rms
         }
 
         public void closeRecordStore()
-        { }
+        {
+            recordStoreManager.Close(this.getName());
+        }
 
         public void deleteRecord(int paramInt)
-        { }
+        {
+            records.Remove(paramInt);
+        }
 
         public void removeRecordListener(RecordListener paramRecordListener) { }
 
-        public void setMode(int paramInt, bool paramBoolean)
-        { }
+        public void setMode(int paramInt, bool paramBoolean) { }
 
         public void setRecord(int recordId, byte[] newData, int offset, int numBytes)
-        {
-            if (recordId < 0 || recordId >= records.Count)
-                throw new InvalidRecordIDException(recordId.ToString());
+        {            
             records[recordId] = newData; //@todo offset numBytes
         }
     }
