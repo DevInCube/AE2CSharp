@@ -73,8 +73,8 @@ namespace aeii{
         public byte[] tilesProps;
         public int mapWidthPixel;
         public int mapHeightPixel;
-        public int someCursorCenterXPix;
-        public int someCursorCenterYPix;
+        public int mapLeftXPix;
+        public int mapTopYPix;
         public int mapWidth;
         public int mapHeight;
         private H_ImageExt tombstoneSprite;
@@ -102,8 +102,8 @@ namespace aeii{
         public int attackAimUnitIndex;
         public C_Unit[] attackTargetUnits;
         public C_Unit activeUnit;
-        public int var_3503;
-        public int var_350b;
+        public int moveUnitOriginXMb;
+        public int moveUnitOriginYMb;
         public byte[][] someMapData;
         public bool var_351b = false;
         public bool unitAttackCellsHighlighted = false;
@@ -130,7 +130,7 @@ namespace aeii{
         public Vector someSpritesVector1 = new Vector();
         public C_Unit dyingUnit;
         public C_Unit var_35db;
-        public long someStartTime6;
+        public long unitDyingStartTime;
         public C_Unit someSparkingUnit;
         public sbyte someSprkingUnitPlayerId;
         public long someSparksStartTime13;
@@ -147,7 +147,7 @@ namespace aeii{
         public int waveImageAmplitude;
         public int var_365b;
         public int var_366b;
-        public long someStartTime8;
+        public long unitAttackStartTime;
         public C_Unit attackerUnitMb;
         public C_Unit attackedUnitMb;
         public bool var_368b = true;
@@ -284,7 +284,7 @@ namespace aeii{
         public C_Unit var_3a8b;
         public C_Unit var_3a93;
         public int var_3a9b;
-        public long aSomeOtherStartTime;
+        public long aiUnitActionStartTime;
         public C_Unit[] someUnits5;
         public C_Unit[] someHouseUnits;
         public byte[] var_3abb;
@@ -965,7 +965,7 @@ namespace aeii{
                 this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
                 if (this.mapPlayersTypes[this.playerId] == 0)
                 {
-                    this.aSomeOtherStartTime = this.time;
+                    this.aiUnitActionStartTime = this.time;
                     this.someAIAtkStateMb = 6;
                 }
             }
@@ -1030,10 +1030,10 @@ namespace aeii{
                         this.dyingUnit.posYPixel, 0, 0, 1, 50);
                 E_MainCanvas.playMusicLooped(12, 1);
             }
-            this.someStartTime6 = this.time;
+            this.unitDyingStartTime = this.time;
             if (this.mapPlayersTypes[this.playerId] == 0)
             {
-                this.aSomeOtherStartTime = this.time;
+                this.aiUnitActionStartTime = this.time;
                 this.someAIAtkStateMb = 6;
             }
             this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
@@ -1065,7 +1065,7 @@ namespace aeii{
             unit.fillWhereUnitCanMove(this.someMapData);
             this.var_351b = true;
             this.unitAttackCellsHighlighted = false;
-            this.cursorSprite.setFrameSequence(cursorFrameSequences[2]);
+            this.cursorSprite.setFrameSequence(cursorFrameSequences[2]); // unit move
         }
 
         public void showPlayMenu(byte[] data, int cX, int cY, A_MenuBase menu)
@@ -1300,7 +1300,7 @@ namespace aeii{
             {
                 if (this.unkState == 3)
                 {
-                    this.activeUnit.setUnitPosition(this.var_3503, this.var_350b);
+                    this.activeUnit.setUnitPosition(this.moveUnitOriginXMb, this.moveUnitOriginYMb);
                     this.activeUnit.fillWhereUnitCanMove(this.someMapData);
                     sub_58af(this.activeUnit);
                     this.cursorIsMovingMb = true;
@@ -3121,12 +3121,12 @@ namespace aeii{
                                         this.attackedUnitMb.posYPixel
                                                 + this.attackedUnitMb.frameHeight);
                                 this.mapEffectsSpritesList.addElement(localObject3sd);
-                                this.someStartTime8 = this.time;
+                                this.unitAttackStartTime = this.time;
                                 this.var_366b += 1;
                             }
                             else if (this.var_366b == 1)
                             {
-                                if (this.time - this.someStartTime8 >= 800L)
+                                if (this.time - this.unitAttackStartTime >= 400L) // attacked unit response back
                                 {
                                     moveCursorToPos(this.attackerUnitMb.positionX,
                                             this.attackerUnitMb.positionY);
@@ -3161,7 +3161,7 @@ namespace aeii{
                                                 this.attackerUnitMb.posYPixel
                                                         + this.attackerUnitMb.frameHeight);
                                         this.mapEffectsSpritesList.addElement(bounceText);
-                                        this.someStartTime8 = this.time;
+                                        this.unitAttackStartTime = this.time;
                                         this.var_366b += 1;
                                     }
                                     else
@@ -3170,7 +3170,7 @@ namespace aeii{
                                     }
                                 }
                             }
-                            else if (this.time - this.someStartTime8 >= 800L)
+                            else if (this.time - this.unitAttackStartTime >= 300L) // after units attacked
                             {
                                 afterUnitsAttacked();
                             }
@@ -3182,7 +3182,7 @@ namespace aeii{
                                 if (this.var_39cb)
                                 {
                                     this.heavensFuryMissle = showSpriteOnMap(this.sparkSprite,
-                                            this.furyTargetUnit.posXPixel, -this.someCursorCenterYPix,
+                                            this.furyTargetUnit.posXPixel, -this.mapTopYPix,
                                             0, 12, -1, 0);
                                     //HEAVEN'S FURY ACTIVATED
                                     D_Menu heavensFuryDialog = createDialog(null,
@@ -3241,7 +3241,7 @@ namespace aeii{
                                     showSpriteOnMap(this.sparkSprite, this.dyingUnit.posXPixel,
                                             this.dyingUnit.posYPixel, 0, 0, 1, 50);
                                     E_MainCanvas.playMusicLooped(12, 1);
-                                    this.someStartTime6 = this.time;
+                                    this.unitDyingStartTime = this.time;
                                 }
                                 this.furyTargetUnit = null;
                             }
@@ -3259,7 +3259,7 @@ namespace aeii{
                         }
                         else if (this.dyingUnit != null)
                         {
-                            if ((this.time - this.someStartTime6 >= 300L)
+                            if ((this.time - this.unitDyingStartTime >= 400L) //dyingTime
                                     && (sub_b848(this.dyingUnit.positionX,
                                             this.dyingUnit.positionY)))
                             {
@@ -3367,24 +3367,25 @@ namespace aeii{
                             }
                             else if (this.someSparkingUnit != null)
                             {
-                                if (this.time - this.someSparksStartTime13 >= 400L)
+                                if (this.time - this.someSparksStartTime13 >= 400L) // unit Dying sparks
                                 {
                                     this.someSparkingUnit.removeFromMap();
-                                    (descUnit = C_Unit.createUnitOnMap(
+                                    descUnit = C_Unit.createUnitOnMap(
                                             (sbyte)10, this.someSprkingUnitPlayerId,
                                             this.someSparkingUnit.positionX,
-                                            this.someSparkingUnit.positionY)).endMove();
+                                            this.someSparkingUnit.positionY);
+                                    descUnit.endMove();
                                     this.someSparkingUnit = null;
                                 }
                             }
                             else if (!this.var_3b7b)
                             {
-                                if (this.unkState == 2)
+                                if (this.unkState == 2) //moving to cell
                                 {
-                                    if ((this.activeUnit.m_state != 1)
-                                            && (this.var_39cb))
+                                    // stopped moving
+                                    if ((this.activeUnit.m_state != 1) && (this.var_39cb))
                                     {
-                                        initSomeUnitData(this.activeUnit);
+                                        initSomeUnitData(this.activeUnit); //remove cell highlight
                                     }
                                 }
                                 else if (this.mapPlayersTypes[this.playerId] == 0)
@@ -3591,8 +3592,8 @@ namespace aeii{
                                                 if ((this.someMapData[this.someCursorXPos][this.someCursorYPos] > 0)
                                                         && ((descUnit == null) || (descUnit == this.activeUnit)))
                                                 {
-                                                    this.var_3503 = this.activeUnit.positionX;
-                                                    this.var_350b = this.activeUnit.positionY;
+                                                    this.moveUnitOriginXMb = this.activeUnit.positionX;
+                                                    this.moveUnitOriginYMb = this.activeUnit.positionY;
                                                     this.activeUnit.goToPosition(
                                                             this.someCursorXPos,
                                                             this.someCursorYPos, true);
@@ -3603,7 +3604,7 @@ namespace aeii{
                                                     this.unitActionsMenu = null;
                                                     this.canCancelMb = false;
                                                     this.canApplyMb = false;
-                                                    this.unkState = 2;
+                                                    this.unkState = 2; //moving to target cell
                                                     E_MainCanvas.playMusicLooped(10, 1);
                                                 }
                                                 A_MenuBase.mainCanvas.clearActionCode(16);
@@ -3821,8 +3822,8 @@ namespace aeii{
 
         public bool sub_b7ff(int inX, int inY)
         {
-            return (this.someCursorCenterXPix == someXWithin(inX))
-                    && (this.someCursorCenterYPix == someYWithin(inY));
+            return (this.mapLeftXPix == someXWithin(inX))
+                    && (this.mapTopYPix == someYWithin(inY));
         }
 
         public bool sub_b848(int inX, int inY)
@@ -3876,8 +3877,8 @@ namespace aeii{
 
         public void setSomeCursorCenterPix(int pX, int pY)
         {
-            this.someCursorCenterXPix = someXWithin(pX);
-            this.someCursorCenterYPix = someYWithin(pY);
+            this.mapLeftXPix = someXWithin(pX);
+            this.mapTopYPix = someYWithin(pY);
         }
 
         public void setSomeCurcorCenterPos(int inX, int inY)
@@ -3890,8 +3891,8 @@ namespace aeii{
             this.var_39cb = true;
             int x = someXWithin(inX);
             int y = someYWithin(inY);
-            int k = x - this.someCursorCenterXPix;
-            int m = y - this.someCursorCenterYPix;
+            int k = x - this.mapLeftXPix;
+            int m = y - this.mapTopYPix;
             int n;
             if (k != 0)
             {
@@ -3915,7 +3916,7 @@ namespace aeii{
                 {
                     n = this.someCameraVelocityMb;
                 }
-                this.someCursorCenterXPix += n;
+                this.mapLeftXPix += n;
                 this.var_39cb = false;
             }
             if (m != 0)
@@ -3940,7 +3941,7 @@ namespace aeii{
                 {
                     n = this.someCameraVelocityMb;
                 }
-                this.someCursorCenterYPix += n;
+                this.mapTopYPix += n;
                 this.var_39cb = false;
             }
         }
@@ -3956,35 +3957,35 @@ namespace aeii{
 
         public void sub_bbf2(Graphics gr)
         {
-            int i = -this.someCursorCenterXPix / 24;
+            int i = -this.mapLeftXPix / 24;
             int j;
-            if ((j = -this.someCursorCenterYPix / 24) < 0)
+            if ((j = -this.mapTopYPix / 24) < 0)
             {
                 j = 0;
             }
-            int k = (this.someGWidth - this.someCursorCenterXPix - 1) / 24;
+            int k = (this.someGWidth - this.mapLeftXPix - 1) / 24;
             int m;
-            if ((m = (this.someGHeight - this.someCursorCenterYPix - 1) / 24) >= this.mapHeight)
+            if ((m = (this.someGHeight - this.mapTopYPix - 1) / 24) >= this.mapHeight)
             {
                 m = this.mapHeight - 1;
             }
             int n;
-            if (this.someCursorCenterXPix < 0)
+            if (this.mapLeftXPix < 0)
             {
-                n = this.someCursorCenterXPix % 24;
+                n = this.mapLeftXPix % 24;
             }
             else
             {
-                n = this.someCursorCenterXPix;
+                n = this.mapLeftXPix;
             }
             int i2;
-            if (this.someCursorCenterYPix < 0)
+            if (this.mapTopYPix < 0)
             {
-                i2 = this.someCursorCenterYPix % 24;
+                i2 = this.mapTopYPix % 24;
             }
             else
             {
-                i2 = this.someCursorCenterYPix;
+                i2 = this.mapTopYPix;
             }
             int i3 = 0;
             if (this.unitAttackCellsHighlighted)
@@ -4488,14 +4489,14 @@ namespace aeii{
                     C_Unit unit3 = (C_Unit)this.mapUnitsSprites.elementAt(jfd);
                     if (unit3.m_state == 3)
                     {
-                        this.tombstoneSprite.drawImageExt(gr, this.someCursorCenterXPix
-                                + unit3.posXPixel, this.someCursorCenterYPix
+                        this.tombstoneSprite.drawImageExt(gr, this.mapLeftXPix
+                                + unit3.posXPixel, this.mapTopYPix
                                 + unit3.posYPixel);
                     }
                     else if (unit3 != this.activeUnit)
                     {
-                        unit3.sub_252e(gr, this.someCursorCenterXPix,
-                                this.someCursorCenterYPix);
+                        unit3.sub_252e(gr, this.mapLeftXPix,
+                                this.mapTopYPix);
                     }
                     jfd++;
                 }
@@ -4504,7 +4505,7 @@ namespace aeii{
                 while (jfd < sprLength)
                 {
                     ((C_Unit)this.mapUnitsSprites.elementAt(jfd)).drawUnitHealth(
-                            gr, this.someCursorCenterXPix, this.someCursorCenterYPix);
+                            gr, this.mapLeftXPix, this.mapTopYPix);
                     jfd++;
                 }
                 int i3;
@@ -4520,8 +4521,8 @@ namespace aeii{
                     {
                         short[] arrayOfShort1;
                         i4 = (arrayOfShort1 = (short[])this.var_353b.elementAt(i2))[0]
-                                * 24 + this.someCursorCenterXPix;
-                        int i5 = arrayOfShort1[1] * 24 + this.someCursorCenterYPix;
+                                * 24 + this.mapLeftXPix;
+                        int i5 = arrayOfShort1[1] * 24 + this.mapTopYPix;
                         int i6 = i4 + 12;
                         int i7 = i5 + 12;
                         short[] arrayOfShort2;
@@ -4581,22 +4582,22 @@ namespace aeii{
                 }
                 if (this.activeUnit != null)
                 {
-                    this.activeUnit.sub_252e(gr, this.someCursorCenterXPix,
-                            this.someCursorCenterYPix);
-                    this.activeUnit.drawUnitHealth(gr, this.someCursorCenterXPix,
-                            this.someCursorCenterYPix);
+                    this.activeUnit.sub_252e(gr, this.mapLeftXPix,
+                            this.mapTopYPix);
+                    this.activeUnit.drawUnitHealth(gr, this.mapLeftXPix,
+                            this.mapTopYPix);
                 }
                 if (this.isCursorVisible)
                 {
-                    this.cursorSprite.drawCurrentFrame(gr, this.someCursorCenterXPix + 12,
-                            this.someCursorCenterYPix + 12, 3);
+                    this.cursorSprite.drawCurrentFrame(gr, this.mapLeftXPix + 12,
+                            this.mapTopYPix + 12, 3);
                 }
                 int k = 0;
                 sprLength = this.mapEffectsSpritesList.size();
                 while (k < sprLength)
                 {
                     F_Sprite fSprite = (F_Sprite)this.mapEffectsSpritesList.elementAt(k);
-                    fSprite.onSpritePaint(gr, this.someCursorCenterXPix, this.someCursorCenterYPix + fSprite.someYVal1);
+                    fSprite.onSpritePaint(gr, this.mapLeftXPix, this.mapTopYPix + fSprite.someYVal1);
                     k++;
                 }
                 gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
@@ -5287,7 +5288,7 @@ namespace aeii{
                             this.activeUnit.positionY);
                     this.unitAttackCellsHighlighted = true;
                     this.var_351b = true;
-                    this.aSomeOtherStartTime = this.time;
+                    this.aiUnitActionStartTime = this.time;
                     if (this.var_3a83 != null)
                     {
                         this.cursorSprite.setFrameSequence(cursorFrameSequences[1]);
@@ -5348,7 +5349,7 @@ namespace aeii{
             }
             if (this.someAIAtkStateMb == 5)
             {
-                if (this.time - this.aSomeOtherStartTime >= 500L)
+                if (this.time - this.aiUnitActionStartTime >= 200L) //show attack aim
                 {
                     if (this.var_3a83 != null)
                     {
@@ -5375,7 +5376,7 @@ namespace aeii{
             }
             else if (this.someAIAtkStateMb == 6)
             {
-                if (this.time - this.aSomeOtherStartTime >= 1000L)
+                if (this.time - this.aiUnitActionStartTime >= 500L) //after aiUnit action done
                 {
                     this.var_3a83 = null;
                     this.someAIAtkStateMb = 0;
@@ -5408,23 +5409,23 @@ namespace aeii{
                                 return;
                             }
                             this.var_3a9b = 1;
-                            this.aSomeOtherStartTime = this.time;
+                            this.aiUnitActionStartTime = this.time;
                         }
                     }
                     else if (this.var_3a9b == 1)
                     {
-                        if (this.time - this.aSomeOtherStartTime >= 100L)
+                        if (this.time - this.aiUnitActionStartTime >= 50L) //waiting
                         {
                             this.var_351b = true;
                             this.unitAttackCellsHighlighted = false;
                             this.var_3a9b = 2;
-                            this.unkState = 1;
-                            this.aSomeOtherStartTime = this.time;
+                            this.unkState = 1; // target cell
+                            this.aiUnitActionStartTime = this.time;
                         }
                     }
                     else if (this.var_3a9b == 2)
                     {
-                        if (this.time - this.aSomeOtherStartTime >= 200L)
+                        if (this.time - this.aiUnitActionStartTime >= 100L) // select cell target
                         {
                             this.someCursorXPos = this.var_3a73;
                             this.someCursorYPos = this.someTileType;
@@ -5433,11 +5434,11 @@ namespace aeii{
                                     this.activeUnit.positionX, this.activeUnit.positionY,
                                     this.someCursorXPos, this.someCursorYPos);
                             this.var_3a9b = 3;
-                            this.aSomeOtherStartTime = this.time;
+                            this.aiUnitActionStartTime = this.time;
                         }
                     }
                     else if ((this.var_3a9b == 3)
-                          && (this.time - this.aSomeOtherStartTime >= 200L))
+                          && (this.time - this.aiUnitActionStartTime >= 100L)) //show target cell
                     {
                         this.var_353b = null;
                         this.activeUnit.goToPosition(this.var_3a73, this.someTileType, true);
@@ -8446,9 +8447,10 @@ namespace aeii{
 
         public override void onPointerDragged(int x, int y)
         {
+            return; //@todo block
             float canvasScale = 1.5F; //@todo
-            int mapLeft = (int)(-someCursorCenterXPix);
-            int mapTop = (int)(-someCursorCenterYPix);
+            int mapLeft = (int)(-mapLeftXPix);
+            int mapTop = (int)(-mapTopYPix);
             int px = (int)((mapLeft + (x / canvasScale)) / 24);
             int py = (int)((mapTop + (y / canvasScale)) / 24);
             this.someCursorXPos = (px >= mapWidth) ? mapWidth - 1 : px;
