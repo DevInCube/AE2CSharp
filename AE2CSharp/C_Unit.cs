@@ -374,7 +374,7 @@ public  class C_Unit : F_Sprite {
 	public  void goToPosition(int inX, int inY,
 			bool paramBoolean1, bool paramBoolean2) {
 		if (paramBoolean1) {
-			this.unitMovePathPositions = sub_1b48(this.positionX, this.positionY, inX, inY);
+			this.unitMovePathPositions = getUnitMovePathPositions(this.positionX, this.positionY, inX, inY);
 		} else {
 			if ((paramBoolean2)
 					&& (sGame.getSomeUnit(inX, inY, (byte) 0) != null)) {
@@ -425,46 +425,42 @@ public  class C_Unit : F_Sprite {
 		this.m_state = 1; // running mb
 	}
 
-	public  Vector sub_1b48(int paramInt1, int paramInt2, int inX,
-			int inY) {
-		Vector localVector = null;
-		short[] somePos = { (short) inX, (short) inY };
-		if ((paramInt1 == inX) && (paramInt2 == inY)) {
-			(localVector = new Vector()).addElement(somePos);
-			return localVector;
+	public  Vector getUnitMovePathPositions(int posX, int posY, int curPx, int curPy) {
+		Vector list = null;
+		short[] somePos = { (short) curPx, (short) curPy };
+		if ((posX == curPx) && (posY == curPy)) {
+            list = new Vector();
+            list.addElement(somePos);
+			return list;
 		}
 		int j = 0;
 		int k = 0;
 		int m = 0;
 		int n = 0;
-		if (inY > 0) {
-			j = sGame.someMapData[inX][(inY - 1)];
+		if (curPy > 0) {
+			j = sGame.someMapData[curPx][(curPy - 1)];
 		}
-		if (inY < sGame.mapHeight - 1) {
-			k = sGame.someMapData[inX][(inY + 1)];
+		if (curPy < sGame.mapHeight - 1) {
+			k = sGame.someMapData[curPx][(curPy + 1)];
 		}
-		if (inX > 0) {
-			m = sGame.someMapData[(inX - 1)][inY];
+		if (curPx > 0) {
+			m = sGame.someMapData[(curPx - 1)][curPy];
 		}
-		if (inX < sGame.mapWidth - 1) {
-			n = sGame.someMapData[(inX + 1)][inY];
+		if (curPx < sGame.mapWidth - 1) {
+			n = sGame.someMapData[(curPx + 1)][curPy];
 		}
 		int i;
 		if ((i = Math.max(Math.max(j, k), Math.max(m, n))) == j) {
-			localVector = sub_1b48(paramInt1, paramInt2, inX,
-					inY - 1);
+			list = getUnitMovePathPositions(posX, posY, curPx, curPy - 1);
 		} else if (i == k) {
-			localVector = sub_1b48(paramInt1, paramInt2, inX,
-					inY + 1);
+			list = getUnitMovePathPositions(posX, posY, curPx, curPy + 1);
 		} else if (i == m) {
-			localVector = sub_1b48(paramInt1, paramInt2, inX - 1,
-					inY);
+			list = getUnitMovePathPositions(posX, posY, curPx - 1, curPy);
 		} else if (i == n) {
-			localVector = sub_1b48(paramInt1, paramInt2, inX + 1,
-					inY);
+			list = getUnitMovePathPositions(posX, posY, curPx + 1, curPy);
 		}
-		localVector.addElement(somePos);
-		return localVector;
+		list.addElement(somePos);
+		return list;
 	}
 
 	public  void fillWhereUnitCanMove(byte[][] paramArrayOfByte) {
