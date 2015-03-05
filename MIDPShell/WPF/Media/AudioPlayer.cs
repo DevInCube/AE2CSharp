@@ -19,12 +19,13 @@ namespace MIDP.WPF.Media
 
     public class AudioPlayer : javax.microedition.media.Player
     {
+
         private MediaPlayer player = new MediaPlayer();
         private java.lang.String contentType;
 
         public AudioPlayer(java.io.InputStream stream, java.lang.String contentType)
         {
-            //this.stream = stream;//@todo
+            //this.stream = stream;//@todo            
             this.contentType = contentType;
         }
 

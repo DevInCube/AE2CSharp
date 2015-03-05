@@ -115,7 +115,7 @@ namespace aeii
                 {
                     this.menuHeight += 5;
                 }
-                this.buyUnits = C_Unit.getSomUnitsList(gameVar.playerId);
+                this.buyUnits = C_Unit.getAvailableBuyUnits(gameVar.playerId);
                 this.menuItemsCount = this.buyUnits.Length;
                 int j = this.menuWidth - gameVar.sideArrowSprite.frameWidth * 2;
                 if ((paramInt & 0x4) == 0)
