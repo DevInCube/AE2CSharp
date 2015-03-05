@@ -109,7 +109,7 @@ namespace aeii{
         public bool unitAttackCellsHighlighted = false;
         public bool isCursorVisible = true;
         public Vector mapUnitsSprites = new Vector();
-        public Vector var_353b;
+        public Vector unitMovePathPositions;
         public int var_3543;
         public int var_354b;
         public long someStartTime5;
@@ -123,7 +123,7 @@ namespace aeii{
         public C_Unit[][] playerKingsMb;
         public int[] playerUnitsCount;
         public short[] playersMoney = new short[4];
-        public byte[][] kingsPositions = JavaArray.New<byte>(4, 2);
+        public byte[][] playerCursorPositions = JavaArray.New<byte>(4, 2);
         public byte[] mapPlayersTypes = new byte[4];
         public D_Menu unitActionsMenu;
         public Vector mapEffectsSpritesList = new Vector();
@@ -173,7 +173,7 @@ namespace aeii{
         public bool var_3723 = false;
         public int var_372b;
         public sbyte[][] housesDataArr;
-        public byte[][] var_373b;
+        public byte[][] m_mapCastlesPositions;
         public F_Sprite bigCircleSprite;
         public F_Sprite smallCircleSprite;
         public C_Unit someCursorUnit2;
@@ -247,8 +247,8 @@ namespace aeii{
         public String deletingMapName;
         public int downloadStoreAvailableSize;
         public bool appPropHightscoreUpload = true;
-        public bool var_397b = true;
-        public bool var_3983 = true;
+        public bool bottomMenuNeedsUpdateUI = true;
+        public bool cursorTileNeedsUpdateUI = true;
         public H_ImageExt gameOverImage;
         public Image[][] alphaMappedTilesImages;
         public int loadingProgress;
@@ -710,7 +710,7 @@ namespace aeii{
                         {
                             this.playersMoney[this.playerId] += 1000;
                         }
-                        this.var_397b = true;
+                        this.bottomMenuNeedsUpdateUI = true;
                     }
                     else if (var_39a3[j].startsWith(str))
                     {
@@ -726,16 +726,16 @@ namespace aeii{
 
         public void sub_4d3f()
         {
-            this.var_397b = true;
-            this.var_3983 = true;
+            this.bottomMenuNeedsUpdateUI = true;
+            this.cursorTileNeedsUpdateUI = true;
             this.var_3bf3 = true;
             this.var_3beb = true;
         }
 
         public byte[] saveMapDataBytes()
         {
-            this.kingsPositions[this.playerId][0] = ((byte)this.someCursorXPos);
-            this.kingsPositions[this.playerId][1] = ((byte)this.someCursorYPos);
+            this.playerCursorPositions[this.playerId][0] = ((byte)this.someCursorXPos);
+            this.playerCursorPositions[this.playerId][1] = ((byte)this.someCursorYPos);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream stream = new DataOutputStream(baos);
             stream.writeByte(this.mapModeCampIf0);
@@ -751,8 +751,8 @@ namespace aeii{
                 stream.writeByte(this.playersTeams[i]);
                 stream.writeByte(this.mapPlayersTypes[i]);
                 stream.writeShort(this.playersMoney[i]);
-                stream.writeByte(this.kingsPositions[i][0]);
-                stream.writeByte(this.kingsPositions[i][1]);
+                stream.writeByte(this.playerCursorPositions[i][0]);
+                stream.writeByte(this.playerCursorPositions[i][1]);
             }
             stream.writeByte(this.mapStartUnitCap);
             for (int i = 0; i < this.housesDataArr.Length; i++)
@@ -811,8 +811,8 @@ namespace aeii{
                 this.playersTeams[i] = stream.readByte();
                 this.mapPlayersTypes[i] = stream.readByte();
                 this.playersMoney[i] = stream.readShort();
-                this.kingsPositions[i][0] = stream.readByte();
-                this.kingsPositions[i][1] = stream.readByte();
+                this.playerCursorPositions[i][0] = stream.readByte();
+                this.playerCursorPositions[i][1] = stream.readByte();
             }
             this.mapStartUnitCap = stream.readByte();
             for (int i = 0; i < this.housesDataArr.Length; i++)
@@ -873,8 +873,8 @@ namespace aeii{
                 this.startupMessageBox.setMenuActionEnabled((byte)0, true);
                 this.startupMessageBox.setParentMenu(null);
             }
-            int cposx = this.kingsPositions[this.playerId][0];
-            int cposy = this.kingsPositions[this.playerId][1];
+            int cposx = this.playerCursorPositions[this.playerId][0];
+            int cposy = this.playerCursorPositions[this.playerId][1];
             moveCursorToPos(cposx, cposy);
             setSomeCurcorCenterPos(cposx, cposy);
             E_MainCanvas.playMusicLooped2(playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
@@ -2336,14 +2336,14 @@ namespace aeii{
             {
                 this.mapUnitsSprites.addElement(unit);
             }
-            this.var_397b = true;
+            this.bottomMenuNeedsUpdateUI = true;
             return unit;
         }
 
         public C_Unit aiBuyUnit(sbyte uType, int inX, int inY)
         {
             this.playersMoney[this.playerId] -= C_Unit.unitsCosts[uType];
-            this.var_397b = true;
+            this.bottomMenuNeedsUpdateUI = true;
             return C_Unit.createUnitOnMap(uType, this.playerId, inX, inY);
         }
 
@@ -2368,7 +2368,7 @@ namespace aeii{
             this.isCursorVisible = true;
             this.var_364b = false;
             this.isSaethDead = false;
-            this.var_353b = null;
+            this.unitMovePathPositions = null;
             this.dyingUnit = null;
             this.furyTargetUnit = null;
             this.var_35db = null;
@@ -2446,11 +2446,10 @@ namespace aeii{
             {
                 this.housesDataArr[i] = housesArr[i];
             }
-            this.var_373b = JavaArray.New<byte>(this.mapCastlesCount, 2);
-            JavaSystem.arraycopy(mapCastlesPositions, 0, this.var_373b, 0, this.mapCastlesCount);
+            this.m_mapCastlesPositions = JavaArray.New<byte>(this.mapCastlesCount, 2);
+            JavaSystem.arraycopy(mapCastlesPositions, 0, this.m_mapCastlesPositions, 0, this.mapCastlesCount);
             this.mapWidthPixel = (this.mapWidth * 24);
             this.mapHeightPixel = (this.mapHeight * 24);
-
 
             if (this.mapModeCampIf0 == 1)
             {
@@ -2525,13 +2524,13 @@ namespace aeii{
             {
                 if (this.playersKings[i] == null)
                 {
-                    this.kingsPositions[i][0] = 0;
-                    this.kingsPositions[i][1] = 0;
+                    this.playerCursorPositions[i][0] = 0;
+                    this.playerCursorPositions[i][1] = 0;
                 }
                 else
                 {
-                    this.kingsPositions[i][0] = ((byte)this.playersKings[i].positionX);
-                    this.kingsPositions[i][1] = ((byte)this.playersKings[i].positionY);
+                    this.playerCursorPositions[i][0] = ((byte)this.playersKings[i].positionX);
+                    this.playerCursorPositions[i][1] = ((byte)this.playersKings[i].positionY);
                 }
             }
             if (this.mapModeCampIf0 == 1)
@@ -2864,7 +2863,7 @@ namespace aeii{
                     }
                 }
             }
-            if (this.var_353b != null)
+            if (this.unitMovePathPositions != null)
             {
                 this.var_3543 = ((this.var_3543 + 1) % 12);
             }
@@ -2932,8 +2931,8 @@ namespace aeii{
                 {
                     this.var_378b /= 2;
                 }
-                this.var_397b = true;
-                this.var_3983 = true;
+                this.bottomMenuNeedsUpdateUI = true;
+                this.cursorTileNeedsUpdateUI = true;
             }
             else
             {
@@ -2954,8 +2953,8 @@ namespace aeii{
                             {
                                 this.var_378b *= 2;
                             }
-                            this.var_397b = true;
-                            this.var_3983 = true;
+                            this.bottomMenuNeedsUpdateUI = true;
+                            this.cursorTileNeedsUpdateUI = true;
                         }
                         else
                         {
@@ -3435,7 +3434,7 @@ namespace aeii{
                                         {
                                             this.someCursorUnit2 = getSomeUnit(this.someCursorXPos,
                                                     this.someCursorYPos, (byte)0);
-                                            this.var_3983 = true;
+                                            this.cursorTileNeedsUpdateUI = true;
                                         }
                                         if (A_MenuBase.mainCanvas.invertActionCode(16))
                                         {
@@ -3469,7 +3468,7 @@ namespace aeii{
                                         {
                                             if ((A_MenuBase.mainCanvas.invertActionCode(4))
                                                     || (A_MenuBase.mainCanvas
-                                                            .isActionLongPressed(4)))
+                                                            .isActionLongPressed(4))) //left arr
                                             {
                                                 if (this.someCursorXPos > 0)
                                                 {
@@ -3481,7 +3480,7 @@ namespace aeii{
                                             else if ((A_MenuBase.mainCanvas
                                                   .invertActionCode(8))
                                                   || (A_MenuBase.mainCanvas
-                                                          .isActionLongPressed(8)))
+                                                          .isActionLongPressed(8))) // right arr
                                             {
                                                 if (this.someCursorXPos < this.mapWidth - 1)
                                                 {
@@ -3492,7 +3491,7 @@ namespace aeii{
                                             }
                                             if ((A_MenuBase.mainCanvas.invertActionCode(1))
                                                     || (A_MenuBase.mainCanvas
-                                                            .isActionLongPressed(1)))
+                                                            .isActionLongPressed(1))) // up arr
                                             {
                                                 if (this.someCursorYPos > 0)
                                                 {
@@ -3504,7 +3503,7 @@ namespace aeii{
                                             else if ((A_MenuBase.mainCanvas
                                                   .invertActionCode(2))
                                                   || (A_MenuBase.mainCanvas
-                                                          .isActionLongPressed(2)))
+                                                          .isActionLongPressed(2))) //down arr
                                             {
                                                 if (this.someCursorYPos < this.mapHeight - 1)
                                                 {
@@ -3515,12 +3514,12 @@ namespace aeii{
                                             }
                                             if (this.cursorIsMovingMb)
                                             {
-                                                if (this.unkState == 1)
+                                                if (this.unkState == 1) //move target
                                                 {
                                                     if (this.someMapData[this.someCursorXPos][this.someCursorYPos] > 0)
                                                     {
-                                                        this.var_353b = this.activeUnit
-                                                                .sub_1b48(
+                                                        this.unitMovePathPositions = this.activeUnit
+                                                                .getUnitMovePathPositions(
                                                                         this.activeUnit.positionX,
                                                                         this.activeUnit.positionY,
                                                                         this.someCursorXPos,
@@ -3533,7 +3532,7 @@ namespace aeii{
                                                             this.someCursorXPos,
                                                             this.someCursorYPos, (byte)0);
                                                 }
-                                                this.var_3983 = true;
+                                                this.cursorTileNeedsUpdateUI = true;
                                             }
                                             this.cursorIsMovingMb = false;
                                         }
@@ -3600,7 +3599,7 @@ namespace aeii{
                                                     this.m_tempUnit = this.activeUnit;
                                                     this.isCursorVisible = false;
                                                     this.var_351b = false;
-                                                    this.var_353b = null;
+                                                    this.unitMovePathPositions = null;
                                                     this.unitActionsMenu = null;
                                                     this.canCancelMb = false;
                                                     this.canApplyMb = false;
@@ -3742,7 +3741,7 @@ namespace aeii{
                 {
                     this.unkState = 0;
                     fillArrayWithValue(this.someMapData, 0);
-                    this.var_353b = null;
+                    this.unitMovePathPositions = null;
                     this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
                     moveCursorToPos(this.activeUnit.positionX, this.activeUnit.positionY);
                     this.activeUnit = null;
@@ -3952,7 +3951,7 @@ namespace aeii{
             this.someCursorYPos = py;
             this.cursorSprite.setSpritePosition(px * 24, py * 24);
             this.someCursorUnit2 = getSomeUnit(this.someCursorXPos, this.someCursorYPos, (byte)0);
-            this.var_3983 = true;
+            this.cursorTileNeedsUpdateUI = true;
         }
 
         public void sub_bbf2(Graphics gr)
@@ -4510,17 +4509,17 @@ namespace aeii{
                 }
                 int i3;
                 int i4;
-                if (this.var_353b != null)
+                if (this.unitMovePathPositions != null)
                 {
                     gr.setColor(14745682);
                     sprLength = 12 + this.var_3a4b / 4;
                     int n = 24 - sprLength;
                     int i2 = 0;
-                    i3 = this.var_353b.size();
+                    i3 = this.unitMovePathPositions.size();
                     while (i2 < i3)
                     {
                         short[] arrayOfShort1;
-                        i4 = (arrayOfShort1 = (short[])this.var_353b.elementAt(i2))[0]
+                        i4 = (arrayOfShort1 = (short[])this.unitMovePathPositions.elementAt(i2))[0]
                                 * 24 + this.mapLeftXPix;
                         int i5 = arrayOfShort1[1] * 24 + this.mapTopYPix;
                         int i6 = i4 + 12;
@@ -4528,7 +4527,7 @@ namespace aeii{
                         short[] arrayOfShort2;
                         if (i2 != 0)
                         {
-                            if ((arrayOfShort2 = (short[])this.var_353b
+                            if ((arrayOfShort2 = (short[])this.unitMovePathPositions
                                     .elementAt(i2 - 1))[0] == arrayOfShort1[0] + 1)
                             {
                                 gr.fillRect(i4 + n, i7 - this.var_3a53,
@@ -4556,7 +4555,7 @@ namespace aeii{
                                     this.someGHeight);
                             this.moveUnitCursorSprite.drawCurrentFrame(gr, i6, i7, 3);
                         }
-                        else if ((arrayOfShort2 = (short[])this.var_353b
+                        else if ((arrayOfShort2 = (short[])this.unitMovePathPositions
                               .elementAt(i2 + 1))[0] == arrayOfShort1[0] + 1)
                         {
                             gr.fillRect(i4 + n, i7 - this.var_3a53, sprLength,
@@ -4604,18 +4603,17 @@ namespace aeii{
                 k = this.someCanHeight - someUnkHeight1;
                 if (this.var_378b > 0)
                 {
-                    D_Menu.sub_5602(gr, 0, k, this.someGWidth,
-                            someUnkHeight1, 14);
+                    D_Menu.drawMenuBackground(gr, 0, k, this.someGWidth, someUnkHeight1, 14);
                     gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
                 }
                 sprLength = someUnkHeight1 - 24 >> 1;
                 int i1 = 24 + sprLength * 2;
                 int i2asd = this.someCanWidth - i1;
                 k += this.var_378b;
-                if (this.var_397b)
+                if (this.bottomMenuNeedsUpdateUI)
                 {
-                    this.var_397b = false;
-                    D_Menu.sub_562e(gr, 0, k, i2asd + 1, someUnkHeight1, 0,
+                    this.bottomMenuNeedsUpdateUI = false;
+                    D_Menu.drawMenuBackground(gr, 0, k, i2asd + 1, someUnkHeight1, 0,
                             2370117, playerColors[this.playersIndexes[this.playerId]],
                             this.var_378b, someUnkHeight1);
                     i3 = this.someCanHeight - someUnkHeight1 / 2 + this.var_378b;
@@ -4646,25 +4644,22 @@ namespace aeii{
                     }
                     gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
                 }
-                if (this.var_3983)
+                if (this.cursorTileNeedsUpdateUI) //show cursor tile mb
                 {
-                    this.var_3983 = false;
+                    this.cursorTileNeedsUpdateUI = false;
                     if (sprLength > 0)
                     {
                         drawMenuBorderRect(gr, i2asd, k, i1, someUnkHeight1);
                     }
-                    i3 = i2asd + sprLength;
-                    i4 = k + sprLength;
-                    this.allTilesImages[this.mapTilesIds[this.someCursorXPos][this.someCursorYPos]]
-                            .drawImageExt(gr, i3, i4);
-                    String str2 = "."
-                            + tilesDefences[getTileType(this.someCursorXPos, this.someCursorYPos)];
-                    E_MainCanvas.drawCharedString(gr, str2, i3 + 24, i4 + 24, 0,
-                            40);
+                    int iX = i2asd + sprLength;
+                    int iY = k + sprLength;
+                    this.allTilesImages[this.mapTilesIds[this.someCursorXPos][this.someCursorYPos]].drawImageExt(gr, iX, iY);
+                    String tileDefStr = "." + tilesDefences[getTileType(this.someCursorXPos, this.someCursorYPos)];
+                    E_MainCanvas.drawCharedString(gr, tileDefStr, iX + 24, iY + 24, 0, 40);
                     if (sprLength == 0)
                     {
                         gr.setColor(0);
-                        gr.drawRect(i3, i4, 24, 24);
+                        gr.drawRect(iX, iY, 24, 24);
                     }
                 }
                 if ((this.unkState == 6)
@@ -4793,8 +4788,7 @@ namespace aeii{
                                         unit1.positionY)))
                         {
                             i7 = u1.getUnitExtraAttack(u2);
-                            str = u1.unitAttackMin + i7 + "-"
-                                    + (u1.unitAttackMax + i7);
+                            str = u1.unitAttackMin + i7 + "-" + (u1.unitAttackMax + i7);
                         }
                         else
                         {
@@ -4909,8 +4903,8 @@ namespace aeii{
 
         public void sub_ddbb()
         {
-            this.kingsPositions[this.playerId][0] = ((byte)this.someCursorXPos);
-            this.kingsPositions[this.playerId][1] = ((byte)this.someCursorYPos);
+            this.playerCursorPositions[this.playerId][0] = ((byte)this.someCursorXPos);
+            this.playerCursorPositions[this.playerId][1] = ((byte)this.someCursorYPos);
             this.currentTurn = ((short)(this.currentTurn + 1));
             this.playerId = ((sbyte)((this.playerId + 1) % this.mapMaxPlayersMb));
             if (this.mapPlayersTypes[this.playerId] == 2)
@@ -4972,11 +4966,11 @@ namespace aeii{
             }
             if (this.mapPlayersTypes[this.playerId] == 1)
             { // PLAYER?
-                moveCursorToPos(this.kingsPositions[this.playerId][0],
-                        this.kingsPositions[this.playerId][1]);
+                moveCursorToPos(this.playerCursorPositions[this.playerId][0],
+                        this.playerCursorPositions[this.playerId][1]);
             }
             this.cursorIsMovingMb = true;
-            this.var_397b = true;
+            this.bottomMenuNeedsUpdateUI = true;
             if (this.mapPlayersTypes[this.playerId] == 0)
             { // CPU
                 initCPUPlayerMb();
@@ -5074,7 +5068,7 @@ namespace aeii{
             int i = 0;
             for (int j = 0; j < this.mapCastlesCount; j++)
             {
-                if (playerIsOwnerOfTile(this.var_373b[j][0], this.var_373b[j][1], playerId))
+                if (playerIsOwnerOfTile(this.m_mapCastlesPositions[j][0], this.m_mapCastlesPositions[j][1], playerId))
                 {
                     i++;
                 }
@@ -5430,7 +5424,7 @@ namespace aeii{
                             this.someCursorXPos = this.var_3a73;
                             this.someCursorYPos = this.someTileType;
                             this.cursorSprite.setSpritePosition(this.var_3a73 * 24, this.someTileType * 24);
-                            this.var_353b = this.activeUnit.sub_1b48(
+                            this.unitMovePathPositions = this.activeUnit.getUnitMovePathPositions(
                                     this.activeUnit.positionX, this.activeUnit.positionY,
                                     this.someCursorXPos, this.someCursorYPos);
                             this.var_3a9b = 3;
@@ -5440,7 +5434,7 @@ namespace aeii{
                     else if ((this.var_3a9b == 3)
                           && (this.time - this.aiUnitActionStartTime >= 100L)) //show target cell
                     {
-                        this.var_353b = null;
+                        this.unitMovePathPositions = null;
                         this.activeUnit.goToPosition(this.var_3a73, this.someTileType, true);
                         this.someAIAtkStateMb = 2;
                         this.var_3a9b = 0;
@@ -8107,8 +8101,8 @@ namespace aeii{
                     E_MainCanvas.stopMusic();
                     E_MainCanvas.playMusicLooped(playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
                     A_MenuBase.mainCanvas.clearActions();
-                    this.var_397b = true;
-                    this.var_3983 = true;
+                    this.bottomMenuNeedsUpdateUI = true;
+                    this.cursorTileNeedsUpdateUI = true;
                 }
             }
             else if (this.faUnit1.var_b35)
@@ -8207,7 +8201,7 @@ namespace aeii{
                 int k = this.someCanHeight - someUnkHeight1;
                 gr.setColor(14672074);
                 gr.fillRect(0, k, this.someCanWidth, someUnkHeight1);
-                D_Menu.sub_5602(gr, 0, k, this.someCanWidth, someUnkHeight1, 0);
+                D_Menu.drawMenuBackground(gr, 0, k, this.someCanWidth, someUnkHeight1, 0);
                 gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
                 this.faUnit1.drawUnitHealth(gr);
                 gr.translate(this.viewportWidth, 0);

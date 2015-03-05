@@ -15,7 +15,7 @@ namespace aeii
         public int currentFrameIndex = 0;
         public int posXPixel = 0;
         public int posYPixel = 0;
-        public bool var_7ec = true;
+        public bool m_applyAnchorMb = true;
         public int frameWidth;
         public int frameHeight;
         public byte[][] frameAnimationsSequences;
@@ -181,7 +181,7 @@ namespace aeii
             this.posXPixel = sprite.posXPixel;
             this.posYPixel = sprite.posYPixel;
             this.someYVal1 = sprite.someYVal1;
-            this.var_7ec = sprite.var_7ec;
+            this.m_applyAnchorMb = sprite.m_applyAnchorMb;
             this.frameWidth = sprite.frameWidth;
             this.frameHeight = sprite.frameHeight;
             this.mapFrameTime = sprite.mapFrameTime;
@@ -252,27 +252,25 @@ namespace aeii
             }
         }
 
-        public  void drawFrameAt(Graphics gr, int frameIndex,
-                int inX, int inY, int paramInt4)
+        public void drawFrameAt(Graphics gr, int frameIndex, int inX, int inY, int anchor)
         {
             if ((this.m_spriteType == 2) || (this.m_spriteType == 4) || (this.m_spriteType == 3))
             {
                 onSpritePaint(gr, inX, inY);
                 return;
             }
-            if (this.var_7ec)
+            if (this.m_applyAnchorMb)
             {
                 int x = this.posXPixel + inX;
                 int y = this.posYPixel + inY;
-                this.frameImages[frameIndex].drawImageExt(gr, x, y, paramInt4);
+                this.frameImages[frameIndex].drawImageExt(gr, x, y, anchor);
             }
         }
 
-        public  void drawCurrentFrame(Graphics gr, int inX,
-                int inY, int paramInt3)
+        public  void drawCurrentFrame(Graphics gr, int inX, int inY, int anchor)
         {
             byte index = (byte)this.frameSequence[this.currentFrameIndex];
-            drawFrameAt(gr, index, inX, inY, paramInt3);
+            drawFrameAt(gr, index, inX, inY, anchor);
         }
 
 
@@ -534,14 +532,13 @@ namespace aeii
                         this.posXPixel, this.posYPixel);
                 return;
             }
-            if (this.var_7ec)
+            if (this.m_applyAnchorMb)
             {
                 int x = this.posXPixel + inX;
                 int y = this.posYPixel + inY;
                 if (this.spriteString != null)
                 {
-                    E_MainCanvas.drawCharedString(gr, this.spriteString, x, y,
-                            this.charFontId, 33);
+                    E_MainCanvas.drawCharedString(gr, this.spriteString, x, y, this.charFontId, Graphics.HCENTER|Graphics.BOTTOM);
                     return;
                 }
                 if (this.randPosCounter > 0)
