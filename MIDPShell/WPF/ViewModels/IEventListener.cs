@@ -11,5 +11,8 @@ namespace MIDP.WPF.ViewModels
 
         void keyPressed(int keyCode);
         void keyReleased(int keyCode);
+        void pointerDragged(int x, int y);        
+        void pointerPressed(int x, int y);        
+        void pointerReleased(int x, int y);
     }
 }

@@ -24,9 +24,6 @@ namespace MIDP.WPF.Views
     public partial class DisplayControl : UserControl, INotifyPropertyChanged
     {
 
-        public event Action<int> KeyPressed;
-        public event Action<int> KeyReleased;
-
         public ObservableCollection<FrameworkElement> Items { get; set; }
         
         public DisplayControl()
@@ -64,7 +61,28 @@ namespace MIDP.WPF.Views
             {
                 eventSource.KeyPressed += eventSource_KeyPressed;
                 eventSource.KeyReleased += eventSource_KeyReleased;
+                eventSource.PointerMoved += eventSource_PointerMoved;
+                eventSource.PointerPressed += eventSource_PointerPressed;
+                eventSource.PointerReleased += eventSource_PointerReleased;
             }
+        }
+
+        void eventSource_PointerReleased(System.Drawing.Point obj)
+        {
+            if (eventListener != null)
+                eventListener.pointerReleased(obj.X, obj.Y);
+        }
+
+        void eventSource_PointerPressed(System.Drawing.Point obj)
+        {
+            if (eventListener != null)
+                eventListener.pointerPressed(obj.X, obj.Y);
+        }
+
+        void eventSource_PointerMoved(System.Drawing.Point obj)
+        {
+            if (eventListener != null)
+                eventListener.pointerDragged(obj.X, obj.Y);
         }
 
         void eventSource_KeyReleased(int code)

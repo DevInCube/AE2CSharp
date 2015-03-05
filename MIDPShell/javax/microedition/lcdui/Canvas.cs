@@ -105,11 +105,11 @@ namespace javax.microedition.lcdui
 
         protected void keyRepeated(int paramInt) { }
 
-        protected void pointerDragged(int paramInt1, int paramInt2) { }
+        public virtual void pointerDragged(int x, int y) { }
 
-        protected void pointerPressed(int paramInt1, int paramInt2) { }
+        public virtual void pointerPressed(int x, int y) { }
 
-        protected void pointerReleased(int paramInt1, int paramInt2) { }
+        public virtual void pointerReleased(int x, int y) { }
 
         protected void showNotify() { }
 

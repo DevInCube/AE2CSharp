@@ -245,11 +245,14 @@ namespace aeii
             return sin1024Table[degree];
         }
 
-        public static  short getCos2014(int angle)
+        public static short getCos2014(int angle)
         {
             angle = (angle + maxDegreesDiv4) % 360;
             return sin1024Table[angle];
         }
+
+        public virtual void onPointerDragged(int x, int y) { }
+
     }
 
 }

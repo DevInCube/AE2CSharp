@@ -21,7 +21,7 @@ namespace AE2.Tools.Emulation
         public KeyCommand(Key Key, Action command)
         {
             this.Key = Key;
-            this.Command = new RelayCommand(command);
+            this.Command = new SimpleCommand(command);
         }
     }
 
@@ -29,6 +29,10 @@ namespace AE2.Tools.Emulation
     {
         public event Action<int> KeyPressed;
         public event Action<int> KeyReleased;
+        public event Action<System.Drawing.Point> PointerMoved;
+        public event Action<System.Drawing.Point> PointerPressed;
+        public event Action<System.Drawing.Point> PointerReleased;
+
         public event Action ClosedAction;
         public Dictionary<string, KeyCommand> KeyDict { get; set; }
 
@@ -40,7 +44,7 @@ namespace AE2.Tools.Emulation
         {
             get { return _Control; }
             set { _Control = value; OnPropertyChanged("Control"); }
-        }
+        }        
 
         public EmulatorVM()
         {
@@ -57,6 +61,25 @@ namespace AE2.Tools.Emulation
             KeyDict.Add("7", new KeyCommand(Key.NumPad1, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM7); }));
             KeyDict.Add("8", new KeyCommand(Key.NumPad2, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM8); }));
             KeyDict.Add("9", new KeyCommand(Key.NumPad3, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM9); }));
+            
+        }
+
+        public void OnMouseMoved(System.Drawing.Point pos)
+        {
+            if (PointerMoved != null)
+                PointerMoved(pos);
+        }
+
+        public void OnMouseDown(System.Drawing.Point pos)
+        {
+            if (PointerPressed != null)
+                PointerPressed(pos);
+        }
+
+        public void OnMouseUp(System.Drawing.Point pos)
+        {
+            if (PointerReleased != null)
+                PointerReleased(pos);
         }
 
         private void OnKeyPressed(int code)
