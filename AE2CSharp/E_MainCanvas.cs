@@ -94,7 +94,7 @@ namespace aeii
         public static byte[] getRecordStoreData(String recName, int recIndex)
         {
             RecordStore store = RecordStore.openRecordStore(recName, false);
-            byte[] recData = store.getRecord(recIndex); //@my  + 1
+            byte[] recData = store.getRecord(recIndex + 1); //@my  + 1
             store.closeRecordStore();
             return recData;
         }

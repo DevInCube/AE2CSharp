@@ -346,7 +346,7 @@ namespace aeii{
         public A_MenuBase someOnlineParentMenu;
         public int var_3c83;
 
-        private bool skipIntro = true;
+        private bool skipIntro = true;        
 
         public I_Game()
         {
@@ -453,7 +453,9 @@ namespace aeii{
             setLoadingProgress(74);
             try
             {
-                this.unlockedScenarioLevelsCount = E_MainCanvas.getRecordStoreData("settings", 1)[0];
+                byte[] data = E_MainCanvas.getRecordStoreData("settings", 1);
+                if(data.Length == 0) throw new Exception(); //@my
+                this.unlockedScenarioLevelsCount = data[0];
             }
             catch (Exception ex2)
             {
