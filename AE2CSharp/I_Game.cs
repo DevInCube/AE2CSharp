@@ -14,7 +14,7 @@ namespace aeii{
         public int someGHeight;
         public int viewportWidth;
         public int viewportHeight;
-        public int unlockedScenarioLevelsCount = 6;//@my 0
+        public int unlockedScenarioLevelsCount = 8;//@my 0
         public static String[] skirmishMapsNames = new String[12];
         public static int[] skMapsUnlockWhenCampLvlFin = { 4, 5, 6, 7, 8, 9, 10, 11 };
         public bool[] skMapUnlockedArr;
