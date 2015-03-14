@@ -28,7 +28,7 @@ namespace AE2.Tools.Views
 
         public const int CELL_SIZE = 24; 
         public const byte DEFAULT_TILE = 0;
-        private List<List<byte>> mapData;
+        private List<List<byte>> mapData = new List<List<byte>>();
         private Point cursorPos, cursorPos2;
         private List<Point> mapSelections = new List<Point>();
         private Image cursor, cursor2;
@@ -39,21 +39,23 @@ namespace AE2.Tools.Views
         private Image mapSelectionCanvasImage = new Image();
         private System.Drawing.Bitmap selBitmap;
 
-        public int Width { get { return mapData.Count == 0 ? 0 : mapData[0].Count; } }
-        public int Height { get { return mapData.Count; } }
+        public int MapWidth { get { return mapData.Count == 0 ? 0 : mapData[0].Count; } }
+        public int MapHeight { get { return mapData.Count; } }
 
         public int AddColX
         {
-            get { return Width * CELL_SIZE; }
+            get { return MapWidth * CELL_SIZE; }
         }
 
         public int AddRowY
         {
-            get { return Height * CELL_SIZE; }
+            get { return MapHeight * CELL_SIZE; }
         }
 
         public ICommand AddColumn { get; set; }
         public ICommand AddRow { get; set; }
+        public ICommand NewMap { get; set; }
+        public ICommand LoadMap { get; set; }
         public ICommand SaveMap { get; set; }
 
         public MapEditor()
@@ -62,16 +64,7 @@ namespace AE2.Tools.Views
             this.DataContext = this;
 
             E_MainCanvas.loadResourcesPak(null);
-            selBitmap = getSelectionBitmap();
-
-            mapData = new List<List<byte>>();
-            for (int i = 0; i < 5; i++)
-            {
-                var row = new List<byte>();
-                for (int j = 0; j < 5; j++)
-                    row.Add(DEFAULT_TILE);
-                mapData.Add(row);
-            }
+            selBitmap = getSelectionBitmap();           
 
             cursor = new Image();
             cursor.Source = getCursorImage();
@@ -103,17 +96,35 @@ namespace AE2.Tools.Views
                     row.Add(DEFAULT_TILE);
                 Update();
             });
+            NewMap = new RelayCommand((o) => {
+                //@todo
+            });
+            LoadMap = new RelayCommand((o) => {
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                // Set filter for file extension and default file extension 
+                dlg.DefaultExt = ".aem";
+                dlg.Filter = "AEM Files (*.aem)|*.aem";
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+                // Get the selected file name and display in a TextBox 
+                if (result == true)
+                {
+                    // Open document 
+                    string filename = dlg.FileName;
+                    byte[] bytes = File.ReadAllBytes(filename);
+                    LoadMapData(bytes);
+                }
+            });
             SaveMap = new RelayCommand((o) => { 
                 byte[] data = GetSaveMapData();
                 File.WriteAllBytes("newMap.aem", data);
             });
 
-
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
-            TilePickerImage terrain = new TilePickerImage();
-            terrain.SetTiles(new byte[][] { 
-                new byte[] {18, 19, 17, 16, 15},                
+            TilePickerImage terrain = new TilePickerImage();            
+            terrain.SetTiles(new byte[][] {
+                new byte[] {18, 19, 17, 16, 15},
             });
             pickers.Add(terrain);
 
@@ -162,7 +173,25 @@ namespace AE2.Tools.Views
                 CanvasStack.Children.Add(picker);
             }
 
+            int mapWidth = 10;
+            int mapHeight = 10;
+            byte defaultTile = DEFAULT_TILE;
+            CreateNewMap(mapWidth, mapHeight, defaultTile);
+
             Update();
+        }       
+
+        private void CreateNewMap(int mapWidth, int mapHeight, byte defaultTile)
+        {
+            mapData = new List<List<byte>>();
+            for (int i = 0; i < mapHeight; i++)
+            {
+                var row = new List<byte>();
+                for (int j = 0; j < mapWidth; j++)
+                    row.Add(defaultTile);
+                mapData.Add(row);
+            }
+            UpdateMap();
         }
 
         void picker_TileSeleted(byte id)
@@ -185,9 +214,7 @@ namespace AE2.Tools.Views
         {
             Canvas mapCanvas = this.MapCanvas;
             UpdateMap();
-            UpdateSelections();
-            Canvas.SetLeft(cursor, (double)cursorPos.X);
-            Canvas.SetTop(cursor, (double)cursorPos.Y);            
+            UpdateSelections();                       
             OnPropertyChanged("AddColX");
             OnPropertyChanged("AddRowY");
 
@@ -198,8 +225,8 @@ namespace AE2.Tools.Views
 
         private void UpdateSelections()
         {
-            mapSelectionCanvasImage.Width = Width * CELL_SIZE;
-            mapSelectionCanvasImage.Height = Height * CELL_SIZE;
+            mapSelectionCanvasImage.Width = MapWidth * CELL_SIZE;
+            mapSelectionCanvasImage.Height = MapHeight * CELL_SIZE;
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);            
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
             
@@ -215,13 +242,13 @@ namespace AE2.Tools.Views
 
         public void UpdateMap()
         {
-            mapCanvasImage.Width = Width * CELL_SIZE;
-            mapCanvasImage.Height = Height * CELL_SIZE;
+            mapCanvasImage.Width = MapWidth * CELL_SIZE;
+            mapCanvasImage.Height = MapHeight * CELL_SIZE;
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
 
-            for (int i = 0; i < Height; i++)
-                for (int j = 0; j < Width; j++)
+            for (int i = 0; i < MapHeight; i++)
+                for (int j = 0; j < MapWidth; j++)
                 {
                     byte tileId = mapData[i][j];
                     var tileBmp = getTileBitmap(tileId);
@@ -316,7 +343,7 @@ namespace AE2.Tools.Views
             return carBitmap;
         }
 
-        private System.Drawing.Bitmap getSelectionBitmap()
+        public static System.Drawing.Bitmap getSelectionBitmap()
         {            
             string id = "alpha_grid.png";            
             byte[] imageData = E_MainCanvas.getResourceData(id);
@@ -355,6 +382,8 @@ namespace AE2.Tools.Views
             Point mousePos = e.GetPosition(sender as IInputElement);
             cursorPos.X = mousePos.X - mousePos.X % CELL_SIZE;
             cursorPos.Y = mousePos.Y - mousePos.Y % CELL_SIZE;
+            Canvas.SetLeft(cursor, (double)cursorPos.X);
+            Canvas.SetTop(cursor, (double)cursorPos.Y);
 
             ProcessButtons(e);
 
@@ -406,10 +435,10 @@ namespace AE2.Tools.Views
         {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream dos = new DataOutputStream(baos);
-            dos.writeInt(Width);
-            dos.writeInt(Height);
-            for (int i = 0; i < Width; i++)
-                for (int j = 0; j < Height; j++)
+            dos.writeInt(MapWidth);
+            dos.writeInt(MapHeight);
+            for (int i = 0; i < MapWidth; i++)
+                for (int j = 0; j < MapHeight; j++)
                     dos.writeByte(mapData[j][i]);
             int skipLen = 0;
             dos.writeInt(skipLen);
@@ -428,6 +457,31 @@ namespace AE2.Tools.Views
             return baos.toByteArray();
         }
 
+        private void LoadMapData(byte[] bytes)
+        {
+            ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
+            DataInputStream mapDis = new DataInputStream(stream);
+            int mapWidth = mapDis.readInt();
+            int mapHeight = mapDis.readInt();
+            byte[][] tiles = JavaArray.New<byte>(mapWidth, mapHeight);            
+            for (int mX = 0; mX < mapWidth; mX++)
+            {
+                for (int mY = 0; mY < mapHeight; mY++)
+                {
+                    tiles[mX][mY] = mapDis.readByte();                   
+                }
+            }
+            //@todo
+            mapData = new List<List<byte>>();
+            for (int i = 0; i < mapHeight; i++)
+            {
+                var row = new List<byte>();
+                for (int j = 0; j < mapWidth; j++)
+                    row.Add(tiles[j][i]);
+                mapData.Add(row);
+            }
+            Update();
+        }
       
     }
 }

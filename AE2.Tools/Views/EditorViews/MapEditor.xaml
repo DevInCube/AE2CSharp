@@ -18,8 +18,14 @@
             <Button Content="+Col" Command="{Binding AddColumn}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}"/>
             <Button Content="+Row" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}"/>
         </Canvas>
-        <Grid VerticalAlignment="Bottom">
-            <Button Command="{Binding SaveMap}" Content="Save" Width="75"/>
+        <Grid VerticalAlignment="Bottom" Background="WhiteSmoke">
+            <GroupBox Header="Map">
+                <StackPanel>
+                    <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" IsEnabled="False"/>
+                    <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
+                    <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
+                </StackPanel>
+            </GroupBox>
         </Grid>
     </Grid>
 </Window>

@@ -60,6 +60,10 @@
     <Compile Include="Views\EditorViews\MapEditor.xaml.cs">
       <DependentUpon>MapEditor.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\EditorViews\NewMapDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EmulatorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +85,9 @@
     <Compile Include="Emulation\EmulatorVM.cs" />
     <Compile Include="Emulation\KeyboardVM.cs" />
     <Compile Include="Loaders\Map.cs" />
+    <Compile Include="Views\EditorViews\NewMapDialog.xaml.cs">
+      <DependentUpon>NewMapDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditorViews\TilePickerImage.cs" />
     <Compile Include="Views\EmulatorWindow.xaml.cs">
       <DependentUpon>EmulatorWindow.xaml</DependentUpon>

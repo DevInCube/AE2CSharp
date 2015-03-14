@@ -12,9 +12,13 @@ namespace AE2.Tools.Views.EditorViews
 
         private byte px, py;
         private byte[][] tiles;
-        private Image image, cursor;
+        private Image image, cursor, selectionImage;
+        private System.Drawing.Bitmap selBitmap;
+        private System.Drawing.Point selPos;
 
         public event Action<byte> TileSeleted;
+
+        public bool IsToggleEnabled { get; set; }
 
         public TilePickerImage()
         {
@@ -22,12 +26,16 @@ namespace AE2.Tools.Views.EditorViews
             image = new Image();
             this.Children.Add(image);
 
+            selBitmap = MapEditor.getSelectionBitmap();
+            selectionImage = new Image();
+            this.Children.Add(selectionImage);
+
             cursor = new Image();
             cursor.Source = MapEditor.getCursorImage();
             cursor.Width = MapEditor.CELL_SIZE;
             cursor.Height = MapEditor.CELL_SIZE;
             cursor.Opacity = 0;
-            this.Children.Add(cursor);
+            this.Children.Add(cursor);            
 
             this.MouseMove += TilePickerImage_MouseMove;
             this.MouseUp += TilePickerImage_MouseUp;
@@ -35,10 +43,34 @@ namespace AE2.Tools.Views.EditorViews
             this.MouseLeave += TilePickerImage_MouseLeave;
         }
 
+        private void UpdateSelection()
+        {
+            selectionImage.Width = this.Width;
+            selectionImage.Height = this.Height;
+            var mapBitmap = new System.Drawing.Bitmap((int)selectionImage.Width, (int)selectionImage.Height);
+            var gr = System.Drawing.Graphics.FromImage(mapBitmap);
+
+            gr.DrawImage(selBitmap,
+                   new System.Drawing.Rectangle((int)selPos.X, (int)selPos.Y, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
+                   new System.Drawing.Rectangle(MapEditor.CELL_SIZE, 0, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
+                   System.Drawing.GraphicsUnit.Pixel);
+
+            selectionImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
+        }
+
         void TilePickerImage_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            byte id = tiles[py][px];
-            if (TileSeleted != null) TileSeleted.Invoke(id);
+            if (IsToggleEnabled)
+            {
+                selPos = new System.Drawing.Point(px * MapEditor.CELL_SIZE, py * MapEditor.CELL_SIZE);              
+                UpdateSelection();
+            }
+            try
+            {
+                byte id = tiles[py][px];
+                if (TileSeleted != null) TileSeleted.Invoke(id);
+            }
+            catch { }
         }
 
         void TilePickerImage_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
