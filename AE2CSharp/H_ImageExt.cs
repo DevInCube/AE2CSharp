@@ -75,15 +75,15 @@ namespace aeii
             this.var_4c3 = false;
         }
 
-        public H_ImageExt(String imgId, int paramInt)
+        public H_ImageExt(String imgId, int playerId)
         {
             byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
             if (imgData == null) throw new Exception(); //
-            if (paramInt != 1)
+            if (playerId != 1)
             {
                 byte[] data = new byte[imgData.Length];
                 System.Array.Copy(imgData, 0, data, 0, imgData.Length);
-                sub_99f(data, paramInt);
+                setPlayerColor(data, playerId);
                 imgData = data;
             }
             this.image = Image.createImage((byte[])imgData, 0, imgData.Length);
@@ -169,18 +169,18 @@ namespace aeii
             gr.drawImage(this.image, x_dest, y_dest, inAnchor);
         }
 
-        public static void sub_99f(byte[] data, int paramInt)
+        public static void setPlayerColor(byte[] imageData, int playerId)
         {
             try
             {
                 int i = 33;
                 int it = 0;
-                int Length3 = data.Length - 3;
+                int Length3 = imageData.Length - 3;
                 while (it < Length3)
                 {
-                    if ((data[it] == 80)
-                            && (data[(it + 1)] == 76)
-                            && (data[(it + 2)] == 84))
+                    if ((imageData[it] == 80)
+                        && (imageData[(it + 1)] == 76)
+                        && (imageData[(it + 2)] == 84))
                     {
                         i = it - 4;
                         break;
@@ -188,61 +188,61 @@ namespace aeii
                     it++;
                 }
                 it = i;
-                Length3 = (int)(((data[it] & 0xFF) << 24
-                        | (data[(it + 1)] & 0xFF) << 16
-                        | (data[(it + 2)] & 0xFF) << 8 | data[(it + 3)] & 0xFF) & 0xFFFFFFFF);
+                Length3 = (int)(((imageData[it] & 0xFF) << 24
+                        | (imageData[(it + 1)] & 0xFF) << 16
+                        | (imageData[(it + 2)] & 0xFF) << 8 | imageData[(it + 3)] & 0xFF) & 0xFFFFFFFF);
                 it += 4;
                 int m = -1;
                 for (int n = 0; n < 4; n++)
                 {
-                    m = sub_cab(data[(it + n)], m);
+                    m = sub_cab(imageData[(it + n)], m);
                 }
                 it += 4;
-                for (int i3 = it; i3 < it + Length3; i3 += 3)
+                for (int colorIndex = it; colorIndex < it + Length3; colorIndex += 3)
                 {
-                    int i4 = data[i3] & 0xFF;
-                    int i5 = data[(i3 + 1)] & 0xFF;
-                    int i6 = data[(i3 + 2)] & 0xFF;
-                    if (paramInt == 0)
+                    int r = imageData[colorIndex] & 0xFF;
+                    int g = imageData[(colorIndex + 1)] & 0xFF;
+                    int b = imageData[(colorIndex + 2)] & 0xFF;
+                    if (playerId == 0) //gray
                     {
-                        if ((i4 != 244) || (i5 != 244) || (i6 != 230))
+                        if ((r != 244) || (g != 244) || (b != 230))
                         {
-                            int i7;
-                            i4 = i7 = (i4 + i5 + i6) / 3;
-                            i5 = i7;
-                            i6 = i7;
-                            data[i3] = ((byte)i4);
-                            data[(i3 + 1)] = ((byte)i5);
-                            data[(i3 + 2)] = ((byte)i6);
+                            int grayComponent = (r + g + b) / 3;
+                            r = grayComponent;
+                            g = grayComponent;
+                            b = grayComponent;
+                            imageData[colorIndex] = ((byte)r);
+                            imageData[(colorIndex + 1)] = ((byte)g);
+                            imageData[(colorIndex + 2)] = ((byte)b);
                         }
                     }
-                    else if (paramInt != 1)
+                    else if (playerId != 1)
                     {
-                        int[][] arrayOfInt1 = I_Game.var_33b3[1];
-                        int[][] arrayOfInt2 = I_Game.var_33b3[paramInt];
-                        for (int i8 = 0; i8 < arrayOfInt1.Length; i8++)
+                        int[][] blueColors = I_Game.playerAlphaColors[1]; //blue
+                        int[][] playColors = I_Game.playerAlphaColors[playerId]; //player
+                        for (int cIt = 0; cIt < blueColors.Length; cIt++)
                         {
-                            if ((arrayOfInt1[i8][0] == i4)
-                                    && (arrayOfInt1[i8][1] == i5)
-                                    && (arrayOfInt1[i8][2] == i6))
+                            if ((blueColors[cIt][0] == r) 
+                                && (blueColors[cIt][1] == g) 
+                                && (blueColors[cIt][2] == b))
                             {
-                                data[i3] = ((byte)arrayOfInt2[i8][0]);
-                                data[(i3 + 1)] = ((byte)arrayOfInt2[i8][1]);
-                                data[(i3 + 2)] = ((byte)arrayOfInt2[i8][2]);
+                                imageData[colorIndex] = ((byte)playColors[cIt][0]);
+                                imageData[(colorIndex + 1)] = ((byte)playColors[cIt][1]);
+                                imageData[(colorIndex + 2)] = ((byte)playColors[cIt][2]);
                                 break;
                             }
                         }
                     }
-                    m = sub_cab(data[i3], m);
-                    m = sub_cab(data[(i3 + 1)], m);
-                    m = sub_cab(data[(i3 + 2)], m);
+                    m = sub_cab(imageData[colorIndex], m);
+                    m = sub_cab(imageData[(colorIndex + 1)], m);
+                    m = sub_cab(imageData[(colorIndex + 2)], m);
                 }
                 m = (int)(m ^ 0xFFFFFFFF);
-                int i33 = i + 8 + Length3;
-                data[i33] = ((byte)(m >> 24));
-                data[(i33 + 1)] = ((byte)(m >> 16));
-                data[(i33 + 2)] = ((byte)(m >> 8));
-                data[(i33 + 3)] = ((byte)m);
+                int colorIndex2 = i + 8 + Length3;
+                imageData[colorIndex2] = ((byte)(m >> 24));
+                imageData[(colorIndex2 + 1)] = ((byte)(m >> 16));
+                imageData[(colorIndex2 + 2)] = ((byte)(m >> 8));
+                imageData[(colorIndex2 + 3)] = ((byte)m);
                 return;
             }
             catch (Exception ex2)
