@@ -24,7 +24,9 @@
                     <StackPanel>
                         <Button Command="{Binding GenIsland}" Content="Island" Width="75" Margin="2"/>
                         <Button Command="{Binding GenWater}" Content="Water" Width="75" Margin="2"/>
+                        <Button Command="{Binding GenRiver}" Content="River" Width="75" Margin="2"/>
                         <Button Command="{Binding GenRoad}" Content="Road" Width="75" Margin="2"/>
+                        <Button Command="{Binding GenForest}" Content="Forest" Width="75" Margin="2"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Map">
