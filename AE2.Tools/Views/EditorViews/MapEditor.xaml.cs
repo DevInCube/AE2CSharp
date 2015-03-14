@@ -1,4 +1,5 @@
-﻿using java.csharp;
+﻿using AE2.Tools.Views.EditorViews;
+using java.csharp;
 using java.io;
 using MIDP.WPF.ViewModels;
 using System;
@@ -25,11 +26,11 @@ namespace AE2.Tools.Views
     public partial class MapEditor : Window, INotifyPropertyChanged
     {
 
-        const int CELL_SIZE = 24; 
-        const byte DEFAULT_TILE = 0;
+        public const int CELL_SIZE = 24; 
+        public const byte DEFAULT_TILE = 0;
         private List<List<byte>> mapData;
         private Point cursorPos, cursorPos2;
-        private List<Point> selectionPos = new List<Point>();
+        private List<Point> mapSelections = new List<Point>();
         private Image cursor, cursor2;
 
         private Image tilesCanvasImage = new Image();
@@ -84,10 +85,7 @@ namespace AE2.Tools.Views
 
             MapCanvas.Children.Add(mapCanvasImage);
             MapCanvas.Children.Add(mapSelectionCanvasImage);
-            MapCanvas.Children.Add(cursor);
-
-            TileSelector.Children.Add(tilesCanvasImage);
-            TileSelector.Children.Add(cursor2);             
+            MapCanvas.Children.Add(cursor);          
 
             this.AddColumn = new RelayCommand((o) =>
             {
@@ -110,7 +108,76 @@ namespace AE2.Tools.Views
                 File.WriteAllBytes("newMap.aem", data);
             });
 
+
+            List<TilePickerImage> pickers = new List<TilePickerImage>();
+
+            TilePickerImage terrain = new TilePickerImage();
+            terrain.SetTiles(new byte[][] { 
+                new byte[] {18, 19, 17, 16, 15},                
+            });
+            pickers.Add(terrain);
+
+            TilePickerImage roads = new TilePickerImage();
+            roads.SetTiles(new byte[][] { 
+                new byte[] {26,23,18,18},                
+                new byte[] {25,22,20,23},                
+                new byte[] {18,21,18,21},                
+                new byte[] {18,25,20,24},                
+            });
+            pickers.Add(roads);
+
+            TilePickerImage water = new TilePickerImage();
+            water.SetTiles(new byte[][] { 
+                new byte[] { 0,5,6,7,1 },                
+                new byte[] { 5,4,18,8,7 },                
+                new byte[] { 3,18,18,18,9 },                
+                new byte[] { 10,13,18,14,12 },                
+                new byte[] { 1,10,11,12,0 },                
+            });
+            pickers.Add(water);
+
+            TilePickerImage plane = new TilePickerImage();
+            plane.SetTiles(new byte[][] { 
+                new byte[] { 18, 36, 18}, 
+                new byte[] { 33, 34, 35 } 
+            });
+            pickers.Add(plane);
+
+            TilePickerImage buildings = new TilePickerImage();
+            buildings.SetTiles(new byte[][] { 
+                new byte[] {38,40,42,44,46},
+                new byte[] {37,39,41,43,45},                
+            });
+            pickers.Add(buildings);
+
+            TilePickerImage misc = new TilePickerImage();
+            misc.SetTiles(new byte[][] { 
+                new byte[] {29,30,31,32,27},                             
+            });
+            pickers.Add(misc);
+
+            foreach (var picker in pickers)
+            {
+                picker.TileSeleted += picker_TileSeleted;
+                CanvasStack.Children.Add(picker);
+            }
+
             Update();
+        }
+
+        void picker_TileSeleted(byte id)
+        {
+            foreach (var pos in mapSelections)
+            {
+                byte mx = (byte)(pos.X / CELL_SIZE);
+                byte my = (byte)(pos.Y / CELL_SIZE);
+                try
+                {
+                    mapData[my][mx] = id;
+                }
+                catch { }
+            }
+            UpdateMap();
         }
       
 
@@ -136,7 +203,7 @@ namespace AE2.Tools.Views
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);            
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
             
-            foreach (var pos in selectionPos)
+            foreach (var pos in mapSelections)
             {
                 gr.DrawImage(selBitmap,
                     new System.Drawing.Rectangle((int)pos.X, (int)pos.Y, CELL_SIZE, CELL_SIZE),
@@ -194,7 +261,7 @@ namespace AE2.Tools.Views
             return carBitmap;
         }
 
-        private System.Drawing.Bitmap getTileBitmap(byte tileId)
+        public static System.Drawing.Bitmap getTileBitmap(byte tileId)
         {
             if (tileId <= 36)
             {
@@ -219,7 +286,7 @@ namespace AE2.Tools.Views
             return null;
         }
 
-        private System.Drawing.Bitmap getBuildingsBitmap(int playerId)
+        private static System.Drawing.Bitmap getBuildingsBitmap(int playerId)
         {                        
             byte[] imageData = E_MainCanvas.getResourceData("buildings.png");
             byte[] data = new byte[imageData.Length];
@@ -228,7 +295,7 @@ namespace AE2.Tools.Views
             return FromBytes(data);
         }
 
-        private System.Drawing.Bitmap FromBytes(byte[] imageData)
+        private static  System.Drawing.Bitmap FromBytes(byte[] imageData)
         {
             using (var ms = new MemoryStream(imageData))
             {
@@ -236,7 +303,7 @@ namespace AE2.Tools.Views
             }            
         }
 
-        private BitmapImage getCursorImage()
+        public static BitmapImage getCursorImage()
         {
             BitmapImage carBitmap = Convert(E_MainCanvas.getResourceData("cursor_00.png"));
             return carBitmap;
@@ -256,7 +323,7 @@ namespace AE2.Tools.Views
             return FromBytes(imageData);
         }
 
-        private BitmapImage Convert(byte[] byteVal)
+        private static  BitmapImage Convert(byte[] byteVal)
         {
             if (byteVal == null) return null;
             BitmapImage myBitmapImage = null;
@@ -288,48 +355,52 @@ namespace AE2.Tools.Views
             Point mousePos = e.GetPosition(sender as IInputElement);
             cursorPos.X = mousePos.X - mousePos.X % CELL_SIZE;
             cursorPos.Y = mousePos.Y - mousePos.Y % CELL_SIZE;
-            Update();
+
+            ProcessButtons(e);
+
+            UpdateSelections();
+        }
+
+        void ProcessButtons(MouseEventArgs e)
+        {
+            if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
+            {
+                AddSelection();
+            }
+
+            if (e.RightButton.HasFlag(MouseButtonState.Pressed))
+            {
+                RemoveSelection();
+            }
+
+            if (e.MiddleButton.HasFlag(MouseButtonState.Pressed))
+            {
+                mapSelections.Clear();
+            }
+        }
+
+        void AddSelection()
+        {
+            var newSel = new Point(cursorPos.X, cursorPos.Y);
+            mapSelections.Add(newSel);
+        }
+
+        void RemoveSelection()
+        {
+            mapSelections.Remove(mapSelections.FirstOrDefault(sel => (sel.X == cursorPos.X && sel.Y == cursorPos.Y)));
+        }
+
+        private void MapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ProcessButtons(e);
+            UpdateSelections();
+
         }
 
         private void MapCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Point mousePos = e.GetPosition(sender as IInputElement);
-            int mX = (int)(mousePos.X - mousePos.X % CELL_SIZE);
-            int mY = (int)(mousePos.Y - mousePos.Y % CELL_SIZE);
-
-            bool removed = selectionPos.Remove(selectionPos.FirstOrDefault(sel => (sel.X == mX && sel.Y == mY)));
-            if(!removed)
-            {
-                if (e.ChangedButton == MouseButton.Left)
-                    selectionPos.Clear();
-                var newSel = new Point(mX, mY);
-                selectionPos.Add(newSel);
-            }
-            Update();
-        }
-
-        private void TileSelector_MouseMove(object sender, MouseEventArgs e)
-        {
-            Point mousePos = e.GetPosition(sender as IInputElement);
-            cursorPos2.X = mousePos.X - mousePos.X % CELL_SIZE;
-            cursorPos2.Y = mousePos.Y - mousePos.Y % CELL_SIZE;
-            Update();
-        }
-
-        private void TileSelector_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            byte tx = (byte)(cursorPos2.X / CELL_SIZE);
-            byte ty = (byte)(cursorPos2.Y / CELL_SIZE);
-            byte id = (byte)(ty * 9 + tx);
-
-            foreach (var pos in selectionPos)
-            {
-                byte mx = (byte)(pos.X / CELL_SIZE);
-                byte my = (byte)(pos.Y / CELL_SIZE);
-                mapData[my][mx] = id;
-            }
-            Update();
-        }
+            //
+        }      
 
         public byte[] GetSaveMapData()
         {
@@ -356,5 +427,7 @@ namespace AE2.Tools.Views
             //dos.close();
             return baos.toByteArray();
         }
+
+      
     }
 }

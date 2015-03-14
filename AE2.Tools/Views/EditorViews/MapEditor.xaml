@@ -1,19 +1,22 @@
 ﻿<Window x:Class="AE2.Tools.Views.MapEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MapEditor" Height="300" Width="600">
+        Title="MapEditor" Height="500" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="43*"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="TileSelector" Background="WhiteSmoke" 
-                MouseMove="TileSelector_MouseMove" MouseUp="TileSelector_MouseUp"/>
+        <DockPanel Background="Gray">
+            <StackPanel x:Name="CanvasStack" DockPanel.Dock="Top" Height="Auto">                
+            </StackPanel>           
+        </DockPanel>
+       
         <Canvas x:Name="MapCanvas" Grid.Column="1" Background="DimGray" 
-                MouseMove="Canvas_MouseMove" MouseUp="MapCanvas_MouseUp"/>
+                MouseMove="Canvas_MouseMove" MouseUp="MapCanvas_MouseUp" MouseDown="MapCanvas_MouseDown"/>
         <Canvas Grid.Column="1">
             <Button Content="+Col" Command="{Binding AddColumn}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}"/>
-            <Button Content="+Row" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}"/>            
+            <Button Content="+Row" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}"/>
         </Canvas>
         <Grid VerticalAlignment="Bottom">
             <Button Command="{Binding SaveMap}" Content="Save" Width="75"/>
