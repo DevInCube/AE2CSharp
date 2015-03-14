@@ -59,6 +59,7 @@ namespace AE2.Tools.Views
         public ICommand SaveMap { get; set; }
         public ICommand GenIsland { get; set; }
         public ICommand GenWater { get; set; }
+        public ICommand GenRoad { get; set; }
 
         public MapEditor()
         {
@@ -124,6 +125,7 @@ namespace AE2.Tools.Views
 
             GenIsland = new SimpleCommand(GenerateIsland);
             GenWater = new SimpleCommand(GenerateRiver);
+            GenRoad = new SimpleCommand(GenerateRoad);
 
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
@@ -543,6 +545,32 @@ namespace AE2.Tools.Views
                 if (IsMatching(template, "---00-10-")) mapData[pos.Y][pos.X] = 13;
                 if (IsMatching(template, "10-00----")) mapData[pos.Y][pos.X] = 4;
                 if (IsMatching(template, "-01-00---")) mapData[pos.Y][pos.X] = 8;
+            }
+            UpdateMap();
+        }
+
+        void GenerateRoad()
+        {
+            foreach (var pos in mapSelections)
+            {
+                string template = createTemplate(getCellBoundings(pos));
+
+                if (IsMatching(template, "---111---")
+                    || IsMatching(template, "----11---")
+                    || IsMatching(template, "---11----")) mapData[pos.Y][pos.X] = 20;
+                if (IsMatching(template, "-1--1--1-")
+                    || IsMatching(template, "----1--1-")
+                    || IsMatching(template, "-1--1----")) mapData[pos.Y][pos.X] = 21;
+                if (IsMatching(template, "---11--1-")) mapData[pos.Y][pos.X] = 23;
+                if (IsMatching(template, "-1-11----")) mapData[pos.Y][pos.X] = 24;
+                if (IsMatching(template, "-1--11---")) mapData[pos.Y][pos.X] = 25;
+                if (IsMatching(template, "----11-1-")) mapData[pos.Y][pos.X] = 26;
+                if (IsMatching(template, "-1-111-1-")
+                    || IsMatching(template, "---111-1-")
+                    || IsMatching(template, "-1--11-1-")
+                    || IsMatching(template, "-1-11--1-")
+                    || IsMatching(template, "-1-111---")) mapData[pos.Y][pos.X] = 22;
+
             }
             UpdateMap();
         }
