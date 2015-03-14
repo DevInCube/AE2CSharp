@@ -58,6 +58,7 @@ namespace AE2.Tools.Views
         public ICommand LoadMap { get; set; }
         public ICommand SaveMap { get; set; }
         public ICommand GenIsland { get; set; }
+        public ICommand GenWater { get; set; }
 
         public MapEditor()
         {
@@ -122,6 +123,7 @@ namespace AE2.Tools.Views
             });
 
             GenIsland = new SimpleCommand(GenerateIsland);
+            GenWater = new SimpleCommand(GenerateRiver);
 
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
@@ -414,7 +416,8 @@ namespace AE2.Tools.Views
         void AddSelection()
         {
             var newSel = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
-            mapSelections.Add(newSel);
+            if (newSel.IsWithin(0, 0, MapWidth, MapHeight))
+                mapSelections.Add(newSel);
         }
 
         void RemoveSelection()
@@ -511,6 +514,35 @@ namespace AE2.Tools.Views
                 if (IsMatching(template, "---00-10-")) mapData[pos.Y][pos.X] = 7;
                 if (IsMatching(template, "10-00----")) mapData[pos.Y][pos.X] = 12;
                 if (IsMatching(template, "-01-00---")) mapData[pos.Y][pos.X] = 10;
+            }
+            UpdateMap();
+        }
+
+        void GenerateRiver()
+        {
+            Random rand = new Random();
+            foreach (var pos in mapSelections)
+            {
+                mapData[pos.Y][pos.X] = (byte)(rand.Next() % 2);
+            }
+            foreach (var pos in getBoundingPositions())
+            {
+                string template = createTemplate(getCellBoundings(pos));
+
+                if (IsMatching(template, "-1-100-00")) mapData[pos.Y][pos.X] = 5;
+                if (IsMatching(template, "-1-00100-")) mapData[pos.Y][pos.X] = 7;
+                if (IsMatching(template, "-00100-1-")) mapData[pos.Y][pos.X] = 10;
+                if (IsMatching(template, "00-001-1-")) mapData[pos.Y][pos.X] = 12;
+                
+                if (IsMatching(template, "-1-000000")) mapData[pos.Y][pos.X] = 6;
+                if (IsMatching(template, "000000-1-")) mapData[pos.Y][pos.X] = 11;
+                if (IsMatching(template, "-00100-00")) mapData[pos.Y][pos.X] = 3;
+                if (IsMatching(template, "00-00100-")) mapData[pos.Y][pos.X] = 9;
+
+                if (IsMatching(template, "----00-01")) mapData[pos.Y][pos.X] = 14;
+                if (IsMatching(template, "---00-10-")) mapData[pos.Y][pos.X] = 13;
+                if (IsMatching(template, "10-00----")) mapData[pos.Y][pos.X] = 4;
+                if (IsMatching(template, "-01-00---")) mapData[pos.Y][pos.X] = 8;
             }
             UpdateMap();
         }

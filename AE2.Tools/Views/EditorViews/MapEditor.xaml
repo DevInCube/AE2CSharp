@@ -23,6 +23,7 @@
                 <GroupBox Header="Generators">
                     <StackPanel>
                         <Button Command="{Binding GenIsland}" Content="Island" Width="75" Margin="2"/>
+                        <Button Command="{Binding GenWater}" Content="Water" Width="75" Margin="2"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Map">
