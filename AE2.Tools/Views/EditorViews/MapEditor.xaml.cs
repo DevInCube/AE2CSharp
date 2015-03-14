@@ -59,7 +59,9 @@ namespace AE2.Tools.Views
         public ICommand SaveMap { get; set; }
         public ICommand GenIsland { get; set; }
         public ICommand GenWater { get; set; }
+        public ICommand GenRiver { get; set; }
         public ICommand GenRoad { get; set; }
+        public ICommand GenForest { get; set; }
 
         public MapEditor()
         {
@@ -124,8 +126,10 @@ namespace AE2.Tools.Views
             });
 
             GenIsland = new SimpleCommand(GenerateIsland);
-            GenWater = new SimpleCommand(GenerateRiver);
+            GenWater = new SimpleCommand(GenerateWater);
+            GenRiver = new SimpleCommand(GenerateRiver);
             GenRoad = new SimpleCommand(GenerateRoad);
+            GenForest = new SimpleCommand(GenerateForest);
 
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
@@ -205,13 +209,7 @@ namespace AE2.Tools.Views
         {
             foreach (var pos in mapSelections)
             {
-                byte mx = (byte)(pos.X / CELL_SIZE);
-                byte my = (byte)(pos.Y / CELL_SIZE);
-                try
-                {
-                    mapData[my][mx] = id;
-                }
-                catch { }
+                mapData[pos.Y][pos.X] = id;
             }
             UpdateMap();
         }
@@ -520,7 +518,7 @@ namespace AE2.Tools.Views
             UpdateMap();
         }
 
-        void GenerateRiver()
+        void GenerateWater()
         {
             Random rand = new Random();
             foreach (var pos in mapSelections)
@@ -549,6 +547,40 @@ namespace AE2.Tools.Views
             UpdateMap();
         }
 
+        void GenerateRiver()
+        {
+            Random rand = new Random();
+            foreach (var pos in mapSelections)
+            {                
+                string template = createTemplate(getCellBoundings(pos));
+
+                if (IsMatching(template, "----1---0")) mapData[pos.Y][pos.X] = 5;
+                if (IsMatching(template, "----1-0--")) mapData[pos.Y][pos.X] = 7;
+                if (IsMatching(template, "--0-1----")) mapData[pos.Y][pos.X] = 10;
+                if (IsMatching(template, "0---1----")) mapData[pos.Y][pos.X] = 12;
+
+                if (IsMatching(template, "-1-111-1-")
+                    || IsMatching(template, "---111-1-")
+                    || IsMatching(template, "-1--11-1-")
+                    || IsMatching(template, "-1-11--1-")
+                    || IsMatching(template, "-1-111---"))
+                    mapData[pos.Y][pos.X] = (byte)(rand.Next() % 2);
+
+                if (IsMatching(template, "----1--0-")) mapData[pos.Y][pos.X] = 6;
+                if (IsMatching(template, "-0--1----")) mapData[pos.Y][pos.X] = 11;
+                if (IsMatching(template, "----10---")) mapData[pos.Y][pos.X] = 3;
+                if (IsMatching(template, "---01----")) mapData[pos.Y][pos.X] = 9;
+
+                if (IsMatching(template, "-0-01----")) mapData[pos.Y][pos.X] = 14;
+                if (IsMatching(template, "-0--10---")) mapData[pos.Y][pos.X] = 13;
+                if (IsMatching(template, "----10-0-")) mapData[pos.Y][pos.X] = 4;
+                if (IsMatching(template, "---01--0-")) mapData[pos.Y][pos.X] = 8;
+                
+            }
+           
+            UpdateMap();
+        }
+
         void GenerateRoad()
         {
             foreach (var pos in mapSelections)
@@ -573,6 +605,15 @@ namespace AE2.Tools.Views
 
             }
             UpdateMap();
+        }
+
+        void GenerateForest()
+        {
+            Random rand = new Random();
+            foreach (var pos in mapSelections)
+            {
+                mapData[pos.Y][pos.X] = (byte)(15 + (rand.Next() % 2));
+            }
         }
 
         MapPosition[] getCellBoundings(MapPosition pos)
