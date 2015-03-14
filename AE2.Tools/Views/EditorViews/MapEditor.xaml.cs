@@ -29,8 +29,8 @@ namespace AE2.Tools.Views
         public const int CELL_SIZE = 24; 
         public const byte DEFAULT_TILE = 0;
         private List<List<byte>> mapData = new List<List<byte>>();
-        private Point cursorPos, cursorPos2;
-        private List<Point> mapSelections = new List<Point>();
+        private Point cursorPos, cursorPos2;        
+        private List<MapPosition> mapSelections = new List<MapPosition>();
         private Image cursor, cursor2;
 
         private Image tilesCanvasImage = new Image();
@@ -57,6 +57,7 @@ namespace AE2.Tools.Views
         public ICommand NewMap { get; set; }
         public ICommand LoadMap { get; set; }
         public ICommand SaveMap { get; set; }
+        public ICommand GenIsland { get; set; }
 
         public MapEditor()
         {
@@ -119,6 +120,8 @@ namespace AE2.Tools.Views
                 byte[] data = GetSaveMapData();
                 File.WriteAllBytes("newMap.aem", data);
             });
+
+            GenIsland = new SimpleCommand(GenerateIsland);
 
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
@@ -233,7 +236,7 @@ namespace AE2.Tools.Views
             foreach (var pos in mapSelections)
             {
                 gr.DrawImage(selBitmap,
-                    new System.Drawing.Rectangle((int)pos.X, (int)pos.Y, CELL_SIZE, CELL_SIZE),
+                    new System.Drawing.Rectangle((int)pos.X * CELL_SIZE, (int)pos.Y * CELL_SIZE, CELL_SIZE, CELL_SIZE),
                     new System.Drawing.Rectangle(0, 0, CELL_SIZE, CELL_SIZE), 
                     System.Drawing.GraphicsUnit.Pixel);
             }
@@ -410,13 +413,14 @@ namespace AE2.Tools.Views
 
         void AddSelection()
         {
-            var newSel = new Point(cursorPos.X, cursorPos.Y);
+            var newSel = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
             mapSelections.Add(newSel);
         }
 
         void RemoveSelection()
         {
-            mapSelections.Remove(mapSelections.FirstOrDefault(sel => (sel.X == cursorPos.X && sel.Y == cursorPos.Y)));
+            mapSelections.Remove(mapSelections.FirstOrDefault(sel => 
+                (sel.X == cursorPos.X / CELL_SIZE && sel.Y == cursorPos.Y / CELL_SIZE)));
         }
 
         private void MapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -481,6 +485,91 @@ namespace AE2.Tools.Views
                 mapData.Add(row);
             }
             Update();
+        }
+
+        void GenerateIsland()
+        {
+            foreach (var pos in mapSelections)
+            {
+                mapData[pos.Y][pos.X] = 18;                
+            }
+            foreach (var pos in getBoundingPositions())
+            {
+                string template = createTemplate(getCellBoundings(pos));
+
+                if (IsMatching(template, "-1-100-00")) mapData[pos.Y][pos.X] = 14;
+                if (IsMatching(template, "-1-00100-")) mapData[pos.Y][pos.X] = 13;
+                if (IsMatching(template, "-00100-1-")) mapData[pos.Y][pos.X] = 8;
+                if (IsMatching(template, "00-001-1-")) mapData[pos.Y][pos.X] = 4;
+
+                if (IsMatching(template, "-1-000000")) mapData[pos.Y][pos.X] = 11;
+                if (IsMatching(template, "000000-1-")) mapData[pos.Y][pos.X] = 6;
+                if (IsMatching(template, "-00100-00")) mapData[pos.Y][pos.X] = 9;
+                if (IsMatching(template, "00-00100-")) mapData[pos.Y][pos.X] = 3;
+
+                if (IsMatching(template, "----00-01")) mapData[pos.Y][pos.X] = 5;
+                if (IsMatching(template, "---00-10-")) mapData[pos.Y][pos.X] = 7;
+                if (IsMatching(template, "10-00----")) mapData[pos.Y][pos.X] = 12;
+                if (IsMatching(template, "-01-00---")) mapData[pos.Y][pos.X] = 10;
+            }
+            UpdateMap();
+        }
+
+        MapPosition[] getCellBoundings(MapPosition pos)
+        {
+            return new MapPosition[]{
+                    new MapPosition(pos.X - 1, pos.Y - 1),
+                    new MapPosition(pos.X, pos.Y - 1),
+                    new MapPosition(pos.X + 1, pos.Y - 1),
+                    new MapPosition(pos.X - 1, pos.Y),
+                    new MapPosition(pos),
+                    new MapPosition(pos.X + 1, pos.Y),
+                    new MapPosition(pos.X - 1, pos.Y + 1),
+                    new MapPosition(pos.X, pos.Y + 1),
+                    new MapPosition(pos.X + 1, pos.Y + 1)
+                };
+        }
+
+        string createTemplate(MapPosition[] poss)
+        {
+            string t = "";
+            foreach (var pos in poss)
+            {
+                if (!pos.IsWithin(0, 0, MapWidth, MapHeight))
+                    t += "-";
+                else
+                    t += (mapSelections.Contains(pos)) ? "1" : "0";
+            }
+            return t;
+        }
+
+        bool IsMatching(string t1, string t2)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if ((t1[i] == '-' && t2[i] != '1')
+                    || t2[i] == '-') 
+                    continue;
+                if (t1[i] != t2[i]) return false;
+            }
+            return true;
+        }
+
+        List<MapPosition> getBoundingPositions()
+        {
+            List<MapPosition> bounds = new List<MapPosition>();
+            foreach (var pos in mapSelections)
+            {
+                MapPosition[] positions = getCellBoundings(pos);
+                foreach (var p in positions)
+                {
+                    if (p.IsWithin(0, 0, MapWidth, MapHeight)
+                        && !mapSelections.Contains(p)
+                        && !bounds.Contains(p))
+                        bounds.Add(p);
+                }
+            }
+            return bounds;
         }
       
     }

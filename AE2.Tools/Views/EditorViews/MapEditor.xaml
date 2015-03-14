@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AE2.Tools.Views.MapEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MapEditor" Height="500" Width="700">
+        Title="MapEditor" Height="700" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -19,13 +19,20 @@
             <Button Content="+Row" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}"/>
         </Canvas>
         <Grid VerticalAlignment="Bottom" Background="WhiteSmoke">
-            <GroupBox Header="Map">
-                <StackPanel>
-                    <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" IsEnabled="False"/>
-                    <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
-                    <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
-                </StackPanel>
-            </GroupBox>
+            <StackPanel>
+                <GroupBox Header="Generators">
+                    <StackPanel>
+                        <Button Command="{Binding GenIsland}" Content="Island" Width="75" Margin="2"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Map">
+                    <StackPanel>
+                        <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" IsEnabled="False"/>
+                        <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
+                        <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
