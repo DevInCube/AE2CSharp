@@ -85,6 +85,7 @@
     <Compile Include="Emulation\EmulatorVM.cs" />
     <Compile Include="Emulation\KeyboardVM.cs" />
     <Compile Include="Loaders\Map.cs" />
+    <Compile Include="Views\EditorViews\MapPosition.cs" />
     <Compile Include="Views\EditorViews\NewMapDialog.xaml.cs">
       <DependentUpon>NewMapDialog.xaml</DependentUpon>
     </Compile>
