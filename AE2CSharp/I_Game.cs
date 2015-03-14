@@ -52,16 +52,34 @@ namespace aeii{
         public static byte[] poisonFrameSeq = { 0 };
         public long cursorFrameStartTime = 0L;
         public long cursorMovingStartTimeMb;
-        public static int[][][] var_33b3 = {
-			new int[0][],
-			new int[][]{ new int[]{ 150, 217, 244 }, new int[]{ 65, 149, 233 }, new int[]{ 0, 100, 198 },
-					new int[]{ 12, 53, 112 } },
-			new int[][]{ new int[]{ 244, 158, 156 }, new int[]{ 219, 36, 113 }, new int[]{ 161, 0, 112 },
-					new int[]{ 95, 5, 120 } },
-			new int[][]{ new int[]{ 171, 237, 90 }, new int[]{ 99, 190, 37 }, new int[]{ 0, 153, 55 }, new int[]{ 0, 85, 82 } },
-			new int[][]{ new int[]{ 0, 118, 150 }, new int[]{ 0, 65, 114 }, new int[]{ 0, 43, 75 }, new int[]{ 0, 22, 48 } } };
-        public static int[] playerColors = { 10526880, 26054, 15204434, 39473,
-			16754 };
+        public static int[][][] playerAlphaColors = {
+			    new int[0][],
+			    new int[][]{ 
+                    new int[]{ 150, 217, 244 }, 
+                    new int[]{ 65, 149, 233 }, 
+                    new int[]{ 0, 100, 198 },
+			        new int[]{ 12, 53, 112 } 
+                },
+			    new int[][]{ 
+                    new int[]{ 244, 158, 156 }, 
+                    new int[]{ 219, 36, 113 },
+                    new int[]{ 161, 0, 112 },
+				    new int[]{ 95, 5, 120 } 
+                },
+			    new int[][]{ 
+                    new int[]{ 171, 237, 90 }, 
+                    new int[]{ 99, 190, 37 }, 
+                    new int[]{ 0, 153, 55 }, 
+                    new int[]{ 0, 85, 82 } 
+                },
+			    new int[][]{ 
+                    new int[]{ 0, 118, 150 }, 
+                    new int[]{ 0, 65, 114 }, 
+                    new int[]{ 0, 43, 75 }, 
+                    new int[]{ 0, 22, 48 } 
+                }
+            };
+        public static int[] playerColors = { 10526880, 26054, 15204434, 39473, 16754 };
         public static int[] playersMusicIdsMb = { -1, 2, 3, 2, 3 };
         public static int[] playersFAMusicIds = { -1, 4, 5, 4, 5 };
         public F_Sprite[][] playersUnitsSprites;
@@ -639,13 +657,13 @@ namespace aeii{
             H_ImageExt[] tilesImages = tilesSprite.frameImages;
             this.houseTileIdStartIndex = tilesImages.Length;
             H_ImageExt[] buildingsImages = new H_ImageExt[10];
-            F_Sprite spr1;
+            F_Sprite buildingsSprite;
             for (sbyte b = 0; b <= 4; b = (sbyte)(b + 1))
             {
-                spr1 = new F_Sprite("buildings", b);
+                buildingsSprite = new F_Sprite("buildings", b);
                 for (int i = 0; i < 2; i = (byte)(i + 1))
                 {
-                    buildingsImages[(b * 2 + i)] = spr1.frameImages[i];
+                    buildingsImages[(b * 2 + i)] = buildingsSprite.frameImages[i];
                 }
             }
             this.allTilesImages = new H_ImageExt[tilesImages.Length + buildingsImages.Length];
@@ -1551,44 +1569,40 @@ namespace aeii{
                 }
                 return;
             }
-            int i4;
-            int i7;
             if (menu == this.skirmishMapsMenu)
-            {
-                int ii;
+            {                
                 int j = this.skirmishMapsItemsMenu.activeItemPositionMb;
                 if ((paramByte == 0) && ((j >= skirmishMapsNames.Length) || (this.skMapUnlockedArr[j] == false)))
                 {
                     this.var_34e3 = sub_60ce(j);
-                    DataInputStream dis1 = getSkirmishMapData(this.var_34e3);
-                    i4 = dis1.readInt();
-                    i7 = dis1.readInt();
-                    byte[][] lo61 = JavaArray.New<byte>(i4, i7);
+                    DataInputStream mapDis = getSkirmishMapData(this.var_34e3);
+                    int mapWidth = mapDis.readInt();
+                    int mapHeight = mapDis.readInt();
+                    byte[][] mapData = JavaArray.New<byte>(mapWidth, mapHeight);
                     this.somePlayerIds = new byte[4];
-                    sbyte[] lo71 = new sbyte[5];
-                    for (int i13 = 0; i13 < 5; i13++)
+                    sbyte[] playerArr = new sbyte[5];
+                    for (int plId = 0; plId < 5; plId++)
                     {
-                        lo71[i13] = -1;
+                        playerArr[plId] = -1;
                     }
                     this.mapTeamsCount = 0;
-                    for (int i13 = 0; i13 < i4; i13++)
+                    int ownerIndex;
+                    for (int mX = 0; mX < mapWidth; mX++)
                     {
-                        for (int i14 = 0; i14 < i7; i14++)
+                        for (int mY = 0; mY < mapHeight; mY++)
                         {
-                            lo61[i13][i14] = dis1
-                                    .readByte();
-                            if ((this.tilesProps[lo61[i13][i14]] == 9)
-                                    && ((ii = houseOwnerPlayerIndex(i13, i14,
-                                            (byte[][])lo61)) != 0)
-                                    && (lo71[ii] == -1))
+                            mapData[mX][mY] = mapDis.readByte();
+                            if ((this.tilesProps[mapData[mX][mY]] == 9)
+                                    && ((ownerIndex = houseOwnerPlayerIndex(mX, mY, mapData)) != 0)
+                                    && (playerArr[ownerIndex] == -1))
                             {
-                                this.somePlayerIds[this.mapTeamsCount] = ((byte)ii);
-                                lo71[ii] = (sbyte)this.mapTeamsCount;
+                                this.somePlayerIds[this.mapTeamsCount] = ((byte)ownerIndex);
+                                playerArr[ownerIndex] = (sbyte)this.mapTeamsCount;
                                 this.mapTeamsCount = ((byte)(this.mapTeamsCount + 1));
                             }
                         }
                     }
-                    dis1.close();
+                    mapDis.close();
                     this.mapName = this.skirmishMapsItemsMenu.menuItemsNamesMb[j];
                     this.skirmishSetupMenu = new D_Menu((byte)15, 15);
                     D_Menu settingsMenuMb = new D_Menu((byte)10, 0);
@@ -1599,7 +1613,7 @@ namespace aeii{
                             this.someCanWidth, this.someGHeight
                                     - settingsMenuMb.menuHeight
                                     - this.buttonsSprite.frameHeight,
-                            (byte[][])lo61, null);
+                            mapData, null);
                     this.skirmishSetupMenu
                             .addChildMenu(
                                     menu11,
@@ -3954,77 +3968,76 @@ namespace aeii{
             this.cursorTileNeedsUpdateUI = true;
         }
 
-        public void sub_bbf2(Graphics gr)
+        public void drawMapTiles(Graphics gr)
         {
-            int i = -this.mapLeftXPix / 24;
-            int j;
-            if ((j = -this.mapTopYPix / 24) < 0)
+            int mapLeft = -this.mapLeftXPix / 24;
+            int mapTop = -this.mapTopYPix / 24;
+            if(mapTop < 0)
             {
-                j = 0;
+                mapTop = 0;
             }
-            int k = (this.someGWidth - this.mapLeftXPix - 1) / 24;
-            int m;
-            if ((m = (this.someGHeight - this.mapTopYPix - 1) / 24) >= this.mapHeight)
+            int mapHeight = (this.someGWidth - this.mapLeftXPix - 1) / 24;
+            int mapWidth = (this.someGHeight - this.mapTopYPix - 1) / 24;
+            if (mapWidth >= this.mapHeight)
             {
-                m = this.mapHeight - 1;
+                mapWidth = this.mapHeight - 1;
             }
-            int n;
+            int mapLeftStartPos;
             if (this.mapLeftXPix < 0)
             {
-                n = this.mapLeftXPix % 24;
+                mapLeftStartPos = this.mapLeftXPix % 24;
             }
             else
             {
-                n = this.mapLeftXPix;
+                mapLeftStartPos = this.mapLeftXPix;
             }
-            int i2;
+            int imY;
             if (this.mapTopYPix < 0)
             {
-                i2 = this.mapTopYPix % 24;
+                imY = this.mapTopYPix % 24;
             }
             else
             {
-                i2 = this.mapTopYPix;
+                imY = this.mapTopYPix;
             }
-            int i3 = 0;
+            int alphaIndex = 0;
             if (this.unitAttackCellsHighlighted)
             {
-                i3 = 1;
+                alphaIndex = 1;
             }
-            for (int i4 = j; i4 <= m; i4++)
+            for (int mX = mapTop; mX <= mapWidth; mX++)
             {
-                int i1 = n;
-                for (int i5 = i; i5 <= k; i5++)
+                int imX = mapLeftStartPos;
+                for (int mY = mapLeft; mY <= mapHeight; mY++)
                 {
-                    int i7 = this.mapTilesIds[i5][i4];
-                    if ((!this.var_351b) || (this.someMapData[i5][i4] == 0)
+                    int mTileId = this.mapTilesIds[mY][mX];
+                    if ((!this.var_351b) || (this.someMapData[mY][mX] == 0)
                             || (this.alphaWindowWTF > 0))
                     {
-                        this.allTilesImages[i7].drawImageExt(gr, i1, i2);
+                        this.allTilesImages[mTileId].drawImageExt(gr, imX, imY);
                     }
-                    if ((this.var_351b) && (this.someMapData[i5][i4] > 0))
+                    if ((this.var_351b) && (this.someMapData[mY][mX] > 0))
                     {
                         if (this.alphaWindowWTF != 0)
                         {
-                            gr.clipRect(i1 + this.alphaWindowWTF, i2
+                            gr.clipRect(imX + this.alphaWindowWTF, imY
                                     + this.alphaWindowWTF, 24 - this.alphaWindowWTF * 2,
                                     24 - this.alphaWindowWTF * 2);
                         }
-                        gr.drawImage(this.alphaMappedTilesImages[i3][i7], i1, i2, 0);
+                        gr.drawImage(this.alphaMappedTilesImages[alphaIndex][mTileId], imX, imY, 0);
                         if (this.alphaWindowWTF != 0)
                         {
                             gr.setClip(0, 0, this.someGWidth, this.someGHeight);
                         }
                     }
-                    int i6 = i4 + 1;
-                    if ((i6 < this.mapHeight)
-                            && (this.tilesProps[this.mapTilesIds[i5][i6]] == 9))
+                    int i6 = mX + 1;
+                    if ((i6 < this.mapHeight) && (this.tilesProps[this.mapTilesIds[mY][i6]] == 9))
                     {
-                        this.allTilesImages[28].drawImageExt(gr, i1, i2);
+                        this.allTilesImages[28].drawImageExt(gr, imX, imY); //castle top
                     }
-                    i1 += 24;
+                    imX += 24;
                 }
-                i2 += 24;
+                imY += 24;
             }
         }
 
@@ -4039,34 +4052,32 @@ namespace aeii{
                     (this.someCanHeight - E_MainCanvas.font8.getHeight()) / 2, 17);
         }
 
-        public static int someColorMethod2(int paramInt1, int paramInt2,
+        public static int someColorMethod2(int color1, int paramInt2,
                 int paramInt3, int paramInt4)
         {
             if (paramInt3 == 0)
             {
-                return paramInt1;
+                return color1;
             }
             if (paramInt3 == paramInt4)
             {
                 return paramInt2;
             }
-            int i = paramInt1 & 0xFF0000;
-            int j = paramInt1 & 0xFF00;
-            int k = paramInt1 & 0xFF;
-            int m = (((paramInt2 & 0xFF0000) - i) * paramInt3 / paramInt4 & 0xFF0000)
-                    + i;
-            int n = (((paramInt2 & 0xFF00) - j) * paramInt3 / paramInt4 & 0xFF00)
-                    + j;
-            int i1 = ((paramInt2 & 0xFF) - k) * paramInt3 / paramInt4 + k;
-            return m | n | i1;
+            int c1Red = color1 & 0xFF0000;
+            int c1Green = color1 & 0xFF00;
+            int c1Blue = color1 & 0xFF;
+            int r = (((paramInt2 & 0xFF0000) - c1Red) * paramInt3 / paramInt4 & 0xFF0000) + c1Red;
+            int g = (((paramInt2 & 0xFF00) - c1Green) * paramInt3 / paramInt4 & 0xFF00) + c1Green;
+            int b = ((paramInt2 & 0xFF) - c1Blue) * paramInt3 / paramInt4 + c1Blue;
+            return r | g | b;
         }
 
-        public static int someColorMethod(int paramInt1, int paramInt2, int paramInt3)
+        public static int someColorMethod(int color1, int paramInt2, int color2)
         {
-            int i = (paramInt1 & 0xFF0000) * paramInt2 / paramInt3 & 0xFF0000;
-            int j = (paramInt1 & 0xFF00) * paramInt2 / paramInt3 & 0xFF00;
-            int k = (paramInt1 & 0xFF) * paramInt2 / paramInt3;
-            return i | j | k;
+            int r = (color1 & 0xFF0000) * paramInt2 / color2 & 0xFF0000;
+            int g = (color1 & 0xFF00) * paramInt2 / color2 & 0xFF00;
+            int b = (color1 & 0xFF) * paramInt2 / color2;
+            return r | g | b;
         }
 
         public void loadIntro(int introId, int paramInt2, int paramInt3)
@@ -4474,12 +4485,12 @@ namespace aeii{
                     int j = E_MainCanvas.getRandomInt() % 10;
                     sprLength = E_MainCanvas.getRandomInt() % 4;
                     gr.translate(j, sprLength);
-                    sub_bbf2(gr);
+                    drawMapTiles(gr);
                     gr.translate(-j, -sprLength);
                 }
                 else
                 {
-                    sub_bbf2(gr);
+                    drawMapTiles(gr);
                 }
                 int jfd = 0;
                 sprLength = this.mapUnitsSprites.size();

@@ -56,6 +56,7 @@
     <Compile Include="WPF\Media\AudioPlayer.cs" />
     <Compile Include="WPF\Media\BitmapDrawingContext.cs" />
     <Compile Include="WPF\Media\IDrawingContext.cs" />
+    <Compile Include="WPF\Media\ImageHelper.cs" />
     <Compile Include="WPF\ViewModels\IEventListener.cs" />
     <Compile Include="WPF\ViewModels\IEventSource.cs" />
     <Compile Include="WPF\ViewModels\ObservableObject.cs" />
