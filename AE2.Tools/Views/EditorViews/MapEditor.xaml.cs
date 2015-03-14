@@ -416,7 +416,8 @@ namespace AE2.Tools.Views
         void AddSelection()
         {
             var newSel = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
-            if (newSel.IsWithin(0, 0, MapWidth, MapHeight))
+            if (newSel.IsWithin(0, 0, MapWidth, MapHeight)
+                && !mapSelections.Contains(newSel))
                 mapSelections.Add(newSel);
         }
 
@@ -614,6 +615,7 @@ namespace AE2.Tools.Views
             {
                 mapData[pos.Y][pos.X] = (byte)(15 + (rand.Next() % 2));
             }
+            UpdateMap();
         }
 
         MapPosition[] getCellBoundings(MapPosition pos)
