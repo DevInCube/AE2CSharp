@@ -15,8 +15,9 @@
         <Canvas x:Name="MapCanvas" Grid.Column="1" Background="DimGray" 
                 MouseMove="Canvas_MouseMove" MouseUp="MapCanvas_MouseUp" MouseDown="MapCanvas_MouseDown"/>
         <Canvas Grid.Column="1">
-            <Button Content="+Col" Command="{Binding AddColumn}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}"/>
-            <Button Content="+Row" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}"/>
+            <Button Content="{Binding MapWidth}" Command="{Binding AddColumn}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}" Width="50" Height="50" Opacity="0.6"/>
+            <Button Content="{Binding MapHeight}" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}" Width="50" Height="50" Opacity="0.6"/>
+            <Button Content="+" Command="{Binding AddRowCol}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}" Canvas.Top="{Binding AddRowY}" Width="50" Height="50" Opacity="0.6"/>
         </Canvas>
         <Grid VerticalAlignment="Bottom" Background="WhiteSmoke">
             <StackPanel>

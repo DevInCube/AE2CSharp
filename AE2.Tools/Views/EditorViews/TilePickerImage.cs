@@ -12,11 +12,12 @@ namespace AE2.Tools.Views.EditorViews
 
         private byte px, py;
         private byte[][] tiles;
+        private byte[][] units;
         private Image image, cursor, selectionImage;
         private System.Drawing.Bitmap selBitmap;
         private System.Drawing.Point selPos;
 
-        public event Action<byte> TileSeleted;
+        public event Action<byte> TileSelected;
 
         public bool IsToggleEnabled { get; set; }
 
@@ -62,13 +63,21 @@ namespace AE2.Tools.Views.EditorViews
         {
             if (IsToggleEnabled)
             {
-                selPos = new System.Drawing.Point(px * MapEditor.CELL_SIZE, py * MapEditor.CELL_SIZE);              
+                selPos = new System.Drawing.Point(px * MapEditor.CELL_SIZE, py * MapEditor.CELL_SIZE);
                 UpdateSelection();
             }
             try
             {
-                byte id = tiles[py][px];
-                if (TileSeleted != null) TileSeleted.Invoke(id);
+                if (tiles != null)
+                {
+                    byte id = tiles[py][px];
+                    if (TileSelected != null) TileSelected.Invoke(id);
+                }
+                if (units != null)
+                {
+                    byte id = units[py][px];
+                    if (TileSelected != null) TileSelected.Invoke(id);
+                }
             }
             catch { }
         }
@@ -100,27 +109,62 @@ namespace AE2.Tools.Views.EditorViews
             Update();
         }
 
+        public void SetUnits(byte[][] units)
+        {
+            this.units = units;
+            Update();
+        }
+
         private void Update()
         {
-            int width = tiles[0].Length;
-            int height = tiles.Length;
-            image.Width = width * MapEditor.CELL_SIZE;
-            image.Height = height * MapEditor.CELL_SIZE;
-            var bmp = new System.Drawing.Bitmap((int)image.Width, (int)image.Height);
-            var gr = System.Drawing.Graphics.FromImage(bmp);
+            if (tiles != null)
+            {
+                int width = tiles[0].Length;
+                int height = tiles.Length;
+                image.Width = width * MapEditor.CELL_SIZE;
+                image.Height = height * MapEditor.CELL_SIZE;
+                var bmp = new System.Drawing.Bitmap((int)image.Width, (int)image.Height);
+                var gr = System.Drawing.Graphics.FromImage(bmp);
 
-            for (int i = 0; i < height; i++)
-                for (int j = 0; j < width; j++)
-                {
-                    byte tileId = tiles[i][j];
-                    var tileBmp = MapEditor.getTileBitmap(tileId);
-                    if (tileBmp != null)
-                        gr.DrawImage(tileBmp, j * MapEditor.CELL_SIZE, i * MapEditor.CELL_SIZE);
-                }
-            image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
-            this.Width = image.Width;
-            this.Height = image.Height;
-        }
-        
+                for (int i = 0; i < height; i++)
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte tileId = tiles[i][j];
+                        var tileBmp = MapEditor.getTileBitmap(tileId);
+                        if (tileBmp != null)
+                            gr.DrawImage(tileBmp, j * MapEditor.CELL_SIZE, i * MapEditor.CELL_SIZE);
+                    }
+                image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
+                this.Width = image.Width;
+                this.Height = image.Height;
+            }
+            if (units != null)
+            {
+                int width = units[0].Length;
+                int height = units.Length;
+                image.Width = width * MapEditor.CELL_SIZE;
+                image.Height = height * MapEditor.CELL_SIZE;
+                var bmp = new System.Drawing.Bitmap((int)image.Width, (int)image.Height);
+                var gr = System.Drawing.Graphics.FromImage(bmp);
+
+                for (int i = 0; i < height; i++)
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte unitId = units[i][j];
+                        int playerId = unitId / 12 + 1;
+                        int unitType = unitId % 12;
+                        var unitBmp = MapEditor.getUnitsBitmap(playerId);
+                        if (unitBmp != null)
+                            gr.DrawImage(unitBmp,
+                               new System.Drawing.Rectangle(j * MapEditor.CELL_SIZE, i * MapEditor.CELL_SIZE, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
+                               new System.Drawing.Rectangle(unitType * MapEditor.CELL_SIZE, 0, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
+                               System.Drawing.GraphicsUnit.Pixel);
+                    }
+                image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
+                this.Width = image.Width;
+                this.Height = image.Height;
+            }
+
+        }       
     }
 }
