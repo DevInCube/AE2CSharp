@@ -29,15 +29,18 @@ namespace AE2.Tools.Views
         public const int CELL_SIZE = 24; 
         public const byte DEFAULT_TILE = 0;
         private List<List<byte>> mapData = new List<List<byte>>();
-        private Point cursorPos, cursorPos2;        
+        private Point cursorPos, cursorPos2;
         private List<MapPosition> mapSelections = new List<MapPosition>();
+        private MapPosition[] kingsPositions = new MapPosition[4];
         private Image cursor, cursor2;
 
         private Image tilesCanvasImage = new Image();
 
         private Image mapCanvasImage = new Image();
+        private Image kingsCanvasImage = new Image();
         private Image mapSelectionCanvasImage = new Image();
         private System.Drawing.Bitmap selBitmap;
+        private System.Drawing.Bitmap[] unitsBitmap;
 
         public int MapWidth { get { return mapData.Count == 0 ? 0 : mapData[0].Count; } }
         public int MapHeight { get { return mapData.Count; } }
@@ -54,6 +57,7 @@ namespace AE2.Tools.Views
 
         public ICommand AddColumn { get; set; }
         public ICommand AddRow { get; set; }
+        public ICommand AddRowCol { get; set; }
         public ICommand NewMap { get; set; }
         public ICommand LoadMap { get; set; }
         public ICommand SaveMap { get; set; }
@@ -69,7 +73,10 @@ namespace AE2.Tools.Views
             this.DataContext = this;
 
             E_MainCanvas.loadResourcesPak(null);
-            selBitmap = getSelectionBitmap();           
+            selBitmap = getSelectionBitmap();
+            unitsBitmap = new System.Drawing.Bitmap[4];
+            for (int i = 0; i < unitsBitmap.Count(); i++)
+                unitsBitmap[i] = getUnitsBitmap(i + 1);
 
             cursor = new Image();
             cursor.Source = getCursorImage();
@@ -82,6 +89,7 @@ namespace AE2.Tools.Views
             cursor2.Height = CELL_SIZE;       
 
             MapCanvas.Children.Add(mapCanvasImage);
+            MapCanvas.Children.Add(kingsCanvasImage);
             MapCanvas.Children.Add(mapSelectionCanvasImage);
             MapCanvas.Children.Add(cursor);          
 
@@ -96,8 +104,17 @@ namespace AE2.Tools.Views
             {
                 var row = new List<byte>();
                 mapData.Add(row);
-                int count = (mapData.Count == 0) ? 1 : mapData[0].Count;
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < MapWidth; i++)
+                    row.Add(DEFAULT_TILE);
+                Update();
+            });
+            this.AddRowCol = new RelayCommand((o) =>
+            {
+                foreach (var l in mapData)
+                    l.Add(DEFAULT_TILE);
+                var row = new List<byte>();
+                mapData.Add(row);
+                for (int i = 0; i < MapWidth; i++)
                     row.Add(DEFAULT_TILE);
                 Update();
             });
@@ -176,13 +193,20 @@ namespace AE2.Tools.Views
             misc.SetTiles(new byte[][] { 
                 new byte[] {29,30,31,32,27},                             
             });
-            pickers.Add(misc);
+            pickers.Add(misc);            
 
             foreach (var picker in pickers)
             {
-                picker.TileSeleted += picker_TileSeleted;
+                picker.TileSelected += picker_TileSeleted;
                 CanvasStack.Children.Add(picker);
             }
+
+            TilePickerImage units = new TilePickerImage();            
+            units.SetUnits(new byte[][] { 
+                new byte[] {0,12,24,36},
+            });
+            units.TileSelected += units_TileSeleted;
+            CanvasStack.Children.Add(units);
 
             int mapWidth = 10;
             int mapHeight = 10;
@@ -190,6 +214,14 @@ namespace AE2.Tools.Views
             CreateNewMap(mapWidth, mapHeight, defaultTile);
 
             Update();
+        }
+
+        void units_TileSeleted(byte obj)
+        {
+            int playerId = 1 + obj / 12;
+            if (mapSelections.Count > 0)
+                kingsPositions[playerId - 1] = new MapPosition(mapSelections.First());
+            UpdateKings();
         }       
 
         private void CreateNewMap(int mapWidth, int mapHeight, byte defaultTile)
@@ -219,13 +251,35 @@ namespace AE2.Tools.Views
         {
             Canvas mapCanvas = this.MapCanvas;
             UpdateMap();
+            UpdateKings();
             UpdateSelections();                       
             OnPropertyChanged("AddColX");
             OnPropertyChanged("AddRowY");
+            OnPropertyChanged("MapWidth");
+            OnPropertyChanged("MapHeight");
 
             UpdateTiles();
             Canvas.SetLeft(cursor2, (double)cursorPos2.X);
             Canvas.SetTop(cursor2, (double)cursorPos2.Y);            
+        }
+
+        private void UpdateKings()
+        {
+            var image = kingsCanvasImage;
+            image.Width = MapWidth * CELL_SIZE;
+            image.Height = MapHeight * CELL_SIZE;
+            var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);
+            var gr = System.Drawing.Graphics.FromImage(mapBitmap);
+
+            for (int i = 0; i < kingsPositions.Count();i++ )
+            {
+                MapPosition pos = kingsPositions[i];
+                gr.DrawImage(unitsBitmap[i],
+                    new System.Drawing.Rectangle((int)pos.X * CELL_SIZE, (int)pos.Y * CELL_SIZE, CELL_SIZE, CELL_SIZE),
+                    new System.Drawing.Rectangle(0, 0, CELL_SIZE, CELL_SIZE),
+                    System.Drawing.GraphicsUnit.Pixel);
+            }
+            image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
         }
 
         private void UpdateSelections()
@@ -286,11 +340,14 @@ namespace AE2.Tools.Views
             image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
         }
 
-        private BitmapImage getTileImage(byte tileId)
+        public static System.Drawing.Bitmap getUnitsBitmap(int playerId)
         {
-            string id = (tileId < 10) ? ("0" + tileId) : tileId.ToString();
-            BitmapImage carBitmap = Convert(E_MainCanvas.getResourceData("tiles0_" + id + ".png"));
-            return carBitmap;
+            string id = "unit_icons.png";
+            byte[] imageData = E_MainCanvas.getResourceData(id);
+            byte[] data = new byte[imageData.Length];
+            System.Array.Copy(imageData, 0, data, 0, imageData.Length);
+            aeii.H_ImageExt.setPlayerColor(data, playerId);
+            return FromBytes(data);
         }
 
         public static System.Drawing.Bitmap getTileBitmap(byte tileId)
@@ -341,13 +398,6 @@ namespace AE2.Tools.Views
             return carBitmap;
         }
 
-        private ImageSource getSelectionImage()
-        {
-            string id = "alpha_grid.png";
-            BitmapImage carBitmap = Convert(E_MainCanvas.getResourceData(id));
-            return carBitmap;
-        }
-
         public static System.Drawing.Bitmap getSelectionBitmap()
         {            
             string id = "alpha_grid.png";            
@@ -385,14 +435,16 @@ namespace AE2.Tools.Views
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mousePos = e.GetPosition(sender as IInputElement);
-            cursorPos.X = mousePos.X - mousePos.X % CELL_SIZE;
-            cursorPos.Y = mousePos.Y - mousePos.Y % CELL_SIZE;
-            Canvas.SetLeft(cursor, (double)cursorPos.X);
-            Canvas.SetTop(cursor, (double)cursorPos.Y);
-
-            ProcessButtons(e);
-
-            UpdateSelections();
+            MapPosition cPos = new MapPosition((sbyte)(mousePos.X / CELL_SIZE), (sbyte)(mousePos.Y / CELL_SIZE));
+            if (cPos.IsWithin(0, 0, MapWidth, MapHeight))
+            {
+                cursorPos.X = mousePos.X - mousePos.X % CELL_SIZE;
+                cursorPos.Y = mousePos.Y - mousePos.Y % CELL_SIZE;
+                Canvas.SetLeft(cursor, (double)cursorPos.X);
+                Canvas.SetTop(cursor, (double)cursorPos.Y);
+                ProcessButtons(e);
+                UpdateSelections();
+            }
         }
 
         void ProcessButtons(MouseEventArgs e)
@@ -450,14 +502,14 @@ namespace AE2.Tools.Views
                     dos.writeByte(mapData[j][i]);
             int skipLen = 0;
             dos.writeInt(skipLen);
-            int sLength = 2;
+            int sLength = 4;//@todo
             dos.writeInt(sLength);
             for (short i = 0; i < sLength; i++)
             {
                 byte uType = (byte)((12 * i) + 9); //king
                 dos.writeByte(uType);
-                short pX = (short)((2 + i) * CELL_SIZE);
-                short pY = (short)((2 + i) * CELL_SIZE);
+                short pX = (short)(kingsPositions[i].X * CELL_SIZE);
+                short pY = (short)(kingsPositions[i].Y * CELL_SIZE);
                 dos.writeShort(pX);
                 dos.writeShort(pY);
             }
@@ -487,6 +539,17 @@ namespace AE2.Tools.Views
                 for (int j = 0; j < mapWidth; j++)
                     row.Add(tiles[j][i]);
                 mapData.Add(row);
+            }
+            int skip = mapDis.readInt();
+            mapDis.skip(skip * 4);
+            int sLength = mapDis.readInt();
+            for (short i = 0; i < sLength; i = (short)(i + 1))
+            {
+                sbyte uType = (sbyte)mapDis.readByte();
+                int posX = mapDis.readShort() / 24;
+                int posY = mapDis.readShort() / 24;
+                int playerId = (1 + uType / 12);
+                kingsPositions[playerId - 1] = new MapPosition(posX, posY);
             }
             Update();
         }
