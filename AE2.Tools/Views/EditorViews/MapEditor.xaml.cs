@@ -30,6 +30,7 @@ namespace AE2.Tools.Views
         public const byte MIN_MAP_SIZE = 5;
         public const byte DEFAULT_TILE = 0;
         private List<List<byte>> mapData = new List<List<byte>>();
+        private int playersCount = 0;
         private Point cursorPos;
         private List<MapPosition> mapSelections = new List<MapPosition>();
         private MapPosition[] kingsPositions = new MapPosition[4];
@@ -294,7 +295,8 @@ namespace AE2.Tools.Views
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
 
-            for (int i = 0; i < kingsPositions.Count();i++ )
+            int count = Math.Min(kingsPositions.Count(), playersCount);
+            for (int i = 0; i < count;i++ )
             {
                 MapPosition pos = kingsPositions[i];
                 gr.DrawImage(unitsBitmap[i],
@@ -329,6 +331,8 @@ namespace AE2.Tools.Views
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
 
+            playersCount = 0;
+
             for (int i = 0; i < MapHeight; i++)
                 for (int j = 0; j < MapWidth; j++)
                 {
@@ -337,9 +341,10 @@ namespace AE2.Tools.Views
                     int x = j * tileBmp.Width;
                     int y = i * tileBmp.Height;
                     gr.DrawImage(tileBmp, x, y);
+
+                    if (new byte[] { 40, 42, 44, 46 }.Contains(tileId)) playersCount++;
                 }
-            mapCanvasImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
-         
+            mapCanvasImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);         
         }
 
         public void UpdateTiles()
@@ -525,7 +530,7 @@ namespace AE2.Tools.Views
                     dos.writeByte(mapData[j][i]);
             int skipLen = 0;
             dos.writeInt(skipLen);
-            int sLength = 4;//@todo
+            int sLength = playersCount;
             dos.writeInt(sLength);
             for (short i = 0; i < sLength; i++)
             {
