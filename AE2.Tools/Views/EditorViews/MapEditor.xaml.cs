@@ -33,7 +33,7 @@ namespace AE2.Tools.Views
         private int playersCount = 0;
         private Point cursorPos;
         private List<MapPosition> mapSelections = new List<MapPosition>();
-        private MapPosition[] kingsPositions = new MapPosition[4];
+        private MapPosition[] kingsPositions;
         private Image cursor;
 
         private Image tilesCanvasImage = new Image();
@@ -239,7 +239,11 @@ namespace AE2.Tools.Views
         {
             int playerId = 1 + obj / 12;
             if (mapSelections.Count > 0)
-                kingsPositions[playerId - 1] = new MapPosition(mapSelections.First());
+            {
+                var pos = new MapPosition(mapSelections.First());
+                if (!kingsPositions.Contains(pos))
+                    kingsPositions[playerId - 1] = pos;
+            }
             UpdateKings();
         }       
 
@@ -253,8 +257,12 @@ namespace AE2.Tools.Views
                     row.Add(defaultTile);
                 mapData.Add(row);
             }
-            for (int i = 0; i < kingsPositions.Length; i++)
-                kingsPositions[i] = new MapPosition();
+            kingsPositions = new MapPosition[] { 
+                new MapPosition(0,0),
+                new MapPosition(1,0),
+                new MapPosition(2,0),
+                new MapPosition(3,0)
+            };
             mapSelections.Clear();
             Update();
         }
@@ -278,8 +286,7 @@ namespace AE2.Tools.Views
             mapSelections.RemoveAll(pos => !pos.IsWithin(0, 0, MapWidth, MapHeight));
            
             Canvas mapCanvas = this.MapCanvas;
-            UpdateMap();
-            UpdateKings();
+            UpdateMap();            
             UpdateSelections();                       
             OnPropertyChanged("AddColX");
             OnPropertyChanged("AddRowY");
@@ -294,15 +301,19 @@ namespace AE2.Tools.Views
             image.Height = MapHeight * CELL_SIZE;
             var mapBitmap = new System.Drawing.Bitmap((int)mapCanvasImage.Width, (int)mapCanvasImage.Height);
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
-
-            int count = Math.Min(kingsPositions.Count(), playersCount);
-            for (int i = 0; i < count;i++ )
+            
+            for (int i = 0; i < kingsPositions.Count(); i++)
             {
-                MapPosition pos = kingsPositions[i];
-                gr.DrawImage(unitsBitmap[i],
-                    new System.Drawing.Rectangle((int)pos.X * CELL_SIZE, (int)pos.Y * CELL_SIZE, CELL_SIZE, CELL_SIZE),
-                    new System.Drawing.Rectangle(0, 0, CELL_SIZE, CELL_SIZE),
-                    System.Drawing.GraphicsUnit.Pixel);
+                bool exists = false;
+                mapData.ForEach((l) => { if (l.Contains((byte)(40 + 2 * i))) { exists = true; } });
+                if (exists)
+                {
+                    MapPosition pos = kingsPositions[i];
+                    gr.DrawImage(unitsBitmap[i],
+                        new System.Drawing.Rectangle((int)pos.X * CELL_SIZE, (int)pos.Y * CELL_SIZE, CELL_SIZE, CELL_SIZE),
+                        new System.Drawing.Rectangle(0, 0, CELL_SIZE, CELL_SIZE),
+                        System.Drawing.GraphicsUnit.Pixel);
+                }
             }
             image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
         }
@@ -344,7 +355,9 @@ namespace AE2.Tools.Views
 
                     if (new byte[] { 40, 42, 44, 46 }.Contains(tileId)) playersCount++;
                 }
-            mapCanvasImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);         
+            mapCanvasImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
+
+            UpdateKings();
         }
 
         public void UpdateTiles()
