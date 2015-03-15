@@ -9,57 +9,58 @@ namespace aeii
     {
 
         public Image image;
-        private bool var_4c3 = false;
-        private int var_4cb;
-        private int var_4d3;
+        private bool isFramedImage = false;
+        private int frameShiftXPix;
+        private int frameShiftYPix;
         public int imageWidth;
         public int imageHeight;
         private int locationX;
         private int locationY;
         public int imageTransformation = 0;
 
-        public H_ImageExt(H_ImageExt image, int paramInt1, int paramInt2, int imWidth, int imHeight)
+
+        public H_ImageExt(H_ImageExt inImage, int framePosX, int framePosY, int imWidth, int imHeight)
         {
-            this.image = image.image;
+            this.image = inImage.image;
             this.imageWidth = imWidth;
             this.imageHeight = imHeight;
-            this.var_4cb = (paramInt1 * imWidth + image.var_4cb);
-            this.var_4d3 = (paramInt2 * imHeight + image.var_4d3);
-            this.var_4c3 = true;
+            this.frameShiftXPix = (framePosX * imWidth + inImage.frameShiftXPix);
+            this.frameShiftYPix = (framePosY * imHeight + inImage.frameShiftYPix);
+            this.isFramedImage = true;
         }
 
-        public H_ImageExt(H_ImageExt image, int paramInt)
+        public H_ImageExt(H_ImageExt image, int inTransform)
         {
             if (image == null) throw new Exception("Image is null");
             this.image = image.image;
             this.imageWidth = image.imageWidth;
             this.imageHeight = image.imageHeight;
-            this.var_4cb = image.var_4cb;
-            this.var_4d3 = image.var_4d3;
+            this.frameShiftXPix = image.frameShiftXPix;
+            this.frameShiftYPix = image.frameShiftYPix;
             this.locationX = image.locationX;
             this.locationY = image.locationY;
-            this.var_4c3 = image.var_4c3;
-            if ((paramInt & 0x1) != 0)
+            this.isFramedImage = image.isFramedImage;
+            if ((inTransform & 0x1) != 0)
             {
                 this.imageTransformation = 2;
                 return;
             }
-            if ((paramInt & 0x2) != 0)
+            if ((inTransform & 0x2) != 0)
             {
                 this.imageTransformation = 1;
                 return;
             }
-            if ((paramInt & 0x4) != 0)
+            if ((inTransform & 0x4) != 0)
             {
                 this.imageTransformation = 6;
                 return;
             }
-            if ((paramInt & 0x8) != 0)
+            if ((inTransform & 0x8) != 0)
             {
                 this.imageTransformation = 3;
                 return;
             }
-            if ((paramInt & 0x10) != 0)
+            if ((inTransform & 0x10) != 0)
             {
                 this.imageTransformation = 5;
             }
@@ -72,13 +73,13 @@ namespace aeii
             this.image = Image.createImage(imgData, 0, imgData.Length);
             this.imageWidth = ((short)this.image.getWidth());
             this.imageHeight = ((short)this.image.getHeight());
-            this.var_4c3 = false;
+            this.isFramedImage = false;
         }
 
         public H_ImageExt(String imgId, int playerId)
         {
             byte[] imgData = E_MainCanvas.getResourceData(imgId + ".png");
-            if (imgData == null) throw new Exception(); //
+            if (imgData == null) throw new Exception(); //@my
             if (playerId != 1)
             {
                 byte[] data = new byte[imgData.Length];
@@ -91,14 +92,14 @@ namespace aeii
             this.imageHeight = ((short)this.image.getHeight());
         }
 
-        public void sub_6d9(int paramInt1, int paramInt2, int paramInt3)
+        public void applySomeTransformation(int someTransform, int inWidth, int inHeight)
         {
-            if (this.var_4c3)
+            if (this.isFramedImage)
             {
                 return;
             }
-            int i = paramInt1 & 0xD;
-            int j = paramInt1 & 0x32;
+            int i = someTransform & 0xD;
+            int j = someTransform & 0x32;
             if (this.imageTransformation == 2)
             {
                 if ((i & 0x4) != 0)
@@ -121,22 +122,22 @@ namespace aeii
                     i = 16;
                 }
             }
-            if (((paramInt1 = i | j) & 0x8) != 0)
+            if (((someTransform = i | j) & 0x8) != 0)
             {
-                this.locationX = (paramInt2 - this.imageWidth);
+                this.locationX = (inWidth - this.imageWidth);
             }
-            else if ((paramInt1 & 0x1) != 0)
+            else if ((someTransform & 0x1) != 0)
             {
-                this.locationX = (paramInt2 - this.imageWidth >> 1);
+                this.locationX = (inWidth - this.imageWidth >> 1);
             }
-            if ((paramInt1 & 0x20) != 0)
+            if ((someTransform & 0x20) != 0)
             {
-                this.locationY = (paramInt3 - this.imageHeight);
+                this.locationY = (inHeight - this.imageHeight);
                 return;
             }
-            if ((paramInt1 & 0x2) != 0)
+            if ((someTransform & 0x2) != 0)
             {
-                this.locationY = (paramInt3 - this.imageHeight >> 1);
+                this.locationY = (inHeight - this.imageHeight >> 1);
             }
         }
 
@@ -146,20 +147,19 @@ namespace aeii
             this.locationY += inY;
         }
 
-        public void drawImageExt(Graphics gr, int inX,
-                int inY)
+        public void drawImage(Graphics gr, int inX, int inY)
         {
-            drawImageExt(gr, inX, inY, 20);
+            drawImageAnchored(gr, inX, inY, Graphics.TOP | Graphics.LEFT);
         }
 
-        public void drawImageExt(Graphics gr, int inX, int inY, int inAnchor)
+        public void drawImageAnchored(Graphics gr, int inX, int inY, int inAnchor)
         {
             int x_dest = inX + this.locationX;
             int y_dest = inY + this.locationY;
-            if ((this.var_4c3) || (this.imageTransformation != 0))
+            if ((this.isFramedImage) || (this.imageTransformation != 0))
             {
-                int x_src = this.var_4cb;
-                int y_src = this.var_4d3;
+                int x_src = this.frameShiftXPix;
+                int y_src = this.frameShiftYPix;
                 gr.drawRegion(this.image, x_src,  y_src,
                               this.imageWidth, this.imageHeight, 
                               this.imageTransformation, x_dest, y_dest,
@@ -195,7 +195,7 @@ namespace aeii
                 int m = -1;
                 for (int n = 0; n < 4; n++)
                 {
-                    m = sub_cab(imageData[(it + n)], m);
+                    m = someColorComponentTransform(imageData[(it + n)], m);
                 }
                 it += 4;
                 for (int colorIndex = it; colorIndex < it + Length3; colorIndex += 3)
@@ -233,9 +233,9 @@ namespace aeii
                             }
                         }
                     }
-                    m = sub_cab(imageData[colorIndex], m);
-                    m = sub_cab(imageData[(colorIndex + 1)], m);
-                    m = sub_cab(imageData[(colorIndex + 2)], m);
+                    m = someColorComponentTransform(imageData[colorIndex], m);
+                    m = someColorComponentTransform(imageData[(colorIndex + 1)], m);
+                    m = someColorComponentTransform(imageData[(colorIndex + 2)], m);
                 }
                 m = (int)(m ^ 0xFFFFFFFF);
                 int colorIndex2 = i + 8 + Length3;
@@ -251,9 +251,9 @@ namespace aeii
             }
         }
 
-        public static int sub_cab(byte paramByte, int paramInt)
+        public static int someColorComponentTransform(byte colorComponent, int paramInt)
         {
-            int i = paramByte & 0xFF;
+            int i = colorComponent & 0xFF;
             paramInt ^= i;
             for (int j = 0; j < 8; j++)
             {

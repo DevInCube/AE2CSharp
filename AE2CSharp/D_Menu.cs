@@ -1344,7 +1344,7 @@ namespace aeii
                             .stringWidth(this.menuItemsNamesMb[0]) < menuWid
                             - this.menuTitleIcon.imageWidth * 2)))
             {
-                this.menuTitleIcon.drawImageExt(gr, 0, menuHei / 2, 6);
+                this.menuTitleIcon.drawImageAnchored(gr, 0, menuHei / 2, 6);
             }
             if (isSelected)
             {
@@ -1396,7 +1396,7 @@ namespace aeii
                             && (this.menuItemsImages != null)
                             && (this.menuItemsImages[wIt] != null))
                     {
-                        this.menuItemsImages[wIt].drawImageExt(gr, nnX, nnY, Graphics.HCENTER | Graphics.VCENTER);
+                        this.menuItemsImages[wIt].drawImageAnchored(gr, nnX, nnY, Graphics.HCENTER | Graphics.VCENTER);
                     }
                 }
                 if (this.var_fd5 == 2)
@@ -1654,7 +1654,7 @@ namespace aeii
                                 }
                                 else if (i17 == 2)
                                 {
-                                    gameVar.actionIconsFrames[5].drawImageExt(gr, sTileHeight,
+                                    gameVar.actionIconsFrames[5].drawImageAnchored(gr, sTileHeight,
                                             i1 + i12, 3);
                                     str = "" + C_Unit.unitsMoveRanges[this.menuUnit.unitTypeId];
                                 }
@@ -1697,7 +1697,7 @@ namespace aeii
                                 mapUnitsCount = (this.mapTilesData[i20][i19] - gameVar.houseTileIdStartIndex) / 2;
                                 i21 = 2 * mapUnitsCount + 8 + i21 - 8;
                             }
-                            gameVar.smallTilesImages[i21].drawImageExt(gr, n, i1);
+                            gameVar.smallTilesImages[i21].drawImage(gr, n, i1);
                             n += sTileWidth;
                         }
                         i1 += sTileHeight;
@@ -1794,7 +1794,7 @@ namespace aeii
                                 {
                                     gameVar.smallCircleSprite.drawFrameAt(gr, 0, i21, 0, 20);
                                 }
-                                this.menuItemsImages[mapUnitsCount].drawImageExt(gr, i21
+                                this.menuItemsImages[mapUnitsCount].drawImageAnchored(gr, i21
                                         + gameVar.smallCircleSprite.frameWidth / 2,
                                         this.menuHeight / 2, 3);
                                 i21 -= this.var_101d;

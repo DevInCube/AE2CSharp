@@ -132,7 +132,7 @@ namespace aeii
             {
                 for (int it = 0; it < Length; it++)
                 {
-                    this.frameImages[it].sub_6d9(jj2, this.frameWidth, this.frameHeight);
+                    this.frameImages[it].applySomeTransformation(jj2, this.frameWidth, this.frameHeight);
                 }
             }
             sbyte animationsCount = (sbyte)stream.read();
@@ -263,7 +263,7 @@ namespace aeii
             {
                 int x = this.posXPixel + inX;
                 int y = this.posYPixel + inY;
-                this.frameImages[frameIndex].drawImageExt(gr, x, y, anchor);
+                this.frameImages[frameIndex].drawImageAnchored(gr, x, y, anchor);
             }
         }
 
@@ -288,7 +288,7 @@ namespace aeii
             return sprite;
         }
 
-        public static  F_Sprite someSpriteCopy(F_Sprite sprite,
+        public static  F_Sprite spriteCopy(F_Sprite sprite,
                 int paramInt1, int paramInt2, int paramInt3, int paramInt4,
                 int frameTime, byte inSprType) {
 		F_Sprite lspr = null;
@@ -547,7 +547,7 @@ namespace aeii
                     y += E_MainCanvas.getRandomWithin(-1, 2);
                 }
                 k = this.frameSequence[this.currentFrameIndex];
-                this.frameImages[k].drawImageExt(gr, x, y);
+                this.frameImages[k].drawImage(gr, x, y);
                 if (this.kingHeadSprite != null)
                 {
                     int m = k % (getFramesCount() / 2);

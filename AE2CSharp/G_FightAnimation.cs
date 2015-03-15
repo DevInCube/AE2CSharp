@@ -319,7 +319,7 @@ namespace aeii
                                         for (int n = 0; n < 2; n++)
                                         {
                                             F_Sprite localClass_f_0456;
-                                            (localClass_f_0456 = F_Sprite.someSpriteCopy(
+                                            (localClass_f_0456 = F_Sprite.spriteCopy(
                                                     this.m_game.smokeSprite, 0, 0, -1, 1,
                                                     E_MainCanvas.getRandomMax(4) * 50,
                                                     (byte)0))
@@ -335,7 +335,7 @@ namespace aeii
                                             localClass_f_0456.var_85c = true;
                                             this.m_game.addSpriteTo(localClass_f_0456);
                                         }
-                                        (localClass_f_0454 = F_Sprite.someSpriteCopy(
+                                        (localClass_f_0454 = F_Sprite.spriteCopy(
                                                 this.m_game.smokeSprite, -1, 0, -1, 1,
                                                 E_MainCanvas.getRandomMax(4) * 50, (byte)0))
                                                 .setSpritePosition(
@@ -346,7 +346,7 @@ namespace aeii
                                                                 + 2);
                                         localClass_f_0454.var_85c = true;
                                         this.m_game.addSpriteTo(localClass_f_0454);
-                                        (localClass_f_0454 = F_Sprite.someSpriteCopy(
+                                        (localClass_f_0454 = F_Sprite.spriteCopy(
                                                 this.m_game.smokeSprite, 1, 0, -1, 1,
                                                 E_MainCanvas.getRandomMax(4) * 50, (byte)0))
                                                 .setSpritePosition(
@@ -425,7 +425,7 @@ namespace aeii
                             this.unitCharsSprites[this.var_c85].var_81c = 1;
                             if ((this.unitType == 3) || (this.unitType == 2))
                             {
-                                this.var_c75[this.var_c85] = F_Sprite.someSpriteCopy(
+                                this.var_c75[this.var_c85] = F_Sprite.spriteCopy(
                                         this.kingWaveSprite, 0, 0, 0, 1, 50, (byte)0);
                                 this.var_c75[this.var_c85]
                                         .setSpritePosition(
@@ -439,7 +439,7 @@ namespace aeii
                             else if (this.unitType == 1)
                             {
                                 F_Sprite localClass_f_0451;
-                                (localClass_f_0451 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
+                                (localClass_f_0451 = F_Sprite.spriteCopy(this.archerArrowSprite,
                                         0, 0, 0, 1, 0, (byte)0)).startAnimation(1,
                                         this.var_b75);
                                 localClass_f_0451
@@ -458,7 +458,7 @@ namespace aeii
                                     this.unitCharsSprites[this.var_c85].randPosCounter = 5;
                                     for (int k = 0; k < 3; k++)
                                     {
-                                        (localClass_f_0454 = F_Sprite.someSpriteCopy(
+                                        (localClass_f_0454 = F_Sprite.spriteCopy(
                                                 this.m_game.bigSmokeSprite,
                                                 E_MainCanvas.getRandomWithin(-1, 2), 0, 0, 1,
                                                 E_MainCanvas.getRandomMax(4) * 50, (byte)0))
@@ -474,14 +474,14 @@ namespace aeii
                                 if (this.unitType == 9)
                                 {
                                     F_Sprite localClass_f_0452;
-                                    (localClass_f_0452 = F_Sprite.someSpriteCopy(
+                                    (localClass_f_0452 = F_Sprite.spriteCopy(
                                             this.slashSprite, 0, 0, 0, 1, 200, (byte)0))
                                             .setSpritePosition(this.unitCharsSprites[0].posXPixel,
                                                     this.unitCharsSprites[0].posYPixel
                                                             + this.var_b8d.frameHeight);
                                     localClass_f_0452.someYVal1 = (-this.var_b8d.frameHeight);
                                     this.m_game.addSpriteTo(localClass_f_0452);
-                                    this.var_c75[0] = F_Sprite.someSpriteCopy(
+                                    this.var_c75[0] = F_Sprite.spriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3,
                                             -2, 0, -1, 100, (byte)0);
                                     int i1 = this.unitCharsSprites[this.var_c85].posXPixel
@@ -492,7 +492,7 @@ namespace aeii
                                             + this.var_b8d.frameHeight
                                             - this.var_c75[this.var_c85].frameHeight + 2;
                                     this.var_c75[0].setSpritePosition(i1, i3);
-                                    this.var_c75[1] = F_Sprite.someSpriteCopy(
+                                    this.var_c75[1] = F_Sprite.spriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3, 1,
                                             0, -1, 100, (byte)0);
                                     this.var_c75[1].setSpritePosition(i1, i3);
@@ -503,7 +503,7 @@ namespace aeii
                                 }
                                 else if (this.unitType == 8)
                                 {
-                                    this.var_c75[this.var_c85] = F_Sprite.someSpriteCopy(
+                                    this.var_c75[this.var_c85] = F_Sprite.spriteCopy(
                                             null, var_b85[this.var_b6d], 0, 0, -1,
                                             2000, (byte)6);
                                     this.var_c75[this.var_c85]
@@ -556,7 +556,7 @@ namespace aeii
                             if ((this.unitType == 8) && (this.var_c75[m] != null)
                                     && (this.var_c75[m].isUpdatingMb))
                             {
-                                (localClass_f_0455 = F_Sprite.someSpriteCopy(
+                                (localClass_f_0455 = F_Sprite.spriteCopy(
                                         this.m_game.bigSmokeSprite, var_b85[this.var_b6d]
                                                 * E_MainCanvas.getRandomWithin(1, 4),
                                         E_MainCanvas.getRandomWithin(-2, 3), 0, 1,
@@ -600,7 +600,7 @@ namespace aeii
                     {
                         if ((this.unitType == 9) && (E_MainCanvas.getRandomMax(2) == 0))
                         {
-                            (localClass_f_0455 = F_Sprite.someSpriteCopy(
+                            (localClass_f_0455 = F_Sprite.spriteCopy(
                                     this.m_game.bigSmokeSprite, E_MainCanvas.getRandomWithin(-2, 1),
                                     0, -1, 1, 100, (byte)0)).setSpritePosition(
                                     this.var_c75[m].posXPixel
@@ -703,12 +703,12 @@ namespace aeii
                             if ((this.unitType == 3) || (this.unitType == 2)
                                     || (this.unitType == 1))
                             {
-                                localClass_f_0453 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
+                                localClass_f_0453 = F_Sprite.spriteCopy(this.archerArrowSprite,
                                         0, 0, 0, 1, 0, (byte)0);
                             }
                             else
                             {
-                                localClass_f_0453 = F_Sprite.someSpriteCopy(this.archerArrowSprite,
+                                localClass_f_0453 = F_Sprite.spriteCopy(this.archerArrowSprite,
                                         0, 0, 0, -1, 0, (byte)0);
                             }
                             if ((this.unitType == 2) || (this.unitType == 1))
@@ -742,7 +742,7 @@ namespace aeii
                                 F_Sprite localClass_f_0457;
                                 if ((this.unitType == 7) || (this.unitType == 6))
                                 {
-                                    (localClass_f_0457 = F_Sprite.someSpriteCopy(
+                                    (localClass_f_0457 = F_Sprite.spriteCopy(
                                             this.m_game.smokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0,
                                             E_MainCanvas.getRandomWithin(-2, 0), 1,
@@ -760,7 +760,7 @@ namespace aeii
                                 }
                                 else
                                 {
-                                    (localClass_f_0457 = F_Sprite.someSpriteCopy(
+                                    (localClass_f_0457 = F_Sprite.spriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, -1, 1, 100,
                                             (byte)0))
@@ -827,7 +827,7 @@ namespace aeii
                             {
                                 for (int i = 0; i < this.unitCharsSprites.Length; i++)
                                 {
-                                    (localClass_f_0451 = F_Sprite.someSpriteCopy(
+                                    (localClass_f_0451 = F_Sprite.spriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, 0, 1, 100,
                                             (byte)0))
@@ -858,7 +858,7 @@ namespace aeii
                             for (int i = 0; i < this.otherFightAnim.unitCharsSprites.Length; i++)
                             {
                                 (localClass_f_0451 = F_Sprite
-                                        .someSpriteCopy(this.m_game.redsparkSprite, 0, 0, 0, 1,
+                                        .spriteCopy(this.m_game.redsparkSprite, 0, 0, 0, 1,
                                                 50, (byte)0))
                                         .setSpritePosition(
                                                 this.otherFightAnim.unitCharsSprites[i].posXPixel
@@ -895,7 +895,7 @@ namespace aeii
             {
                 if (i22 != 0)
                 {
-                    F_Sprite lcSprite1 = F_Sprite.someSpriteCopy(null, 0, 0, 0, 1, 500, (byte)4);
+                    F_Sprite lcSprite1 = F_Sprite.spriteCopy(null, 0, 0, 0, 1, 500, (byte)4);
                     lcSprite1.setSpritePosition(this.unitCharsSprites[j].posXPixel
                                     + (this.unitCharsSprites[j].frameWidth >> 1),
                                     this.unitCharsSprites[j].posYPixel
@@ -985,7 +985,7 @@ namespace aeii
                                 this.unitCharsSprites[this.var_c4d].someXVal3 = (2 * var_b85[this.var_b6d]);
                                 for (int kIt = 0; kIt < 3; kIt++)
                                 {
-                                    fSprite1 = F_Sprite.someSpriteCopy(
+                                    fSprite1 = F_Sprite.spriteCopy(
                                             this.m_game.bigSmokeSprite,
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, -1, 1, 100,
                                             (byte)0);
@@ -1018,7 +1018,7 @@ namespace aeii
                                         this.unitCharsSprites[kIt].startAnimation(2, this.var_b75);
                                         this.unitCharsSprites[kIt].someXVal3 = 0;
                                         this.unitCharsSprites[kIt].var_87c = -1;
-                                        fSprite1 = F_Sprite.someSpriteCopy(null,
+                                        fSprite1 = F_Sprite.spriteCopy(null,
                                                 0, 0, 0, 1, 800, (byte)2);
                                         fSprite1.setSpritePosition(
                                                 this.unitCharsSprites[kIt].posXPixel
@@ -1027,7 +1027,7 @@ namespace aeii
                                                 this.unitCharsSprites[kIt].posYPixel
                                                         + this.var_b8d.frameHeight);
                                         this.m_game.addSpriteTo(fSprite1);
-                                        fSprite1 = F_Sprite.someSpriteCopy(this.slashSprite, 0, 0, 0, 1,
+                                        fSprite1 = F_Sprite.spriteCopy(this.slashSprite, 0, 0, 0, 1,
                                                 150, (byte)0);
                                         fSprite1.setSpritePosition(
                                                         this.unitCharsSprites[kIt].posXPixel
@@ -1056,7 +1056,7 @@ namespace aeii
                                     this.unitCharsSprites[kIt].startAnimation(2, this.var_b75);
                                     if (this.unitType == 0)
                                     {
-                                        fSprite1 = F_Sprite.someSpriteCopy(this.slashSprite, 0, 0, 0, 1,
+                                        fSprite1 = F_Sprite.spriteCopy(this.slashSprite, 0, 0, 0, 1,
                                                 150, (byte)0);
                                         fSprite1.setSpritePosition(
                                                         this.unitCharsSprites[kIt].posXPixel
@@ -1068,7 +1068,7 @@ namespace aeii
                                     }
                                     else if (this.unitType == 5)
                                     {
-                                        fSprite1 = F_Sprite.someSpriteCopy(
+                                        fSprite1 = F_Sprite.spriteCopy(
                                                 this.m_game.redsparkSprite, 0, 0, 0, 1, 50,
                                                 (byte)0);
                                         fSprite1.setSpritePosition(
@@ -1193,7 +1193,7 @@ namespace aeii
             for (int i = 0; i < this.var_c25; i++)
             {
                 this.m_game.removeSpriteFrom(this.unitCharsSprites[i]);
-                F_Sprite redSparksSprite = F_Sprite.someSpriteCopy(this.m_game.redsparkSprite, 0,
+                F_Sprite redSparksSprite = F_Sprite.spriteCopy(this.m_game.redsparkSprite, 0,
                         0, 0, 1, 0, (byte)0);
                 redSparksSprite.setSpritePosition(
                                 this.unitCharsSprites[i].posXPixel
@@ -1205,7 +1205,7 @@ namespace aeii
                 F_Sprite sprite1;
                 for (k = 0; k < 3; k++)
                 {
-                    sprite1 = F_Sprite.someSpriteCopy(
+                    sprite1 = F_Sprite.spriteCopy(
                             this.m_game.bigSmokeSprite, -1 + k, 0,
                             E_MainCanvas.getRandomWithin(-4, -1), 1,
                             E_MainCanvas.getRandomMax(4) * 50, (byte)0);
@@ -1217,7 +1217,7 @@ namespace aeii
                                             - sprite1.frameHeight + 3);
                     this.m_game.addSpriteTo(sprite1);
                 }
-                sprite1 = F_Sprite.someSpriteCopy(this.m_game.smokeSprite, 0,
+                sprite1 = F_Sprite.spriteCopy(this.m_game.smokeSprite, 0,
                         0, -1, 1, 200, (byte)0);
                 sprite1.setSpritePosition(
                                 this.unitCharsSprites[i].posXPixel
@@ -1266,7 +1266,7 @@ namespace aeii
                 int i1 = this.var_c0d;
                 while (n < i1)
                 {
-                    this.multipleBgImages[this.var_c5d[it][n]].drawImageExt(gr, x, y);
+                    this.multipleBgImages[this.var_c5d[it][n]].drawImage(gr, x, y);
                     y += 24;
                     n++;
                 }
@@ -1281,7 +1281,7 @@ namespace aeii
                 int Length2 = this.m_game.viewportWidth / imWidth;
                 while (it2 < Length2)
                 {
-                    this.var_be5.drawImageExt(gr, vX, 0);
+                    this.var_be5.drawImage(gr, vX, 0);
                     vX += imWidth;
                     it2++;
                 }

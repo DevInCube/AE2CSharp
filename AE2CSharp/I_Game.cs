@@ -677,7 +677,7 @@ namespace aeii{
                     Image img = Image.createImage(24, 24);
                     this.alphaMappedTilesImages[alphaId][tileId] = img;
                     Graphics graphics = img.getGraphics();
-                    this.allTilesImages[tileId].drawImageExt(graphics, 0, 0);
+                    this.allTilesImages[tileId].drawImage(graphics, 0, 0);
                     this.alphaMapSprite.drawFrameAt(graphics, alphaId, 0, 0, 0);
                 }
             }
@@ -1029,7 +1029,7 @@ namespace aeii{
                 { //poison
                     showSpriteOnMap(this.sparkSprite, this.attackedUnitMb.posXPixel,
                             this.attackedUnitMb.posYPixel, 0, 0, 1, 50);
-                    F_Sprite poisonSprite = F_Sprite.someSpriteCopy(this.statusSprite, 0, 0,
+                    F_Sprite poisonSprite = F_Sprite.spriteCopy(this.statusSprite, 0, 0,
                             -4, -1, 800, (byte)5);
                     poisonSprite.setSpritePosition(this.attackedUnitMb.posXPixel
                             + (this.attackedUnitMb.frameWidth - poisonSprite.frameWidth)
@@ -1067,7 +1067,7 @@ namespace aeii{
                 int paramInt3, int paramInt4,
                 int paramInt5, int inTime)
         {
-            F_Sprite aSprinte = F_Sprite.someSpriteCopy(sprite, paramInt3,
+            F_Sprite aSprinte = F_Sprite.spriteCopy(sprite, paramInt3,
                     paramInt4, 0, paramInt5, inTime, (byte)0);
             aSprinte.setSpritePosition(inX, inY);
             this.someSpritesVector1.addElement(aSprinte);
@@ -2491,7 +2491,7 @@ namespace aeii{
             for (short i = 0; i < this.housesDataArr.Length; i = (short)(i + 1))
             {
                 m = this.housesDataArr[i][2];
-                if ((m > 0) && (this.mapPlayersTypes[sub_e276(m)] == 2))
+                if ((m > 0) && (this.mapPlayersTypes[getPlayerTurn(m)] == 2))
                 { //NONE
                     occupyHouse(this.housesDataArr[i][0], this.housesDataArr[i][1], 0);
                 }
@@ -2508,13 +2508,13 @@ namespace aeii{
                 int posX = dis.readShort() / 24;
                 int posY = dis.readShort() / 24;
                 sbyte unitType = (sbyte)(uType % 12);
-                sbyte playerID = (sbyte)sub_e276(1 + uType / 12);
+                sbyte playerID = (sbyte)getPlayerTurn(1 + uType / 12);
                 if (this.mapPlayersTypes[playerID] != 2)
                 { //not NONE
-                    C_Unit unit1 = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
+                    C_Unit playerUnit = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
                     if (unitType == 9)
                     {
-                        this.playersKings[playerID] = unit1;
+                        this.playersKings[playerID] = playerUnit;
                     }
                 }
             }
@@ -2575,10 +2575,9 @@ namespace aeii{
             this.houseSmokeSprites = new F_Sprite[this.housesDataArr.Length];
             for (short i = 0; i < this.housesDataArr.Length; i = (short)(i + 1))
             {
-                if (getTileType(this.housesDataArr[i][0], this.housesDataArr[i][1]) == 8)
+                if (getTileType(this.housesDataArr[i][0], this.housesDataArr[i][1]) == 8) // house
                 {
-                    this.houseSmokeSprites[i] = F_Sprite.someSpriteCopy(this.bigSmokeSprite, 0, -1,
-                            0, 1, 250, (byte)0);
+                    this.houseSmokeSprites[i] = F_Sprite.spriteCopy(this.bigSmokeSprite, 0, -1, 0, 1, 250, (byte)0);
                     this.houseSmokeSprites[i].isUpdatingMb = false;
                 }
             }
@@ -4014,7 +4013,7 @@ namespace aeii{
                     if ((!this.var_351b) || (this.someMapData[mY][mX] == 0)
                             || (this.alphaWindowWTF > 0))
                     {
-                        this.allTilesImages[mTileId].drawImageExt(gr, imX, imY);
+                        this.allTilesImages[mTileId].drawImage(gr, imX, imY);
                     }
                     if ((this.var_351b) && (this.someMapData[mY][mX] > 0))
                     {
@@ -4033,7 +4032,7 @@ namespace aeii{
                     int i6 = mX + 1;
                     if ((i6 < this.mapHeight) && (this.tilesProps[this.mapTilesIds[mY][i6]] == 9))
                     {
-                        this.allTilesImages[28].drawImageExt(gr, imX, imY); //castle top
+                        this.allTilesImages[28].drawImage(gr, imX, imY); //castle top
                     }
                     imX += 24;
                 }
@@ -4200,7 +4199,7 @@ namespace aeii{
                 if ((!this.var_3a0b)
                         && (((this.var_3a1b == 2) && (this.waveImageAmplitude >= 40)) || ((this.var_3a1b != 2) && (this.waveImageAmplitude >= 16))))
                 {
-                    this.introImage.drawImageExt(gr, 0, 0);
+                    this.introImage.drawImage(gr, 0, 0);
                 }
                 else if (((this.var_3a23 == 2) && (this.var_3a0b))
                       || ((this.var_3a1b == 2) && (!this.var_3a0b)))
@@ -4211,11 +4210,11 @@ namespace aeii{
                 else if (((this.var_3a23 == 3) && (this.var_3a0b))
                       || ((this.var_3a1b == 3) && (!this.var_3a0b)))
                 {
-                    this.introImage.drawImageExt(gr, 0, 0);
+                    this.introImage.drawImage(gr, 0, 0);
                 }
                 else
                 {
-                    this.introImage.drawImageExt(gr, 0, 0);
+                    this.introImage.drawImage(gr, 0, 0);
                     if (this.var_3a0b)
                     {
                         if ((this.var_3a23 == 1) && (this.waveImageAmplitude <= 16))
@@ -4322,19 +4321,19 @@ namespace aeii{
                 {
                     if (this.splashImage != null)
                     {
-                        this.logoImage.drawImageExt(gr, 0, 0);
+                        this.logoImage.drawImage(gr, 0, 0);
                         if (this.glowImagePosX != -1)
                         {
-                            this.glowImage.drawImageExt(gr, 4 + this.glowImagePosX,
+                            this.glowImage.drawImage(gr, 4 + this.glowImagePosX,
                                     6);
                         }
-                        this.splashImage.drawImageExt(gr, 0, 0);
+                        this.splashImage.drawImage(gr, 0, 0);
                     }
                     else
                     {
                         gr.setColor(0);
                         gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
-                        this.logoImage.drawImageExt(gr, 0, 0);
+                        this.logoImage.drawImage(gr, 0, 0);
                     }
                     if ((this.showPressAnyKey) && (this.splashImage != null))
                     {
@@ -4349,7 +4348,7 @@ namespace aeii{
                 {
                     if (this.splashImage != null)
                     {
-                        this.splashImage.drawImageExt(gr, 0, 0);
+                        this.splashImage.drawImage(gr, 0, 0);
                     }
                     else
                     {
@@ -4358,7 +4357,7 @@ namespace aeii{
                     }
                     gr.setColor(0);
                     gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
-                    this.logoImage.drawImageExt(gr, 0, 0);
+                    this.logoImage.drawImage(gr, 0, 0);
                 }
             }
         }
@@ -4458,7 +4457,7 @@ namespace aeii{
                     gr.setColor(16777215);
                     if (this.gameOverImage != null)
                     {
-                        this.gameOverImage.drawImageExt(gr, this.someCanWidthDiv2,
+                        this.gameOverImage.drawImageAnchored(gr, this.someCanWidthDiv2,
                                 this.someCanHeightDiv2, 3);
                         E_MainCanvas.drawString(gr, str1, this.someCanWidthDiv2,
                                 this.someCanHeight - 2, 33);
@@ -4499,7 +4498,7 @@ namespace aeii{
                     C_Unit unit3 = (C_Unit)this.mapUnitsSprites.elementAt(jfd);
                     if (unit3.m_state == 3)
                     {
-                        this.tombstoneSprite.drawImageExt(gr, this.mapLeftXPix
+                        this.tombstoneSprite.drawImage(gr, this.mapLeftXPix
                                 + unit3.posXPixel, this.mapTopYPix
                                 + unit3.posYPixel);
                     }
@@ -4664,7 +4663,7 @@ namespace aeii{
                     }
                     int iX = i2asd + sprLength;
                     int iY = k + sprLength;
-                    this.allTilesImages[this.mapTilesIds[this.someCursorXPos][this.someCursorYPos]].drawImageExt(gr, iX, iY);
+                    this.allTilesImages[this.mapTilesIds[this.someCursorXPos][this.someCursorYPos]].drawImage(gr, iX, iY);
                     String tileDefStr = "." + tilesDefences[getTileType(this.someCursorXPos, this.someCursorYPos)];
                     E_MainCanvas.drawCharedString(gr, tileDefStr, iX + 24, iY + 24, 0, 40);
                     if (sprLength == 0)
@@ -5050,7 +5049,7 @@ namespace aeii{
             return -1;
         }
 
-        public int sub_e276(int playerId)
+        public int getPlayerTurn(int playerId)
         {
             if ((playerId != -1) && (playerId != 0))
             {
@@ -5061,7 +5060,7 @@ namespace aeii{
 
         public bool isInSameTeam(int inX, int inY, int playerTeamId)
         {
-            int playerId = sub_e276(tileOwnerPlayerIndex(inX, inY));
+            int playerId = getPlayerTurn(tileOwnerPlayerIndex(inX, inY));
             if (playerId > -1)
             {
                 return playerTeamId == this.playersTeams[playerId];
@@ -5154,14 +5153,14 @@ namespace aeii{
                 {
                     gr.setClip(paramInt4 + k - n / 2 + i2, paramInt5
                             + i5 * 1, n, 1);
-                    image.drawImageExt(gr, paramInt4 + i2,
+                    image.drawImage(gr, paramInt4 + i2,
                             paramInt5);
                 }
                 else
                 {
                     gr.setClip(paramInt4 + i5 * 1, paramInt5 + k - n / 2
                             + i2, 1, n);
-                    image.drawImageExt(gr, paramInt4, paramInt5
+                    image.drawImage(gr, paramInt4, paramInt5
                             + i2);
                 }
                 i3 += i4;
