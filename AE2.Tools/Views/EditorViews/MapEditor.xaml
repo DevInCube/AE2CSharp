@@ -1,25 +1,55 @@
 ﻿<Window x:Class="AE2.Tools.Views.MapEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MapEditor" Height="700" Width="700">
+        Title="MapEditor" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="68*"/>
+            <ColumnDefinition Width="203*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Background="Gray">
-            <StackPanel x:Name="CanvasStack" DockPanel.Dock="Top" Height="Auto">                
-            </StackPanel>           
+        
+        <GroupBox Header="Map" Background="White">
+            <StackPanel>
+                <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" />
+                <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
+                <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
+            </StackPanel>
+        </GroupBox>
+
+        <DockPanel Background="Gray" Grid.Column="1">
+            <StackPanel x:Name="CanvasStack" DockPanel.Dock="Top" Height="Auto">
+            </StackPanel>
         </DockPanel>
-       
-        <Canvas x:Name="MapCanvas" Grid.Column="1" Background="DimGray" 
-                MouseMove="Canvas_MouseMove" MouseUp="MapCanvas_MouseUp" MouseDown="MapCanvas_MouseDown"/>
-        <Canvas Grid.Column="1">
-            <Button Content="{Binding MapWidth}" Command="{Binding AddColumn}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}" Width="50" Height="50" Opacity="0.6"/>
-            <Button Content="{Binding MapHeight}" Command="{Binding AddRow}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Top="{Binding AddRowY}" Width="50" Height="50" Opacity="0.6"/>
-            <Button Content="+" Command="{Binding AddRowCol}" VerticalAlignment="Top" HorizontalAlignment="Left" Canvas.Left="{Binding AddColX}" Canvas.Top="{Binding AddRowY}" Width="50" Height="50" Opacity="0.6"/>
-        </Canvas>
-        <Grid VerticalAlignment="Bottom" Background="WhiteSmoke">
+
+        <Grid Grid.Column="2" Background="DimGray">
+            <Canvas x:Name="MapCanvas"  
+                    MouseMove="Canvas_MouseMove" MouseUp="MapCanvas_MouseUp" MouseDown="MapCanvas_MouseDown" />
+            <Canvas >
+                <Grid HorizontalAlignment="Left" Canvas.Left="{Binding AddColX, FallbackValue=240}" Width="50">
+                    <StackPanel>
+                        <Button Content="+" Command="{Binding AddColumn}" />
+                        <Label Content="{Binding MapWidth, FallbackValue=0}" HorizontalAlignment="Center"  FontWeight="Bold" Foreground="White"/>
+                        <Button Content="-" Command="{Binding RemoveColumn}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid  Canvas.Top="{Binding AddRowY, FallbackValue=240}" Width="50">
+                    <StackPanel>
+                        <Button Content="+" Command="{Binding AddRow}" />
+                        <Label Content="{Binding MapHeight, FallbackValue=0}" HorizontalAlignment="Center"  FontWeight="Bold" Foreground="White"/>
+                        <Button Content="-" Command="{Binding RemoveRow}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid   Canvas.Left="{Binding AddColX, FallbackValue=240}" Canvas.Top="{Binding AddRowY, FallbackValue=240}" Width="50">
+                    <StackPanel>
+                        <Button Content="+" Command="{Binding AddRowCol}"  />
+                        <Button Content="-" Command="{Binding RemoveRowCol}"/>
+                    </StackPanel>
+                </Grid>
+            </Canvas>
+        </Grid>
+
+        <Grid VerticalAlignment="Bottom" Background="WhiteSmoke" Grid.Column="1">
             <StackPanel>
                 <GroupBox Header="Generators">
                     <StackPanel>
@@ -30,13 +60,7 @@
                         <Button Command="{Binding GenForest}" Content="Forest" Width="75" Margin="2"/>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Header="Map">
-                    <StackPanel>
-                        <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" IsEnabled="False"/>
-                        <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
-                        <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
-                    </StackPanel>
-                </GroupBox>
+                
             </StackPanel>
         </Grid>
     </Grid>

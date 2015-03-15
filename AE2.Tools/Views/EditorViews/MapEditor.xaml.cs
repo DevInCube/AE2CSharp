@@ -26,13 +26,14 @@ namespace AE2.Tools.Views
     public partial class MapEditor : Window, INotifyPropertyChanged
     {
 
-        public const int CELL_SIZE = 24; 
+        public const int CELL_SIZE = 24;
+        public const byte MIN_MAP_SIZE = 5;
         public const byte DEFAULT_TILE = 0;
         private List<List<byte>> mapData = new List<List<byte>>();
-        private Point cursorPos, cursorPos2;
+        private Point cursorPos;
         private List<MapPosition> mapSelections = new List<MapPosition>();
         private MapPosition[] kingsPositions = new MapPosition[4];
-        private Image cursor, cursor2;
+        private Image cursor;
 
         private Image tilesCanvasImage = new Image();
 
@@ -45,19 +46,15 @@ namespace AE2.Tools.Views
         public int MapWidth { get { return mapData.Count == 0 ? 0 : mapData[0].Count; } }
         public int MapHeight { get { return mapData.Count; } }
 
-        public int AddColX
-        {
-            get { return MapWidth * CELL_SIZE; }
-        }
-
-        public int AddRowY
-        {
-            get { return MapHeight * CELL_SIZE; }
-        }
+        public int AddColX { get { return MapWidth * CELL_SIZE; } }
+        public int AddRowY { get { return MapHeight * CELL_SIZE; } }
 
         public ICommand AddColumn { get; set; }
+        public ICommand RemoveColumn { get; set; }
         public ICommand AddRow { get; set; }
+        public ICommand RemoveRow { get; set; }
         public ICommand AddRowCol { get; set; }
+        public ICommand RemoveRowCol { get; set; }
         public ICommand NewMap { get; set; }
         public ICommand LoadMap { get; set; }
         public ICommand SaveMap { get; set; }
@@ -81,12 +78,7 @@ namespace AE2.Tools.Views
             cursor = new Image();
             cursor.Source = getCursorImage();
             cursor.Width = CELL_SIZE;
-            cursor.Height = CELL_SIZE;
-
-            cursor2 = new Image();
-            cursor2.Source = cursor.Source;
-            cursor2.Width = CELL_SIZE;
-            cursor2.Height = CELL_SIZE;       
+            cursor.Height = CELL_SIZE;      
 
             MapCanvas.Children.Add(mapCanvasImage);
             MapCanvas.Children.Add(kingsCanvasImage);
@@ -99,7 +91,15 @@ namespace AE2.Tools.Views
                     l.Add(DEFAULT_TILE);
                 Update();
             });
-
+            this.RemoveColumn = new RelayCommand((o) =>
+            {
+                if (MapWidth > MIN_MAP_SIZE)
+                {
+                    foreach (var l in mapData)
+                        l.RemoveAt(MapWidth - 1);
+                    Update();
+                }
+            });
             this.AddRow = new RelayCommand((o) =>
             {
                 var row = new List<byte>();
@@ -107,6 +107,14 @@ namespace AE2.Tools.Views
                 for (int i = 0; i < MapWidth; i++)
                     row.Add(DEFAULT_TILE);
                 Update();
+            });
+            this.RemoveRow = new RelayCommand((o) =>
+            {
+                if (MapHeight > MIN_MAP_SIZE)
+                {
+                    mapData.RemoveAt(MapHeight - 1);
+                    Update();
+                }
             });
             this.AddRowCol = new RelayCommand((o) =>
             {
@@ -118,8 +126,18 @@ namespace AE2.Tools.Views
                     row.Add(DEFAULT_TILE);
                 Update();
             });
+            this.RemoveRowCol = new RelayCommand((o) =>
+            {
+                if (MapWidth > 5 && MapHeight > 5)
+                {
+                    mapData.RemoveAt(MapHeight - 1);
+                    foreach (var l in mapData)
+                        l.RemoveAt(MapWidth - 1);
+                    Update();
+                }
+            });
             NewMap = new RelayCommand((o) => {
-                //@todo
+                CreateNewMap(10, 10, 18);
             });
             LoadMap = new RelayCommand((o) => {
                 Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -234,7 +252,10 @@ namespace AE2.Tools.Views
                     row.Add(defaultTile);
                 mapData.Add(row);
             }
-            UpdateMap();
+            for (int i = 0; i < kingsPositions.Length; i++)
+                kingsPositions[i] = new MapPosition();
+            mapSelections.Clear();
+            Update();
         }
 
         void picker_TileSeleted(byte id)
@@ -249,6 +270,12 @@ namespace AE2.Tools.Views
 
         private void Update()
         {
+            if (cursorPos.X > (MapWidth - 1) * CELL_SIZE) cursorPos.X = (MapWidth - 1) * CELL_SIZE;
+            if (cursorPos.Y > (MapHeight - 1) * CELL_SIZE) cursorPos.Y = (MapHeight - 1) * CELL_SIZE;
+            Canvas.SetLeft(cursor, (double)cursorPos.X);
+            Canvas.SetTop(cursor, (double)cursorPos.Y);
+            mapSelections.RemoveAll(pos => !pos.IsWithin(0, 0, MapWidth, MapHeight));
+           
             Canvas mapCanvas = this.MapCanvas;
             UpdateMap();
             UpdateKings();
@@ -257,10 +284,6 @@ namespace AE2.Tools.Views
             OnPropertyChanged("AddRowY");
             OnPropertyChanged("MapWidth");
             OnPropertyChanged("MapHeight");
-
-            UpdateTiles();
-            Canvas.SetLeft(cursor2, (double)cursorPos2.X);
-            Canvas.SetTop(cursor2, (double)cursorPos2.Y);            
         }
 
         private void UpdateKings()
