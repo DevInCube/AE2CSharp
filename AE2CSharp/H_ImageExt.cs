@@ -18,7 +18,6 @@ namespace aeii
         private int locationY;
         public int imageTransformation = 0;
 
-
         public H_ImageExt(H_ImageExt inImage, int framePosX, int framePosY, int imWidth, int imHeight)
         {
             this.image = inImage.image;
