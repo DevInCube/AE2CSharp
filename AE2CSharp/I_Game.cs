@@ -5,6 +5,7 @@ using java.io;
 using java.csharp;
 
 namespace aeii{
+
     public class I_Game : A_MenuBase, Runnable
     {
 
@@ -47,8 +48,11 @@ namespace aeii{
         public byte[] inGameMenuItems = { 0, 6, 5, 7, 8, 9 };
         public byte[] startMenuItems = { 0, 6, 5, 7, 8, 9 };
         public byte[] playMenuItems = { 1, 2, 3, 4 };
-        public static byte[][] cursorFrameSequences = { new byte[]{ 0, 1 }, new byte[]{ 2, 3, 4 }, new byte[]{ 0, 1 },
-			new byte[]{ 5 } }; // move cursor, attack cursor, move cursor, move unit
+        public static byte[][] cursorFrameSequences = { 
+            new byte[]{ 0, 1 }, // move
+            new byte[]{ 2, 3, 4 },  //attack
+            new byte[]{ 0, 1 }, // move
+			new byte[]{ 5 } }; // move unit
         public static byte[] poisonFrameSeq = { 0 };
         public long cursorFrameStartTime = 0L;
         public long cursorMovingStartTimeMb;
@@ -258,7 +262,7 @@ namespace aeii{
         public D_Menu newsItemsMenu;
         public D_Menu deleteMapMenu;
         public D_Menu mapDeletingMenu;
-        public D_Menu var_3943;
+        public D_Menu downloadParentMenu;
         public D_Menu downloadItemsMenu;
         public D_Menu downloadMenu;
         public int var_395b;
@@ -379,13 +383,7 @@ namespace aeii{
         //@Override
         public void onLoad()
         {
-            //sub_4d3f();
-            //sub_87e6();
-            //clearActiveUnit();
-            //sub_c1eb();
-            //sub_dd85();
-            //sub_ddbb();
-            //sub_1447e();
+            //
         }
 
         public void runLoading()
@@ -1194,7 +1192,7 @@ namespace aeii{
                     j++;
                 }
             }
-            this.var_3943 = new D_Menu((byte)15, 15);
+            this.downloadParentMenu = new D_Menu((byte)15, 15);
             D_Menu menu1 = new D_Menu((byte)10, 0);
             menu1.createDescDialogMb(null, A_MenuBase.getLangString(48), this.someGWidth, -1); // DOWNLOAD
             D_Menu menu2;
@@ -1202,7 +1200,7 @@ namespace aeii{
             {
                 menu2 = new D_Menu((byte)10, 0);
                 menu2.createDescDialogMb(null, A_MenuBase.getLangString(52), this.someGWidth, this.viewportHeight); //EMPTY
-                this.var_3943.addChildMenu((D_Menu)menu2, 0, (this.someGHeight + menu1.menuHeight) / 2,
+                this.downloadParentMenu.addChildMenu((D_Menu)menu2, 0, (this.someGHeight + menu1.menuHeight) / 2,
                     Graphics.VCENTER | Graphics.LEFT);
             }
             else
@@ -1227,40 +1225,40 @@ namespace aeii{
                 this.downloadItemsMenu.var_1195 = arrayOfInt2;
                 int i1 = (this.someGHeight - this.downloadMenu.menuHeight
                         - this.downloadItemsMenu.menuHeight + menu1.menuHeight) / 2;
-                this.var_3943.addChildMenu(this.downloadItemsMenu, 0, i1, 20);
+                this.downloadParentMenu.addChildMenu(this.downloadItemsMenu, 0, i1, Graphics.LEFT | Graphics.TOP);
                 i1 += this.downloadItemsMenu.menuHeight;
-                this.var_3943.addChildMenu(this.downloadMenu, 0, i1, 20);
-                this.var_3943.updateAllChildrenBoolMb = true;
-                this.var_3943.setMenuActionEnabled((byte)0, true);
+                this.downloadParentMenu.addChildMenu(this.downloadMenu, 0, i1, Graphics.LEFT | Graphics.TOP);
+                this.downloadParentMenu.updateAllChildrenBoolMb = true;
+                this.downloadParentMenu.setMenuActionEnabled((byte)0, true);
             }
-            this.var_3943.addChildMenu(menu1, 0, 0, 20);
-            this.var_3943.setParentMenu(menu);
+            this.downloadParentMenu.addChildMenu(menu1, 0, 0, Graphics.LEFT | Graphics.TOP);
+            this.downloadParentMenu.setParentMenu(menu);
         }
 
         public D_Menu createDeleteMenu(A_MenuBase menu)
         {
-            D_Menu localClass_d_0231;
+            D_Menu dMenu;
             if (this.extraSkirmishMapNamesMb.Length == 0)
             {
-                localClass_d_0231 = new D_Menu((byte)10, 0);
-                D_Menu delMenu = localClass_d_0231.createTitleMenu(A_MenuBase.getLangString(49));//DELETE
+                dMenu = new D_Menu((byte)10, 0);
+                D_Menu delMenu = dMenu.createTitleMenu(A_MenuBase.getLangString(49));//DELETE
                 delMenu.menuTitleIcon = this.menuIconsFrames[6];
-                localClass_d_0231.createDescDialogMb(null, A_MenuBase.getLangString(52),
+                dMenu.createDescDialogMb(null, A_MenuBase.getLangString(52),
                         this.someCanWidth, -1); //EMPTY
-                localClass_d_0231.setMenuLoc(0,
-                        (this.someGHeight + delMenu.menuHeight) / 2, 6);
-                localClass_d_0231.setParentMenu(menu);
+                dMenu.setMenuLoc(0, (this.someGHeight + delMenu.menuHeight) / 2, 
+                        Graphics.VCENTER | Graphics.LEFT);
+                dMenu.setParentMenu(menu);
                 this.deleteMapMenu = null;
-                return localClass_d_0231;
+                return dMenu;
             }
             this.deleteMapMenu = new D_Menu((byte)11, 0);
-            localClass_d_0231 = this.deleteMapMenu.createTitleMenu(A_MenuBase.getLangString(49));//DELETE
-            localClass_d_0231.menuTitleIcon = this.menuIconsFrames[6];
+            dMenu = this.deleteMapMenu.createTitleMenu(A_MenuBase.getLangString(49));//DELETE
+            dMenu.menuTitleIcon = this.menuIconsFrames[6];
             this.deleteMapMenu
                     .createMenuListItems(this.extraSkirmishMapNamesMb, this.someCanWidth / 2,
-                            (this.someGHeight + localClass_d_0231.menuHeight) / 2,
+                            (this.someGHeight + dMenu.menuHeight) / 2,
                             this.someGWidth, this.someGHeight
-                                    - localClass_d_0231.menuHeight, 3, 4);
+                                    - dMenu.menuHeight, 3, 4);
             this.deleteMapMenu.setParentMenu(menu);
             return this.deleteMapMenu;
         }
@@ -1474,7 +1472,8 @@ namespace aeii{
                     D_Menu chooseMoneyMenu = new D_Menu((byte)10, 8);
                     chooseMoneyMenu.createDescDialogMb(null,
                             A_MenuBase.getLangString(40), this.viewportWidth, -1);//Money
-                    this.playerOptionsMenu.addChildMenu(chooseMoneyMenu, 0, titleMenuHeight, 20);
+                    this.playerOptionsMenu.addChildMenu(chooseMoneyMenu, 0, titleMenuHeight, 
+                        Graphics.LEFT | Graphics.TOP);
                     this.chooseMoneyItemsMenu = new D_Menu((byte)14, 4);
                     String[] skirmishStartMoneyValues = new String[skirmishStartMoneyEnum.Length]; ;
                     for (int moneyIndex = 0; moneyIndex < skirmishStartMoneyValues.Length; moneyIndex++)
@@ -1488,7 +1487,8 @@ namespace aeii{
                     D_Menu chooseUnitCapMenu = new D_Menu((byte)10, 8);
                     chooseUnitCapMenu.createDescDialogMb(
                             null, A_MenuBase.getLangString(41), this.viewportWidth, -1);//Unit cap
-                    this.playerOptionsMenu.addChildMenu(chooseUnitCapMenu, 0, titleMenuHeight, 20);
+                    this.playerOptionsMenu.addChildMenu(chooseUnitCapMenu, 0, titleMenuHeight,
+                        Graphics.LEFT | Graphics.TOP);
                     this.chooseUnitCapItemsMenu = new D_Menu((byte)14, 4);
                     String[] skirmishUnitsCapValues = new String[skirmishStartUnitsEnum.Length];
                     for (int capIndex = 0; capIndex < skirmishUnitsCapValues.Length; capIndex++)
@@ -1497,7 +1497,8 @@ namespace aeii{
                     }
                     this.chooseUnitCapItemsMenu.setMenuItemsNames(skirmishUnitsCapValues, this.viewportWidth,
                             chooseUnitCapMenu.menuHeight);
-                    this.playerOptionsMenu.addChildMenu(this.chooseUnitCapItemsMenu, this.someCanWidthDiv2, titleMenuHeight, 20);
+                    this.playerOptionsMenu.addChildMenu(this.chooseUnitCapItemsMenu, this.someCanWidthDiv2, titleMenuHeight,
+                        Graphics.LEFT | Graphics.TOP);
                     this.playerOptionsMenu.setParentMenu(menu);
                     this.playerOptionsMenu.setMenuActionEnabled((byte)0, true);
                     A_MenuBase.mainCanvas.showMenu(this.playerOptionsMenu);
@@ -1656,8 +1657,7 @@ namespace aeii{
                                 if ((this.unkState != 11) && (this.unkState != 14))
                                 {
                                     E_MainCanvas.playMusicLooped(
-                                            playersMusicIdsMb[this.playersIndexes[this.playerId]],
-                                            0);
+                                            playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
                                 }
                             }
                             else if (this.gameMode2Mb == 0)
@@ -1783,8 +1783,7 @@ namespace aeii{
                                         (this.someGHeight + onlineMenuTitle.menuHeight) / 2,
                                         this.someGWidth,
                                         this.someGHeight
-                                                - onlineMenuTitle.menuHeight,
-                                        3, 0);
+                                                - onlineMenuTitle.menuHeight, 3, 0);
                         this.onlineMenu.setParentMenu(menu);
                         A_MenuBase.mainCanvas.showMenu(this.onlineMenu);
                     }
@@ -1808,7 +1807,7 @@ namespace aeii{
                         else
                         {
                             createDownloadMenu(menu);
-                            A_MenuBase.mainCanvas.showMenu(this.var_3943);
+                            A_MenuBase.mainCanvas.showMenu(this.downloadParentMenu);
                         }
                     }
                     else if (itemName.Equals(this.downloadMenuItemsNames[1]))
@@ -1845,7 +1844,7 @@ namespace aeii{
                     this.newsItemsMenu = null;
                 }
             }
-            else if (menu == this.var_3943)
+            else if (menu == this.downloadParentMenu)
             {
                 if (paramByte == 0)
                 {
@@ -1867,7 +1866,7 @@ namespace aeii{
                 {
                     this.downloadMenu = null;
                     this.downloadItemsMenu = null;
-                    this.var_3943 = null;
+                    this.downloadParentMenu = null;
                 }
             }
             else if (menu == this.downloadItemsMenu)
@@ -1981,8 +1980,8 @@ namespace aeii{
                 this.unkState = 0;
                 return;
             }
-            if (itemName.Equals(A_MenuBase.getLangString(3)))
-            { // SELECT LEVEL
+            if (itemName.Equals(A_MenuBase.getLangString(3))) // SELECT LEVEL
+            { 
                 this.selectLevelMenu = new D_Menu((byte)11, 0);
                 int countScenLevels = this.unlockedScenarioLevelsCount;
                 if (countScenLevels > 7)
@@ -8322,7 +8321,7 @@ namespace aeii{
                                         .parseInt(dis.readUTF());
                             }
                             createDownloadMenu(this.someOnlineParentMenu);
-                            A_MenuBase.mainCanvas.showMenu(this.var_3943);
+                            A_MenuBase.mainCanvas.showMenu(this.downloadParentMenu);
                         }
                         else if (this.var_3c83 == 3)
                         {
@@ -8330,10 +8329,10 @@ namespace aeii{
                             byte[] arrayOfByte = new byte[j];
                             dis.readFully(arrayOfByte);
                             sub_15568(str, arrayOfByte);
-                            createDownloadMenu(this.var_3943.parentMenu);
+                            createDownloadMenu(this.downloadParentMenu.parentMenu);
                             D_Menu localClass_d_0232 = createDialog(null,
                                     A_MenuBase.replaceStringFirst(45, str), this.someGHeight, 2000);
-                            localClass_d_0232.setParentMenu(this.var_3943);
+                            localClass_d_0232.setParentMenu(this.downloadParentMenu);
                             A_MenuBase.mainCanvas.showMenu(localClass_d_0232);
                         }
                         this.someOnlineParentMenu = null;

@@ -10,6 +10,7 @@ using java.csharp;
 using System.Windows.Input;
 using MIDP.WPF.Views;
 using System.Windows;
+using AE2.Tools.Properties;
 
 namespace AE2.Tools.Emulation
 {

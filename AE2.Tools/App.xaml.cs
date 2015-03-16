@@ -20,10 +20,15 @@ namespace AE2.Tools
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //StartEmulation();
-
-           new MapEditor().Show();
+            StartMapEditor();
             //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
+        }
+
+        void StartMapEditor()
+        {
+            Window me = new MapEditor();
+            me.Show();
         }
 
         private void StartEmulation()
