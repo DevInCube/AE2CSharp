@@ -30,6 +30,8 @@ namespace AE2.Tools.Views
         public const byte MIN_MAP_SIZE = 5;
         private byte defaultTile = 0;
         private byte _DefaultMapWidth = 10, _DefaultMapHeight = 10;
+        private bool _BrushSelection = true, _RectSelection;
+        private MapPosition RectStartPos = MapPosition.None;
         private List<List<byte>> mapData = new List<List<byte>>();
         private int playersCount = 0;
         private Point cursorPos;
@@ -61,6 +63,17 @@ namespace AE2.Tools.Views
         {
             get { return _DefaultMapHeight; }
             set { _DefaultMapHeight = value; OnPropertyChanged("DefaultMapHeight"); }
+        }
+
+        public bool BrushSelection
+        {
+            get { return _BrushSelection; }
+            set { _BrushSelection = value; OnPropertyChanged("BrushSelection"); }
+        }
+        public bool RectSelection
+        {
+            get { return _RectSelection; }
+            set { _RectSelection = value; OnPropertyChanged("RectSelection"); }
         }
 
         public ICommand AddColumn { get; set; }
@@ -526,23 +539,43 @@ namespace AE2.Tools.Views
                 ProcessButtons(e);
                 UpdateSelections();
             }
-        }
+        }        
 
         void ProcessButtons(MouseEventArgs e)
         {
-            if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
+            if (BrushSelection)
             {
-                AddSelection();
-            }
+                if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
+                {
+                    AddSelection();
+                }
 
-            if (e.RightButton.HasFlag(MouseButtonState.Pressed))
-            {
-                RemoveSelection();
-            }
+                if (e.RightButton.HasFlag(MouseButtonState.Pressed))
+                {
+                    RemoveSelection();
+                }
 
-            if (e.MiddleButton.HasFlag(MouseButtonState.Pressed))
+                if (e.MiddleButton.HasFlag(MouseButtonState.Pressed))
+                {
+                    mapSelections.Clear();
+                }
+            }
+            if (RectSelection && (!RectStartPos.Equals(MapPosition.None)))
             {
+                MapPosition cpos = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
+                sbyte minX = Math.Min(cpos.X, RectStartPos.X);
+                sbyte minY = Math.Min(cpos.Y, RectStartPos.Y);
+                sbyte width = (sbyte)Math.Abs(cpos.X - RectStartPos.X);
+                sbyte height = (sbyte)Math.Abs(cpos.Y - RectStartPos.Y);
                 mapSelections.Clear();
+                for(int i = minY; i < minY + height+1; i++)
+                    for (int j = minX; j < minX + width + 1; j++)
+                    {
+                        var pos = new MapPosition(j, i);
+                        if (pos.IsWithin(0, 0, MapWidth, MapHeight)
+                            && !mapSelections.Contains(pos))
+                            mapSelections.Add(pos);
+                    }
             }
         }
 
@@ -561,15 +594,25 @@ namespace AE2.Tools.Views
         }
 
         private void MapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ProcessButtons(e);
+        {           
+            if (BrushSelection)
+            {
+                ProcessButtons(e);
+            }
+            if (RectSelection)
+            {
+                RectStartPos = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
+            }
             UpdateSelections();
-
         }
 
         private void MapCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //
+            //       
+            if (RectSelection)
+            {
+                RectStartPos = MapPosition.None;
+            }
         }      
 
         public byte[] GetSaveMapData()
