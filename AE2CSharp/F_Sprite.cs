@@ -69,11 +69,11 @@ namespace aeii
         private  void loadSprite(String spriteId, int paramInt)
         {
             InputStream stream = E_MainCanvas.getResourceStream(spriteId + ".sprite");
-            int Length = (byte)stream.read();
+            int framesCount = (byte)stream.read();
             this.frameWidth = ((byte)stream.read());
             this.frameHeight = ((byte)stream.read());
-            this.frameImages = new H_ImageExt[Length];
-            H_ImageExt[] images = new H_ImageExt[Length];
+            this.frameImages = new H_ImageExt[framesCount];
+            H_ImageExt[] images = new H_ImageExt[framesCount];
             try
             {
                 H_ImageExt spriteFrame = new H_ImageExt(spriteId, paramInt);
@@ -95,7 +95,7 @@ namespace aeii
             {
                 try
                 {
-                    for (int it = 0; it < Length; it++)
+                    for (int it = 0; it < framesCount; it++)
                     {
                         StringBuffer tileName = new StringBuffer(spriteId);
                         tileName.append('_');
@@ -121,25 +121,26 @@ namespace aeii
                     //
                 }
             }
-            for (int j = 0; j < Length; j++)
+            for (int j = 0; j < framesCount; j++)
             {
-                int n1 = stream.read();
-                int n = stream.read();
-                this.frameImages[j] = new H_ImageExt(images[n1], n);
+                int frameIndex = stream.read();
+                int frameTransform = stream.read();
+                this.frameImages[j] = new H_ImageExt(images[frameIndex], frameTransform);
             }
-            sbyte jj2 = (sbyte)stream.read();
-            if (jj2 > 0)
+            sbyte framesTransformation = (sbyte)stream.read();
+            if (framesTransformation > 0)
             {
-                for (int it = 0; it < Length; it++)
+                for (int it = 0; it < framesCount; it++)
                 {
-                    this.frameImages[it].applySomeTransformation(jj2, this.frameWidth, this.frameHeight);
+                    this.frameImages[it].applySomeTransformation(framesTransformation, this.frameWidth, this.frameHeight);
                 }
             }
             sbyte animationsCount = (sbyte)stream.read();
             if (animationsCount > 0)
             {
                 this.frameAnimationsSequences = new byte[animationsCount][];
-                this.mapFrameTime = (stream.read() * 50);
+                byte fTime = stream.read();
+                this.mapFrameTime = (fTime * 50);
                 for (int animId = 0; animId < animationsCount; animId++)
                 {
                     int animLength = stream.read();
@@ -150,7 +151,7 @@ namespace aeii
                     }
                 }
             }
-            for (int n1 = 0; n1 < Length; n1++)
+            for (int fIt = 0; fIt < framesCount; fIt++)
             {
                 sbyte iX = (sbyte)stream.read();
                 sbyte iY = (sbyte)stream.read();
@@ -158,7 +159,7 @@ namespace aeii
                 {
                     break;
                 }
-                this.frameImages[n1].translateImage(iX, iY);
+                this.frameImages[fIt].translateImage(iX, iY);
             }
             stream.close();
             if (this.frameAnimationsSequences != null)
@@ -166,8 +167,8 @@ namespace aeii
                 this.frameSequence = this.frameAnimationsSequences[0];
                 return;
             }
-            this.frameSequence = new byte[Length];
-            for (byte n1 = 0; n1 < Length; n1 = (byte)(n1 + 1))
+            this.frameSequence = new byte[framesCount];
+            for (byte n1 = 0; n1 < framesCount; n1 = (byte)(n1 + 1))
             {
                 this.frameSequence[n1] = n1;
             }
@@ -194,17 +195,17 @@ namespace aeii
             this.frameHeight = height;
         }
 
-        public  int getFrameSequenceLength()
+        public int getFrameSequenceLength()
         {
             return this.frameSequence.Length;
         }
 
-        public  int getFramesCount()
+        public int getFramesCount()
         {
             return this.frameImages.Length;
         }
 
-        public  void setCurrentFrameIndex(int val)
+        public void setCurrentFrameIndex(int val)
         {
             if (val < this.frameSequence.Length)
             {
@@ -212,13 +213,13 @@ namespace aeii
             }
         }
 
-        public  void setSpritePosition(int pX, int pY)
+        public void setSpritePosition(int pX, int pY)
         {
             this.posXPixel = ((short)pX);
             this.posYPixel = ((short)pY);
         }
 
-        public  void nextFrame()
+        public void nextFrame()
         {
             this.currentFrameIndex += 1;
             if (this.currentFrameIndex >= this.frameSequence.Length)
