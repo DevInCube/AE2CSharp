@@ -60,7 +60,7 @@ namespace aeii
         public F_Sprite kingHeadsBackSprite;
         public F_Sprite[] var_c75;
         public int var_c7d;
-        public int var_c85;
+        public int unitCharIndex;
 
         public G_FightAnimation(I_Game aGame, C_Unit aUnit, G_FightAnimation faInst)
 			{
@@ -242,7 +242,7 @@ namespace aeii
             int i;
             int i3;
             int m;
-            F_Sprite localClass_f_0455;
+            F_Sprite fSprite55;
             switch (this.var_b7d)
             {
                 case 1:
@@ -253,15 +253,15 @@ namespace aeii
                         {
                             if (this.m_game.time - this.someStartTime7 >= 200L)
                             {
-                                if (this.var_c85 < this.unitCharsCount)
+                                if (this.unitCharIndex < this.unitCharsCount)
                                 {
-                                    this.unitCharsSprites[this.var_c85].var_87c = -1;
-                                    this.unitCharsSprites[this.var_c85].m_isRotating = false;
-                                    this.unitCharsSprites[this.var_c85].someYVal3 = 0;
+                                    this.unitCharsSprites[this.unitCharIndex].spriteMovingStepMb = -1;
+                                    this.unitCharsSprites[this.unitCharIndex].m_isRotating = false;
+                                    this.unitCharsSprites[this.unitCharIndex].someYVal3 = 0;
                                 }
-                                if (++this.var_c85 >= this.unitCharsCount)
+                                if (++this.unitCharIndex >= this.unitCharsCount)
                                 {
-                                    this.var_c85 = 0;
+                                    this.unitCharIndex = 0;
                                     this.var_c4d = 1;
                                     this.someStartTime7 = this.m_game.time;
                                 }
@@ -271,13 +271,13 @@ namespace aeii
                         {
                             if (this.m_game.time - this.someStartTime7 >= 200L)
                             {
-                                if (this.var_c85 < this.unitCharsCount)
+                                if (this.unitCharIndex < this.unitCharsCount)
                                 {
-                                    this.unitCharsSprites[this.var_c85].someYVal3 = -1;
+                                    this.unitCharsSprites[this.unitCharIndex].someYVal3 = -1;
                                 }
-                                if (++this.var_c85 >= this.unitCharsCount)
+                                if (++this.unitCharIndex >= this.unitCharsCount)
                                 {
-                                    this.var_c85 = 0;
+                                    this.unitCharIndex = 0;
                                     this.var_c4d = 2;
                                     this.someStartTime7 = this.m_game.time;
                                 }
@@ -288,15 +288,14 @@ namespace aeii
                             i = 1;
                             if (this.m_game.time - this.someStartTime7 >= 200L)
                             {
-                                if (this.var_c85 < this.unitCharsCount)
+                                if (this.unitCharIndex < this.unitCharsCount)
                                 {
-                                    this.unitCharsSprites[this.var_c85].var_87c = 0;
-                                    this.unitCharsSprites[this.var_c85].someYVal3 = 0;
-                                    this.unitCharsSprites[this.var_c85]
-                                            .startAnimation(2, this.var_b75);
-                                    this.unitCharsSprites[this.var_c85].var_81c = 1;
+                                    this.unitCharsSprites[this.unitCharIndex].spriteMovingStepMb = 0;
+                                    this.unitCharsSprites[this.unitCharIndex].someYVal3 = 0;
+                                    this.unitCharsSprites[this.unitCharIndex].startAnimation(2, this.var_b75);
+                                    this.unitCharsSprites[this.unitCharIndex].var_81c = 1;
                                 }
-                                if (++this.var_c85 < this.unitCharsCount)
+                                if (++this.unitCharIndex < this.unitCharsCount)
                                 {
                                     i = 0;
                                 }
@@ -307,12 +306,12 @@ namespace aeii
                             }
                             for (int j = 0; j < this.unitCharsCount; j++)
                             {
-                                if (this.unitCharsSprites[j].var_87c == 0)
+                                if (this.unitCharsSprites[j].spriteMovingStepMb == 0)
                                 {
                                     if (this.unitCharsSprites[j].currentFrameIndex == 1)
                                     {
                                         this.unitCharsSprites[j].someYVal1 = 0;
-                                        this.unitCharsSprites[j].var_87c = 1;
+                                        this.unitCharsSprites[j].spriteMovingStepMb = 1;
                                         E_MainCanvas.vibrate(200);
                                         this.m_game.startShakingScreen(1200);
                                         E_MainCanvas.playMusicLooped(14, 1);
@@ -362,7 +361,7 @@ namespace aeii
                                     }
                                     i = 0;
                                 }
-                                else if (this.unitCharsSprites[j].var_87c != -1)
+                                else if (this.unitCharsSprites[j].spriteMovingStepMb != -1)
                                 {
                                     if (this.unitCharsSprites[j].var_81c > 0)
                                     {
@@ -370,14 +369,14 @@ namespace aeii
                                     }
                                     else if (this.unitCharsSprites[j].var_81c != -1)
                                     {
-                                        if (this.unitCharsSprites[j].var_87c == 1)
+                                        if (this.unitCharsSprites[j].spriteMovingStepMb == 1)
                                         {
                                             this.unitCharsSprites[j].startAnimation(3, this.var_b75);
                                             this.unitCharsSprites[j].var_81c = 1;
-                                            this.unitCharsSprites[j].var_87c = 2;
+                                            this.unitCharsSprites[j].spriteMovingStepMb = 2;
                                             i = 0;
                                         }
-                                        else if (this.unitCharsSprites[j].var_87c == 2)
+                                        else if (this.unitCharsSprites[j].spriteMovingStepMb == 2)
                                         {
                                             this.unitCharsSprites[j].someYVal1 = -6;
                                             this.unitCharsSprites[j].m_isRotating = true;
@@ -385,7 +384,7 @@ namespace aeii
                                                     .getRandomWithin(-2, 3);
                                             this.unitCharsSprites[j].startAnimation(0, this.var_b75);
                                             this.unitCharsSprites[j].var_81c = -1;
-                                            this.unitCharsSprites[j].var_87c = 3;
+                                            this.unitCharsSprites[j].spriteMovingStepMb = 3;
                                             i = 0;
                                         }
                                     }
@@ -412,29 +411,29 @@ namespace aeii
                                 this.var_c75 = new F_Sprite[this.unitCharsCount];
                             }
                             this.var_c4d = 1;
-                            this.var_c85 = 0;
+                            this.unitCharIndex = 0;
                             this.someStartTime7 = this.m_game.time;
                         }
                     }
                     else if (this.var_c4d == 1)
                     {
                         i = 1;
-                        if (this.var_c85 < this.unitCharsCount)
+                        if (this.unitCharIndex < this.unitCharsCount)
                         {
-                            this.unitCharsSprites[this.var_c85].startAnimation(2, this.var_b75);
-                            this.unitCharsSprites[this.var_c85].var_81c = 1;
+                            this.unitCharsSprites[this.unitCharIndex].startAnimation(2, this.var_b75);
+                            this.unitCharsSprites[this.unitCharIndex].var_81c = 1;
                             if ((this.unitType == 3) || (this.unitType == 2))
                             {
-                                this.var_c75[this.var_c85] = F_Sprite.spriteCopy(
+                                this.var_c75[this.unitCharIndex] = F_Sprite.spriteCopy(
                                         this.kingWaveSprite, 0, 0, 0, 1, 50, (byte)0);
-                                this.var_c75[this.var_c85]
+                                this.var_c75[this.unitCharIndex]
                                         .setSpritePosition(
-                                                this.unitCharsSprites[this.var_c85].posXPixel
+                                                this.unitCharsSprites[this.unitCharIndex].posXPixel
                                                         + sub_1673(
-                                                                this.var_c75[this.var_c85],
-                                                                this.unitCharsSprites[this.var_c85].frameWidth),
-                                                this.unitCharsSprites[this.var_c85].posYPixel);
-                                this.m_game.addSpriteTo(this.var_c75[this.var_c85]);
+                                                                this.var_c75[this.unitCharIndex],
+                                                                this.unitCharsSprites[this.unitCharIndex].frameWidth),
+                                                this.unitCharsSprites[this.unitCharIndex].posYPixel);
+                                this.m_game.addSpriteTo(this.var_c75[this.unitCharIndex]);
                             }
                             else if (this.unitType == 1)
                             {
@@ -444,18 +443,18 @@ namespace aeii
                                         this.var_b75);
                                 localClass_f_0451
                                         .setSpritePosition(
-                                                this.unitCharsSprites[this.var_c85].posXPixel
+                                                this.unitCharsSprites[this.unitCharIndex].posXPixel
                                                         + sub_1673(
                                                                 localClass_f_0451,
-                                                                this.unitCharsSprites[this.var_c85].frameWidth),
-                                                this.unitCharsSprites[this.var_c85].posYPixel);
+                                                                this.unitCharsSprites[this.unitCharIndex].frameWidth),
+                                                this.unitCharsSprites[this.unitCharIndex].posYPixel);
                                 this.m_game.addSpriteTo(localClass_f_0451);
                             }
                             else
                             {
                                 if (this.unitType == 7)
                                 {
-                                    this.unitCharsSprites[this.var_c85].randPosCounter = 5;
+                                    this.unitCharsSprites[this.unitCharIndex].randPosCounter = 5;
                                     for (int k = 0; k < 3; k++)
                                     {
                                         (localClass_f_0454 = F_Sprite.spriteCopy(
@@ -463,10 +462,10 @@ namespace aeii
                                                 E_MainCanvas.getRandomWithin(-1, 2), 0, 0, 1,
                                                 E_MainCanvas.getRandomMax(4) * 50, (byte)0))
                                                 .setSpritePosition(
-                                                        this.unitCharsSprites[this.var_c85].posXPixel
+                                                        this.unitCharsSprites[this.unitCharIndex].posXPixel
                                                                 + this.var_b8d.frameWidth
                                                                 / 2,
-                                                        this.unitCharsSprites[this.var_c85].posYPixel);
+                                                        this.unitCharsSprites[this.unitCharIndex].posYPixel);
                                         localClass_f_0454.var_85c = true;
                                         this.m_game.addSpriteTo(localClass_f_0454);
                                     }
@@ -484,13 +483,13 @@ namespace aeii
                                     this.var_c75[0] = F_Sprite.spriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3,
                                             -2, 0, -1, 100, (byte)0);
-                                    int i1 = this.unitCharsSprites[this.var_c85].posXPixel
+                                    int i1 = this.unitCharsSprites[this.unitCharIndex].posXPixel
                                             + sub_1673(
-                                                    this.var_c75[this.var_c85],
-                                                    this.unitCharsSprites[this.var_c85].frameWidth / 2);
-                                    i3 = this.unitCharsSprites[this.var_c85].posYPixel
+                                                    this.var_c75[this.unitCharIndex],
+                                                    this.unitCharsSprites[this.unitCharIndex].frameWidth / 2);
+                                    i3 = this.unitCharsSprites[this.unitCharIndex].posYPixel
                                             + this.var_b8d.frameHeight
-                                            - this.var_c75[this.var_c85].frameHeight + 2;
+                                            - this.var_c75[this.unitCharIndex].frameHeight + 2;
                                     this.var_c75[0].setSpritePosition(i1, i3);
                                     this.var_c75[1] = F_Sprite.spriteCopy(
                                             this.kingWaveSprite, var_b85[this.var_b6d] * 3, 1,
@@ -503,25 +502,25 @@ namespace aeii
                                 }
                                 else if (this.unitType == 8)
                                 {
-                                    this.var_c75[this.var_c85] = F_Sprite.spriteCopy(
+                                    this.var_c75[this.unitCharIndex] = F_Sprite.spriteCopy(
                                             null, var_b85[this.var_b6d], 0, 0, -1,
                                             2000, (byte)6);
-                                    this.var_c75[this.var_c85]
+                                    this.var_c75[this.unitCharIndex]
                                             .setSpritePosition(
-                                                    this.unitCharsSprites[this.var_c85].posXPixel
+                                                    this.unitCharsSprites[this.unitCharIndex].posXPixel
                                                             + sub_1673(
-                                                                    this.var_c75[this.var_c85],
-                                                                    this.unitCharsSprites[this.var_c85].frameWidth + 2),
-                                                    this.unitCharsSprites[this.var_c85].posYPixel + 30);
-                                    this.var_c75[this.var_c85].var_85c = true;
+                                                                    this.var_c75[this.unitCharIndex],
+                                                                    this.unitCharsSprites[this.unitCharIndex].frameWidth + 2),
+                                                    this.unitCharsSprites[this.unitCharIndex].posYPixel + 30);
+                                    this.var_c75[this.unitCharIndex].var_85c = true;
                                     E_MainCanvas.vibrate(200);
                                     this.m_game.startShakingScreen(1200);
                                     E_MainCanvas.playMusicLooped(14, 1);
-                                    this.m_game.addSpriteTo(this.var_c75[this.var_c85]);
+                                    this.m_game.addSpriteTo(this.var_c75[this.unitCharIndex]);
                                 }
                             }
                         }
-                        if (++this.var_c85 < this.unitCharsCount)
+                        if (++this.unitCharIndex < this.unitCharsCount)
                         {
                             i = 0;
                         }
@@ -534,43 +533,43 @@ namespace aeii
                             else if ((this.unitType != 7)
                                   && (this.unitCharsSprites[m].var_81c != -1))
                             {
-                                if (this.unitCharsSprites[m].var_87c == 0)
+                                if (this.unitCharsSprites[m].spriteMovingStepMb == 0)
                                 {
                                     this.unitCharsSprites[m].startAnimation(3, this.var_b75);
                                     this.unitCharsSprites[m].var_81c = 1;
-                                    this.unitCharsSprites[m].var_87c = 1;
+                                    this.unitCharsSprites[m].spriteMovingStepMb = 1;
                                     if (this.unitType == 8)
                                     {
                                         this.var_c75[m].isUpdatingMb = false;
                                     }
                                     i = 0;
                                 }
-                                else if (this.unitCharsSprites[m].var_87c == 1)
+                                else if (this.unitCharsSprites[m].spriteMovingStepMb == 1)
                                 {
                                     this.unitCharsSprites[m].startAnimation(0, this.var_b75);
                                     this.unitCharsSprites[m].var_81c = -1;
-                                    this.unitCharsSprites[m].var_87c = 2;
+                                    this.unitCharsSprites[m].spriteMovingStepMb = 2;
                                     i = 0;
                                 }
                             }
                             if ((this.unitType == 8) && (this.var_c75[m] != null)
                                     && (this.var_c75[m].isUpdatingMb))
                             {
-                                (localClass_f_0455 = F_Sprite.spriteCopy(
+                                (fSprite55 = F_Sprite.spriteCopy(
                                         this.m_game.bigSmokeSprite, var_b85[this.var_b6d]
                                                 * E_MainCanvas.getRandomWithin(1, 4),
                                         E_MainCanvas.getRandomWithin(-2, 3), 0, 1,
                                         50 * E_MainCanvas.getRandomMax(4), (byte)0))
                                         .setSpritePosition(
                                                 this.unitCharsSprites[m].posXPixel
-                                                        + sub_1673(localClass_f_0455,
+                                                        + sub_1673(fSprite55,
                                                                 this.var_b8d.frameWidth),
                                                 this.var_c75[m].posYPixel
                                                         + E_MainCanvas
                                                                 .getRandomMax(30 - this.var_c75[m].frameHeight)
                                                         - 15);
-                                localClass_f_0455.var_85c = true;
-                                this.m_game.addSpriteTo(localClass_f_0455);
+                                fSprite55.var_85c = true;
+                                this.m_game.addSpriteTo(fSprite55);
                             }
                         }
                         if (i != 0)
@@ -600,22 +599,23 @@ namespace aeii
                     {
                         if ((this.unitType == 9) && (E_MainCanvas.getRandomMax(2) == 0))
                         {
-                            (localClass_f_0455 = F_Sprite.spriteCopy(
+                            fSprite55 = F_Sprite.spriteCopy(
                                     this.m_game.bigSmokeSprite, E_MainCanvas.getRandomWithin(-2, 1),
-                                    0, -1, 1, 100, (byte)0)).setSpritePosition(
+                                    0, -1, 1, 100, (byte)0);
+                            fSprite55.setSpritePosition(
                                     this.var_c75[m].posXPixel
                                             + sub_1673(this.var_c75[m], 0),
                                     this.var_c75[m].posYPixel + this.var_c75[m].frameHeight
-                                            - localClass_f_0455.frameHeight);
-                            if (this.var_c75[m].var_87c == 1)
+                                            - fSprite55.frameHeight);
+                            if (this.var_c75[m].spriteMovingStepMb == 1)
                             {
-                                localClass_f_0455.var_86c = this.otherFightAnim.var_b6d;
+                                fSprite55.var_86c = this.otherFightAnim.var_b6d;
                             }
                             else
                             {
-                                localClass_f_0455.var_86c = this.var_b6d;
+                                fSprite55.var_86c = this.var_b6d;
                             }
-                            this.m_game.addSpriteTo(localClass_f_0455);
+                            this.m_game.addSpriteTo(fSprite55);
                         }
                         if (this.unitType == 9)
                         {
@@ -623,19 +623,19 @@ namespace aeii
                             {
                                 if (this.var_c75[m].posXPixel >= this.m_game.someGWidth)
                                 {
-                                    if (this.var_c75[m].var_87c == 0)
+                                    if (this.var_c75[m].spriteMovingStepMb == 0)
                                     {
                                         this.var_c75[m].setSpritePosition(this.m_game.viewportWidth
                                                 - this.var_c75[m].frameWidth,
                                                 this.var_c75[m].posYPixel);
                                         this.var_c75[m].var_86c = this.otherFightAnim.var_b6d;
-                                        this.var_c75[m].var_87c = 1;
+                                        this.var_c75[m].spriteMovingStepMb = 1;
                                         i = 0;
                                     }
-                                    else if (this.var_c75[m].var_87c == 1)
+                                    else if (this.var_c75[m].spriteMovingStepMb == 1)
                                     {
                                         this.m_game.removeSpriteFrom(this.var_c75[m]);
-                                        this.var_c75[m].var_87c = 2;
+                                        this.var_c75[m].spriteMovingStepMb = 2;
                                     }
                                 }
                                 else
@@ -647,18 +647,18 @@ namespace aeii
                             {
                                 if (this.var_c75[m].posXPixel + this.var_c75[m].frameWidth < 0)
                                 {
-                                    if (this.var_c75[m].var_87c == 0)
+                                    if (this.var_c75[m].spriteMovingStepMb == 0)
                                     {
                                         this.var_c75[m].setSpritePosition(this.m_game.viewportWidth,
                                                 this.var_c75[m].posYPixel);
                                         this.var_c75[m].var_86c = this.otherFightAnim.var_b6d;
-                                        this.var_c75[m].var_87c = 1;
+                                        this.var_c75[m].spriteMovingStepMb = 1;
                                         i = 0;
                                     }
-                                    else if (this.var_c75[m].var_87c == 1)
+                                    else if (this.var_c75[m].spriteMovingStepMb == 1)
                                     {
                                         this.m_game.removeSpriteFrom(this.var_c75[m]);
-                                        this.var_c75[m].var_87c = 2;
+                                        this.var_c75[m].spriteMovingStepMb = 2;
                                     }
                                 }
                                 else
@@ -1008,30 +1008,26 @@ namespace aeii
                         }
                         for (int kIt = 0; kIt < this.var_c4d; kIt++)
                         {
-                            if (this.unitType == 10)
-                            { //skeleton
-                                if (this.unitCharsSprites[kIt].var_87c != -1)
+                            if (this.unitType == 10) //skeleton
+                            { 
+                                if (this.unitCharsSprites[kIt].spriteMovingStepMb != -1)
                                 {
-                                    this.unitCharsSprites[kIt].var_87c += 1;
-                                    if (this.unitCharsSprites[kIt].var_87c >= 16)
+                                    this.unitCharsSprites[kIt].spriteMovingStepMb += 1;
+                                    if (this.unitCharsSprites[kIt].spriteMovingStepMb >= 16)
                                     {
                                         this.unitCharsSprites[kIt].startAnimation(2, this.var_b75);
                                         this.unitCharsSprites[kIt].someXVal3 = 0;
-                                        this.unitCharsSprites[kIt].var_87c = -1;
-                                        fSprite1 = F_Sprite.spriteCopy(null,
-                                                0, 0, 0, 1, 800, (byte)2);
+                                        this.unitCharsSprites[kIt].spriteMovingStepMb = -1;
+                                        fSprite1 = F_Sprite.spriteCopy(null, 0, 0, 0, 1, 800, (byte)2);
                                         fSprite1.setSpritePosition(
                                                 this.unitCharsSprites[kIt].posXPixel
-                                                        + sub_1673(fSprite1,
-                                                                this.var_b8d.frameWidth),
+                                                        + sub_1673(fSprite1, this.var_b8d.frameWidth),
                                                 this.unitCharsSprites[kIt].posYPixel
                                                         + this.var_b8d.frameHeight);
                                         this.m_game.addSpriteTo(fSprite1);
-                                        fSprite1 = F_Sprite.spriteCopy(this.slashSprite, 0, 0, 0, 1,
-                                                150, (byte)0);
+                                        fSprite1 = F_Sprite.spriteCopy(this.slashSprite, 0, 0, 0, 1, 150, (byte)0);
                                         fSprite1.setSpritePosition(
-                                                        this.unitCharsSprites[kIt].posXPixel
-                                                                + sub_1673(fSprite1, 24),
+                                                        this.unitCharsSprites[kIt].posXPixel + sub_1673(fSprite1, 24),
                                                         this.unitCharsSprites[kIt].posYPixel + 3);
                                         this.m_game.addSpriteTo(fSprite1);
                                     }
@@ -1115,7 +1111,7 @@ namespace aeii
                             }
                             else if (this.unitType == 10)
                             {
-                                this.unitCharsSprites[this.var_c4d].var_87c = 0;
+                                this.unitCharsSprites[this.var_c4d].spriteMovingStepMb = 0;
                             }
                             if (this.unitType == 5)
                             {
@@ -1133,14 +1129,14 @@ namespace aeii
                         {
                             if (this.unitType == 10)
                             {
-                                if (this.unitCharsSprites[k].var_87c != -1)
+                                if (this.unitCharsSprites[k].spriteMovingStepMb != -1)
                                 {
-                                    this.unitCharsSprites[k].var_87c += 1;
-                                    if (this.unitCharsSprites[k].var_87c >= 16)
+                                    this.unitCharsSprites[k].spriteMovingStepMb += 1;
+                                    if (this.unitCharsSprites[k].spriteMovingStepMb >= 16)
                                     {
                                         this.unitCharsSprites[k].startAnimation(0, this.var_b75);
                                         this.unitCharsSprites[k].someXVal3 = 0;
-                                        this.unitCharsSprites[k].var_87c = -1;
+                                        this.unitCharsSprites[k].spriteMovingStepMb = -1;
                                     }
                                     else
                                     {

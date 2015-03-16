@@ -33,13 +33,13 @@ namespace aeii
         public int randPosCounter = -1;
         public sbyte var_86c = -1;
         public bool m_isRotating;
-        public int var_87c;
+        public int spriteMovingStepMb;
         public String spriteString;
         public int charFontId;
         public F_Sprite kingHeadSprite;
         public F_Sprite kingBackSprite;
         public int[][] someUnusedArr2;
-        public short[][] var_8ac;
+        public short[][] somePlayersDataS;
         public int someColor = 16769024; //#FFE000 yellow
         public byte[] someRandUnusedArr;
         public bool[] someAlwaysTrueArr;
@@ -302,25 +302,21 @@ namespace aeii
 					lspr.someColor = 15658751;
 				}
 				lspr.someUnusedArr2 = new int[5][];
-				lspr.var_8ac = new short[5][];
-                for(int i=0;i<5;i++){
+				lspr.somePlayersDataS = new short[5][];
+                for(int i=0; i < 5; i++){
                     lspr.someUnusedArr2[i] = new int[2];
-                    lspr.var_8ac[i] = new short[2];
+                    lspr.somePlayersDataS[i] = new short[2];
                 }
 				lspr.someRandUnusedArr = new byte[5];
 				lspr.someAlwaysTrueArr = new bool[5];
 				for (int k = 0; k < 5; k++) {
 					lspr.someAlwaysTrueArr[k] = true;
 					if (inSprType == 4) {
-						lspr.var_8ac[k][0] = ((short) (E_MainCanvas.random
-								.nextInt() % 4 << 10));
-						lspr.var_8ac[k][1] = ((short) (E_MainCanvas.random
-								.nextInt() % 4 << 10));
+						lspr.somePlayersDataS[k][0] = ((short) (E_MainCanvas.random.nextInt() % 4 << 10));
+						lspr.somePlayersDataS[k][1] = ((short) (E_MainCanvas.random.nextInt() % 4 << 10));
 					} else {
-						lspr.var_8ac[k][0] = ((short) (Math
-								.abs(E_MainCanvas.random.nextInt()) % 8192 + -4096));
-						lspr.var_8ac[k][1] = ((short) (Math
-								.abs(E_MainCanvas.random.nextInt()) % 4096 + -2048));
+						lspr.somePlayersDataS[k][0] = ((short) (Math.abs(E_MainCanvas.random.nextInt()) % 8192 + -4096));
+						lspr.somePlayersDataS[k][1] = ((short) (Math.abs(E_MainCanvas.random.nextInt()) % 4096 + -2048));
 					}
 					lspr.someRandUnusedArr[k] = ((byte) (Math
 							.abs(E_MainCanvas.random.nextInt()) % 2 + 1));
@@ -349,39 +345,39 @@ namespace aeii
                 {
                     if (this.m_spriteType == 4)
                     {
-                        this.someUnusedArr2[i][0] += this.var_8ac[i][0];
-                        this.someUnusedArr2[i][1] += this.var_8ac[i][1];
-                        if (this.var_8ac[i][0] < 0)
+                        this.someUnusedArr2[i][0] += this.somePlayersDataS[i][0];
+                        this.someUnusedArr2[i][1] += this.somePlayersDataS[i][1];
+                        if (this.somePlayersDataS[i][0] < 0)
                         {
                             int tmp102_101 = 0;
-                            short[] tmp102_100 = this.var_8ac[i];
+                            short[] tmp102_100 = this.somePlayersDataS[i];
                             tmp102_100[tmp102_101] = ((short)(tmp102_100[tmp102_101] + 256));
                         }
-                        else if (this.var_8ac[i][0] > 0)
+                        else if (this.somePlayersDataS[i][0] > 0)
                         {
                             int tmp131_130 = 0;
-                            short[] tmp131_129 = this.var_8ac[i];
+                            short[] tmp131_129 = this.somePlayersDataS[i];
                             tmp131_129[tmp131_130] = ((short)(tmp131_129[tmp131_130] - 256));
                         }
-                        if (this.var_8ac[i][1] < 0)
+                        if (this.somePlayersDataS[i][1] < 0)
                         {
                             int tmp157_156 = 1;
-                            short[] tmp157_155 = this.var_8ac[i];
+                            short[] tmp157_155 = this.somePlayersDataS[i];
                             tmp157_155[tmp157_156] = ((short)(tmp157_155[tmp157_156] + 256));
                         }
-                        else if (this.var_8ac[i][1] > 0)
+                        else if (this.somePlayersDataS[i][1] > 0)
                         {
                             int tmp186_185 = 1;
-                            short[] tmp186_184 = this.var_8ac[i];
+                            short[] tmp186_184 = this.somePlayersDataS[i];
                             tmp186_184[tmp186_185] = ((short)(tmp186_184[tmp186_185] - 256));
                         }
                     }
                     else
                     {
-                        this.someUnusedArr2[i][0] += this.var_8ac[i][0];
-                        this.someUnusedArr2[i][1] += this.var_8ac[i][1];
+                        this.someUnusedArr2[i][0] += this.somePlayersDataS[i][0];
+                        this.someUnusedArr2[i][1] += this.somePlayersDataS[i][1];
                         int tmp242_241 = 1;
-                        short[] tmp242_240 = this.var_8ac[i];
+                        short[] tmp242_240 = this.somePlayersDataS[i];
                         tmp242_240[tmp242_241] = ((short)(tmp242_240[tmp242_241] + 256));
                     }
                 }

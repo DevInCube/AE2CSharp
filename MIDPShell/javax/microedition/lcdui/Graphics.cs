@@ -8,12 +8,34 @@ namespace javax.microedition.lcdui
 
         public const int SOLID = 0;
         public const int DOTTED = 1;
+
+        /// <summary>
+        /// 1
+        /// </summary>
         public const int HCENTER = 1;
+        /// <summary>
+        /// 16
+        /// </summary>
         public const int TOP = 16;
+        /// <summary>
+        /// 2
+        /// </summary>
         public const int VCENTER = 2;
+        /// <summary>
+        /// 32
+        /// </summary>
         public const int BOTTOM = 32;
+        /// <summary>
+        /// 4
+        /// </summary>
         public const int LEFT = 4;
+        /// <summary>
+        /// 64
+        /// </summary>
         public const int BASELINE = 64;
+        /// <summary>
+        /// 8
+        /// </summary>
         public const int RIGHT = 8;
 
         private Font font;
