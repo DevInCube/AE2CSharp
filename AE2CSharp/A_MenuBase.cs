@@ -11,11 +11,12 @@ namespace aeii
     public class A_MenuBase
     {
 
-        public static E_MainCanvas mainCanvas;
         public int someCanWidth = mainCanvas.getWidth();
         public int someCanHeight = mainCanvas.getHeight();
         public int someCanWidthDiv2 = mainCanvas.getWidth() >> 1;
         public int someCanHeightDiv2 = mainCanvas.getHeight() >> 1;
+
+        public static E_MainCanvas mainCanvas;
         public static String[] langStrings;
         public static short[] sin1024Table = null;
         public static int maxDegrees = 360;
@@ -27,7 +28,7 @@ namespace aeii
             //@todo override
         }
 
-        public void sub_865(int inInt1, int inInt2)
+        public virtual void onKeyAction(int keyCode, int actionCode)
         {
             //@todo override or not?
         }
@@ -219,7 +220,7 @@ namespace aeii
             return str;
         }
 
-        public static  void initSin1024()
+        public static void initSin1024()
         {
             //
             maxDegreesDiv2 = maxDegrees >> 1;

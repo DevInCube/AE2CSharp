@@ -371,13 +371,13 @@ namespace aeii
             return base.getKeyName(i);
         }
 
-        public override void keyPressed(int paramInt)
+        public override void keyPressed(int keyCode)
         {
-            int actionCode = getGameAction(paramInt);
+            int actionCode = getGameAction(keyCode);
             addActionCode(actionCode);
             if (this.mainDrawElement != null)
             {
-                this.mainDrawElement.sub_865(paramInt, actionCode);
+                this.mainDrawElement.onKeyAction(keyCode, actionCode);
             }
         }
 

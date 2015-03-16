@@ -836,12 +836,12 @@ namespace aeii
         }
 
         //@todo candidate
-        public void sub_252e(Graphics gr, int inX, int inY)
+        public void drawUnitEnabled(Graphics gr, int inX, int inY)
         {
-            sub_2551(gr, inX, inY, false);
+            drawUnit(gr, inX, inY, false);
         }
 
-        public void sub_2551(Graphics gr, int inX, int inY, bool paramBoolean)
+        public void drawUnit(Graphics gr, int inX, int inY, bool unitDisabled)
         {
             if (this.m_state != 4)
             {
@@ -860,7 +860,7 @@ namespace aeii
                     shY = E_MainCanvas.getRandomInt() % 1;
                     base.onSpritePaint(gr, inX + shX, inY + shY);
                 }
-                else if ((paramBoolean) || (this.m_state == 2))
+                else if ((unitDisabled) || (this.m_state == 2)) //end turn
                 {
                     sGame.playersUnitsSprites[0][this.unitTypeId].onSpritePaint(gr,
                             this.posXPixel + inX, this.posYPixel + inY);
@@ -873,7 +873,7 @@ namespace aeii
                 {
                     shX = this.posXPixel + inX;
                     shY = this.posYPixel + inY;
-                    if ((paramBoolean) || (this.m_state == 2))
+                    if ((unitDisabled) || (this.m_state == 2)) //end turn
                     {
                         sGame.kingHeadsSprites[1].drawFrameAt(gr, this.kingIndex
                                 * 2 + this.currentFrameIndex, shX, shY, 0);
@@ -899,33 +899,34 @@ namespace aeii
         public static void loadUnitsProps(I_Game aGame)
         {
             sGame = aGame;
-            DataInputStream localDataInputStream = new DataInputStream(E_MainCanvas.getResourceStream("units.bin"));
+            DataInputStream dis = new DataInputStream(E_MainCanvas.getResourceStream("units.bin"));
             for (int i = 0; i < 12; i++)
             {
-                unitsMoveRanges[i] = localDataInputStream.readByte();
-                unitsAttackValues[i][0] = localDataInputStream.readByte();
-                unitsAttackValues[i][1] = localDataInputStream.readByte();
-                unitsDefenceValues[i] = localDataInputStream.readByte();
-                maxUnitRanges[i] = localDataInputStream.readByte();
-                minUnitRanges[i] = localDataInputStream.readByte();
-                unitsCosts[i] = localDataInputStream.readShort();
-                int uCharsCount = localDataInputStream.readByte();
+                unitsMoveRanges[i] = dis.readByte();
+                unitsAttackValues[i][0] = dis.readByte();
+                unitsAttackValues[i][1] = dis.readByte();
+                unitsDefenceValues[i] = dis.readByte();
+                maxUnitRanges[i] = dis.readByte();
+                minUnitRanges[i] = dis.readByte();
+                unitsCosts[i] = dis.readShort();
+                int uCharsCount = dis.readByte();
                 unitsChars[i] = new byte[uCharsCount][];
                 for (int k = 0; k < uCharsCount; k++)
                 {
                     unitsChars[i][k] = new byte[2];
-                    unitsChars[i][k][0] = localDataInputStream.readByte();
-                    unitsChars[i][k][1] = localDataInputStream.readByte();
+                    unitsChars[i][k][0] = dis.readByte();
+                    unitsChars[i][k][1] = dis.readByte();
                 }
-                int sLength = localDataInputStream.readByte();
+                int sLength = dis.readByte();
                 for (int m = 0; m < sLength; m++)
                 {
                     int upIndex = i;
                     short[] uProps = unitsProperties;
-                    uProps[upIndex] = (short)(uProps[upIndex] | 1 << localDataInputStream.readByte());
+                    byte propByte = dis.readByte();
+                    uProps[upIndex] = (short)((ushort)uProps[upIndex] | (1 << propByte));
                 }
             }
-            localDataInputStream.close();
+            dis.close();
         }
     }
 

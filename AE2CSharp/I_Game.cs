@@ -147,7 +147,7 @@ namespace aeii{
         public Vector mapEffectsSpritesList = new Vector();
         public Vector someSpritesVector1 = new Vector();
         public C_Unit dyingUnit;
-        public C_Unit var_35db;
+        public C_Unit raisedUnit;
         public long unitDyingStartTime;
         public C_Unit someSparkingUnit;
         public sbyte someSprkingUnitPlayerId;
@@ -161,7 +161,7 @@ namespace aeii{
         public H_ImageExt logoImage;
         public H_ImageExt glowImage;
         public int introMode;
-        public bool var_364b = false;
+        public bool faStarted = false;
         public int waveImageAmplitude;
         public int var_365b;
         public int var_366b;
@@ -248,7 +248,7 @@ namespace aeii{
         public byte[] somePlayerIds;
         public int countExtraMapsMb;
         public String[] extraSkirmishMapNamesMb;
-        public int[] var_3903;
+        public int[] skirmishMapsIndexes;
         public String[] onlineMenuItemsNames = { A_MenuBase.getLangString(46),
 			A_MenuBase.getLangString(47) };
         public String[] downloadMenuItemsNames = { A_MenuBase.getLangString(48),
@@ -270,7 +270,7 @@ namespace aeii{
         public H_ImageExt gameOverImage;
         public Image[][] alphaMappedTilesImages;
         public int loadingProgress;
-        public static String[] var_39a3 = { "14281428", "18241824" };
+        public static String[] someStrings = { "14281428", "18241824" };
         public StringBuffer m_strBuf = new StringBuffer();
         public C_Unit m_tempUnit;
         public int someCameraVelocityMb = 12;
@@ -481,18 +481,18 @@ namespace aeii{
             }
             setLoadingProgress(76);
             this.extraSkirmishMapNamesMb = new String[0];
-            this.var_3903 = new int[0];
+            this.skirmishMapsIndexes = new int[0];
             try
             {
                 byte[] arrayOfByte = E_MainCanvas.getRecordStoreData("settings", 2);
                 DataInputStream stream1 = new DataInputStream(
                         new ByteArrayInputStream(arrayOfByte));
                 this.countExtraMapsMb = stream1.readInt();
-                this.var_3903 = new int[this.countExtraMapsMb];
+                this.skirmishMapsIndexes = new int[this.countExtraMapsMb];
                 this.extraSkirmishMapNamesMb = new String[this.countExtraMapsMb];
                 for (int i1 = 0; i1 < this.countExtraMapsMb; i1++)
                 {
-                    this.var_3903[i1] = stream1.readInt();
+                    this.skirmishMapsIndexes[i1] = stream1.readInt();
                     this.extraSkirmishMapNamesMb[i1] = stream1.readUTF();
                 }
                 stream1.close();
@@ -703,17 +703,17 @@ namespace aeii{
             this.bigSmokeSprite = new F_Sprite("b_smoke");
         }
 
-        public void sub_4bfe(int paramInt1, int paramInt2)
+        //@Override candidate? @my
+        public override void onKeyAction(int unused1, int actionCode)
         {
-            if ((this.mapModeCampIf0 == 0) && (this.gameMode2Mb == 1)
-                    && (this.unkState == 0))
+            if ((this.mapModeCampIf0 == 0) && (this.gameMode2Mb == 1) && (this.unkState == 0))
             {
                 int i = 0;
-                this.m_strBuf.append(paramInt2);
+                this.m_strBuf.append(actionCode);
                 String str = this.m_strBuf.toString();
-                for (int j = 0; j < var_39a3.Length; j++)
+                for (int j = 0; j < I_Game.someStrings.Length; j++)
                 {
-                    if (str.Equals(var_39a3[j]))
+                    if (str.Equals(I_Game.someStrings[j]))
                     {
                         if (j == 0)
                         {
@@ -732,7 +732,7 @@ namespace aeii{
                         }
                         this.bottomMenuNeedsUpdateUI = true;
                     }
-                    else if (var_39a3[j].startsWith(str))
+                    else if (I_Game.someStrings[j].startsWith(str))
                     {
                         i = 1;
                     }
@@ -743,7 +743,7 @@ namespace aeii{
                 }
             }
         }
-
+        
         public void sub_4d3f()
         {
             this.bottomMenuNeedsUpdateUI = true;
@@ -971,13 +971,13 @@ namespace aeii{
             this.furyTargetUnit = unit;
         }
 
-        public void sub_55bd(C_Unit unit1, C_Unit unit2)
+        public void attackUnit(C_Unit unit1, C_Unit tombUnit)
         {
-            if (unit2.m_state == 4)
+            if (tombUnit.m_state == 4) //fake unit //RAISE?
             {
-                this.var_35db = unit2;
-                showSpriteOnMap(this.redsparkSprite, this.var_35db.posXPixel,
-                        this.var_35db.posYPixel, 0, 0, 1, 50);
+                this.raisedUnit = tombUnit;
+                showSpriteOnMap(this.redsparkSprite, this.raisedUnit.posXPixel,
+                        this.raisedUnit.posYPixel, 0, 0, 1, 50);
                 this.var_3603 = 6;
                 this.activeUnit.endMove();
                 this.unkState = 0;
@@ -991,9 +991,9 @@ namespace aeii{
             }
             else
             {
-                if ((E_MainCanvas.settings[3] != false) && (unit2.charsData.Length > 0))
+                if ((E_MainCanvas.settings[3] != false) && (tombUnit.charsData.Length > 0)) //fight animation
                 {
-                    this.var_364b = true;
+                    this.faStarted = true;
                     this.waveImageAmplitude = 0;
                     E_MainCanvas.stopMusic();
                 }
@@ -1004,7 +1004,7 @@ namespace aeii{
                     this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
                 }
                 this.attackerUnitMb = unit1;
-                this.attackedUnitMb = unit2;
+                this.attackedUnitMb = tombUnit;
             }
         }
 
@@ -1067,8 +1067,7 @@ namespace aeii{
                 int paramInt3, int paramInt4,
                 int paramInt5, int inTime)
         {
-            F_Sprite aSprinte = F_Sprite.spriteCopy(sprite, paramInt3,
-                    paramInt4, 0, paramInt5, inTime, (byte)0);
+            F_Sprite aSprinte = F_Sprite.spriteCopy(sprite, paramInt3, paramInt4, 0, paramInt5, inTime, (byte)0);
             aSprinte.setSpritePosition(inX, inY);
             this.someSpritesVector1.addElement(aSprinte);
             return aSprinte;
@@ -1109,8 +1108,9 @@ namespace aeii{
             H_ImageExt[] menuItemImages = new H_ImageExt[itemsImages.size()];
             itemsNames.copyInto(menuItemNames);
             itemsImages.copyInto(menuItemImages);
-            playWheelMenu.initWheelMenu(menuItemNames, menuItemImages,
-                    this.someCanWidthDiv2, this.someMenuWidth, this.someMenuHeight, 3, (byte)1);
+            playWheelMenu.initWheelMenu(menuItemNames, menuItemImages, 
+                    this.someCanWidthDiv2, this.someMenuWidth, this.someMenuHeight,
+                    Graphics.HCENTER | Graphics.VCENTER, (byte)1);
             playWheelMenu.setParentMenu(menu);
             A_MenuBase.mainCanvas.showMenu(playWheelMenu);
         }
@@ -1128,12 +1128,13 @@ namespace aeii{
             }
             if (this.someCursorYPos * 24 <= this.someGHeight / 2 - 24)
             {
-                this.unitActionsMenu.sub_1e97(names, images, 0,
-                        this.someGHeight - this.buttonsSprite.frameHeight, 36);
+                this.unitActionsMenu.setTextAndImages(names, images, 0,
+                        this.someGHeight - this.buttonsSprite.frameHeight, 
+                        Graphics.BOTTOM | Graphics.LEFT); 
             }
             else
             {
-                this.unitActionsMenu.sub_1e97(names, images, this.someGWidth, 0, 8);
+                this.unitActionsMenu.setTextAndImages(names, images, this.someGWidth, 0, Graphics.RIGHT);
             }
             this.unitActionsMenu.setParentMenu(this);
             A_MenuBase.mainCanvas.showMenu(this.unitActionsMenu);
@@ -1163,13 +1164,13 @@ namespace aeii{
             j += aMenu.menuHeight / 2;
             menu1.addChildMenu(this.var_38bb, 0, j, 0);
             j += this.var_38bb.menuHeight;
-            menu1.addChildMenu(this.slotDescMenu, 0, j, 20);
+            menu1.addChildMenu(this.slotDescMenu, 0, j, Graphics.TOP | Graphics.LEFT);
             menu1.updateAllChildrenBoolMb = true;
             menu1.setMenuActionEnabled((byte)0, true);
             return menu1;
         }
 
-        public void sub_5d1a(A_MenuBase menu)
+        public void createDownloadMenu(A_MenuBase menu)
         {
             int Length = this.var_3c2b.Length;
             String[] arrayOfString = new String[Length];
@@ -1195,16 +1196,14 @@ namespace aeii{
             }
             this.var_3943 = new D_Menu((byte)15, 15);
             D_Menu menu1 = new D_Menu((byte)10, 0);
-            menu1.createDescDialogMb(null,
-                    A_MenuBase.getLangString(48), this.someGWidth, -1); // DOWNLOAD
+            menu1.createDescDialogMb(null, A_MenuBase.getLangString(48), this.someGWidth, -1); // DOWNLOAD
             D_Menu menu2;
             if (j == 0)
             {
                 menu2 = new D_Menu((byte)10, 0);
-                menu2.createDescDialogMb(null, A_MenuBase.getLangString(52), this.someGWidth,
-                        this.viewportHeight); //EMPTY
-                this.var_3943.addChildMenu((D_Menu)menu2, 0,
-                        (this.someGHeight + menu1.menuHeight) / 2, 6);
+                menu2.createDescDialogMb(null, A_MenuBase.getLangString(52), this.someGWidth, this.viewportHeight); //EMPTY
+                this.var_3943.addChildMenu((D_Menu)menu2, 0, (this.someGHeight + menu1.menuHeight) / 2,
+                    Graphics.VCENTER | Graphics.LEFT);
             }
             else
             {
@@ -1238,7 +1237,7 @@ namespace aeii{
             this.var_3943.setParentMenu(menu);
         }
 
-        public D_Menu sub_5fed(A_MenuBase menu)
+        public D_Menu createDeleteMenu(A_MenuBase menu)
         {
             D_Menu localClass_d_0231;
             if (this.extraSkirmishMapNamesMb.Length == 0)
@@ -1266,42 +1265,41 @@ namespace aeii{
             return this.deleteMapMenu;
         }
 
-        public int sub_60ce(int paramInt)
+        public int getSkMapIndex(int index)
         {
-            if (paramInt >= skirmishMapsNames.Length)
+            if (index >= skirmishMapsNames.Length)
             {
-                return this.var_3903[(paramInt - skirmishMapsNames.Length)]
-                        + skirmishMapsNames.Length;
+                return this.skirmishMapsIndexes[(index - skirmishMapsNames.Length)] + skirmishMapsNames.Length;
             }
-            return paramInt;
+            return index;
         }
 
-        public DataInputStream getSkirmishMapData(int paramInt)
+        public DataInputStream getSkirmishMapData(int skIndex)
         {
-            if (paramInt >= skirmishMapsNames.Length)
+            if (skIndex >= skirmishMapsNames.Length)
             {
-                int i = paramInt - skirmishMapsNames.Length;
+                int i = skIndex - skirmishMapsNames.Length;
                 return new DataInputStream(new ByteArrayInputStream(
                         E_MainCanvas.getRecordStoreData("download", i)));
             }
-            return new DataInputStream(E_MainCanvas.getResourceStream("s" + paramInt));
+            return new DataInputStream(E_MainCanvas.getResourceStream("s" + skIndex));
         }
 
-        public String getSkirmishMapName(int paramInt)
+        public String getSkirmishMapName(int skIndex)
         {
-            if (paramInt >= skirmishMapsNames.Length)
+            if (skIndex >= skirmishMapsNames.Length)
             {
-                int i = paramInt - skirmishMapsNames.Length;
-                for (int j = 0; j < this.var_3903.Length; j++)
+                int i = skIndex - skirmishMapsNames.Length;
+                for (int j = 0; j < this.skirmishMapsIndexes.Length; j++)
                 {
-                    if (this.var_3903[j] == i)
+                    if (this.skirmishMapsIndexes[j] == i)
                     {
                         return this.extraSkirmishMapNamesMb[j];
                     }
                 }
                 return null;
             }
-            return skirmishMapsNames[paramInt];
+            return skirmishMapsNames[skIndex];
         }
 
         public String getByteSizeString(int bytes)
@@ -1312,8 +1310,7 @@ namespace aeii{
             return j + "." + k;
         }
 
-        public void sub_6260(D_Menu menu, int itemNumber,
-                String itemName, byte paramByte)
+        public void processSomeMenu(D_Menu menu, int itemNumber, String itemName, byte paramByte)
         {
             this.var_3c73 = true;
             if ((menu == this.unitActionsMenu) && (paramByte == 1))
@@ -1574,7 +1571,7 @@ namespace aeii{
                 int j = this.skirmishMapsItemsMenu.activeItemPositionMb;
                 if ((paramByte == 0) && ((j >= skirmishMapsNames.Length) || (this.skMapUnlockedArr[j] == false)))
                 {
-                    this.var_34e3 = sub_60ce(j);
+                    this.var_34e3 = getSkMapIndex(j);
                     DataInputStream mapDis = getSkirmishMapData(this.var_34e3);
                     int mapWidth = mapDis.readInt();
                     int mapHeight = mapDis.readInt();
@@ -1810,13 +1807,13 @@ namespace aeii{
                         }
                         else
                         {
-                            sub_5d1a(menu);
+                            createDownloadMenu(menu);
                             A_MenuBase.mainCanvas.showMenu(this.var_3943);
                         }
                     }
                     else if (itemName.Equals(this.downloadMenuItemsNames[1]))
                     {
-                        A_MenuBase.mainCanvas.showMenu(sub_5fed(menu));
+                        A_MenuBase.mainCanvas.showMenu(createDeleteMenu(menu));
                     }
                 }
                 else if (paramByte == 1)
@@ -1896,7 +1893,7 @@ namespace aeii{
             {
                 if (paramByte == 0)
                 {
-                    if (this.var_3903[itemNumber] + skirmishMapsNames.Length == this.scenarioMapIndex)
+                    if (this.skirmishMapsIndexes[itemNumber] + skirmishMapsNames.Length == this.scenarioMapIndex)
                     {
                         D_Menu menu41 = createDialog(null, A_MenuBase.getLangString(56),
                                 this.someGHeight, -1); //You cannot delete the level you are currently playing.
@@ -1925,7 +1922,7 @@ namespace aeii{
                 if (paramByte == 0)
                 {
                     saveSlots(this.var_395b);
-                    A_MenuBase parMenuss = sub_5fed(this.deleteMapMenu.parentMenu);
+                    A_MenuBase parMenuss = createDeleteMenu(this.deleteMapMenu.parentMenu);
                     D_Menu menuOk = createDialog(null,
                             A_MenuBase.replaceStringFirst(51, this.deletingMapName), this.someGHeight,
                             -1); //Map '%U' deleted.
@@ -2382,12 +2379,12 @@ namespace aeii{
             this.mapEffectsSpritesList = new Vector();
             this.isFadingIn = false;
             this.isCursorVisible = true;
-            this.var_364b = false;
+            this.faStarted = false;
             this.isSaethDead = false;
             this.unitMovePathPositions = null;
             this.dyingUnit = null;
             this.furyTargetUnit = null;
-            this.var_35db = null;
+            this.raisedUnit = null;
             this.someSparkingUnit = null;
             this.gotNewLevelUnits.removeAllElements();
             this.currentTurn = 0;
@@ -2830,7 +2827,7 @@ namespace aeii{
             {
                 this.isShakingScreen = false;
             }
-            if (this.var_364b)
+            if (this.faStarted)
             {
                 this.waveImageAmplitude += 1;
                 if (this.waveImageAmplitude > 16)
@@ -2856,7 +2853,7 @@ namespace aeii{
                         this.targetAttUnitCandidateMb = null;
                         clearActiveUnit();
                     }
-                    this.var_364b = false;
+                    this.faStarted = false;
                 }
                 return;
             }
@@ -3036,7 +3033,7 @@ namespace aeii{
                 }
                 else if (this.unkState == 11)
                 {
-                    if ((!this.var_364b)
+                    if ((!this.faStarted)
                             && (this.var_372b == 0)
                             && ((this.mapModeCampIf0 == 1)
                                     || (this.time - this.someStartTime5 >= 3000L) || (A_MenuBase.mainCanvas
@@ -3079,7 +3076,7 @@ namespace aeii{
                         }
                         else if (this.var_3b93 == 0)
                         {
-                            this.var_364b = true;
+                            this.faStarted = true;
                             this.waveImageAmplitude = 0;
                         }
                         else if (this.var_3b93 == 2)
@@ -3258,15 +3255,15 @@ namespace aeii{
                                 this.furyTargetUnit = null;
                             }
                         }
-                        else if (this.var_35db != null)
+                        else if (this.raisedUnit != null)
                         {
                             if (--this.var_3603 <= 0)
                             {
                                 E_MainCanvas.vibrate(100);
-                                showHeavensFuryAfterEffect(this.var_35db);
-                                repairDestroyedHouse((byte)27, this.var_35db.positionX,
-                                        this.var_35db.positionY);
-                                this.var_35db = null;
+                                showHeavensFuryAfterEffect(this.raisedUnit);
+                                repairDestroyedHouse((byte)27, this.raisedUnit.positionX,
+                                        this.raisedUnit.positionY);
+                                this.raisedUnit = null;
                             }
                         }
                         else if (this.dyingUnit != null)
@@ -3453,7 +3450,7 @@ namespace aeii{
                                         {
                                             if (this.unkState == 6)
                                             {
-                                                sub_55bd(
+                                                attackUnit(
                                                         this.activeUnit,
                                                         this.attackTargetUnits[this.attackAimUnitIndex]);
                                             }
@@ -4414,7 +4411,7 @@ namespace aeii{
                 paintBlackScreenLoading(gr);
                 return;
             }
-            if (this.var_364b)
+            if (this.faStarted)
             {
                 if (this.waveImageAmplitude >= 16)
                 {
@@ -4445,7 +4442,7 @@ namespace aeii{
             {
                 paintBlackScreenLoading(gr);
             }
-            else if ((this.unkState == 11) && (!this.var_364b))
+            else if ((this.unkState == 11) && (!this.faStarted))
             {
                 String str1 = A_MenuBase.getLangString(57);
                 gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
@@ -4504,7 +4501,7 @@ namespace aeii{
                     }
                     else if (unit3 != this.activeUnit)
                     {
-                        unit3.sub_252e(gr, this.mapLeftXPix,
+                        unit3.drawUnitEnabled(gr, this.mapLeftXPix,
                                 this.mapTopYPix);
                     }
                     jfd++;
@@ -4591,7 +4588,7 @@ namespace aeii{
                 }
                 if (this.activeUnit != null)
                 {
-                    this.activeUnit.sub_252e(gr, this.mapLeftXPix,
+                    this.activeUnit.drawUnitEnabled(gr, this.mapLeftXPix,
                             this.mapTopYPix);
                     this.activeUnit.drawUnitHealth(gr, this.mapLeftXPix,
                             this.mapTopYPix);
@@ -5357,7 +5354,7 @@ namespace aeii{
                 {
                     if (this.targetAttUnitCandidateMb != null)
                     {
-                        sub_55bd(this.activeUnit, this.targetAttUnitCandidateMb);
+                        attackUnit(this.activeUnit, this.targetAttUnitCandidateMb);
                     }
                     else if (this.targetActionUnitCandidateMb != null)
                     {
@@ -6360,7 +6357,7 @@ namespace aeii{
             {
                 if (this.scriptStep == 0)
                 {
-                    this.var_364b = true;
+                    this.faStarted = true;
                     this.waveImageAmplitude = 0;
                     this.unkState = 11;
                     this.scriptStep = 1;
@@ -6432,7 +6429,7 @@ namespace aeii{
                 }
                 else if (this.scriptStep == 102)
                 {
-                    this.var_364b = true;
+                    this.faStarted = true;
                     this.waveImageAmplitude = 0;
                     this.unkState = 11;
                     this.scriptStep += 1;
@@ -7150,10 +7147,10 @@ namespace aeii{
                     waitScript(15);
                     break;
                 case 11:
-                    this.var_35db = C_Unit.createUnit((sbyte)0, (sbyte)0, 4, 9,
+                    this.raisedUnit = C_Unit.createUnit((sbyte)0, (sbyte)0, 4, 9,
                             false);
-                    this.var_35db.unitTypeId = -1;
-                    this.var_35db.m_state = 4;
+                    this.raisedUnit.unitTypeId = -1;
+                    this.raisedUnit.m_state = 4;
                     this.var_3603 = 6;
                     waitScript(20);
                     this.scriptStep += 1;
@@ -8194,8 +8191,7 @@ namespace aeii{
                 }
                 else if (sSprite.var_86c == 1)
                 {
-                    gr.setClip(this.viewportWidth, 0, this.viewportWidth,
-                            this.var_3bfb);
+                    gr.setClip(this.viewportWidth, 0, this.viewportWidth, this.var_3bfb);
                 }
                 else
                 {
@@ -8325,7 +8321,7 @@ namespace aeii{
                                 this.someSizesMb[n] = Integer
                                         .parseInt(dis.readUTF());
                             }
-                            sub_5d1a(this.someOnlineParentMenu);
+                            createDownloadMenu(this.someOnlineParentMenu);
                             A_MenuBase.mainCanvas.showMenu(this.var_3943);
                         }
                         else if (this.var_3c83 == 3)
@@ -8334,7 +8330,7 @@ namespace aeii{
                             byte[] arrayOfByte = new byte[j];
                             dis.readFully(arrayOfByte);
                             sub_15568(str, arrayOfByte);
-                            sub_5d1a(this.var_3943.parentMenu);
+                            createDownloadMenu(this.var_3943.parentMenu);
                             D_Menu localClass_d_0232 = createDialog(null,
                                     A_MenuBase.replaceStringFirst(45, str), this.someGHeight, 2000);
                             localClass_d_0232.setParentMenu(this.var_3943);
@@ -8393,18 +8389,18 @@ namespace aeii{
 
         public void saveSlots(int index)
         {
-            int i = this.var_3903[index];
+            int i = this.skirmishMapsIndexes[index];
             this.countExtraMapsMb -= 1;
             String[] arrayOfString = new String[this.countExtraMapsMb];
             int[] arrayOfInt = new int[this.countExtraMapsMb];
             JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, index);
             JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, index + 1, arrayOfString, index,
                     this.countExtraMapsMb - index);
-            JavaSystem.arraycopy(this.var_3903, 0, arrayOfInt, 0, index);
-            JavaSystem.arraycopy(this.var_3903, index + 1, arrayOfInt, index,
+            JavaSystem.arraycopy(this.skirmishMapsIndexes, 0, arrayOfInt, 0, index);
+            JavaSystem.arraycopy(this.skirmishMapsIndexes, index + 1, arrayOfInt, index,
                     this.countExtraMapsMb - index);
             this.extraSkirmishMapNamesMb = arrayOfString;
-            this.var_3903 = arrayOfInt;
+            this.skirmishMapsIndexes = arrayOfInt;
             E_MainCanvas.deleteStoreRecordByIndex("download", i);
             this.downloadStoreAvailableSize = E_MainCanvas.getRecordStoreAvailableSize("download");
             saveSettingsMb();
@@ -8425,10 +8421,10 @@ namespace aeii{
             String[] arrayOfString = new String[this.countExtraMapsMb + 1];
             int[] arrayOfInt = new int[this.countExtraMapsMb + 1];
             JavaSystem.arraycopy(this.extraSkirmishMapNamesMb, 0, arrayOfString, 0, this.countExtraMapsMb);
-            JavaSystem.arraycopy(this.var_3903, 0, arrayOfInt, 0, this.countExtraMapsMb);
+            JavaSystem.arraycopy(this.skirmishMapsIndexes, 0, arrayOfInt, 0, this.countExtraMapsMb);
             this.extraSkirmishMapNamesMb = arrayOfString;
-            this.var_3903 = arrayOfInt;
-            this.var_3903[this.countExtraMapsMb] = E_MainCanvas.saveDataToStore("download", someData);
+            this.skirmishMapsIndexes = arrayOfInt;
+            this.skirmishMapsIndexes[this.countExtraMapsMb] = E_MainCanvas.saveDataToStore("download", someData);
             this.extraSkirmishMapNamesMb[this.countExtraMapsMb] = paramString;
             this.countExtraMapsMb += 1;
             this.downloadStoreAvailableSize = E_MainCanvas.getRecordStoreAvailableSize("download");
@@ -8442,7 +8438,7 @@ namespace aeii{
             dos.writeInt(this.countExtraMapsMb);
             for (int i = 0; i < this.countExtraMapsMb; i++)
             {
-                dos.writeInt(this.var_3903[i]);
+                dos.writeInt(this.skirmishMapsIndexes[i]);
                 dos.writeUTF(this.extraSkirmishMapNamesMb[i]);
             }
             E_MainCanvas.saveRecordStoreData("settings", 2, baos.toByteArray());
