@@ -8,10 +8,34 @@
             <ColumnDefinition Width="68*"/>
             <ColumnDefinition Width="203*"/>
         </Grid.ColumnDefinitions>
-        
+
         <GroupBox Header="Map" Background="White">
             <StackPanel>
-                <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" />
+                <Grid>
+                    <StackPanel>
+                        <GroupBox Header="Sizes:">
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="32*"/>
+                                    <ColumnDefinition Width="32*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Height" HorizontalAlignment="Center"/>
+                                <Label Content="Width" Grid.Column="1" HorizontalAlignment="Center"/>
+                                <TextBox Text="{Binding DefaultMapHeight}" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="50" Margin="4,1,4,0" Grid.Row="1"/>
+                                <TextBox Text="{Binding DefaultMapWidth}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="50" Margin="4,1,4,0" Grid.Row="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Default tile:">
+                            <ContentControl Content="{Binding DefaultTileSelector}" Margin="5"/>
+                        </GroupBox>
+                        <Button Command="{Binding NewMap}" Content="New..." Width="75" Margin="2" />
+                    </StackPanel>
+                </Grid>
                 <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
                 <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
             </StackPanel>
@@ -60,7 +84,7 @@
                         <Button Command="{Binding GenForest}" Content="Forest" Width="75" Margin="2"/>
                     </StackPanel>
                 </GroupBox>
-                
+
             </StackPanel>
         </Grid>
     </Grid>
