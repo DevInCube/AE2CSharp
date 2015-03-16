@@ -38,6 +38,14 @@
                 </Grid>
                 <Button Command="{Binding LoadMap}" Content="Load..." Width="75" Margin="2"/>
                 <Button Command="{Binding SaveMap}" Content="Save" Width="75"  Margin="2"/>
+                <Grid>
+                    <GroupBox Header="Selection">
+                        <StackPanel>
+                            <RadioButton IsChecked="{Binding BrushSelection}" Content="Brush"/>
+                            <RadioButton IsChecked="{Binding RectSelection}" Content="Rectangle"/>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
             </StackPanel>
         </GroupBox>
 

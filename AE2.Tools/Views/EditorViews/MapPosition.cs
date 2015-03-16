@@ -42,5 +42,8 @@ namespace AE2.Tools.Views.EditorViews
         {
             return IsWithin((sbyte)x, (sbyte)y, (sbyte)w, (sbyte)h);
         }
+
+        private static MapPosition _NONE = new MapPosition(sbyte.MinValue, sbyte.MinValue);
+        public static MapPosition None { get { return _NONE; } }
     }
 }
