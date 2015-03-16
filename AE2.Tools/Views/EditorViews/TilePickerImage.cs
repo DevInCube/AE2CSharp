@@ -10,6 +10,7 @@ namespace AE2.Tools.Views.EditorViews
     public class TilePickerImage : Canvas
     {
 
+        private byte _SelectedTile = 0;
         private byte px, py;
         private byte[][] tiles;
         private byte[][] units;
@@ -20,6 +21,20 @@ namespace AE2.Tools.Views.EditorViews
         public event Action<byte> TileSelected;
 
         public bool IsToggleEnabled { get; set; }
+        public byte SelectedTile
+        {
+            get { return _SelectedTile; }
+            set
+            {
+                _SelectedTile = value;
+                if (IsToggleEnabled)
+                {
+                    MapPosition p = GetTilePos(_SelectedTile);
+                    TogglePos(p.X, p.Y);
+                    UpdateSelection();
+                }
+            }
+        }
 
         public TilePickerImage()
         {
@@ -59,12 +74,35 @@ namespace AE2.Tools.Views.EditorViews
             selectionImage.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(mapBitmap);
         }
 
+        private void TogglePos(int px, int py)
+        {
+            selPos = new System.Drawing.Point(px * MapEditor.CELL_SIZE, py * MapEditor.CELL_SIZE);
+            UpdateSelection();
+        }
+
+        public MapPosition GetTilePos(byte _SelectedTile)
+        {
+            if (tiles != null)
+            {
+                int width = tiles[0].Length;
+                int height = tiles.Length;
+               
+                for (int i = 0; i < height; i++)
+                    for (int j = 0; j < width; j++)
+                    {
+                        byte tileId = tiles[i][j];
+                        if (tileId == _SelectedTile)
+                            return new MapPosition(j, i);
+                    }
+            }
+            return new MapPosition(-1, -1);
+        }
+
         void TilePickerImage_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (IsToggleEnabled)
             {
-                selPos = new System.Drawing.Point(px * MapEditor.CELL_SIZE, py * MapEditor.CELL_SIZE);
-                UpdateSelection();
+                TogglePos(px, py);
             }
             try
             {
@@ -165,6 +203,7 @@ namespace AE2.Tools.Views.EditorViews
                 this.Height = image.Height;
             }
 
-        }       
+        }
+
     }
 }

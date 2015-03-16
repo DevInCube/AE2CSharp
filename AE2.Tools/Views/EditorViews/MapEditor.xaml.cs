@@ -28,7 +28,8 @@ namespace AE2.Tools.Views
 
         public const int CELL_SIZE = 24;
         public const byte MIN_MAP_SIZE = 5;
-        public const byte DEFAULT_TILE = 0;
+        private byte defaultTile = 0;
+        private byte _DefaultMapWidth = 10, _DefaultMapHeight = 10;
         private List<List<byte>> mapData = new List<List<byte>>();
         private int playersCount = 0;
         private Point cursorPos;
@@ -50,6 +51,18 @@ namespace AE2.Tools.Views
         public int AddColX { get { return MapWidth * CELL_SIZE; } }
         public int AddRowY { get { return MapHeight * CELL_SIZE; } }
 
+        public FrameworkElement DefaultTileSelector { get; set; }
+        public byte DefaultMapWidth
+        {
+            get { return _DefaultMapWidth; }
+            set { _DefaultMapWidth = value; OnPropertyChanged("DefaultMapWidth"); }
+        }
+        public byte DefaultMapHeight
+        {
+            get { return _DefaultMapHeight; }
+            set { _DefaultMapHeight = value; OnPropertyChanged("DefaultMapHeight"); }
+        }
+
         public ICommand AddColumn { get; set; }
         public ICommand RemoveColumn { get; set; }
         public ICommand AddRow { get; set; }
@@ -66,7 +79,8 @@ namespace AE2.Tools.Views
         public ICommand GenForest { get; set; }
 
         public MapEditor()
-        {
+        {           
+
             InitializeComponent();
             this.DataContext = this;
 
@@ -89,7 +103,7 @@ namespace AE2.Tools.Views
             this.AddColumn = new RelayCommand((o) =>
             {
                 foreach (var l in mapData)
-                    l.Add(DEFAULT_TILE);
+                    l.Add(defaultTile);
                 Update();
             });
             this.RemoveColumn = new RelayCommand((o) =>
@@ -106,7 +120,7 @@ namespace AE2.Tools.Views
                 var row = new List<byte>();
                 mapData.Add(row);
                 for (int i = 0; i < MapWidth; i++)
-                    row.Add(DEFAULT_TILE);
+                    row.Add(defaultTile);
                 Update();
             });
             this.RemoveRow = new RelayCommand((o) =>
@@ -120,11 +134,11 @@ namespace AE2.Tools.Views
             this.AddRowCol = new RelayCommand((o) =>
             {
                 foreach (var l in mapData)
-                    l.Add(DEFAULT_TILE);
+                    l.Add(defaultTile);
                 var row = new List<byte>();
                 mapData.Add(row);
                 for (int i = 0; i < MapWidth; i++)
-                    row.Add(DEFAULT_TILE);
+                    row.Add(defaultTile);
                 Update();
             });
             this.RemoveRowCol = new RelayCommand((o) =>
@@ -138,7 +152,7 @@ namespace AE2.Tools.Views
                 }
             });
             NewMap = new RelayCommand((o) => {
-                CreateNewMap(10, 10, 18);
+                CreateNewMap(DefaultMapWidth, DefaultMapHeight, defaultTile);
             });
             LoadMap = new RelayCommand((o) => {
                 Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -156,9 +170,22 @@ namespace AE2.Tools.Views
                     LoadMapData(bytes);
                 }
             });
-            SaveMap = new RelayCommand((o) => { 
-                byte[] data = GetSaveMapData();
-                File.WriteAllBytes("newMap.aem", data);
+            SaveMap = new RelayCommand((o) => {
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                // Set filter for file extension and default file extension 
+                dlg.DefaultExt = ".aem";
+                dlg.Filter = "AEM Files (*.aem)|*.aem";
+                dlg.FileName = "newMap.aem";
+                // Display OpenFileDialog by calling ShowDialog method 
+                Nullable<bool> result = dlg.ShowDialog();
+                // Get the selected file name and display in a TextBox 
+                if (result == true)
+                {
+                    // Open document 
+                    string filename = dlg.FileName;
+                    byte[] data = GetSaveMapData();
+                    File.WriteAllBytes(filename, data);
+                }                
             });
 
             GenIsland = new SimpleCommand(GenerateIsland);
@@ -227,12 +254,25 @@ namespace AE2.Tools.Views
             units.TileSelected += units_TileSeleted;
             CanvasStack.Children.Add(units);
 
+
+            TilePickerImage tileSel = new TilePickerImage();
+            tileSel.SetTiles(new byte[][] { new byte[] { 0, 18, 15, 19, 17 } });
+            tileSel.IsToggleEnabled = true;
+            tileSel.SelectedTile = defaultTile;
+            tileSel.TileSelected += tileSel_TileSelected;
+            DefaultTileSelector = tileSel;
+            OnPropertyChanged("DefaultTileSelector");
+
             int mapWidth = 10;
             int mapHeight = 10;
-            byte defaultTile = DEFAULT_TILE;
             CreateNewMap(mapWidth, mapHeight, defaultTile);
 
             Update();
+        }
+
+        void tileSel_TileSelected(byte obj)
+        {
+            defaultTile = obj;
         }
 
         void units_TileSeleted(byte obj)
