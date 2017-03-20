@@ -1,39 +1,39 @@
-﻿using java.io;
+﻿using System.Linq;
+using java.io;
 using java.lang;
-
 
 namespace AE2.Tools
 {
     public class E_MainCanvas
     {
-        private static String[] resourcesNames;
-        private static byte[][] resourcesData;
+        private static String[] _resourcesNames;
+        private static byte[][] _resourcesData;
 
         public static void loadResourcesPak(String pakFileName)
         {
-            if (resourcesNames == null)
+            if (_resourcesNames == null)
             {
-                resourcesNames = null;
+                _resourcesNames = null;
                 int[] arrayOfInt1 = null;
                 int[] arrayOfInt2 = null;
-                InputStream stream = E_MainCanvas.getResourceAsStream("Resources/1.pak");
-                DataInputStream resStream = new DataInputStream(stream);
+                var stream = E_MainCanvas.getResourceAsStream("Resources/1.pak");
+                var resStream = new DataInputStream(stream);
                 int i = resStream.readShort();
                 int resLength = resStream.readShort();
-                resourcesNames = new String[resLength];
+                _resourcesNames = new String[resLength];
                 arrayOfInt1 = new int[resLength];
                 arrayOfInt2 = new int[resLength];
-                for (int k = 0; k < resLength; k++)
+                for (var k = 0; k < resLength; k++)
                 {
-                    resourcesNames[k] = resStream.readUTF();
+                    _resourcesNames[k] = resStream.readUTF();
                     arrayOfInt1[k] = (resStream.readInt() + i);
                     arrayOfInt2[k] = resStream.readShort();
                 }
-                resourcesData = new byte[resourcesNames.Length][];
-                for (int m = 0; m < resourcesNames.Length; m++)
+                _resourcesData = new byte[_resourcesNames.Length][];
+                for (var m = 0; m < _resourcesNames.Length; m++)
                 {
-                    resourcesData[m] = new byte[arrayOfInt2[m]];
-                    resStream.readFully(resourcesData[m]);
+                    _resourcesData[m] = new byte[arrayOfInt2[m]];
+                    resStream.readFully(_resourcesData[m]);
                 }
                 resStream.close();
             }
@@ -41,25 +41,30 @@ namespace AE2.Tools
 
         public static void saveUnpackedResources(string dir)
         {
-            for (int i = 0; i < resourcesNames.Length; i++)
+            for (var i = 0; i < _resourcesNames.Length; i++)
             {
-                String key = resourcesNames[i];
-                string path = System.IO.Path.Combine(dir, key.ToString());
-                System.IO.File.WriteAllBytes(path, resourcesData[i]);
+                var key = _resourcesNames[i];
+                var path = System.IO.Path.Combine(dir, key.ToString());
+                System.IO.File.WriteAllBytes(path, _resourcesData[i]);
             }
         }
 
         private static InputStream getResourceAsStream(string path)
         {
-            System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            using (System.IO.FileStream file = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            using (var ms = new System.IO.MemoryStream())
             {
-                byte[] bytes = new byte[file.Length];
-                file.Read(bytes, 0, (int)file.Length);
-                ms.Write(bytes, 0, (int)file.Length);
+                using (var file = new System.IO.FileStream(
+                    path: path,
+                    mode: System.IO.FileMode.Open,
+                    access: System.IO.FileAccess.Read))
+                {
+                    var bytes = new byte[file.Length];
+                    file.Read(bytes, 0, (int) file.Length);
+                    ms.Write(bytes, 0, (int) file.Length);
+                }
+                ms.Seek(0, System.IO.SeekOrigin.Begin);
+                return new DataInputStream(ms);
             }
-            ms.Seek(0, System.IO.SeekOrigin.Begin);
-            return new DataInputStream(ms);
         }
 
         public static InputStream getResourceStream(String resName)
@@ -69,11 +74,11 @@ namespace AE2.Tools
 
         public static byte[] getResourceData(String resName)
         {
-            for (int i = 0; i < resourcesNames.Length; i++)
+            for (var i = 0; i < _resourcesNames.Length; i++)
             {
-                if (resName.Equals(resourcesNames[i]))
+                if (resName.Equals(_resourcesNames[i]))
                 {
-                    return resourcesData[i];
+                    return _resourcesData[i];
                 }
             }
             return null;

@@ -1,13 +1,5 @@
 ﻿using AE2.Tools.Loaders;
 using AE2.Tools.Views;
-using MIDP.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AE2.Tools
@@ -25,7 +17,7 @@ namespace AE2.Tools
             //Environment.Exit(0);
         }
 
-        void StartMapEditor()
+        private static void StartMapEditor()
         {
             Window me = new MapEditor();
             me.Show();
@@ -33,11 +25,11 @@ namespace AE2.Tools
 
         private void StartEmulation()
         {
-            EmulatorWindow emu = new EmulatorWindow();
+            var emu = new EmulatorWindow();
             var vm = new Emulation.EmulatorVM();
-            vm.ClosedAction += () => { emu.Close(); };
+            vm.ClosedAction += () => emu.Close();;
             emu.DataContext = vm;
-            vm.SetEventSource((vm as IEventSource));
+            vm.SetEventSource(vm);
             vm.LoadMIDlet(new aeii.B_MainMIDlet());
             emu.Show();
         }
@@ -45,11 +37,11 @@ namespace AE2.Tools
         private static void ShowMap(int mapId)
         {
             E_MainCanvas.loadResourcesPak(null);
-            Map m = new Map();
-            m.readTilesData(E_MainCanvas.getResourceStream("tiles0.prop"));
-            m.loadMap(E_MainCanvas.getResourceStream("m" + mapId));
-            MainWindow w = new Tools.MainWindow();
-            w.DrawMap(m);
+            var map = new Map();
+            map.readTilesData(E_MainCanvas.getResourceStream("tiles0.prop"));
+            map.loadMap(E_MainCanvas.getResourceStream("m" + mapId));
+            var w = new Tools.MainWindow();
+            w.DrawMap(map);
             w.Show();
         }
 

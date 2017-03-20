@@ -3,14 +3,10 @@ using javax.microedition.midlet;
 using MIDP.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using java.csharp;
 using System.Windows.Input;
 using MIDP.WPF.Views;
 using System.Windows;
-using AE2.Tools.Properties;
 
 namespace AE2.Tools.Emulation
 {
@@ -19,9 +15,9 @@ namespace AE2.Tools.Emulation
         public Key Key { get; set; }
         public ICommand Command { get; set; }
 
-        public KeyCommand(Key Key, Action command)
+        public KeyCommand(Key key, Action command)
         {
-            this.Key = Key;
+            this.Key = key;
             this.Command = new SimpleCommand(command);
         }
     }
@@ -37,32 +33,34 @@ namespace AE2.Tools.Emulation
         public event Action ClosedAction;
         public Dictionary<string, KeyCommand> KeyDict { get; set; }
 
-        private IEventSource eventSource;
+        private IEventSource _eventSource;
 
-        private System.Windows.Controls.Control _Control;
+        private System.Windows.Controls.Control _control;
 
         public System.Windows.Controls.Control Control
         {
-            get { return _Control; }
-            set { _Control = value; OnPropertyChanged("Control"); }
+            get { return _control; }
+            set { _control = value; OnPropertyChanged("Control"); }
         }        
 
         public EmulatorVM()
         {
-            KeyDict = new Dictionary<string, KeyCommand>();
-            KeyDict.Add("L", new KeyCommand(Key.F1, () => { OnKeyPressed(-6); }));
-            KeyDict.Add("R", new KeyCommand(Key.F2, () => { OnKeyPressed(-7); }));
-            KeyDict.Add("0", new KeyCommand(Key.NumPad0, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM0); }));
-            KeyDict.Add("1", new KeyCommand(Key.NumPad7, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM1); }));
-            KeyDict.Add("2", new KeyCommand(Key.NumPad8, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM2); }));
-            KeyDict.Add("3", new KeyCommand(Key.NumPad9, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM3); }));
-            KeyDict.Add("4", new KeyCommand(Key.NumPad4, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM4); }));
-            KeyDict.Add("5", new KeyCommand(Key.NumPad5, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM5); }));
-            KeyDict.Add("6", new KeyCommand(Key.NumPad6, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM6); }));
-            KeyDict.Add("7", new KeyCommand(Key.NumPad1, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM7); }));
-            KeyDict.Add("8", new KeyCommand(Key.NumPad2, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM8); }));
-            KeyDict.Add("9", new KeyCommand(Key.NumPad3, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM9); }));
-            
+            KeyDict = new Dictionary<string, KeyCommand>
+            {
+                {"L", new KeyCommand(Key.F1, () => { OnKeyPressed(-6); })},
+                {"R", new KeyCommand(Key.F2, () => { OnKeyPressed(-7); })},
+                {"0", new KeyCommand(Key.NumPad0, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM0); })},
+                {"1", new KeyCommand(Key.NumPad7, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM1); })},
+                {"2", new KeyCommand(Key.NumPad8, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM2); })},
+                {"3", new KeyCommand(Key.NumPad9, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM3); })},
+                {"4", new KeyCommand(Key.NumPad4, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM4); })},
+                {"5", new KeyCommand(Key.NumPad5, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM5); })},
+                {"6", new KeyCommand(Key.NumPad6, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM6); })},
+                {"7", new KeyCommand(Key.NumPad1, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM7); })},
+                {"8", new KeyCommand(Key.NumPad2, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM8); })},
+                {"9", new KeyCommand(Key.NumPad3, () => { OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM9); })}
+            };
+
         }
 
         public void OnMouseMoved(System.Drawing.Point pos)
@@ -85,17 +83,15 @@ namespace AE2.Tools.Emulation
 
         private void OnKeyPressed(int code)
         {
-            if (KeyPressed != null)
-            {
-                this.KeyPressed(code);
-                System.Threading.Thread.Sleep(40);
-                this.KeyReleased(code);
-            }
+            if (KeyPressed == null || KeyReleased == null) return;
+            this.KeyPressed(code);
+            System.Threading.Thread.Sleep(40);
+            this.KeyReleased(code);
         }
 
         public void SetEventSource(IEventSource eventSource)
         {
-            this.eventSource = eventSource;
+            this._eventSource = eventSource;
         }
 
         internal void LoadMIDlet(MIDlet midlet)
@@ -104,22 +100,22 @@ namespace AE2.Tools.Emulation
             midlet.Destroyed += midlet_Destroyed;
             Display display = Display.getDisplay(midlet);
             this.Control = display.Control;
-            (display.Control as DisplayControl).SetEventSource(eventSource);
+            ((DisplayControl) display.Control).SetEventSource(_eventSource);
             midlet.startApp();
         }
 
-        void midlet_Destroyed()
+        private void midlet_Destroyed()
         {
             CloseWindow();
         }
 
         private void CloseWindow()
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 if (ClosedAction != null)
                     ClosedAction();
-            }));
+            });
         }
     }
 }

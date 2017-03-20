@@ -1,14 +1,12 @@
-﻿
-using java.io;
+﻿using java.io;
 using java.lang;
-
 using java.csharp;
 
 namespace AE2.Tools.Loaders
 {
     public class Map
     {
-        public  int mapWidth;
+        public int mapWidth;
         public int mapHeight;
         public byte[][] mapTilesIds;
         private byte[][] someMapData;
@@ -36,7 +34,7 @@ namespace AE2.Tools.Loaders
         {
             this.houseTileIdStartIndex = 37;
             //
-            DataInputStream dis = new DataInputStream(stream);
+            var dis = new DataInputStream(stream);
             this.mapWidth = dis.readInt();
             this.mapHeight = dis.readInt();
             this.mapTilesIds = JavaArray.New<byte>(this.mapWidth, this.mapHeight);
@@ -55,14 +53,16 @@ namespace AE2.Tools.Loaders
                     this.someMapData[i][j] = 0;
                     if ((this.mapTilesIds[i][j] >= this.houseTileIdStartIndex)
                             || (this.mapTilesIds[i][j] == 27))
-                    { //is house
+                    { 
+                        // is house
                         m = tileOwnerPlayerIndex(i, j);
                         housesArr[countHouses][0] = ((sbyte)i);
                         housesArr[countHouses][1] = ((sbyte)j);
                         housesArr[countHouses][2] = ((sbyte)m);
                         countHouses++;
                         if (getTileType(i, j) == 9)
-                        { //castle
+                        { 
+                            // castle
                             if ((this.mapModeCampIf0 == 1) && (m != 0)
                                     && (this.somePlayersData[m] == -1))
                             {
@@ -129,8 +129,8 @@ namespace AE2.Tools.Loaders
                 int posX = dis.readShort() / 24;
                 int posY = dis.readShort() / 24;
                 byte unitType = (byte)(uType % 12);
-                byte playerID = (byte)sub_e276(1 + uType / 12);
-                if (this.mapPlayersTypes[playerID] != 2)
+                byte playerId = (byte)sub_e276(1 + uType / 12);
+                if (this.mapPlayersTypes[playerId] != 2)
                 { //not NONE
                     //C_Unit unit1 = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
                     if (unitType == 9)
@@ -151,7 +151,7 @@ namespace AE2.Tools.Loaders
         {
             if (this.mapTilesIds[inX][inY] >= this.houseTileIdStartIndex)
             {
-                byte var = (byte)(this.houseTileIdStartIndex + playerId * 2 + (this.mapTilesIds[inX][inY] - this.houseTileIdStartIndex) % 2);
+                var var = (byte)(this.houseTileIdStartIndex + playerId * 2 + (this.mapTilesIds[inX][inY] - this.houseTileIdStartIndex) % 2);
                 repairDestroyedHouse(var, inX, inY);
             }
         }
@@ -186,11 +186,11 @@ namespace AE2.Tools.Loaders
 
         public void readTilesData(InputStream tilesStream0)
         {
-            DataInputStream tilesStream = new DataInputStream(tilesStream0);
+            var tilesStream = new DataInputStream(tilesStream0);
             int tilesStreamLength = tilesStream.readShort();
             tilesStream.readShort();
             this.tilesDefs = new byte[tilesStreamLength];
-            for (int k = 0; k < tilesStreamLength; k++)
+            for (var k = 0; k < tilesStreamLength; k++)
             {
                 this.tilesDefs[k] = tilesStream.readByte();
             }
