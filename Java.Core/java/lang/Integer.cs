@@ -1,21 +1,20 @@
-using java.lang;
 namespace java.lang
 {
 
     public  class Integer : Object
     {
-        public static readonly int MIN_VALUE = -2147483648;
-        public static readonly int MAX_VALUE = 2147483647;
+        public static readonly int MinValue = -2147483648;
+        public static readonly int MaxValue = 2147483647;
 
-        private int value;
+        private readonly int _value;
 
-        public Integer(int paramInt) { this.value = paramInt; }
+        public Integer(int paramInt) { this._value = paramInt; }
 
         public bool equals(Object paramObject)
         {
             if (!(paramObject is Integer)) return false;
-            Integer int2 = paramObject as Integer;
-            return int2.value == value;
+            var int2 = (Integer) paramObject;
+            return int2._value == _value;
         }
 
         public byte byteValue()
@@ -30,7 +29,7 @@ namespace java.lang
 
         public int intValue()
         {
-            return this.value;
+            return this._value;
         }
 
         public String toString()

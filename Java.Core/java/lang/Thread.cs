@@ -1,20 +1,14 @@
-﻿using java.lang;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace java.lang
+﻿namespace java.lang
 {
     public class Thread
     {
 
-        private System.Threading.Thread thread;
+        private readonly System.Threading.Thread _thread;
 
         public Thread() { }
         public Thread(Runnable target)
         {
-            this.thread = new System.Threading.Thread(target.run);
+            this._thread = new System.Threading.Thread(target.run);
         }
         public Thread(Runnable target, String name) { }
         public Thread(String name) { }
@@ -25,8 +19,8 @@ namespace java.lang
 
         public void start()
         {
-            if (thread == null) throw new RuntimeException("Thread not created");
-            thread.Start();
+            if (_thread == null) throw new RuntimeException("Thread not created");
+            _thread.Start();
         }
 
         public static void sleep(int delay)

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace java.csharp
+﻿namespace java.csharp
 {
     public static class JavaArray
     {
 
         public static T[][] New<T>(int n, int m)
         {
-            T[][] arr = new T[n][];
-            for (int i = 0; i < n; i++)
-                arr[i] = new T[m];
-            return arr;
+            var array = new T[n][];
+            for (var i = 0; i < n; i++)
+                array[i] = new T[m];
+            return array;
         }
 
     }

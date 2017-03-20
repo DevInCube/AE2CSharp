@@ -1,36 +1,38 @@
-﻿
+﻿using System;
+using System.Linq;
+
 namespace java.lang
 {
     public class String : Object
     {
-        private string value;
+        private readonly string _value;
 
         public String(string d) {
-            this.value = d;
+            this._value = d;
         }
 
         public String(String d)
         {
-            this.value = d.ToString();
+            this._value = d.ToString();
         }
 
         public String(byte[] charBytes)
         {
-            char[] chars = new char[charBytes.Length];
-            for (int i = 0; i < charBytes.Length; i++)
+            var chars = new char[charBytes.Length];
+            for (var i = 0; i < charBytes.Length; i++)
                 chars[i] = (char)charBytes[i];
 
-            this.value = new System.String(chars);
+            this._value = new string(chars);
         }
 
         public String trim()
         {
-            return value.Trim();
+            return _value.Trim();
         }
 
         public bool startsWith(String str)
         {
-            return value.StartsWith(str.ToString());
+            return _value.StartsWith(str.ToString());
         }
 
         public static implicit operator String(string d)
@@ -40,7 +42,7 @@ namespace java.lang
 
         public static implicit operator string(String d)
         {
-            return d.value;
+            return d._value;
         }
 
         public static String operator +(String s1, String s2)
@@ -58,69 +60,64 @@ namespace java.lang
 
         public override string ToString()
         {
-            return value;
+            return _value;
         }
 
         public int indexOf(String toReplace)
         {
-            return value.IndexOf(toReplace.ToString());
+            return _value.IndexOf(toReplace.ToString(), StringComparison.Ordinal);
         }
 
         public int indexOf(char p, int charPos)
         {
-            return value.IndexOf(p, charPos);
+            return _value.IndexOf(p, charPos);
         }
 
         public int charAt(int it)
         {
-            return value[it];
+            return _value[it];
         }
 
         public String subString(int startIndex, int endIndex)
         {
-            int length = endIndex - startIndex;
-            return value.Substring(startIndex, length);
+            var length = endIndex - startIndex;
+            return _value.Substring(startIndex, length);
         }
 
         public String subString(int p)
         {
-            return value.Substring(p);
+            return _value.Substring(p);
         }
 
         public override bool Equals(object obj)
         {
-            String str = obj as String;
-            return this.value.Equals(str.value);
-        }
-
-        private String[] toArr(string[] strs)
-        {
-            String[] res = new String[strs.Length];
-            for (int i = 0; i < strs.Length; i++)
-                res[i] = strs[i];
-            return res;
+            if (!(obj is String)) return false;
+            var str = (String) obj;
+            return this._value.Equals(str._value);
         }
 
         public String[] split(string p)
         {
-            string[] strs = this.value.Split(new string[] { p }, System.StringSplitOptions.None);
-            return toArr(strs);
+            return _value.Split(new[] { p }, StringSplitOptions.None)
+                .Select(x => new String(x))
+                .ToArray();
         }
 
         public int length()
         {
-            return value.Length;
+            return _value.Length;
         }
 
         public bool equalsIgnoreCase(string p)
         {
-            return this.value.Equals(p, System.StringComparison.OrdinalIgnoreCase);
+            return this._value.Equals(p, StringComparison.OrdinalIgnoreCase);
         }
 
         public String[] split(char p)
         {
-            string[] strs = this.value.Split(p);
-            return toArr(strs);
+            return this._value.Split(p)
+                .Select(x => new String(x))
+                .ToArray();
         }
     }
 }

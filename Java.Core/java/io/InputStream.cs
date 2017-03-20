@@ -1,43 +1,38 @@
-﻿using java.lang;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace java.io
 {
     public abstract class InputStream
     {
 
-        private  MemoryStream stream;
+        private readonly MemoryStream _stream;
 
-        public MemoryStream Stream { get { return stream; } }
+        public MemoryStream Stream { get { return _stream; } }
 
         public InputStream(byte[] bytes)
         {
-            stream = new MemoryStream(bytes);
+            _stream = new MemoryStream(bytes);
         }
 
         public InputStream(InputStream stream)
         {
-            this.stream = stream.stream;
+            this._stream = stream._stream;
         }
 
         public InputStream(MemoryStream fileStream)
         {
-            this.stream = fileStream;
-            this.stream.Seek(0, SeekOrigin.Begin);
+            this._stream = fileStream;
+            this._stream.Seek(0, SeekOrigin.Begin);
         }
 
         public byte read()
         {
-            return (byte)stream.ReadByte();
+            return (byte)_stream.ReadByte();
         }
 
         public void close()
         {
-            stream.Close();
+            _stream.Close();
         }
 
     }
