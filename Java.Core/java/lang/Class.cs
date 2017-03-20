@@ -1,9 +1,4 @@
 ﻿using java.io;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using java.csharp;
 
 namespace java.lang
@@ -11,17 +6,17 @@ namespace java.lang
     public class Class
     {
 
-        private ClassResourceLoader loader;
+        private ClassResourceLoader _loader;
 
         public void setResourceLoader(ClassResourceLoader loader)
         {
-            this.loader = loader;
+            this._loader = loader;
         }
 
         public InputStream getResourceAsStream(String name)
         {
-            if (loader == null) throw new RuntimeException("ClassResourceLoader not set");
-            return loader.getResourceAsStrea(name);
+            if (_loader == null) throw new RuntimeException("ClassResourceLoader not set");
+            return _loader.getResourceAsStrea(name);
         }
     }
 }

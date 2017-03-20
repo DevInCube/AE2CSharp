@@ -1,25 +1,19 @@
-﻿using java.lang;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace java.io
+﻿namespace java.io
 {
     public class DataInputStream : InputStream
     {
 
-        private System.IO.BinaryReader reader;
+        private readonly System.IO.BinaryReader _reader;
 
         public DataInputStream(InputStream stream) : base(stream)
         {
-            reader = new System.IO.BinaryReader(Stream);            
+            _reader = new System.IO.BinaryReader(Stream);            
         }
 
         public DataInputStream(System.IO.MemoryStream fileStream) : base(fileStream)
         {
             fileStream.Seek(0, System.IO.SeekOrigin.Begin);
-            reader = new System.IO.BinaryReader(Stream);
+            _reader = new System.IO.BinaryReader(Stream);
         }
 
         public short readShort()
@@ -32,7 +26,7 @@ namespace java.io
         public string readUTF()
         {
             short len = this.readShort();
-            byte[] bytes = reader.ReadBytes(len);
+            byte[] bytes = _reader.ReadBytes(len);
             return System.Text.Encoding.UTF8.GetString(bytes);
         }
 
@@ -47,30 +41,30 @@ namespace java.io
 
         public void readFully(byte[] p)
         {
-            byte[] bs = this.reader.ReadBytes(p.Length);
+            byte[] bs = this._reader.ReadBytes(p.Length);
             for (int i = 0; i < p.Length; i++)
                 p[i] = bs[i];
         }
 
         public void close()
         {
-            this.reader.Close();
+            this._reader.Close();
         }
 
         public byte readByte()
         {
-            return (byte)this.reader.ReadByte();
+            return (byte)this._reader.ReadByte();
         }
 
         public void skip(int p)
         {
             while (p-- > 0)
-                reader.ReadByte();
+                _reader.ReadByte();
         }
 
         public long readLong()
         {
-            return (long)reader.ReadInt64();
+            return (long)_reader.ReadInt64();
         }
 
         

@@ -1,5 +1,4 @@
-﻿
-namespace java.lang
+﻿namespace java.lang
 {
     public class Exception : System.Exception
     {
