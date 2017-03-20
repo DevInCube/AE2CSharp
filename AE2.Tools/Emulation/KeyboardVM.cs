@@ -1,10 +1,6 @@
 ﻿using MIDP.WPF.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AE2.Tools.Emulation
@@ -38,7 +34,7 @@ namespace AE2.Tools.Emulation
         {            
             CustomKey = new SimpleCommand(() =>
             {
-                int code = 0;
+                var code = 0;
                 if (int.TryParse(CustomCode, out code))
                 {
                     OnKeyPressed(code);
@@ -92,18 +88,14 @@ namespace AE2.Tools.Emulation
             {
                 OnKeyPressed(javax.microedition.lcdui.Canvas.KEY_NUM0);
             });
-
-
         }
 
         private void OnKeyPressed(int code)
         {
-            if (KeyPressed != null)
-            {
-                this.KeyPressed(code);
-                Thread.Sleep(40);
-                this.KeyReleased(code);
-            }
+            if (KeyPressed == null || KeyReleased == null) return;
+            this.KeyPressed(code);
+            Thread.Sleep(40);
+            this.KeyReleased(code);
         }
 
 

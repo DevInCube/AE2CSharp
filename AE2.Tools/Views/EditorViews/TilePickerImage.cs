@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace AE2.Tools.Views.EditorViews
@@ -10,7 +6,7 @@ namespace AE2.Tools.Views.EditorViews
     public class TilePickerImage : Canvas
     {
 
-        private byte _SelectedTile = 0;
+        private byte _selectedTile = 0;
         private byte px, py;
         private byte[][] tiles;
         private byte[][] units;
@@ -23,13 +19,13 @@ namespace AE2.Tools.Views.EditorViews
         public bool IsToggleEnabled { get; set; }
         public byte SelectedTile
         {
-            get { return _SelectedTile; }
+            get { return _selectedTile; }
             set
             {
-                _SelectedTile = value;
+                _selectedTile = value;
                 if (IsToggleEnabled)
                 {
-                    MapPosition p = GetTilePos(_SelectedTile);
+                    MapPosition p = GetTilePos(_selectedTile);
                     TogglePos(p.X, p.Y);
                     UpdateSelection();
                 }
@@ -46,11 +42,13 @@ namespace AE2.Tools.Views.EditorViews
             selectionImage = new Image();
             this.Children.Add(selectionImage);
 
-            cursor = new Image();
-            cursor.Source = MapEditor.getCursorImage();
-            cursor.Width = MapEditor.CELL_SIZE;
-            cursor.Height = MapEditor.CELL_SIZE;
-            cursor.Opacity = 0;
+            cursor = new Image
+            {
+                Source = MapEditor.getCursorImage(),
+                Width = MapEditor.CELL_SIZE,
+                Height = MapEditor.CELL_SIZE,
+                Opacity = 0
+            };
             this.Children.Add(cursor);            
 
             this.MouseMove += TilePickerImage_MouseMove;
@@ -98,7 +96,7 @@ namespace AE2.Tools.Views.EditorViews
             return new MapPosition(-1, -1);
         }
 
-        void TilePickerImage_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TilePickerImage_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (IsToggleEnabled)
             {
@@ -120,17 +118,17 @@ namespace AE2.Tools.Views.EditorViews
             catch { }
         }
 
-        void TilePickerImage_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void TilePickerImage_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             cursor.Opacity = 0;
         }
 
-        void TilePickerImage_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void TilePickerImage_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             cursor.Opacity = 0.75;
         }
 
-        void TilePickerImage_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void TilePickerImage_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             System.Windows.Point mousePos = e.GetPosition(sender as System.Windows.IInputElement);
             double x = (mousePos.X - mousePos.X % MapEditor.CELL_SIZE);

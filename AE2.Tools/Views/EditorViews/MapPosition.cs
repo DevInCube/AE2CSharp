@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AE2.Tools.Views.EditorViews
+﻿namespace AE2.Tools.Views.EditorViews
 {
     public struct MapPosition
     {
@@ -29,7 +23,7 @@ namespace AE2.Tools.Views.EditorViews
         public override bool Equals(object obj)
         {
             if (!(obj is MapPosition)) return false;
-            MapPosition o = (MapPosition)obj;
+            var o = (MapPosition)obj;
             return (o.X == X && o.Y == Y);            
         }
 
@@ -43,7 +37,7 @@ namespace AE2.Tools.Views.EditorViews
             return IsWithin((sbyte)x, (sbyte)y, (sbyte)w, (sbyte)h);
         }
 
-        private static MapPosition _NONE = new MapPosition(sbyte.MinValue, sbyte.MinValue);
+        private static readonly MapPosition _NONE = new MapPosition(sbyte.MinValue, sbyte.MinValue);
         public static MapPosition None { get { return _NONE; } }
     }
 }
