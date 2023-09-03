@@ -43,6 +43,7 @@
                         <StackPanel>
                             <RadioButton IsChecked="{Binding BrushSelection}" Content="Brush"/>
                             <RadioButton IsChecked="{Binding RectSelection}" Content="Rectangle"/>
+                            <Button Command="{Binding ClearSelection}"  Content="Clear" Width="75"/>
                         </StackPanel>
                     </GroupBox>
                 </Grid>

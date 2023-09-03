@@ -1,5 +1,8 @@
 ﻿using AE2.Tools.Loaders;
 using AE2.Tools.Views;
+using aeii;
+using System;
+using System.IO;
 using System.Windows;
 
 namespace AE2.Tools
@@ -13,7 +16,8 @@ namespace AE2.Tools
         {
             //StartEmulation();
             StartMapEditor();
-            //ResourceLoader.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
+            //E_MainCanvas.loadResourcesPak(new java.lang.String(""));
+            //E_MainCanvas.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
         }
 

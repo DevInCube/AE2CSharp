@@ -90,6 +90,7 @@ namespace AE2.Tools.Views
         public ICommand GenRiver { get; set; }
         public ICommand GenRoad { get; set; }
         public ICommand GenForest { get; set; }
+        public ICommand ClearSelection { get; set; }
 
         public MapEditor()
         {           
@@ -206,6 +207,8 @@ namespace AE2.Tools.Views
             GenRiver = new SimpleCommand(GenerateRiver);
             GenRoad = new SimpleCommand(GenerateRoad);
             GenForest = new SimpleCommand(GenerateForest);
+
+            ClearSelection = new SimpleCommand(ClearSelectionHandler);
 
             List<TilePickerImage> pickers = new List<TilePickerImage>();
 
@@ -803,6 +806,12 @@ namespace AE2.Tools.Views
                 mapData[pos.Y][pos.X] = (byte)(15 + (rand.Next() % 2));
             }
             UpdateMap();
+        }
+
+        private void ClearSelectionHandler()
+        {
+            mapSelections.Clear();
+            UpdateSelections();
         }
 
         MapPosition[] getCellBoundings(MapPosition pos)
