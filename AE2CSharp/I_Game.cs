@@ -1475,7 +1475,7 @@ namespace aeii{
                     this.playerOptionsMenu.addChildMenu(chooseMoneyMenu, 0, titleMenuHeight, 
                         Graphics.LEFT | Graphics.TOP);
                     this.chooseMoneyItemsMenu = new D_Menu((byte)14, 4);
-                    String[] skirmishStartMoneyValues = new String[skirmishStartMoneyEnum.Length]; ;
+                    String[] skirmishStartMoneyValues = new String[skirmishStartMoneyEnum.Length];
                     for (int moneyIndex = 0; moneyIndex < skirmishStartMoneyValues.Length; moneyIndex++)
                     {
                         skirmishStartMoneyValues[moneyIndex] = ("" + skirmishStartMoneyEnum[moneyIndex]);
@@ -4864,7 +4864,7 @@ namespace aeii{
             int count = this.mapUnitsSprites.size();
             while (it < count)
             {
-                C_Unit unit = (C_Unit)this.mapUnitsSprites.elementAt(it); ;
+                C_Unit unit = (C_Unit)this.mapUnitsSprites.elementAt(it);
                 int i;
                 int j;
                 if (unit.m_state == 1)
