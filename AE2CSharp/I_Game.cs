@@ -3,6 +3,7 @@ using java.util;
 using javax.microedition.lcdui;
 using java.io;
 using java.csharp;
+using AE2CSharp.Enums;
 
 namespace aeii
 {
@@ -970,7 +971,7 @@ namespace aeii
 
         public void attackUnit(C_Unit unit1, C_Unit tombUnit)
         {
-            if (tombUnit.m_state == 4) //fake unit //RAISE?
+            if (tombUnit.m_state == UnitState.Removed)
             {
                 this.raisedUnit = tombUnit;
                 showSpriteOnMap(this.redsparkSprite, this.raisedUnit.posXPixel,
@@ -1022,7 +1023,7 @@ namespace aeii
             }
             else
             {
-                if (this.attackerUnitMb.hasProperty((short)128))
+                if (this.attackerUnitMb.hasProperty(UnitProperty.Poisonous))
                 { //poison
                     showSpriteOnMap(this.sparkSprite, this.attackedUnitMb.posXPixel,
                             this.attackedUnitMb.posYPixel, 0, 0, 1, 50);
@@ -1033,7 +1034,7 @@ namespace aeii
                             / 2, this.attackedUnitMb.posYPixel - poisonSprite.frameHeight);
                     poisonSprite.setFrameSequence(poisonFrameSeq);
                     this.mapEffectsSpritesList.addElement(poisonSprite);
-                    this.attackedUnitMb.applyPoisonStatus((byte)1);
+                    this.attackedUnitMb.addStatusEffect((byte)1);
                 }
                 if (this.attackedUnitMb.gotNewLevel())
                 {
@@ -2435,7 +2436,7 @@ namespace aeii
                         housesArr[countHouses][1] = ((sbyte)j);
                         housesArr[countHouses][2] = ((sbyte)m);
                         countHouses++;
-                        if (getTileType(i, j) == 9)
+                        if (getTileType(i, j) == TileType.Town)
                         { //castle
                             if ((this.mapModeCampIf0 == 1) && (m != 0)
                                     && (this.somePlayersData[m] == -1))
@@ -2570,7 +2571,7 @@ namespace aeii
             this.houseSmokeSprites = new F_Sprite[this.housesDataArr.Length];
             for (short i = 0; i < this.housesDataArr.Length; i = (short)(i + 1))
             {
-                if (getTileType(this.housesDataArr[i][0], this.housesDataArr[i][1]) == 8) // house
+                if (getTileType(this.housesDataArr[i][0], this.housesDataArr[i][1]) == TileType.Village) // house
                 {
                     this.houseSmokeSprites[i] = F_Sprite.spriteCopy(this.bigSmokeSprite, 0, -1, 0, 1, 250, (byte)0);
                     this.houseSmokeSprites[i].isUpdatingMb = false;
@@ -2632,7 +2633,7 @@ namespace aeii
             byte[] data = new byte[this.unitActionsNames.Length];
             //castle and is owner		
             if ((moveIf1 == 1)
-                    && (getTileType(this.activeUnit.positionX, this.activeUnit.positionY) == 9)
+                    && (getTileType(this.activeUnit.positionX, this.activeUnit.positionY) == TileType.Town)
                     && (playerIsOwnerOfTile(this.activeUnit.positionX, this.activeUnit.positionY, unit.playerId)))
             {
                 data[(actionsCount++)] = 0; // BUY
@@ -2643,7 +2644,7 @@ namespace aeii
                 data[(actionsCount++)] = (byte)(canRepairVillages(unit.positionX, unit.positionY, unit) ? 2 : 1);
             }
             // not catapult
-            if (((moveIf1 == 1) || (unit.unitTypeId != 7))
+            if (((moveIf1 == 1) || (unit.unitTypeId != UnitType.Catapult))
                     && (unit.charsData.Length > 0)
                     && (unit.getActiveUnitsInAttackRange(unit.positionX,
                             unit.positionY, (byte)0).Length > 0))
@@ -2651,7 +2652,7 @@ namespace aeii
                 data[(actionsCount++)] = 3; // attack
             }
             C_Unit[] tombs = unit.getActiveUnitsInAttackRange(unit.positionX, unit.positionY, (byte)1);
-            if ((unit.hasProperty((short)32)) && (tombs.Length > 0))
+            if ((unit.hasProperty(UnitProperty.Necromancy)) && (tombs.Length > 0))
             { // magi 
                 data[(actionsCount++)] = 4; //raise
             }
@@ -2994,7 +2995,7 @@ namespace aeii
                         {
                             C_Unit mUnit = (C_Unit)this.mapUnitsSprites.elementAt(i);
                             //unit not dead stay on his house
-                            if ((mUnit.m_state != 3)
+                            if ((mUnit.m_state != UnitState.Dead)
                                     && (this.playerId == mUnit.playerId)
                                     && ((getTileType(
                                             mUnit.positionX,
@@ -3279,20 +3280,20 @@ namespace aeii
                                 {
                                     showSpriteOnMap(this.smokeSprite, this.dyingUnit.posXPixel,
                                             this.dyingUnit.posYPixel, 0, -3, 1, 100);
-                                    this.dyingUnit.m_state = 3;
+                                    this.dyingUnit.m_state = UnitState.Dead;
                                     this.dyingUnit.m_tombMaxTurns = 3;
-                                    if ((this.dyingUnit.unitTypeId == 10)
-                                            || (this.dyingUnit.unitTypeId == 11))
+                                    if ((this.dyingUnit.unitTypeId == UnitType.Skeleton)
+                                            || (this.dyingUnit.unitTypeId == UnitType.Crystal))
                                     {
                                         this.dyingUnit.removeFromMap();
                                     }
-                                    else if (this.dyingUnit.unitTypeId == 9)
+                                    else if (this.dyingUnit.unitTypeId == UnitType.Commander)
                                     {
                                         this.dyingUnit.setUnitPosition(-10, -10);
-                                        this.dyingUnit.status = 0;
+                                        this.dyingUnit.status = StatusEffect.None;
                                         this.dyingUnit.calcStatusEffect();
                                     }
-                                    if ((this.dyingUnit.unitTypeId == 9) && (this.dyingUnit.cost < 1000))
+                                    if ((this.dyingUnit.unitTypeId == UnitType.Commander) && (this.dyingUnit.cost < 1000))
                                     {
                                         this.dyingUnit.cost += 200;
                                     }
@@ -3378,7 +3379,7 @@ namespace aeii
                                 {
                                     this.someSparkingUnit.removeFromMap();
                                     descUnit = C_Unit.createUnitOnMap(
-                                            (sbyte)10, this.someSprkingUnitPlayerId,
+                                            UnitType.Skeleton, this.someSprkingUnitPlayerId,
                                             this.someSparkingUnit.positionX,
                                             this.someSparkingUnit.positionY);
                                     descUnit.endMove();
@@ -3390,7 +3391,7 @@ namespace aeii
                                 if (this.unkState == 2) //moving to cell
                                 {
                                     // stopped moving
-                                    if ((this.activeUnit.m_state != 1) && (this.var_39cb))
+                                    if ((this.activeUnit.m_state != UnitState.Moving) && (this.var_39cb))
                                     {
                                         initSomeUnitData(this.activeUnit); //remove cell highlight
                                     }
@@ -3557,20 +3558,22 @@ namespace aeii
                                                 D_Menu descUnitMenu = new D_Menu((byte)10, 1);
                                                 descUnitMenu.var_1125 = true;
                                                 String str = A_MenuBase.getLangString(184 + descUnit.unitTypeId); //unit desc
-                                                if (descUnit.status != 0)
+                                                if (descUnit.status != StatusEffect.None)
                                                 {
                                                     //STATUS
                                                     StringBuffer strBuf1 = new StringBuffer(A_MenuBase.getLangString(98));
-                                                    if ((descUnit.status & 0x2) != 0)
+                                                    if ((descUnit.status & StatusEffect.WispAura) != 0)
                                                     {
                                                         strBuf1.append('\n');
                                                         strBuf1.append(A_MenuBase.getLangString(100)); //AURA
                                                     }
-                                                    if ((descUnit.status & 0x1) != 0)
+
+                                                    if ((descUnit.status & StatusEffect.Poison) != 0)
                                                     {
                                                         strBuf1.append('\n');
                                                         strBuf1.append(A_MenuBase.getLangString(99)); //POISON
                                                     }
+
                                                     strBuf1.append("\n-----------\n");
                                                     str = strBuf1.toString() + str;
                                                 }
@@ -3626,7 +3629,7 @@ namespace aeii
                                                 {
                                                     //unknown code 
                                                     int kCounter = 0;
-                                                    if ((this.someCursorUnit2 != null) && (this.someCursorUnit2.unitTypeId == 9))
+                                                    if ((this.someCursorUnit2 != null) && (this.someCursorUnit2.unitTypeId == UnitType.Commander))
                                                     {
                                                         //@todo
                                                     }
@@ -3634,14 +3637,14 @@ namespace aeii
                                                     for (; ; )
                                                     {
                                                         kCounter++;
-                                                        if ((kCounter >= this.playerUnitsCount[this.playerId]) || (kingUnit.m_state != 3))
+                                                        if ((kCounter >= this.playerUnitsCount[this.playerId]) || (kingUnit.m_state != UnitState.Dead))
                                                         {
                                                             break;
                                                         }
                                                         kingUnit = this.playerKingsMb[this.playerId][((kingUnit.unitId + 1) % this.playerUnitsCount[this.playerId])];
                                                     }
                                                 }
-                                                if ((kingUnit != null) && (kingUnit.m_state != 3))
+                                                if ((kingUnit != null) && (kingUnit.m_state != UnitState.Dead))
                                                 {
                                                     moveCursorToPos(kingUnit.positionX, kingUnit.positionY);
                                                     setSomeCursorCenterPix(kingUnit.posXPixel + 12, kingUnit.posYPixel + 12);
@@ -3678,7 +3681,7 @@ namespace aeii
                                                         this.someCursorXPos,
                                                         this.someCursorYPos, (byte)0);
                                                 if ((this.activeUnit != null)
-                                                        && (this.activeUnit.m_state == 0)
+                                                        && (this.activeUnit.m_state == UnitState.Default)
                                                         && (this.activeUnit.playerId == this.playerId))
                                                 {
                                                     byte[] unitActionsData = getUnitActionsData(
@@ -3697,7 +3700,7 @@ namespace aeii
                                                     }
                                                 }
                                                 else if ((getTileType(this.someCursorXPos,
-                                                      this.someCursorYPos) == 9)
+                                                      this.someCursorYPos) == TileType.Town)
                                                       && (playerIsOwnerOfTile(this.someCursorXPos,
                                                               this.someCursorYPos,
                                                               this.playerId)))
@@ -4491,7 +4494,7 @@ namespace aeii
                 while (jfd < sprLength)
                 {
                     C_Unit unit3 = (C_Unit)this.mapUnitsSprites.elementAt(jfd);
-                    if (unit3.m_state == 3)
+                    if (unit3.m_state == UnitState.Dead)
                     {
                         this.tombstoneSprite.drawImage(gr, this.mapLeftXPix
                                 + unit3.posXPixel, this.mapTopYPix
@@ -4626,7 +4629,7 @@ namespace aeii
                     {
                         i4 = i2asd / 2;
                         this.hudIcons2Sprite.drawFrameAt(gr, 0, i4, i3, 6);
-                        int playerUnits = countUnits(-1, -1, this.playerId) - countUnits(10, -1, this.playerId);
+                        int playerUnits = countUnits(UnitType.None, UnitState.None, this.playerId) - countUnits(UnitType.Skeleton, UnitState.None, this.playerId);
                         E_MainCanvas.drawCharedString(gr,
                                 playerUnits + "/" + this.mapStartUnitCap,
                                 i4 + this.hudIcons2Sprite.frameWidth + 1, i3, 1, 6);
@@ -4668,7 +4671,7 @@ namespace aeii
                     }
                 }
                 if ((this.unkState == 6)
-                        && (this.attackTargetUnits[this.attackAimUnitIndex].m_state != 4))
+                        && (this.attackTargetUnits[this.attackAimUnitIndex].m_state != UnitState.Removed))
                 {
                     i3 = 0;
                     if (this.someCursorYPos * 24 <= this.someGHeight / 2 - 24)
@@ -4823,14 +4826,14 @@ namespace aeii
                                 6);
                     }
                     int i8 = k + i2 - 2;
-                    if ((it == 0) && ((u1.status & 0x2) != 0))
+                    if ((it == 0) && ((u1.status & StatusEffect.WispAura) != 0))
                     {
                         this.statusSprite
                                 .drawFrameAt(gr, 1, i8, m + i3 / 2, 10);
                         i8 -= this.statusSprite.frameWidth;
                     }
                     if (((it == 0) || (it == 1))
-                            && ((u1.status & 0x1) != 0))
+                            && ((u1.status & StatusEffect.Poison) != 0))
                     {
                         this.statusSprite
                                 .drawFrameAt(gr, 0, i8, m + i3 / 2, 10);
@@ -4857,7 +4860,7 @@ namespace aeii
             this.buttonsSprite.drawFrameAt(gr, frameInd, pX, inY, j);
         }
 
-        public C_Unit getSomeUnit(int inX, int inY, byte paramByte)
+        public C_Unit getSomeUnit(int inX, int inY, byte deadIf1)
         {
             int it = 0;
             int count = this.mapUnitsSprites.size();
@@ -4866,7 +4869,7 @@ namespace aeii
                 C_Unit unit = (C_Unit)this.mapUnitsSprites.elementAt(it);
                 int i;
                 int j;
-                if (unit.m_state == 1)
+                if (unit.m_state == UnitState.Moving)
                 {
                     i = unit.m_startPosX;
                     j = unit.m_startPosY;
@@ -4878,11 +4881,11 @@ namespace aeii
                 }
                 if ((inX == i) && (inY == j))
                 {
-                    if ((paramByte == 0) && (unit.m_state != 3))
+                    if ((deadIf1 == 0) && (unit.m_state != UnitState.Dead))
                     {
                         return unit;
                     }
-                    else if ((paramByte == 1) && (unit.m_state == 3))
+                    else if ((deadIf1 == 1) && (unit.m_state == UnitState.Dead))
                     {
                         return unit;
                     }
@@ -4920,9 +4923,9 @@ namespace aeii
             for (int i = this.mapUnitsSprites.size() - 1; i >= 0; i--)
             {
                 C_Unit aunit = (C_Unit)this.mapUnitsSprites.elementAt(i);
-                if (aunit.m_state == 3)
+                if (aunit.m_state == UnitState.Dead)
                 {
-                    if (aunit.unitTypeId != 9)
+                    if (aunit.unitTypeId != UnitType.Commander)
                     {
                         C_Unit tempUnit = aunit;
                         tempUnit.m_tombMaxTurns = (byte)(tempUnit.m_tombMaxTurns - 1);
@@ -4934,18 +4937,22 @@ namespace aeii
                 }
                 else
                 {
-                    aunit.m_state = 0;
-                    if (((aunit.status & 0x1) != 0) && (aunit.someStatusPlayerId == this.playerId))
+                    aunit.m_state = UnitState.Default;
+                    
+                    if (((aunit.status & StatusEffect.Poison) != 0) && (aunit.someStatusPlayerId == this.playerId))
                     {
-                        aunit.applyWispStatusMb((byte)1);
+                        aunit.removeStatusEffect(StatusEffect.Poison);
                     }
+                    
                     if (aunit.playerId == this.playerId)
                     {
-                        aunit.applyWispStatusMb((byte)2);
+                        aunit.removeStatusEffect(StatusEffect.WispAura);
                     }
+
                     aunit.m_aiPriority = 0;
                 }
             }
+
             this.playerIncome = 0;
             for (int i = 0; i < this.mapTilesIds.Length; i++)
             {
@@ -4953,22 +4960,25 @@ namespace aeii
                 {
                     if (playerIsOwnerOfTile(i, j, this.playerId))
                     {
-                        if (getTileType(i, j) == 8)
+                        if (getTileType(i, j) == TileType.Village)
                         { // house
                             this.playerIncome += 30;
                         }
-                        else if (getTileType(i, j) == 9)
+
+                        else if (getTileType(i, j) == TileType.Town)
                         { //catle
                             this.playerIncome += 50;
                         }
                     }
                 }
             }
+
             this.playersMoney[this.playerId] += (short)this.playerIncome;
             for (int i = 0; i < this.housesDataArr.Length; i++)
             {
                 this.var_3acb[i] = 0;
             }
+
             if (this.mapPlayersTypes[this.playerId] == 1)
             { // PLAYER?
                 moveCursorToPos(this.playerCursorPositions[this.playerId][0],
@@ -4984,49 +4994,48 @@ namespace aeii
             {
                 C_Unit.m_speed = C_Unit.m_defaultSpeed;
             }
-            if ((countUnits(-1, 0, this.playerId) <= 0)
+            if ((countUnits(UnitType.None, UnitState.Default, this.playerId) <= 0)
                     && (countPlayerOwnerCastles(this.playerId) == 0))
             {
                 sub_ddbb();
             }
         }
 
-        public bool canRepairVillages(int paramInt1, int paramInt2,
-                C_Unit unit)
+        public bool canRepairVillages(int unitPosX, int unitPosY, C_Unit unit)
         {
-            return (unit.hasProperty((short)8))
-                    && (getTileType(unit.positionX, unit.positionY) == 8)
+            return (unit.hasProperty(UnitProperty.VillageOccupier))
+                    && (getTileType(unit.positionX, unit.positionY) == TileType.Village)
                     && (this.mapTilesIds[unit.positionX][unit.positionY] < this.houseTileIdStartIndex);
         }
 
-        public bool canOccupyVillageOrTown(int paramInt1, int paramInt2, C_Unit unit)
+        public bool canOccupyVillageOrTown(int unitPosX, int unitPosY, C_Unit unit)
         {
-            if ((unit.hasProperty((short)8)) //can occupy villages
-                    && (getTileType(unit.positionX, unit.positionY) == 8)
+            if ((unit.hasProperty(UnitProperty.VillageOccupier)) //can occupy villages
+                    && (getTileType(unit.positionX, unit.positionY) == TileType.Village)
                     && (this.mapTilesIds[unit.positionX][unit.positionY] >= this.houseTileIdStartIndex)
                     && (!isInSameTeam(unit.positionX, unit.positionY, this.playersTeams[unit.playerId])))
             {
                 return true;
             }
             // 16 - occupy town
-            return (unit.hasProperty((short)16))
-                    && (getTileType(unit.positionX, unit.positionY) == 9)
+            return (unit.hasProperty(UnitProperty.TownOccupier))
+                    && (getTileType(unit.positionX, unit.positionY) == TileType.Town)
                     && (!isInSameTeam(unit.positionX,
                             unit.positionY,
                             this.playersTeams[unit.playerId]));
         }
 
-        public void repairDestroyedHouse(byte paramByte, int inX, int inY)
+        public void repairDestroyedHouse(byte tileId, int inX, int inY)
         {
-            this.mapTilesIds[inX][inY] = paramByte;
+            this.mapTilesIds[inX][inY] = tileId;
         }
 
         public void occupyHouse(int inX, int inY, int playerId)
         {
             if (this.mapTilesIds[inX][inY] >= this.houseTileIdStartIndex)
             {
-                byte var = (byte)(this.houseTileIdStartIndex + playerId * 2 + (this.mapTilesIds[inX][inY] - this.houseTileIdStartIndex) % 2);
-                repairDestroyedHouse(var, inX, inY);
+                byte playerColorHouseTileId = (byte)(this.houseTileIdStartIndex + playerId * 2 + (this.mapTilesIds[inX][inY] - this.houseTileIdStartIndex) % 2);
+                repairDestroyedHouse(playerColorHouseTileId, inX, inY);
             }
         }
 
@@ -5083,20 +5092,24 @@ namespace aeii
 
         public int countUnits(int unitType, int unitState, sbyte inPlayer)
         {
-            int i = 0;
+            int counter = 0;
             int it = 0;
-            int Length = this.mapUnitsSprites.size();
-            while (it < Length)
+            int length = this.mapUnitsSprites.size();
+            while (it < length)
             {
                 C_Unit unit = (C_Unit)this.mapUnitsSprites.elementAt(it);
-                if (((unitType == -1) || (unit.unitTypeId == unitType))
-                        && (((unitState == -1) && (unit.m_state != 3)) || (unitState == unit.m_state)) && ((inPlayer == -1) || (unit.playerId == inPlayer)))
+                bool matchType = (unitType == UnitType.None) || (unit.unitTypeId == unitType);
+                bool matchState = ((unitState == UnitState.None) && (unit.m_state != UnitState.Dead)) || (unitState == unit.m_state);
+                bool matchPlayer = (inPlayer == -1) || (unit.playerId == inPlayer);
+                if ((matchType) && (matchState) && (matchPlayer))
                 {
-                    i++;
+                    counter++;
                 }
+
                 it++;
             }
-            return i;
+
+            return counter;
         }
 
         public C_Unit[] getUnitsOfTypeStatePlayer(int uType, int unitState, sbyte uPlayer)
@@ -5108,7 +5121,7 @@ namespace aeii
             {
                 C_Unit unit = (C_Unit)this.mapUnitsSprites.elementAt(i);
                 if (((uType == -1) || (unit.unitTypeId == uType))
-                        && (((unitState == -1) && (unit.m_state != 3)) || ((unitState == unit.m_state) && ((uPlayer == -1) || (unit.playerId == uPlayer)))))
+                        && (((unitState == -1) && (unit.m_state != UnitState.Dead)) || ((unitState == unit.m_state) && ((uPlayer == -1) || (unit.playerId == uPlayer)))))
                 {
                     localVector.addElement(unit);
                 }
@@ -5208,7 +5221,7 @@ namespace aeii
 
         public bool sub_e943(sbyte inByte, int inX, int inY)
         {
-            int plUnitsCount = countUnits(-1, -1, this.playerId) - countUnits(10, -1, this.playerId);
+            int plUnitsCount = countUnits(UnitType.None, UnitState.None, this.playerId) - countUnits(UnitType.Skeleton, UnitState.None, this.playerId);
             if ((this.mapStartUnitCap > plUnitsCount)
                     && (inByte <= this.unlockedUnitsTypeMax)
                     && (C_Unit.unitsCosts[inByte] <= this.playersMoney[this.playerId])
@@ -5224,9 +5237,9 @@ namespace aeii
 
         public bool unitCanBeBought(C_Unit unit, int inX, int inY)
         {
-            int plUnitsCount = countUnits(-1, -1, this.playerId) - countUnits(10, -1, this.playerId);
+            int plUnitsCount = countUnits(UnitType.None, UnitState.None, this.playerId) - countUnits(UnitType.Skeleton, UnitState.None, this.playerId);
             if ((this.mapStartUnitCap > plUnitsCount)
-                    && ((unit.unitTypeId <= this.unlockedUnitsTypeMax) || (unit.unitTypeId == 9))
+                    && ((unit.unitTypeId <= this.unlockedUnitsTypeMax) || (unit.unitTypeId == UnitType.Commander))
                     && (unit.cost <= this.playersMoney[this.playerId]))
             {
                 fillArrayWithValue(this.someMapData, 0);
@@ -5238,7 +5251,7 @@ namespace aeii
 
         public void initCPUPlayerMb()
         {
-            C_Unit[] units = getUnitsOfTypeStatePlayer(-1, 0, this.playerId);
+            C_Unit[] units = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.Default, this.playerId);
             this.someUnitsVector34 = new Vector(units.Length);
             for (int i = 0; i < units.Length; i++)
             {
@@ -5399,7 +5412,7 @@ namespace aeii
                                     && (this.activeUnit == this.playersKings[1]))
                             {
                                 this.m_tempUnit = null;
-                                C_Unit[] unitsOf0 = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                                C_Unit[] unitsOf0 = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                                 if (unitsOf0.Length > 0)
                                 {
                                     targetUnit(unitsOf0[E_MainCanvas.getRandomMax(unitsOf0.Length)]);
@@ -5466,7 +5479,7 @@ namespace aeii
                         pX = this.housesDataArr[it][0];
                         pY = this.housesDataArr[it][1];
                         //Houses
-                        if ((getTileType(pX, pY) == 9)
+                        if ((getTileType(pX, pY) == TileType.Town)
                                 && (playerIsOwnerOfTile(pX, pY, this.playerId)))
                         {
                             if (j == 0)
@@ -5482,7 +5495,7 @@ namespace aeii
                                 C_Unit unit32 = (C_Unit)this.mapUnitsSprites.elementAt(it61);
                                 //occupy town skill
                                 if ((this.playersTeams[unit32.playerId] != this.playersTeams[this.playerId])
-                                        && (unit32.hasProperty((short)16)))
+                                        && (unit32.hasProperty(UnitProperty.TownOccupier)))
                                 {
                                     dist1 = Math.abs(unit32.positionX - pX)
                                             + Math.abs(unit32.positionY - pY);
@@ -5502,7 +5515,7 @@ namespace aeii
                                     int i8 = this.housesDataArr[i6][0];
                                     dist1 = this.housesDataArr[i6][1];
                                     int dist2;
-                                    if ((getTileType(i8, dist1) == 9)
+                                    if ((getTileType(i8, dist1) == TileType.Town)
                                             && (!playerIsOwnerOfTile(i8, dist1, this.playerId))
                                             && ((dist2 = Math.abs(i8 - pX)
                                                     + Math.abs(dist1 - pY)) < k))
@@ -5521,7 +5534,7 @@ namespace aeii
                         for (int i1 = 0; i1 < this.playerUnitsCount[this.playerId]; i1++)
                         {
                             if ((this.playerKingsMb[this.playerId][i1] != null)
-                                    && (this.playerKingsMb[this.playerId][i1].m_state == 3)
+                                    && (this.playerKingsMb[this.playerId][i1].m_state == UnitState.Dead)
                                     && (unitCanBeBought(this.playerKingsMb[this.playerId][i1], m, n)))
                             {
                                 aiUnit = buyUnit(this.playerKingsMb[this.playerId][i1], m, n);
@@ -5529,12 +5542,12 @@ namespace aeii
                         }
                         if (aiUnit == null)
                         {
-                            if ((countUnits(0, -1, this.playerId) < 2) && (sub_e943((sbyte)0, m, n)))
+                            if ((countUnits(UnitType.Soldier, UnitState.None, this.playerId) < 2) && (sub_e943((sbyte)0, m, n)))
                             {
                                 //buy soldiers
                                 aiUnit = aiBuyUnit((sbyte)0, m, n);
                             }
-                            else if ((countUnits(1, -1, this.playerId) < 2) && (sub_e943((sbyte)1, m, n)))
+                            else if ((countUnits(UnitType.Archer, UnitState.None, this.playerId) < 2) && (sub_e943((sbyte)1, m, n)))
                             {
                                 //buy archers
                                 aiUnit = aiBuyUnit((sbyte)1, m, n);
@@ -5547,15 +5560,15 @@ namespace aeii
                                 {
                                     if (this.playersTeams[pIt] == this.playersTeams[this.playerId])
                                     {
-                                        i1 += countUnits(-1, -1, (sbyte)pIt);
+                                        i1 += countUnits(UnitType.None, UnitState.None, (sbyte)pIt);
                                     }
                                     else
                                     {
-                                        pX += countUnits(-1, -1, (sbyte)pIt);
+                                        pX += countUnits(UnitType.None, UnitState.None, (sbyte)pIt);
                                     }
                                 }
                                 if ((this.playersMoney[this.playerId] >= 1000)
-                                        || (countUnits(-1, -1, this.playerId) < 8)
+                                        || (countUnits(UnitType.None, UnitState.None, this.playerId) < 8)
                                         || (i1 < pX))
                                 {
                                     int buyUnitsCount = 0;
@@ -5563,7 +5576,7 @@ namespace aeii
                                     //@todo why 1?
                                     for (sbyte u1 = 1; u1 < 12; u1 = (sbyte)(u1 + 1))
                                     {
-                                        if (((countUnits(u1, -1, this.playerId) < 1) || (C_Unit.unitsCosts[u1] >= 600))
+                                        if (((countUnits(u1, UnitState.None, this.playerId) < 1) || (C_Unit.unitsCosts[u1] >= 600))
                                                 && (sub_e943(u1, m, n)))
                                         {
                                             unitsToBuy[buyUnitsCount] = u1;
@@ -5590,7 +5603,7 @@ namespace aeii
                     return;
                 }
                 if ((this.mapModeCampIf0 == 0) && (this.scenarioMapIndex == 7)
-                        && (this.playersKings[1].m_state != 2))
+                        && (this.playersKings[1].m_state != UnitState.Disabled))
                 {
                     this.activeUnit = this.playersKings[1];
                     moveCursorToPos(this.activeUnit.positionX, this.activeUnit.positionY);
@@ -5619,7 +5632,7 @@ namespace aeii
             fillArrayWithValue(this.someMapData, 0);
             this.activeUnit.fillWhereUnitCanMove(this.someMapData);
             this.var_351b = false;
-            this.someUnits5 = getUnitsOfTypeStatePlayer(0, -1, this.playerId);
+            this.someUnits5 = getUnitsOfTypeStatePlayer(UnitType.Soldier, UnitState.None, this.playerId);
             int i = 0;
             int j = this.playersKings.Length + this.someUnits5.Length
                     + this.housesDataArr.Length;
@@ -5638,7 +5651,7 @@ namespace aeii
                     someKingUnit = this.playersKings[(n - this.someUnits5.Length)];
                     if (someKingUnit != null)
                     {
-                        if (someKingUnit.m_state == 3)
+                        if (someKingUnit.m_state == UnitState.Dead)
                         {
                             someKingUnit = null;
                         }
@@ -5651,8 +5664,8 @@ namespace aeii
                         }
                         else if ((this.currentTurn >= 15)
                               && (this.playersTeams[someKingUnit.playerId] != this.playersTeams[this.playerId])
-                              && (countUnits(-1, -1, someKingUnit.playerId) < 4)
-                              && (countUnits(-1, -1, this.playerId) >= 8))
+                              && (countUnits(UnitType.None, UnitState.None, someKingUnit.playerId) < 4)
+                              && (countUnits(UnitType.None, UnitState.None, this.playerId) >= 8))
                         {
                             this.someAIPosAValArr[i][2] += someKingUnit.getSomePropSum(
                                     someKingUnit.positionX,
@@ -5679,7 +5692,7 @@ namespace aeii
                                         someKingUnit.positionY, 1, 5, (byte)0);
                         for (int i3 = 0; i3 < sUnit.Length; i3++)
                         {
-                            if (sUnit[i3].m_state != 4)
+                            if (sUnit[i3].m_state != UnitState.Removed)
                             {
                                 this.someAIPosAValArr[i][2] += sUnit[i3]
                                         .getSomePropSum(sUnit[i3].positionX,
@@ -5746,7 +5759,7 @@ namespace aeii
                     this.someAIPosAValArr[i][2] = 0;
                     for (int itx = 0; itx < someUnitsInRange.Length; itx++)
                     {
-                        if (someUnitsInRange[itx].m_state != 4)
+                        if (someUnitsInRange[itx].m_state != UnitState.Removed)
                         {
                             if ((this.someHouseUnits[i4] != null) && (!isOwner))
                             {
@@ -5754,8 +5767,8 @@ namespace aeii
                                         someUnitsInRange[itx].positionX,
                                         someUnitsInRange[itx].positionY, null);
                             }
-                            else if (((tileType == 8) && (someUnitsInRange[itx].hasProperty((short)8)))
-                                  || ((tileType == 9) && (someUnitsInRange[itx].hasProperty((short)16))))
+                            else if (((tileType == TileType.Village) && (someUnitsInRange[itx].hasProperty(UnitProperty.VillageOccupier)))
+                                  || ((tileType == TileType.Town) && (someUnitsInRange[itx].hasProperty(UnitProperty.TownOccupier))))
                             {
                                 //vilage or castles
                                 this.someAIPosAValArr[i][2] += someUnitsInRange[itx].getSomePropSum(
@@ -5808,8 +5821,8 @@ namespace aeii
                     }
                 }
                 else if (((this.someHouseUnits[i4] == null) || (this.someHouseUnits[i4] == pxUnit))
-                      && (((tileType == 8) && (pxUnit.hasProperty((short)8))) ||
-                          ((tileType == 9) && (pxUnit.hasProperty((short)16)))))
+                      && (((tileType == TileType.Village) && (pxUnit.hasProperty(UnitProperty.VillageOccupier))) ||
+                          ((tileType == TileType.Town) && (pxUnit.hasProperty(UnitProperty.TownOccupier)))))
                 {
                     //village or castle
                     int distance1 = Math.abs(pX - pxUnit.positionX) + Math.abs(pY - pxUnit.positionY);
@@ -5845,7 +5858,7 @@ namespace aeii
             }
             else if ((this.playersKings[this.playerId] != null)
                   && (i2 != -1)
-                  && ((pxUnit.hasProperty((short)8)) || (pxUnit.hasProperty((short)16))))
+                  && ((pxUnit.hasProperty(UnitProperty.VillageOccupier)) || (pxUnit.hasProperty(UnitProperty.TownOccupier))))
             { //occupy
                 this.var_3b03 = i2;
                 this.someHouseUnits[i2] = pxUnit;
@@ -5912,10 +5925,10 @@ namespace aeii
                     if ((this.someMapData[it2][tileType] > 0)
                             && (((lcUnit = getSomeUnit(it2, tileType, (byte)0)) == null)
                                     || (lcUnit == pxUnit) || ((this.var_3a93 == null)
-                                    && (lcUnit.playerId == pxUnit.playerId) && (lcUnit.m_state == 0))))
+                                    && (lcUnit.playerId == pxUnit.playerId) && (lcUnit.m_state == UnitState.Default))))
                     {
                         int cellPrior;
-                        if ((!pxUnit.hasProperty((short)512))
+                        if ((!pxUnit.hasProperty(UnitProperty.CatapultRange))
                                 || (lcUnit == pxUnit))
                         { //not catapult
                             C_Unit[] arUnit = pxUnit
@@ -5933,7 +5946,7 @@ namespace aeii
                                 }
                             }
                         }
-                        if (pxUnit.hasProperty((short)32))
+                        if (pxUnit.hasProperty(UnitProperty.Necromancy))
                         { //raise
                             this.attackTargetUnits = pxUnit.getActiveUnitsInAttackRange(it2, tileType, (byte)1);
                             for (int i12 = 0; i12 < this.attackTargetUnits.Length; i12++)
@@ -6006,46 +6019,49 @@ namespace aeii
                         }
                     }
                 }
+
                 if ((cUnit1 == null)
                         && (!isInSameTeam(inX, inY, this.playersTeams[cUnit21.playerId])))
                 {
-                    if ((cUnit21.hasProperty((short)16))
-                            && (getTileType(inX, inY) == 9))
+                    if ((cUnit21.hasProperty(UnitProperty.TownOccupier))
+                            && (getTileType(inX, inY) == TileType.Town))
                     {
                         priority += 300;
                     }
-                    else if ((cUnit21.hasProperty((short)8))
-                          && ((getTileType(inX, inY) == 8) || (this.mapTilesIds[inX][inY] == 27)))
+                    else if ((cUnit21.hasProperty(UnitProperty.VillageOccupier))
+                          && ((getTileType(inX, inY) == TileType.Village) || (this.mapTilesIds[inX][inY] == TileType.DestroyedVillage)))
                     {
                         priority += 200;
                     }
                 }
             }
+
             switch (cUnit21.unitTypeId)
             {
-                case 3: //magi
+                case UnitType.Sorceress: //magi
                     if (inUnit != null)
                     {
                         priority += 100;
                     }
                     break;
-                case 4: //wisp
+                case UnitType.Wisp: //wisp
                     C_Unit[] someUnits2 = cUnit21.getPositionUnitsInAttackRange(inX, inY, 1, 2, (byte)2);
                     if (inUnit != null)
                     {
                         priority += 25 * someUnits2.Length;
                     }
                     break;
-                case 2: //elemental
-                    if (getTileType(inX, inY) == 5)
+                case UnitType.Elemental: //elemental
+                    if (getTileType(inX, inY) == TileType.Water)
                     { //water
                         priority += 25;
                     }
                     break;
             }
+
             if (cUnit1 != null)
             {
-                if (cUnit1.m_state == 4)
+                if (cUnit1.m_state == UnitState.Removed)
                 {
                     int oPlayerId = tileOwnerPlayerIndex(cUnit1.positionX, cUnit1.positionY);
                     int house1Id = getMapHouseId(cUnit1.positionX, cUnit1.positionY);
@@ -6066,22 +6082,24 @@ namespace aeii
                                 * 3 / 2
                                 - cUnit1.getSomePropSum(inX, inY, cUnit21);
                     }
-                    if (cUnit1.unitTypeId == 9)
+                    if (cUnit1.unitTypeId == UnitType.Commander)
                     { //king
                         priority += 25;
                     }
-                    else if (cUnit1.unitTypeId == 11)
+                    else if (cUnit1.unitTypeId == UnitType.Crystal)
                     { // crystal
                         priority += 100;
                     }
                 }
             }
+
             priority += tilesDefences[getTileType(inX, inY)];
             if ((cUnit21.unitHealthMb < 100)
                     && (isInSameTeam(inX, inY, this.playersTeams[cUnit21.playerId])))
             {
                 priority += 100 - cUnit21.unitHealthMb;
             }
+
             int house2Id = getMapHouseId(inX, inY);
             if (this.someMData[inX][inY] > 0)
             {
@@ -6102,15 +6120,17 @@ namespace aeii
                 priority += 50 * (m - n)
                         / (C_Unit.unitsMoveRanges[cUnit21.unitTypeId] - 1);
             }
+
             C_Unit ssUnit8;
             if ((house2Id != -1)
                     && ((ssUnit8 = this.someHouseUnits[house2Id]) != null)
                     && (ssUnit8 != cUnit21)
-                    && (ssUnit8.m_state == 0)
+                    && (ssUnit8.m_state == UnitState.Default)
                     && (this.var_3abb[house2Id] < C_Unit.unitsMoveRanges[ssUnit8.unitTypeId]))
             {
                 priority -= 200;
             }
+
             return priority += 20
                     * (Math.abs(inX - cUnit21.positionX) + Math
                             .abs(inY - cUnit21.positionY))
@@ -6136,11 +6156,11 @@ namespace aeii
             this.isWaiting = true;
         }
 
-        public D_Menu showUnitDialogMsg(String msg, sbyte paramByte1, byte paramByte2)
+        public D_Menu showUnitDialogMsg(String msg, sbyte unitPortraitIndex, byte paramByte2)
         {
             D_Menu dialog = new D_Menu((byte)7, 12);
             int i = E_MainCanvas.someMenuShiftHeight * 3;
-            dialog.initPortraitDialog(msg, this.someCanWidth, i, paramByte1, paramByte2);
+            dialog.initPortraitDialog(msg, this.someCanWidth, i, unitPortraitIndex, paramByte2);
             dialog.setMenuLoc(0, this.someCanHeight - i, 0);
             A_MenuBase.mainCanvas.showMenu(dialog);
             return dialog;
@@ -6237,9 +6257,9 @@ namespace aeii
                 C_Unit.m_speed = 4;
                 this.playersMoney[0] = 400;
                 this.playersMoney[1] = 400;
-                this.skeleton1Map2 = C_Unit.createUnitOnMap((sbyte)0, (sbyte)0, -1, 5);
-                this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte)2, (sbyte)0, -2, 5);
-                this.skeleton2Map2 = C_Unit.createUnitOnMap((sbyte)3, (sbyte)0, -3, 5);
+                this.skeleton1Map2 = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)0, -1, 5);
+                this.crystalOfWisdom = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)0, -2, 5);
+                this.skeleton2Map2 = C_Unit.createUnitOnMap(UnitType.Sorceress, (sbyte)0, -3, 5);
                 this.skeleton1Map2.goToPosition(3, 4, false);
                 this.crystalOfWisdom.goToPosition(4, 4, false);
                 this.skeleton2Map2.goToPosition(2, 4, false);
@@ -6304,10 +6324,10 @@ namespace aeii
                 C_Unit.m_speed = 4;
                 this.playersMoney[0] = 400;
                 this.playersMoney[1] = 600;
-                cUnit = C_Unit.createUnitOnMap((sbyte)0, (sbyte)0, 13, -1);
-                cUnit2 = C_Unit.createUnitOnMap((sbyte)1, (sbyte)0, 13, -1);
-                cUnit3 = C_Unit.createUnitOnMap((sbyte)3, (sbyte)0, 13, -1);
-                C_Unit localClass_c_0324 = C_Unit.createUnitOnMap((sbyte)11, (sbyte)0, 13, -1);
+                cUnit = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)0, 13, -1);
+                cUnit2 = C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)0, 13, -1);
+                cUnit3 = C_Unit.createUnitOnMap(UnitType.Sorceress, (sbyte)0, 13, -1);
+                C_Unit localClass_c_0324 = C_Unit.createUnitOnMap(UnitType.Crystal, (sbyte)0, 13, -1);
                 this.playersKings[0].followerUnitMb = cUnit;
                 cUnit.followerUnitMb = cUnit2;
                 cUnit2.followerUnitMb = cUnit3;
@@ -6385,7 +6405,7 @@ namespace aeii
                     for (int i1 = 0; i1 < this.mapMaxPlayersMb; i1++)
                     {
                         if ((this.mapPlayersTypes[i1] != 2)
-                                && (((this.playersKings[i1] != null) && (this.playersKings[i1].m_state != 3)) || (countPlayerOwnerCastles(i1) != 0)))
+                                && (((this.playersKings[i1] != null) && (this.playersKings[i1].m_state != UnitState.Dead)) || (countPlayerOwnerCastles(i1) != 0)))
                         {
                             j = i1;
                             if ((i != -1) && (i != this.playersTeams[i1]))
@@ -6455,7 +6475,7 @@ namespace aeii
                 i = 1;
                 for (j = 0; j < this.playerUnitsCount[0]; j++)
                 {
-                    if (this.playerKingsMb[0][j].m_state != 3)
+                    if (this.playerKingsMb[0][j].m_state != UnitState.Dead)
                     {
                         i = 0;
                         break;
@@ -6616,7 +6636,7 @@ namespace aeii
                     }
                     break;
                 case 18:
-                    if (countUnits(-1, 2, (sbyte)0) >= 3)
+                    if (countUnits(UnitType.None, UnitState.Disabled, (sbyte)0) >= 3)
                     { // 2 - has no turn, noboby has turn
                         this.helpTipId = 4;
                         this.scriptStep += 1;
@@ -6645,7 +6665,7 @@ namespace aeii
                     }
                     break;
                 case 22:
-                    if (countUnits(-1, -1, (sbyte)1) == 0)
+                    if (countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0)
                     { // no enemy troops
                         this.isUpdatingMb = false;
                         waitScript(20);
@@ -6656,7 +6676,7 @@ namespace aeii
                     moveCameraTo(1, 1);
                     break;
                 case 24:
-                    C_Unit newArcher = C_Unit.createUnitOnMap((sbyte)1, (sbyte)1, 1, 1); //archer
+                    C_Unit newArcher = C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)1, 1, 1); //archer
                     newArcher.goToPosition(1, 2, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
@@ -6665,7 +6685,7 @@ namespace aeii
                     moveCameraTo(10, 10);
                     break;
                 case 26:
-                    C_Unit newSoldier = C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, 10, 10);
+                    C_Unit newSoldier = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, 10, 10);
                     newSoldier.goToPosition(10, 9, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
@@ -6684,8 +6704,8 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 30:
-                    if ((countUnits(-1, -1, (sbyte)1) == 0) && (this.unkState == 0))
-                    {
+                    if ((countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0) && (this.unkState == 0))
+                    {  // no enemy troops & unk
                         this.isUpdatingMb = false;
                         this.isCursorVisible = false;
                         waitScript(30);
@@ -6752,9 +6772,9 @@ namespace aeii
                     break;
                 case 6:
                     C_Unit.m_speed = 2;
-                    this.skeleton1Map2 = C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, 7, 3);
-                    this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte)11, (sbyte)1, 7, 3);
-                    this.skeleton2Map2 = C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, 7, 3);
+                    this.skeleton1Map2 = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, 7, 3);
+                    this.crystalOfWisdom = C_Unit.createUnitOnMap(UnitType.Crystal, (sbyte)1, 7, 3);
+                    this.skeleton2Map2 = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, 7, 3);
                     this.skeleton1Map2.followerUnitMb = this.crystalOfWisdom;
                     this.crystalOfWisdom.followerUnitMb = this.skeleton2Map2;
                     this.skeleton1Map2.goToPosition(6, -2, false);
@@ -6765,7 +6785,7 @@ namespace aeii
                     if ((this.skeleton2Map2.positionX == 6) && (this.skeleton2Map2.positionY == 1))
                     {
                         C_Unit.m_speed = 4;
-                        this.wisdomCrystalKeeper = C_Unit.createUnitOnMap((sbyte)0, (sbyte)0, 7, 3);
+                        this.wisdomCrystalKeeper = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)0, 7, 3);
                         this.wisdomCrystalKeeper.goToPosition(6, 2, false);
                         this.crystalOfWisdom.followerUnitMb = null;
                         //The Crystal of Wisdom! Do not let them escape!
@@ -6774,7 +6794,7 @@ namespace aeii
                     }
                     break;
                 case 8:
-                    if (this.wisdomCrystalKeeper.m_state != 1)
+                    if (this.wisdomCrystalKeeper.m_state != UnitState.Moving)
                     {
                         E_MainCanvas.vibrate(100);
                         this.wisdomCrystalKeeper.shakeUnit(400);
@@ -6852,7 +6872,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 22:
-                    if ((this.playersKings[0].m_state == 3) || (this.playersKings[1].m_state == 3))
+                    if ((this.playersKings[0].m_state == UnitState.Dead) || (this.playersKings[1].m_state == UnitState.Dead))
                     { // maybe dead @todo
                         this.helpTipId = 12;
                         this.scriptStep += 1;
@@ -6860,7 +6880,7 @@ namespace aeii
                     break;
                 case 23:
                     // no enemies and no enemy castle
-                    if ((countUnits(-1, -1, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
+                    if ((countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
                     {
                         this.isUpdatingMb = false;
                         waitScript(20);
@@ -6891,14 +6911,14 @@ namespace aeii
             switch (this.scriptStep)
             {
                 case 0:
-                    if (this.skeleton1Map2.m_state != 1)
+                    if (this.skeleton1Map2.m_state != UnitState.Moving)
                     {
                         this.skeleton1Map2.goToPosition(7, 14, false);
                         this.scriptStep += 1;
                     }
                     break;
                 case 1:
-                    if (this.crystalOfWisdom.m_state != 1)
+                    if (this.crystalOfWisdom.m_state != UnitState.Moving)
                     {
                         this.crystalOfWisdom.goToPosition(7, 15, false);
                         waitScript(20);
@@ -6936,7 +6956,7 @@ namespace aeii
                 case 7:
                     if ((this.playerId == 0)
                             && (this.var_378b == 0)
-                            && (countUnits(-1, 3, (sbyte)-1) >= 1))
+                            && (countUnits(UnitType.None, UnitState.Dead, (sbyte)-1) >= 1))
                     { //there are dead units
                         this.helpTipId = 15;
                         this.scriptStep += 1;
@@ -6944,7 +6964,7 @@ namespace aeii
                     break;
                 case 8:
                     int k = 0;
-                    C_Unit[] unitsEndTurn = getUnitsOfTypeStatePlayer(-1, 2, (sbyte)0); //2 - End turn
+                    C_Unit[] unitsEndTurn = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.Disabled, (sbyte)0); //2 - End turn
                     while (k < unitsEndTurn.Length)
                     {
                         if ((unitsEndTurn[k].positionX <= 4) || (unitsEndTurn[k].positionY <= 10))
@@ -6963,27 +6983,27 @@ namespace aeii
                     break;
                 case 9:
                     moveCameraTo(0, 8);
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, -1, 8)
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, -1, 8)
                             .goToPosition(0, 8, false); //wolf
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, -2, 7)
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, -2, 7)
                             .goToPosition(1, 7, false); //wolf
                     waitScript(20);
                     this.scriptStep += 1;
                     break;
                 case 10:
                     moveCameraTo(8, 6);
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 12, 6)
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 12, 6)
                             .goToPosition(8, 6, false); //wolf
                     waitScript(20);
                     this.scriptStep += 1;
                     break;
                 case 11:
                     moveCameraTo(2, 1);
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 1, -2)
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 1, -2)
                             .goToPosition(1, 2, false); //wolf
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 3, -2)
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 3, -2)
                             .goToPosition(3, 2, false); //wolf
-                    C_Unit.createUnitOnMap((sbyte)4, (sbyte)1, 2, -1)
+                    C_Unit.createUnitOnMap(UnitType.Wisp, (sbyte)1, 2, -1)
                             .goToPosition(2, 1, false); //wisp
                     waitScript(20);
                     this.scriptStep += 1;
@@ -6999,9 +7019,9 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 14:
-                    C_Unit el1Unit = C_Unit.createUnitOnMap((sbyte)2, (sbyte)1, 3, 8); // elemental
-                    C_Unit el2Unit = C_Unit.createUnitOnMap((sbyte)2, (sbyte)1, 4, 7); // elemental
-                    C_Unit el3Unit = C_Unit.createUnitOnMap((sbyte)2, (sbyte)1, 5, 8); // elemental
+                    C_Unit el1Unit = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)1, 3, 8); // elemental
+                    C_Unit el2Unit = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)1, 4, 7); // elemental
+                    C_Unit el3Unit = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)1, 5, 8); // elemental
                     showSpriteOnMap(this.sparkSprite, el1Unit.posXPixel, el1Unit.posYPixel, 0, 0, 1, 50);
                     showSpriteOnMap(this.sparkSprite, el2Unit.posXPixel, el2Unit.posYPixel, 0, 0, 1, 50);
                     showSpriteOnMap(this.sparkSprite, el3Unit.posXPixel, el3Unit.posYPixel, 0, 0, 1, 50);
@@ -7032,9 +7052,9 @@ namespace aeii
                     getSomeUnit(3, 8, (byte)0).removeFromMap();
                     getSomeUnit(4, 7, (byte)0).removeFromMap();
                     getSomeUnit(5, 8, (byte)0).removeFromMap();
-                    C_Unit el1 = C_Unit.createUnitOnMap((sbyte)2, (sbyte)0, 3, 8);
-                    C_Unit el2 = C_Unit.createUnitOnMap((sbyte)2, (sbyte)0, 4, 7);
-                    C_Unit el3 = C_Unit.createUnitOnMap((sbyte)2, (sbyte)0, 5, 8);
+                    C_Unit el1 = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)0, 3, 8);
+                    C_Unit el2 = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)0, 4, 7);
+                    C_Unit el3 = C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)0, 5, 8);
                     showSpriteOnMap(this.sparkSprite, el1.posXPixel, el1.posYPixel, 0, 0, 1, 50);
                     showSpriteOnMap(this.sparkSprite, el2.posXPixel, el2.posYPixel, 0, 0, 1, 50);
                     showSpriteOnMap(this.sparkSprite, el3.posXPixel, el3.posYPixel, 0, 0, 1, 50);
@@ -7048,7 +7068,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 21:
-                    if (countUnits(-1, -1, (sbyte)1) == 0)
+                    if (countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0)
                     { // no enemies
                         this.isUpdatingMb = false;
                         waitScript(10);
@@ -7071,7 +7091,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 1:
-                    if (this.playersKings[0].m_state != 1)
+                    if (this.playersKings[0].m_state != UnitState.Moving)
                     {
                         this.m_tempUnit = null;
                         waitScript(20);
@@ -7130,7 +7150,7 @@ namespace aeii
                     moveCameraTo(6, 10);
                     break;
                 case 9:
-                    if (this.skeleton1Map2.m_state != 1)
+                    if (this.skeleton1Map2.m_state != UnitState.Moving)
                     {
                         this.skeleton1Map2 = null;
                         this.isCursorVisible = true;
@@ -7147,8 +7167,8 @@ namespace aeii
                 case 11:
                     this.raisedUnit = C_Unit.createUnit((sbyte)0, (sbyte)0, 4, 9,
                             false);
-                    this.raisedUnit.unitTypeId = -1;
-                    this.raisedUnit.m_state = 4;
+                    this.raisedUnit.unitTypeId = UnitType.None;
+                    this.raisedUnit.m_state = UnitState.Removed;
                     this.var_3603 = 6;
                     waitScript(20);
                     this.scriptStep += 1;
@@ -7172,7 +7192,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 16:
-                    if ((countUnits(-1, -1, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
+                    if ((countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
                     {
                         waitScript(15);
                         this.isUpdatingMb = false;
@@ -7199,12 +7219,12 @@ namespace aeii
 
         public void updateScenarioScript5()
         {
-
             if (this.crystal3Unit == null)
             {
-                this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (sbyte)0)[0];
+                this.crystal3Unit = getUnitsOfTypeStatePlayer(UnitType.Crystal, UnitState.None, (sbyte)0)[0];
             }
-            if (this.crystal3Unit.m_state == 3)
+
+            if (this.crystal3Unit.m_state == UnitState.Dead)
             { //dead?
                 this.crystal3Unit = null;
                 sub_1447e(); //mission failed?
@@ -7232,11 +7252,11 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 4:
-                    C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                    C_Unit[] plUnits = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                     int m = 0;
                     while (m < plUnits.Length)
                     {
-                        if ((plUnits[m].m_state == 2) && (plUnits[m].positionX <= 8))
+                        if ((plUnits[m].m_state == UnitState.Disabled) && (plUnits[m].positionX <= 8))
                         {
                             this.isUpdatingMb = false;
                             waitScript(5);
@@ -7255,17 +7275,17 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 6:
-                    C_Unit.createUnitOnMap((sbyte)10, (sbyte)1, 4, 4).goToPosition(4, 1, false, true); //skeleton
+                    C_Unit.createUnitOnMap(UnitType.Skeleton, (sbyte)1, 4, 4).goToPosition(4, 1, false, true); //skeleton
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 7:
-                    C_Unit.createUnitOnMap((sbyte)1, (sbyte)1, 4, 4).goToPosition(5, 2, false, true); //archer
+                    C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)1, 4, 4).goToPosition(5, 2, false, true); //archer
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 8:
-                    C_Unit.createUnitOnMap((sbyte)10, (sbyte)1, 4, 4).goToPosition(4, 3, false, true); //skeleton
+                    C_Unit.createUnitOnMap(UnitType.Skeleton, (sbyte)1, 4, 4).goToPosition(4, 3, false, true); //skeleton
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
@@ -7281,11 +7301,11 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 11:
-                    plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                    plUnits = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                     m = 0;
                     while (m < plUnits.Length)
                     {
-                        if ((plUnits[m].m_state == 2)
+                        if ((plUnits[m].m_state == UnitState.Disabled)
                                 && (plUnits[m].positionY >= 7))
                         {
                             this.isUpdatingMb = false;
@@ -7301,27 +7321,27 @@ namespace aeii
                     }
                     break;
                 case 12:
-                    C_Unit.createUnitOnMap((sbyte)1, (sbyte)1, 6, 10).goToPosition(5, 10, false, true); //archer
+                    C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)1, 6, 10).goToPosition(5, 10, false, true); //archer
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 13:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 6, 10).goToPosition(7, 8, false, true); //wolf
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 6, 10).goToPosition(7, 8, false, true); //wolf
                     waitScript(15);
                     this.scriptStep += 1;
                     break;
                 case 14:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 6, 10).goToPosition(7, 9, false, true); //wolf
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 6, 10).goToPosition(7, 9, false, true); //wolf
                     this.isUpdatingMb = true;
                     this.isCursorVisible = true;
                     this.scriptStep += 1;
                     break;
                 case 15:
-                    plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                    plUnits = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                     m = 0;
                     while (m < plUnits.Length)
                     {
-                        if ((plUnits[m].m_state == 2)
+                        if ((plUnits[m].m_state == UnitState.Disabled)
                                 && (plUnits[m].positionX >= 8)
                                 && (plUnits[m].positionY >= 6))
                         {
@@ -7338,27 +7358,27 @@ namespace aeii
                     }
                     break;
                 case 16:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 12, 5).goToPosition(12, 7, false, true);//wolf
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 12, 5).goToPosition(12, 7, false, true);//wolf
                     waitScript(15);
                     this.scriptStep += 1;
                     break;
                 case 17:
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)1, 12, 5).goToPosition(12, 6, false, true); //golem
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)1, 12, 5).goToPosition(12, 6, false, true); //golem
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 18:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 12, 5).goToPosition(12, 5, false, true); //wolf
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 12, 5).goToPosition(12, 5, false, true); //wolf
                     this.isUpdatingMb = true;
                     this.isCursorVisible = true;
                     this.scriptStep += 1;
                     break;
                 case 19:
-                    plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                    plUnits = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                     m = 0;
                     while (m < plUnits.Length)
                     {
-                        if ((plUnits[m].m_state == 2)
+                        if ((plUnits[m].m_state == UnitState.Disabled)
                                 && (plUnits[m].positionX >= 15)
                                 && (plUnits[m].positionY >= 8))
                         {
@@ -7375,22 +7395,22 @@ namespace aeii
                     }
                     break;
                 case 20:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 18, 8).goToPosition(16, 10, false, true);
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 18, 8).goToPosition(16, 10, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 21:
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)1, 18, 8).goToPosition(17, 10, false, true);
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)1, 18, 8).goToPosition(17, 10, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 22:
-                    C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 18, 8).goToPosition(18, 10, false, true);
+                    C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 18, 8).goToPosition(18, 10, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 23:
-                    C_Unit.createUnitOnMap((sbyte)1, (sbyte)1, 18, 8).goToPosition(18, 9, false, true);
+                    C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)1, 18, 8).goToPosition(18, 9, false, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
@@ -7403,7 +7423,7 @@ namespace aeii
                 case 25:
                     if ((this.crystal3Unit.positionX >= 15)
                         && (this.crystal3Unit.positionY >= 11)
-                        && (this.crystal3Unit.m_state == 2))
+                        && (this.crystal3Unit.m_state == UnitState.Disabled))
                     {
                         waitScript(10);
                         this.isUpdatingMb = false;
@@ -7411,7 +7431,7 @@ namespace aeii
                         this.scriptStep = 26;
                         return;
                     }
-                    if (countUnits(-1, -1, (sbyte)1) == 0)
+                    if (countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0)
                     { // no enemies
                         this.isUpdatingMb = false;
                         this.isCursorVisible = false;
@@ -7444,8 +7464,8 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 3:
-                    if ((countUnits(-1, -1, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
-                    {
+                    if ((countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
+                    {  // no enemies
                         this.isUpdatingMb = false;
                         this.isCursorVisible = false;
                         waitScript(15);
@@ -7469,14 +7489,14 @@ namespace aeii
 
         public void updateScenarioScript7()
         {
-
             if (this.scriptStep <= 10)
             {
                 if (this.crystal3Unit == null)
                 {
-                    this.crystal3Unit = getUnitsOfTypeStatePlayer(11, -1, (sbyte)0)[0];
+                    this.crystal3Unit = getUnitsOfTypeStatePlayer(UnitType.Crystal, UnitState.None, (sbyte)0)[0];
                 }
-                if (this.crystal3Unit.m_state == 3)
+
+                if (this.crystal3Unit.m_state == UnitState.Dead)
                 {
                     this.crystal3Unit = null;
                     sub_1447e(); //gameover
@@ -7487,7 +7507,7 @@ namespace aeii
             switch (this.scriptStep)
             {
                 case 0:
-                    if (this.playersKings[0].m_state != 1)
+                    if (this.playersKings[0].m_state != UnitState.Moving)
                     {
                         this.m_tempUnit = null;
                         waitScript(10);
@@ -7505,7 +7525,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 3:
-                    C_Unit[] plUnits = getUnitsOfTypeStatePlayer(-1, -1, (sbyte)0);
+                    C_Unit[] plUnits = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.None, (sbyte)0);
                     for (int m = 0; m < plUnits.Length; m++)
                     {
                         plUnits[m].followerUnitMb = null;
@@ -7523,28 +7543,28 @@ namespace aeii
                     }
                     break;
                 case 5:
-                    C_Unit unit2 = C_Unit.createUnitOnMap((sbyte)5, (sbyte)1, 11, 8); //wolf
+                    C_Unit unit2 = C_Unit.createUnitOnMap(UnitType.DireWolf, (sbyte)1, 11, 8); //wolf
                     unit2.fillWhereUnitCanMove(this.someMapData);
                     unit2.goToPosition(14, 7, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 6:
-                    C_Unit unit3 = C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, 11, 8); //soldier
+                    C_Unit unit3 = C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, 11, 8); //soldier
                     unit3.fillWhereUnitCanMove(this.someMapData);
                     unit3.goToPosition(13, 7, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 7:
-                    C_Unit unit4 = C_Unit.createUnitOnMap((sbyte)3, (sbyte)1, 11, 8); //magi
+                    C_Unit unit4 = C_Unit.createUnitOnMap(UnitType.Sorceress, (sbyte)1, 11, 8); //magi
                     unit4.fillWhereUnitCanMove(this.someMapData);
                     unit4.goToPosition(12, 7, true);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 8:
-                    C_Unit unit5 = C_Unit.createUnitOnMap((sbyte)1, (sbyte)1, 11, 8); //archer
+                    C_Unit unit5 = C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)1, 11, 8); //archer
                     unit5.goToPosition(13, 8, false);
                     waitScript(20);
                     this.scriptStep += 1;
@@ -7558,7 +7578,7 @@ namespace aeii
                     break;
                 case 10:
                     bool outsideTheRegion = false;
-                    C_Unit[] unitsEndedTurn = getUnitsOfTypeStatePlayer(-1, 2, (sbyte)0);
+                    C_Unit[] unitsEndedTurn = getUnitsOfTypeStatePlayer(UnitType.None, UnitState.Disabled, (sbyte)0);
                     for (int uT = 0; uT < unitsEndedTurn.Length; uT++)
                     {
                         if ((unitsEndedTurn[uT].positionX <= 9) || (unitsEndedTurn[uT].positionY >= 10))
@@ -7567,8 +7587,8 @@ namespace aeii
                             break;
                         }
                     }
-                    if ((outsideTheRegion) || (countUnits(-1, -1, (sbyte)1) == 0))
-                    {
+                    if ((outsideTheRegion) || (countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0))
+                    {  // or no enemies
                         this.isCursorVisible = false;
                         this.isUpdatingMb = false;
                         waitScript(10);
@@ -7576,8 +7596,8 @@ namespace aeii
                     }
                     break;
                 case 11:
-                    this.skeleton1Map2 = getUnitsOfTypeStatePlayer(11, -1, (sbyte)0)[0]; //crystal
-                    this.crystalOfWisdom = C_Unit.createUnitOnMap((sbyte)8, (sbyte)1,
+                    this.skeleton1Map2 = getUnitsOfTypeStatePlayer(UnitType.Crystal, UnitState.None, (sbyte)0)[0]; //crystal
+                    this.crystalOfWisdom = C_Unit.createUnitOnMap(UnitType.Dragon, (sbyte)1,
                             this.mapWidth, this.skeleton1Map2.positionY); // dragon
                     moveCameraTo(this.mapWidth - 1, this.skeleton1Map2.positionY);
                     this.isCursorVisible = false;
@@ -7594,7 +7614,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 14:
-                    if (this.crystalOfWisdom.m_state != 1)
+                    if (this.crystalOfWisdom.m_state != UnitState.Moving)
                     { //stopped running
                         // It is the Crystal it is after! May the Creator protect us!...
                         showUnitDialogMsg(A_MenuBase.getLangString(266), (sbyte)0, (byte)4);
@@ -7608,7 +7628,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 16:
-                    if (this.crystalOfWisdom.m_state != 1)
+                    if (this.crystalOfWisdom.m_state != UnitState.Moving)
                     { //stopped running
                         waitScript(10);
                         this.skeleton1Map2.removeFromMap();
@@ -7624,15 +7644,15 @@ namespace aeii
                     moveCameraTo(1, 9);
                     break;
                 case 18:
-                    this.playersKings[1] = C_Unit.createUnitOnMap((sbyte)9, (sbyte)1, -2, 8);
+                    this.playersKings[1] = C_Unit.createUnitOnMap(UnitType.Commander, (sbyte)1, -2, 8);
                     this.playersKings[1].goToPosition(0, 8, false);
-                    C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, -1, 8).goToPosition(3, 8, false);
-                    C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, -1, 10).goToPosition(1, 10, false);
-                    C_Unit.createUnitOnMap((sbyte)8, (sbyte)1, -3, 7).goToPosition(4, 8, false);
-                    C_Unit.createUnitOnMap((sbyte)8, (sbyte)1, -3, 11).goToPosition(2, 10, false);
-                    C_Unit.createUnitOnMap((sbyte)4, (sbyte)1, -2, 9).goToPosition(2, 9, false);
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)1, -4, 9).goToPosition(4, 9, false);
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)1, -6, 9).goToPosition(5, 10, false);
+                    C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, -1, 8).goToPosition(3, 8, false);
+                    C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, -1, 10).goToPosition(1, 10, false);
+                    C_Unit.createUnitOnMap(UnitType.Dragon, (sbyte)1, -3, 7).goToPosition(4, 8, false);
+                    C_Unit.createUnitOnMap(UnitType.Dragon, (sbyte)1, -3, 11).goToPosition(2, 10, false);
+                    C_Unit.createUnitOnMap(UnitType.Wisp, (sbyte)1, -2, 9).goToPosition(2, 9, false);
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)1, -4, 9).goToPosition(4, 9, false);
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)1, -6, 9).goToPosition(5, 10, false);
                     waitScript(50);
                     this.scriptStep += 1;
                     break;
@@ -7645,22 +7665,22 @@ namespace aeii
                     moveCameraTo(13, 14);
                     break;
                 case 21:
-                    C_Unit.createUnitOnMap((sbyte)0, (sbyte)1, 13, 14).goToPosition(12, 14, false);
+                    C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)1, 13, 14).goToPosition(12, 14, false);
                     waitScript(5);
                     this.scriptStep += 1;
                     break;
                 case 22:
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)1, 13, 14).goToPosition(14, 14, false);
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)1, 13, 14).goToPosition(14, 14, false);
                     waitScript(5);
                     this.scriptStep += 1;
                     break;
                 case 23:
-                    C_Unit.createUnitOnMap((sbyte)2, (sbyte)1, 13, 14).goToPosition(13, 12, false);
+                    C_Unit.createUnitOnMap(UnitType.Elemental, (sbyte)1, 13, 14).goToPosition(13, 12, false);
                     waitScript(5);
                     this.scriptStep += 1;
                     break;
                 case 24:
-                    C_Unit.createUnitOnMap((sbyte)3, (sbyte)1, 13, 14).goToPosition(13, 15, false);
+                    C_Unit.createUnitOnMap(UnitType.Sorceress, (sbyte)1, 13, 14).goToPosition(13, 15, false);
                     waitScript(15);
                     this.scriptStep += 1;
                     break;
@@ -7679,13 +7699,13 @@ namespace aeii
                     moveCameraTo(13, 17);
                     break;
                 case 28:
-                    C_Unit valadorn = C_Unit.createUnitOnMap((sbyte)9, (sbyte)0, 13, 18); // valadorn
+                    C_Unit valadorn = C_Unit.createUnitOnMap(UnitType.Commander, (sbyte)0, 13, 18); // valadorn
                     valadorn.setKingName(2);
                     valadorn.goToPosition(13, 16, false);
-                    C_Unit.createUnitOnMap((sbyte)6, (sbyte)0, 12, 18).goToPosition(12, 16, false);
-                    C_Unit.createUnitOnMap((sbyte)8, (sbyte)0, 14, 19).goToPosition(14, 16, false);
-                    C_Unit.createUnitOnMap((sbyte)4, (sbyte)0, 13, 19).goToPosition(13, 17, false);
-                    C_Unit.createUnitOnMap((sbyte)1, (sbyte)0, 12, 19).goToPosition(12, 17, false);
+                    C_Unit.createUnitOnMap(UnitType.Golem, (sbyte)0, 12, 18).goToPosition(12, 16, false);
+                    C_Unit.createUnitOnMap(UnitType.Dragon, (sbyte)0, 14, 19).goToPosition(14, 16, false);
+                    C_Unit.createUnitOnMap(UnitType.Wisp, (sbyte)0, 13, 19).goToPosition(13, 17, false);
+                    C_Unit.createUnitOnMap(UnitType.Archer, (sbyte)0, 12, 19).goToPosition(12, 17, false);
                     waitScript(20);
                     this.scriptStep += 1;
                     break;
@@ -7714,8 +7734,8 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 33:
-                    if ((countUnits(-1, -1, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
-                    {
+                    if ((countUnits(UnitType.None, UnitState.None, (sbyte)1) == 0) && (countPlayerOwnerCastles(1) == 0))
+                    {  // no enemies
                         this.isUpdatingMb = false;
                         this.isCursorVisible = false;
                         waitScript(10);
@@ -7771,7 +7791,7 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 7:
-                    if (this.skeleton1Map2.m_state != 1)
+                    if (this.skeleton1Map2.m_state != UnitState.Moving)
                     {
                         this.skeleton1Map2.removeFromMap();
                         this.skeleton1Map2 = null;
@@ -7781,7 +7801,7 @@ namespace aeii
                     }
                     break;
                 case 8:
-                    if (this.crystalOfWisdom.m_state != 1)
+                    if (this.crystalOfWisdom.m_state != UnitState.Moving)
                     {
                         this.crystalOfWisdom.removeFromMap();
                         this.crystalOfWisdom = null;
@@ -7791,7 +7811,7 @@ namespace aeii
                     }
                     break;
                 case 9:
-                    if (this.skeleton2Map2.m_state != 1)
+                    if (this.skeleton2Map2.m_state != UnitState.Moving)
                     {
                         this.skeleton2Map2.removeFromMap();
                         this.skeleton2Map2 = null;
@@ -7876,13 +7896,13 @@ namespace aeii
                         setSomeCurcorCenterPos(7, 2);
                         moveCursorToPos(7, 2);
                         someUnitValuesReset();
-                        this.playersKings[1] = C_Unit.createUnitOnMap((sbyte)9, (sbyte)1, 7, 2);
+                        this.playersKings[1] = C_Unit.createUnitOnMap(UnitType.Commander, (sbyte)1, 7, 2);
                         this.playersKings[1].setKingName(3);
-                        C_Unit.createUnitOnMap((sbyte)9, (sbyte)0, 6, 3);
-                        C_Unit luuUnit = C_Unit.createUnitOnMap((sbyte)9, (sbyte)0, 8, 3);
+                        C_Unit.createUnitOnMap(UnitType.Commander, (sbyte)0, 6, 3);
+                        C_Unit luuUnit = C_Unit.createUnitOnMap(UnitType.Commander, (sbyte)0, 8, 3);
                         luuUnit.setKingName(2);
-                        C_Unit.createUnitOnMap((sbyte)0, (sbyte)0, 6, 1);
-                        C_Unit.createUnitOnMap((sbyte)0, (sbyte)0, 8, 1);
+                        C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)0, 6, 1);
+                        C_Unit.createUnitOnMap(UnitType.Soldier, (sbyte)0, 8, 1);
                         waitScript(10);
                         this.scriptStep += 1;
                         E_MainCanvas.playMusicLooped2(8, 0);

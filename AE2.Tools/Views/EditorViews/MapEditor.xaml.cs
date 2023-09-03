@@ -1,6 +1,7 @@
 ﻿using AE2.Tools.CustomControls;
 using AE2.Tools.DataModels;
 using AE2.Tools.Enums;
+using AE2CSharp.Enums;
 using java.csharp;
 using java.io;
 using MIDP.WPF.ViewModels;
@@ -231,7 +232,7 @@ namespace AE2.Tools.Views
             TilePickerImage plane = new TilePickerImage();
             plane.SetTiles(new byte[][] { 
                 new byte[] { 18, 36, 18}, 
-                new byte[] { 33, 34, 35 } 
+                new byte[] { 33, TileType.SaethCitadel, 35 } 
             });
             pickers.Add(plane);
 
@@ -244,7 +245,7 @@ namespace AE2.Tools.Views
 
             TilePickerImage misc = new TilePickerImage();
             misc.SetTiles(new byte[][] { 
-                new byte[] {29,30,31,32,27},                             
+                new byte[] {29,30,31,32,TileType.DestroyedVillage},                             
             });
             pickers.Add(misc);            
 

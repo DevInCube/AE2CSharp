@@ -1,6 +1,7 @@
 ﻿using java.io;
 using java.lang;
 using java.csharp;
+using AE2CSharp.Enums;
 
 namespace AE2.Tools.Loaders
 {
@@ -52,7 +53,7 @@ namespace AE2.Tools.Loaders
                     this.mapTilesIds[i][j] = dis.readByte();
                     this.someMapData[i][j] = 0;
                     if ((this.mapTilesIds[i][j] >= this.houseTileIdStartIndex)
-                            || (this.mapTilesIds[i][j] == 27))
+                            || (this.mapTilesIds[i][j] == TileType.DestroyedVillage))
                     { 
                         // is house
                         m = tileOwnerPlayerIndex(i, j);
@@ -60,7 +61,7 @@ namespace AE2.Tools.Loaders
                         housesArr[countHouses][1] = ((sbyte)j);
                         housesArr[countHouses][2] = ((sbyte)m);
                         countHouses++;
-                        if (getTileType(i, j) == 9)
+                        if (getTileType(i, j) == TileType.Town)
                         { 
                             // castle
                             if ((this.mapModeCampIf0 == 1) && (m != 0)

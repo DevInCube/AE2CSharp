@@ -1,3 +1,4 @@
+using AE2CSharp.Enums;
 using java.lang;
 using javax.microedition.lcdui;
 
@@ -623,7 +624,7 @@ namespace aeii
                         }
                         if (i != 0)
                         {
-                            if (this.m_unit.unitTypeId == 9)
+                            if (this.m_unit.unitTypeId == UnitType.Commander)
                             {
                                 this.var_b7d = 6;
                             }
@@ -632,7 +633,7 @@ namespace aeii
                                 this.var_b7d = 4;
                             }
                             this.var_c55 = 400;
-                            if (this.m_unit.unitTypeId == 8)
+                            if (this.m_unit.unitTypeId == UnitType.Dragon)
                             {
                                 this.var_c55 = 0;
                             }
@@ -646,7 +647,7 @@ namespace aeii
                     i = 1;
                     for (m = 0; m < this.var_c75.Length; m++)
                     {
-                        if ((this.unitType == 9) && (E_MainCanvas.getRandomMax(2) == 0))
+                        if ((this.unitType == UnitType.Commander) && (E_MainCanvas.getRandomMax(2) == 0))
                         {
                             fSprite55 = F_Sprite.spriteCopy(
                                     this.m_game.bigSmokeSprite, E_MainCanvas.getRandomWithin(-2, 1),
@@ -666,7 +667,7 @@ namespace aeii
                             }
                             this.m_game.addSpriteTo(fSprite55);
                         }
-                        if (this.unitType == 9)
+                        if (this.unitType == UnitType.Commander)
                         {
                             if (this.var_b6d == 0)
                             {

@@ -2,11 +2,14 @@ using java.lang;
 using java.util;
 using javax.microedition.lcdui;
 using java.io;
+using AE2CSharp.Enums;
 
 namespace aeii
 {
     public class C_Unit : F_Sprite
     {
+        private const byte MaxLevel = 9;
+
         public static byte m_cpuUnitSpeed = 12; //be careful here, 16,18 causes unit move lock 
         public static byte m_defaultSpeed = 6;
         public static byte m_speed = m_defaultSpeed;
@@ -64,7 +67,7 @@ namespace aeii
             : base(sGame.getSomePosUnitSprite(playerId, typeId))
         {
             this.unitTypeId = typeId;
-            this.m_state = 0;
+            this.m_state = UnitState.Default;
             this.positionX = ((short)posX);
             this.positionY = ((short)posY);
             setSpritePosition(posX * 24, posY * 24);
@@ -82,7 +85,7 @@ namespace aeii
             this.unitAttackMin = (unitsAttackValues[this.unitTypeId][0] + lvlBonus);
             this.unitAttackMax = (unitsAttackValues[this.unitTypeId][1] + lvlBonus);
             this.unitDefence = (unitsDefenceValues[this.unitTypeId] + lvlBonus);
-            if (this.unitTypeId != 9)
+            if (this.unitTypeId != UnitType.Commander)
             {
                 int j = this.level / 2;
                 if (j > 3)
@@ -116,13 +119,14 @@ namespace aeii
             unit.unitHealthMb = 100;
             unit.charsData = unitsChars[type];
             unit.cost = unitsCosts[type];
-            if (type == 9)
+            if (type == UnitType.Commander)
             {
                 unit.setKingName(sGame.playersIndexes[playerId] - 1);
                 unit.unitId = sGame.playerUnitsCount[playerId];
                 sGame.playerKingsMb[playerId][unit.unitId] = unit;
                 sGame.playerUnitsCount[playerId] += 1;
             }
+
             return unit;
         }
 
@@ -147,24 +151,28 @@ namespace aeii
             int extraAtt = this.defenceStatusBonus;
             if (unit != null)
             {
-                if ((hasProperty((short)64))
-                        && (unit.hasProperty((short)1)))
+                if ((hasProperty(UnitProperty.Archer))
+                        && (unit.hasProperty(UnitProperty.Flying)))
                 { //archer & dragon
                     extraAtt += 15;
                 }
-                if ((this.unitTypeId == 4) && (unit.unitTypeId == 10))
+
+                if ((this.unitTypeId == UnitType.Wisp) && (unit.unitTypeId == UnitType.Skeleton))
                 { //wisp & skeleton
                     extraAtt += 15;
                 }
             }
-            if ((hasProperty((short)2)) && (sGame.getTileType(inX, inY) == 5))
+            
+            if ((hasProperty(UnitProperty.Aquatic)) && (sGame.getTileType(inX, inY) == TileType.Water))
             { //water
                 extraAtt += 10;
             }
-            if (sGame.mapTilesIds[inX][inY] == 34)
+
+            if (sGame.mapTilesIds[inX][inY] == TileType.SaethCitadel)
             { //saeth
                 extraAtt += 25;
             }
+
             return extraAtt;
         }
 
@@ -177,14 +185,16 @@ namespace aeii
         {
             int tType = sGame.getTileType(inX, inY);
             int resist = this.attackStatusBonus + I_Game.tilesDefences[tType];
-            if ((hasProperty((short)2)) && (tType == 5))
+            if ((hasProperty(UnitProperty.Aquatic)) && (tType == TileType.Water))
             { //water
                 resist += 15;
             }
-            if (sGame.mapTilesIds[inX][inY] == 34)
+
+            if (sGame.mapTilesIds[inX][inY] == TileType.SaethCitadel)
             { //saeth citadel
                 resist += 15;
             }
+
             return resist;
         }
 
@@ -202,6 +212,7 @@ namespace aeii
             {
                 damage = oUnit.unitHealthMb;
             }
+
             oUnit.unitHealthMb -= (byte)damage;
             this.experience += (byte)(oUnit.getExpKoef() * damage);
             return damage;
@@ -219,7 +230,7 @@ namespace aeii
 
         public bool gotNewLevel()
         {
-            if (this.level < 9)
+            if (this.level < MaxLevel)
             {
                 int exp = getLevelExpMax();
                 if (this.experience >= exp)
@@ -229,31 +240,32 @@ namespace aeii
                     return true;
                 }
             }
+
             return false;
         }
 
         public bool isNearOtherUnit(C_Unit unit, int inX, int inY)
         {
-            return (this.m_state != 4)
+            return (this.m_state != UnitState.Removed)
                     && (this.unitHealthMb > 0)
                     && (Math.abs(this.positionX - inX)
                             + Math.abs(this.positionY - inY) == 1)
                     && (minUnitRanges[this.unitTypeId] == 1);
         }
 
-        public void applyPoisonStatus(byte paramByte)
+        public void addStatusEffect(byte statusEffect)
         {
-            this.status = ((byte)(this.status | paramByte));
+            this.status = ((byte)(this.status | statusEffect));
             calcStatusEffect();
-            if (paramByte == 1)
+            if (statusEffect == StatusEffect.Poison)
             {
                 this.someStatusPlayerId = sGame.playerId;
             }
         }
 
-        public void applyWispStatusMb(byte paramByte)
+        public void removeStatusEffect(byte statusEffect)
         {
-            this.status = ((byte)(this.status & (paramByte ^ 0xFFFFFFFF)));
+            this.status = ((byte)(this.status & (statusEffect ^ 0xFFFFFFFF)));
             calcStatusEffect();
         }
 
@@ -262,12 +274,13 @@ namespace aeii
             this.movementStatusBonus = 0;
             this.defenceStatusBonus = 0;
             this.attackStatusBonus = 0;
-            if ((this.status & 0x1) != 0)
+            if ((this.status & StatusEffect.Poison) != 0)
             { // poison
                 this.defenceStatusBonus = ((short)(this.defenceStatusBonus - 10));
                 this.attackStatusBonus = ((short)(this.attackStatusBonus - 10));
             }
-            if ((this.status & 0x2) != 0)
+
+            if ((this.status & StatusEffect.WispAura) != 0)
             { // wisp
                 this.defenceStatusBonus = ((short)(this.defenceStatusBonus + 10));
             }
@@ -339,11 +352,12 @@ namespace aeii
 
         public void showWhereUnitCanAttack(byte[][] mapRangeData)
         {
-            if (hasProperty((short)512))
+            if (hasProperty(UnitProperty.CatapultRange))
             { //catapult
                 fillAttackRangeData(mapRangeData, this.positionX, this.positionY);
                 return;
             }
+
             fillWhereUnitCanMove(mapRangeData);
             for (int i = 0; i < sGame.mapWidth; i++)
             {
@@ -406,15 +420,15 @@ namespace aeii
                                     localVector.addElement(aUnit);
                                 }
                             }
-                            else if ((this.unitTypeId == 7)
-                                  && (sGame.getTileType(x, y) == 8)
+                            else if ((this.unitTypeId == UnitType.Catapult)
+                                  && (sGame.getTileType(x, y) == TileType.Village)
                                   && (sGame.mapTilesIds[x][y] >= sGame.houseTileIdStartIndex)
                                   && (!sGame.isInSameTeam(x, y,
                                           sGame.playersTeams[this.playerId])))
                             {
                                 C_Unit unit2 = createUnit((sbyte)0, (sbyte)0, x, y, false);
-                                unit2.unitTypeId = -1;
-                                unit2.m_state = 4;
+                                unit2.unitTypeId = UnitType.None;
+                                unit2.m_state = UnitState.Removed;
                                 localVector.addElement(unit2);
                             }
                         }
@@ -511,7 +525,7 @@ namespace aeii
             this.m_startPosX = inX;
             this.m_startPosY = inY;
             this.movePathPosIndex = 1;
-            this.m_state = 1; // running mb
+            this.m_state = UnitState.Moving;
         }
 
         public Vector getUnitMovePathPositions(int posX, int posY, int curPx, int curPy)
@@ -593,7 +607,7 @@ namespace aeii
             int i;
             if ((paramInt4 != 1)
                     && ((i = sTileType
-                            - getCellMoveValue(inX, inY - 1, paramByte1,
+                            - getCellMoveEffort(inX, inY - 1, paramByte1,
                                     paramByte2)) >= 0)
                     && (fillWhereUnitcanMove(mdata, inX, inY - 1, i, 2,
                             paramByte1, paramByte2, paramBoolean))
@@ -603,7 +617,7 @@ namespace aeii
             }
             if ((paramInt4 != 2)
                     && ((i = sTileType
-                            - getCellMoveValue(inX, inY + 1, paramByte1,
+                            - getCellMoveEffort(inX, inY + 1, paramByte1,
                                     paramByte2)) >= 0)
                     && (fillWhereUnitcanMove(mdata, inX, inY + 1, i, 1,
                             paramByte1, paramByte2, paramBoolean))
@@ -613,7 +627,7 @@ namespace aeii
             }
             if ((paramInt4 != 4)
                     && ((i = sTileType
-                            - getCellMoveValue(inX - 1, inY, paramByte1,
+                            - getCellMoveEffort(inX - 1, inY, paramByte1,
                                     paramByte2)) >= 0)
                     && (fillWhereUnitcanMove(mdata, inX - 1, inY, i, 8,
                             paramByte1, paramByte2, paramBoolean))
@@ -623,14 +637,14 @@ namespace aeii
             }
             return (paramInt4 != 8)
                     && ((i = sTileType
-                            - getCellMoveValue(inX + 1, inY, paramByte1,
+                            - getCellMoveEffort(inX + 1, inY, paramByte1,
                                     paramByte2)) >= 0)
                     && (fillWhereUnitcanMove(mdata, inX + 1, inY, i, 4,
                             paramByte1, paramByte2, paramBoolean))
                     && (paramBoolean);
         }
 
-        public static int getCellMoveValue(int inX, int inY, sbyte inUnitType, sbyte inUnitTeam)
+        public static int getCellMoveEffort(int inX, int inY, sbyte inUnitType, sbyte inUnitTeam)
         {
             if ((inX >= 0) && (inY >= 0) && (inX < sGame.mapWidth) && (inY < sGame.mapHeight))
             {
@@ -640,27 +654,31 @@ namespace aeii
                 {
                     return 1000;
                 }
+
                 int tyleType = sGame.getTileType(inX, inY);
-                if (inUnitType == 11)
+                if (inUnitType == UnitType.Crystal)
                 { //crystal
-                    if (tyleType == 4)
+                    if (tyleType == TileType.Mountain)
                     { //mountain
                         return 1000;
                     }
                 }
                 else
                 {
-                    if (hasUnitProperty(inUnitType, (short)1))
+                    if (hasUnitProperty(inUnitType, UnitProperty.Flying))
                     { //fly
                         return 1;
                     }
-                    if ((hasUnitProperty(inUnitType, (short)2)) && (tyleType == 5))
+
+                    if ((hasUnitProperty(inUnitType, UnitProperty.Aquatic)) && (tyleType == TileType.Water))
                     { //water
                         return 1;
                     }
                 }
+
                 return I_Game.tilesMovements[tyleType];
             }
+
             return 10000;
         }
 
@@ -684,11 +702,11 @@ namespace aeii
                     this.m_shakeDirection = (!this.m_shakeDirection);
                 }
             }
-            if (this.m_state == 1) // running
+            if (this.m_state == UnitState.Moving) // running
             {
                 if (this.movePathPosIndex >= this.unitMovePathPositions.size())
                 {
-                    this.m_state = 0; //stopped
+                    this.m_state = UnitState.Default; //stopped
                     this.positionX = ((short)(this.posXPixel / 24));
                     this.positionY = ((short)(this.posYPixel / 24));
                     this.unitMovePathPositions = null;
@@ -768,7 +786,7 @@ namespace aeii
                 nextFrame();
                 return;
             }
-            if ((this.m_state == 0) && (sGame.time - this.unitFrameStartTime >= 200L))
+            if ((this.m_state == UnitState.Default) && (sGame.time - this.unitFrameStartTime >= 200L))
             {
                 nextFrame();
                 this.unitFrameStartTime = sGame.time;
@@ -787,23 +805,25 @@ namespace aeii
 
         public void endMove()
         {
-            this.m_state = 2;
+            this.m_state = UnitState.Disabled;
             C_Unit unit1 = sGame.getSomeUnit(this.positionX, this.positionY, (byte)1);
             if (unit1 != null)
             {
                 unit1.removeFromMap();
             }
-            if (hasProperty((short)256))
+
+            if (hasProperty(UnitProperty.WispAura))
             { //wisp aura
                 C_Unit[] unitsInRange = getPositionUnitsInAttackRange(this.positionX, this.positionY, 1, 2, (byte)2);
                 for (int i = 0; i < unitsInRange.Length; i++)
                 {
-                    unitsInRange[i].applyPoisonStatus((byte)2);
+                    unitsInRange[i].addStatusEffect(StatusEffect.WispAura);
                     sGame.showSpriteOnMap(sGame.sparkSprite,
                             unitsInRange[i].posXPixel,
                             unitsInRange[i].posYPixel, 0, 0, 1, 50);
                 }
             }
+
             sGame.unitEndTurnMb = this;
         }
 
@@ -814,11 +834,12 @@ namespace aeii
             for (int j = 0; j < units.Length; j++)
             {
                 if ((sGame.playerKingsMb[sGame.playerId][j] != null)
-                        && (sGame.playerKingsMb[sGame.playerId][j].m_state == 3)) //if king is dead
+                        && (sGame.playerKingsMb[sGame.playerId][j].m_state == UnitState.Dead)) //if king is dead
                 {
                     units[(uCount++)] = sGame.playerKingsMb[sGame.playerId][j]; //add king to list
                 }
             }
+
             C_Unit[] units2 = new C_Unit[sGame.unlockedUnitsTypeMax + 1 + uCount];
             for (int k = 0; k < units2.Length; k = (byte)(k + 1))
             {
@@ -831,6 +852,7 @@ namespace aeii
                     units2[k] = createUnit((sbyte)(k - uCount), index, 0, 0, false);
                 }
             }
+
             return units2;
         }
 
@@ -842,7 +864,7 @@ namespace aeii
 
         public void drawUnit(Graphics gr, int inX, int inY, bool unitDisabled)
         {
-            if (this.m_state != 4)
+            if (this.m_state != UnitState.Removed)
             {
                 int shX;
                 int shY;
@@ -859,7 +881,7 @@ namespace aeii
                     shY = E_MainCanvas.getRandomInt() % 1;
                     base.onSpritePaint(gr, inX + shX, inY + shY);
                 }
-                else if ((unitDisabled) || (this.m_state == 2)) //end turn
+                else if ((unitDisabled) || (this.m_state == UnitState.Disabled)) //end turn
                 {
                     sGame.playersUnitsSprites[0][this.unitTypeId].onSpritePaint(gr,
                             this.posXPixel + inX, this.posYPixel + inY);
@@ -868,11 +890,12 @@ namespace aeii
                 {
                     base.onSpritePaint(gr, inX, inY);
                 }
-                if (this.unitTypeId == 9)
+
+                if (this.unitTypeId == UnitType.Commander)
                 {
                     shX = this.posXPixel + inX;
                     shY = this.posYPixel + inY;
-                    if ((unitDisabled) || (this.m_state == 2)) //end turn
+                    if ((unitDisabled) || (this.m_state == UnitState.Disabled)) //end turn
                     {
                         sGame.kingHeadsSprites[1].drawFrameAt(gr, this.kingIndex
                                 * 2 + this.currentFrameIndex, shX, shY, 0);
@@ -888,7 +911,7 @@ namespace aeii
         {
             int hX = this.posXPixel + shiftX;
             int hY = this.posYPixel + shiftY;
-            if ((this.m_state != 3) && (this.unitHealthMb < 100))
+            if ((this.m_state != UnitState.Dead) && (this.unitHealthMb < 100))
             {
                 E_MainCanvas.drawCharedString(gr, "" + this.unitHealthMb, hX, hY
                         + this.frameHeight - 7, 0);
