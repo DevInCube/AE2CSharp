@@ -51,7 +51,8 @@ namespace AE2.Tools
 
         private static InputStream getResourceAsStream(string path)
         {
-            using (var ms = new System.IO.MemoryStream())
+            var ms = new System.IO.MemoryStream();
+            //using (ms)
             {
                 using (var file = new System.IO.FileStream(
                     path: path,

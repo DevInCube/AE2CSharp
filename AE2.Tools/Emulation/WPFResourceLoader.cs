@@ -13,7 +13,8 @@
         public override java.io.InputStream getResourceAsStrea(java.lang.String name)
         {
             var path = System.IO.Path.Combine(_rootDir, System.IO.Path.GetFileName(name.ToString()));
-            using (var ms = new System.IO.MemoryStream())
+            var ms = new System.IO.MemoryStream();
+            //using (ms)
             {
                 using (var file = new System.IO.FileStream(
                     path: path,

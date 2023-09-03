@@ -39,12 +39,11 @@ namespace javax.microedition.lcdui
         public static Image createImage(byte[] imageData, int imageOffset, int imageLength)
         {
             //@todo width height
-            System.Drawing.Bitmap bmp;
             using (var ms = new System.IO.MemoryStream(imageData))
             {
-                bmp = new System.Drawing.Bitmap(ms);
+                var bitmap = new System.Drawing.Bitmap(ms);
+                return new Image(bitmap);
             }
-            return new Image(bmp);
         }
 
         public static Image createImage(int w, int h)
