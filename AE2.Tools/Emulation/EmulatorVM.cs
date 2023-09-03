@@ -39,9 +39,9 @@ namespace AE2.Tools.Emulation
 
         public System.Windows.Controls.Control Control
         {
-            get { return _control; }
-            set { _control = value; OnPropertyChanged("Control"); }
-        }        
+            get => _control;
+            set => SetProperty(ref _control, value);
+        }
 
         public EmulatorVM()
         {

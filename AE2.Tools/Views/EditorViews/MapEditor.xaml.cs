@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,7 +26,6 @@ namespace AE2.Tools.Views
     /// </summary>
     public partial class MapEditor : Window, INotifyPropertyChanged
     {
-
         public const int CELL_SIZE = 24;
         public const byte MIN_MAP_SIZE = 5;
         private byte defaultTile = 0;
@@ -57,23 +57,23 @@ namespace AE2.Tools.Views
         public byte DefaultMapWidth
         {
             get { return _DefaultMapWidth; }
-            set { _DefaultMapWidth = value; OnPropertyChanged("DefaultMapWidth"); }
+            set { _DefaultMapWidth = value; OnPropertyChanged(nameof(DefaultMapWidth)); }
         }
         public byte DefaultMapHeight
         {
             get { return _DefaultMapHeight; }
-            set { _DefaultMapHeight = value; OnPropertyChanged("DefaultMapHeight"); }
+            set { _DefaultMapHeight = value; OnPropertyChanged(nameof(DefaultMapHeight)); }
         }
 
         public bool BrushSelection
         {
             get { return _BrushSelection; }
-            set { _BrushSelection = value; OnPropertyChanged("BrushSelection"); }
+            set { _BrushSelection = value; OnPropertyChanged(nameof(BrushSelection)); }
         }
         public bool RectSelection
         {
             get { return _RectSelection; }
-            set { _RectSelection = value; OnPropertyChanged("RectSelection"); }
+            set { _RectSelection = value; OnPropertyChanged(nameof(RectSelection)); }
         }
 
         public ICommand AddColumn { get; set; }
@@ -277,7 +277,7 @@ namespace AE2.Tools.Views
             tileSel.SelectedTile = defaultTile;
             tileSel.TileSelected += tileSel_TileSelected;
             DefaultTileSelector = tileSel;
-            OnPropertyChanged("DefaultTileSelector");
+            OnPropertyChanged(nameof(DefaultTileSelector));
 
             int mapWidth = 10;
             int mapHeight = 10;
@@ -344,10 +344,10 @@ namespace AE2.Tools.Views
             Canvas mapCanvas = this.MapCanvas;
             UpdateMap();            
             UpdateSelections();                       
-            OnPropertyChanged("AddColX");
-            OnPropertyChanged("AddRowY");
-            OnPropertyChanged("MapWidth");
-            OnPropertyChanged("MapHeight");
+            OnPropertyChanged(nameof(AddColX));
+            OnPropertyChanged(nameof(AddRowY));
+            OnPropertyChanged(nameof(MapWidth));
+            OnPropertyChanged(nameof(MapHeight));
         }
 
         private void UpdateKings()
@@ -522,10 +522,9 @@ namespace AE2.Tools.Views
         #region propchanged
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            if (PropertyChanged != null)
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         #endregion
 
