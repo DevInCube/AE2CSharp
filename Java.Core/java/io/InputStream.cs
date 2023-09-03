@@ -4,10 +4,9 @@ namespace java.io
 {
     public abstract class InputStream
     {
+        private readonly Stream _stream;
 
-        private readonly MemoryStream _stream;
-
-        public MemoryStream Stream => _stream;
+        public Stream Stream => _stream;
 
         public InputStream(byte[] bytes)
         {
@@ -16,13 +15,13 @@ namespace java.io
 
         public InputStream(InputStream stream)
         {
-            this._stream = stream._stream;
+            _stream = stream._stream;
         }
 
-        public InputStream(MemoryStream fileStream)
+        public InputStream(Stream fileStream)
         {
-            this._stream = fileStream;
-            this._stream.Seek(0, SeekOrigin.Begin);
+            _stream = fileStream;
+            _stream.Seek(0, SeekOrigin.Begin);
         }
 
         public byte read()
@@ -34,6 +33,5 @@ namespace java.io
         {
             _stream.Close();
         }
-
     }
 }

@@ -10,9 +10,9 @@
             _reader = new System.IO.BinaryReader(Stream);            
         }
 
-        public DataInputStream(System.IO.MemoryStream fileStream) : base(fileStream)
+        public DataInputStream(System.IO.Stream stream) : base(stream)
         {
-            fileStream.Seek(0, System.IO.SeekOrigin.Begin);
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
             _reader = new System.IO.BinaryReader(Stream);
         }
 
