@@ -19,7 +19,7 @@ namespace AE2.Tools.Views.EditorViews
         public bool IsToggleEnabled { get; set; }
         public byte SelectedTile
         {
-            get { return _selectedTile; }
+            get => _selectedTile;
             set
             {
                 _selectedTile = value;

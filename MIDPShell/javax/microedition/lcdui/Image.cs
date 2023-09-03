@@ -8,7 +8,7 @@ namespace javax.microedition.lcdui
     {
 
         private System.Drawing.Image image;
-        internal System.Drawing.Image WPFImage { get { return image; } }
+        internal System.Drawing.Image WPFImage => image;
 
         public Image(System.Drawing.Image image1)
         {

@@ -13,10 +13,7 @@ namespace MIDP.WPF.Media
         private System.Drawing.Image canvasImage;
         private System.Windows.Controls.Image image;
 
-        public System.Windows.FrameworkElement WPFControl
-        {
-            get { return image; }
-        }
+        public System.Windows.FrameworkElement WPFControl => image;
 
         public int Width
         {

@@ -7,7 +7,7 @@ namespace java.io
 
         private readonly MemoryStream _stream;
 
-        public MemoryStream Stream { get { return _stream; } }
+        public MemoryStream Stream => _stream;
 
         public InputStream(byte[] bytes)
         {

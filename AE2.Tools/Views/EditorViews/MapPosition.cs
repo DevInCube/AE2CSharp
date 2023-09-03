@@ -38,6 +38,6 @@
         }
 
         private static readonly MapPosition _NONE = new MapPosition(sbyte.MinValue, sbyte.MinValue);
-        public static MapPosition None { get { return _NONE; } }
+        public static MapPosition None => _NONE;
     }
 }

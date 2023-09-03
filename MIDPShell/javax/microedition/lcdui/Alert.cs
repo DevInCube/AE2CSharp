@@ -7,10 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.Label control = new System.Windows.Controls.Label();
 
-        public override System.Windows.FrameworkElement WPFControl
-        {
-            get { return control; }
-        }
+        public override System.Windows.FrameworkElement WPFControl => control;
 
         public const int FOREVER = -2;
         public static readonly Command DISMISS_COMMAND = null;

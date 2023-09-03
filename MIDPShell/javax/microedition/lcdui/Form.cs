@@ -7,10 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.GroupBox control;
 
-        public override System.Windows.FrameworkElement WPFControl
-        {
-            get { return control; }
-        }
+        public override System.Windows.FrameworkElement WPFControl => control;
 
         public Form(String header) {
             System.Windows.Application.Current.Dispatcher.Invoke((System.Action)(() => {

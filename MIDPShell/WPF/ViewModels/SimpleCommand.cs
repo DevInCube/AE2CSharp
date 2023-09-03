@@ -11,8 +11,8 @@ namespace MIDP.WPF.ViewModels
     {
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
         private Action methodToExecute;
         private Func<bool> canExecuteEvaluator;

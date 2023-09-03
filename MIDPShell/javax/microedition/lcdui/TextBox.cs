@@ -7,10 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.TextBox textBox = new System.Windows.Controls.TextBox();
 
-        public override System.Windows.FrameworkElement WPFControl
-        {
-            get { return textBox; }
-        }
+        public override System.Windows.FrameworkElement WPFControl => textBox;
 
         public TextBox(String paramString1, String paramString2, int paramInt1, int paramInt2) { }
 

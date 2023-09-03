@@ -7,10 +7,7 @@ namespace javax.microedition.lcdui
 
         private System.Windows.Controls.ListView control = new System.Windows.Controls.ListView();
 
-        public override System.Windows.FrameworkElement WPFControl
-        {
-            get { return control; }
-        }
+        public override System.Windows.FrameworkElement WPFControl => control;
 
         public static readonly Command SELECT_COMMAND = null;
 

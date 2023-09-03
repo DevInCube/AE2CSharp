@@ -23,7 +23,7 @@ namespace javax.microedition.lcdui
         private int size;
 
         private System.Drawing.Font wpfFont;
-        internal System.Drawing.Font WPFFont { get { return wpfFont; } }
+        internal System.Drawing.Font WPFFont => wpfFont;
 
         public Font(int face, int style, int size)
         {

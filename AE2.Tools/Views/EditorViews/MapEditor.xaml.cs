@@ -47,32 +47,32 @@ namespace AE2.Tools.Views
         private System.Drawing.Bitmap selBitmap;
         private System.Drawing.Bitmap[] unitsBitmap;
 
-        public int MapWidth { get { return mapData.Count == 0 ? 0 : mapData[0].Count; } }
-        public int MapHeight { get { return mapData.Count; } }
+        public int MapWidth => mapData.Count == 0 ? 0 : mapData[0].Count;
+        public int MapHeight => mapData.Count;
 
-        public int AddColX { get { return MapWidth * CELL_SIZE; } }
-        public int AddRowY { get { return MapHeight * CELL_SIZE; } }
+        public int AddColX => MapWidth * CELL_SIZE;
+        public int AddRowY => MapHeight * CELL_SIZE;
 
         public FrameworkElement DefaultTileSelector { get; set; }
         public byte DefaultMapWidth
         {
-            get { return _DefaultMapWidth; }
+            get => _DefaultMapWidth;
             set { _DefaultMapWidth = value; OnPropertyChanged(nameof(DefaultMapWidth)); }
         }
         public byte DefaultMapHeight
         {
-            get { return _DefaultMapHeight; }
+            get => _DefaultMapHeight;
             set { _DefaultMapHeight = value; OnPropertyChanged(nameof(DefaultMapHeight)); }
         }
 
         public bool BrushSelection
         {
-            get { return _BrushSelection; }
+            get => _BrushSelection;
             set { _BrushSelection = value; OnPropertyChanged(nameof(BrushSelection)); }
         }
         public bool RectSelection
         {
-            get { return _RectSelection; }
+            get => _RectSelection;
             set { _RectSelection = value; OnPropertyChanged(nameof(RectSelection)); }
         }
 

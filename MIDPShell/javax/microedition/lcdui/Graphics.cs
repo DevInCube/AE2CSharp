@@ -44,7 +44,7 @@ namespace javax.microedition.lcdui
         private System.Drawing.Color wpfColor;
         private System.Drawing.Font wpfFont;
 
-        public System.Drawing.Graphics WPFGraphics { get { return gr; } }
+        public System.Drawing.Graphics WPFGraphics => gr;
 
         public Graphics(System.Drawing.Graphics newGraphics)
         {

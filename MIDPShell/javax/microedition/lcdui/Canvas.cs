@@ -33,10 +33,7 @@ namespace javax.microedition.lcdui
         private Graphics graphics;
         private IDrawingContext dc;
 
-        public override System.Windows.FrameworkElement WPFControl
-        {
-            get { return dc.WPFControl; }
-        }
+        public override System.Windows.FrameworkElement WPFControl => dc.WPFControl;
 
         public Canvas()
         {
