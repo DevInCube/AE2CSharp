@@ -1,6 +1,3 @@
-using java.lang;
-
-
 using javax.microedition.midlet;
 
 namespace aeii
@@ -8,7 +5,6 @@ namespace aeii
 
     public class B_MainMIDlet : MIDlet
     {
-
         public static B_MainMIDlet midlet;
         public static E_MainCanvas canvas;
 

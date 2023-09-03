@@ -1,13 +1,10 @@
 using java.lang;
-using java.csharp;
 using javax.microedition.lcdui;
 
 namespace aeii
 {
-
     public class H_ImageExt
     {
-
         public Image image;
         private bool isFramedImage = false;
         private int frameShiftXPix;
@@ -159,8 +156,8 @@ namespace aeii
             {
                 int x_src = this.frameShiftXPix;
                 int y_src = this.frameShiftYPix;
-                gr.drawRegion(this.image, x_src,  y_src,
-                              this.imageWidth, this.imageHeight, 
+                gr.drawRegion(this.image, x_src, y_src,
+                              this.imageWidth, this.imageHeight,
                               this.imageTransformation, x_dest, y_dest,
                               inAnchor);
                 return;
@@ -221,8 +218,8 @@ namespace aeii
                         int[][] playColors = I_Game.playerAlphaColors[playerId]; //player
                         for (int cIt = 0; cIt < blueColors.Length; cIt++)
                         {
-                            if ((blueColors[cIt][0] == r) 
-                                && (blueColors[cIt][1] == g) 
+                            if ((blueColors[cIt][0] == r)
+                                && (blueColors[cIt][1] == g)
                                 && (blueColors[cIt][2] == b))
                             {
                                 imageData[colorIndex] = ((byte)playColors[cIt][0]);

@@ -1,5 +1,3 @@
-using java.lang;
-
 using javax.microedition.lcdui;
 using java.util;
 using java.csharp;
@@ -10,7 +8,6 @@ namespace aeii
 {
     public class A_MenuBase
     {
-
         public int someCanWidth = mainCanvas.getWidth();
         public int someCanHeight = mainCanvas.getHeight();
         public int someCanWidthDiv2 = mainCanvas.getWidth() >> 1;
@@ -43,7 +40,7 @@ namespace aeii
             //@todo override
         }
 
-        public static  String[] wrapText(String aString, int maxWidth, Font aFont)
+        public static String[] wrapText(String aString, int maxWidth, Font aFont)
         {
             Vector localVector = new Vector();
             int i = 0;
@@ -97,7 +94,7 @@ namespace aeii
             return arrayOfString;
         }
 
-        private static  int sub_ab5(String aString, int charPos)
+        private static int sub_ab5(String aString, int charPos)
         {
             int i = aString.charAt(charPos);
             if (sub_b97(i))
@@ -128,7 +125,7 @@ namespace aeii
             return j;
         }
 
-        private static  bool sub_b97(int paramInt)
+        private static bool sub_b97(int paramInt)
         {
             return ((paramInt >= 11904) && (paramInt < 44032))
                     || ((paramInt >= 63744) && (paramInt < 64256))
@@ -151,7 +148,7 @@ namespace aeii
             return langStrings.Length;
         }
 
-        public static  String getLangString(int aStringId)
+        public static String getLangString(int aStringId)
         {
             return getSomeHelpString(aStringId, false);
         }
@@ -172,8 +169,8 @@ namespace aeii
                     {
                         StringBuffer buf = new StringBuffer();
                         String[] keyNames = { mainCanvas.getKeyName2(1),
-							mainCanvas.getKeyName2(2), mainCanvas.getKeyName2(4),
-							mainCanvas.getKeyName2(8) };
+                            mainCanvas.getKeyName2(2), mainCanvas.getKeyName2(4),
+                            mainCanvas.getKeyName2(8) };
                         buf.append(aStringFormat(17, keyNames)); //'%U', '%U', '%U', '%U'
                         if (buf.length() > 0)
                         {
@@ -188,7 +185,7 @@ namespace aeii
             return "?: " + strId;
         }
 
-        public static  String aStringFormat(int paramInt, String[] paramArrayOfString)
+        public static String aStringFormat(int paramInt, String[] paramArrayOfString)
         {
             String str = new String(getLangString(paramInt));
             for (int i = 0; i < paramArrayOfString.Length; i++)
@@ -198,12 +195,12 @@ namespace aeii
             return str;
         }
 
-        public static  String replaceStringFirst(int strID, String replacement)
+        public static String replaceStringFirst(int strID, String replacement)
         {
             return replaceString(getLangString(strID), "%U", replacement, false);
         }
 
-        public static  String replaceString(String aString,
+        public static String replaceString(String aString,
                 String toReplace, String replacement, bool menuTimes)
         {
             String str = aString;
@@ -240,7 +237,7 @@ namespace aeii
             //sin1024Table[270] = -1024;
         }
 
-        public static  short getSin1024(int degree)
+        public static short getSin1024(int degree)
         {
             degree %= 360;
             return sin1024Table[degree];

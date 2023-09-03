@@ -1,19 +1,17 @@
 using java.lang;
 using javax.microedition.lcdui;
 
-
 namespace aeii
 {
-    public  class G_FightAnimation
+    public class G_FightAnimation
     {
-
-        public static  String[] bgTypeNames = { "road", "grass", "woods", "hill",
-			"mountain", "water", "bridge", "town" };
-        public static  byte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
-        public static  byte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
-        public static  String[] unitTypeNames = { "soldier", "archer", "lizard",
-			"wizard", "wisp", "spider", "golem", "catapult", "wyvern", "king",
-			"skeleton" };
+        public static String[] bgTypeNames = { "road", "grass", "woods", "hill",
+            "mountain", "water", "bridge", "town" };
+        public static byte[] var_afd = { 0, 1, 1, 1, 4, 5, 6, 7, 7, 7 };
+        public static byte[] var_b05 = { 0, 1, 2, 3, 4, 5, 6, 7, 7, 7 };
+        public static String[] unitTypeNames = { "soldier", "archer", "lizard",
+            "wizard", "wisp", "spider", "golem", "catapult", "wyvern", "king",
+            "skeleton" };
         public I_Game m_game;
         public C_Unit m_unit;
         public sbyte unitType;
@@ -28,7 +26,7 @@ namespace aeii
         public sbyte var_b6d;
         public bool var_b75;
         public int var_b7d = 0;
-        public static  sbyte[] var_b85 = { 3, -3 };
+        public static sbyte[] var_b85 = { 3, -3 };
         public F_Sprite var_b8d;
         public F_Sprite kingWaveSprite;
         public F_Sprite archerArrowSprite;
@@ -63,165 +61,216 @@ namespace aeii
         public int unitCharIndex;
 
         public G_FightAnimation(I_Game aGame, C_Unit aUnit, G_FightAnimation faInst)
-			{
-		this.m_game = aGame;
-		this.m_unit = aUnit;
-		this.unitType = aUnit.unitTypeId;
-		this.otherFightAnim = faInst;
-		this.unitStartHealth = ((byte) aUnit.unitHealthMb);
-		this.unitHealth = this.unitStartHealth;
-		this.unitStartCharsCount = ((byte) aUnit.getAliveCharactersCount());
-		this.unitCharsCount = this.unitStartCharsCount;
-		int i = 0;
-		if (faInst == null) {
-			this.var_b6d = 0;
-			this.var_bad = 0;
-			this.var_b75 = true;
-		} else {
-			i = aGame.viewportWidth;
-			this.var_b6d = 1;
-			this.var_b7d = 0;
-		}
-		this.tileType = aGame.getTileType(aUnit.positionX, aUnit.positionY);
-		int j = var_b05[this.tileType];
-		int k = var_afd[this.tileType];
-		if ((faInst != null) && (k == var_afd[faInst.tileType])) {
-			this.multipleBgImages = new H_ImageExt[faInst.multipleBgImages.Length];
-			JavaSystem.arraycopy(faInst.multipleBgImages, 0, this.multipleBgImages, 0,
-					this.multipleBgImages.Length);
-		} else {
-			this.multipleBgImages = new F_Sprite(bgTypeNames[k]).frameImages;
-		}
-		if (this.var_b6d == 1) {
-			for (int m = 0; m < this.multipleBgImages.Length; m++) {
-				this.multipleBgImages[m] = new H_ImageExt(this.multipleBgImages[m], 1);
-			}
-		}
-		try {
-			if ((faInst != null)
-					&& (j == var_b05[faInst.tileType])) {
-				this.var_be5 = faInst.var_be5;
-			} else {
-				this.var_be5 = new H_ImageExt(bgTypeNames[j] + "_bg");
-			}
-			if (this.var_b6d == 1) {
-				this.var_be5 = new H_ImageExt(this.var_be5, 1);
-			}
-		} catch (Exception localException) {
-		}
-		if (this.var_be5 != null) {
-			this.var_bfd = this.var_be5.imageHeight;
-		}
-		this.var_c05 = (aGame.viewportWidth / this.multipleBgImages[0].imageWidth);
-		if (aGame.viewportWidth % this.multipleBgImages[0].imageWidth != 0) {
-			this.var_c05 += 1;
-		}
-		this.var_c0d = ((aGame.var_3bfb - this.var_bfd) / this.multipleBgImages[0].imageHeight);
-		if ((aGame.var_3bfb - this.var_bfd)
-				% this.multipleBgImages[0].imageHeight != 0) {
-			this.var_c0d += 1;
-		}
-		this.var_c5d = new byte[this.var_c05][];
-            for(int i23=0;i23<this.var_c05;i23++){
-                this.var_c5d[i23]=new byte[this.var_c0d];
+        {
+            this.m_game = aGame;
+            this.m_unit = aUnit;
+            this.unitType = aUnit.unitTypeId;
+            this.otherFightAnim = faInst;
+            this.unitStartHealth = ((byte)aUnit.unitHealthMb);
+            this.unitHealth = this.unitStartHealth;
+            this.unitStartCharsCount = ((byte)aUnit.getAliveCharactersCount());
+            this.unitCharsCount = this.unitStartCharsCount;
+            int i = 0;
+            if (faInst == null)
+            {
+                this.var_b6d = 0;
+                this.var_bad = 0;
+                this.var_b75 = true;
             }
-		for (int m = 0; m < this.var_c05; m++) {
-			for (int n = 0; n < this.var_c0d; n++) {
-				this.var_c5d[m][n] = ((byte) Math.abs(E_MainCanvas.random
-						.nextInt() % this.multipleBgImages.Length));
-			}
-		}
-		this.var_b8d = new F_Sprite(unitTypeNames[this.unitType], aGame.playersIndexes[aUnit.playerId]);
-		if ((faInst != null)
-				&& (faInst.unitType == this.unitType)) {
-			if (faInst.slashSprite != null) {
-				this.slashSprite = new F_Sprite(faInst.slashSprite);
-			}
-			if (faInst.kingWaveSprite != null) {
-				this.kingWaveSprite = new F_Sprite(faInst.kingWaveSprite);
-			}
-			if (faInst.archerArrowSprite != null) {
-				this.archerArrowSprite = new F_Sprite(faInst.archerArrowSprite);
-			}
-			if (faInst.kingHeadsSprite != null) {
-				this.kingHeadsSprite = new F_Sprite(faInst.kingHeadsSprite);
-				this.kingHeadsBackSprite = new F_Sprite(faInst.kingHeadsBackSprite);
-			}
-		} else if ((this.unitType == 0) || (this.unitType == 10)
-				|| (this.unitType == 5)) {
-			this.slashSprite = new F_Sprite("slash");
-		} else if (this.unitType == 1) {
-			this.archerArrowSprite = new F_Sprite("archer_arrow");
-		} else if (this.unitType == 9) {
-			this.kingWaveSprite = new F_Sprite("kingwave");
-			this.slashSprite = new F_Sprite("kingslash");
-			this.kingHeadsSprite = new F_Sprite("king_heads");
-			this.kingHeadsBackSprite = new F_Sprite("king_heads_back");
-		} else if (this.unitType == 2) {
-			this.kingWaveSprite = new F_Sprite("watermagic");
-			this.archerArrowSprite = new F_Sprite("fish");
-		} else if ((this.unitType == 7) || (this.unitType == 6)) {
-			this.archerArrowSprite = new F_Sprite("crater");
-		} else if (this.unitType == 3) {
-			this.kingWaveSprite = new F_Sprite("spell");
-			this.archerArrowSprite = this.kingWaveSprite;
-		}
-		if (this.kingWaveSprite != null) {
-			this.kingWaveSprite.startAnimation(0, this.var_b75);
-		}
-		if (this.archerArrowSprite != null) {
-			this.archerArrowSprite.startAnimation(0, this.var_b75);
-		}
-		if (this.slashSprite != null) {
-			this.slashSprite.startAnimation(0, this.var_b75);
-		}
-		if (this.kingHeadsSprite != null) {
-			this.kingHeadsSprite.startAnimation(aUnit.kingIndex, this.var_b75);
-			this.kingHeadsSprite.setCurrentFrameIndex(aUnit.kingIndex);
-			this.kingHeadsBackSprite.startAnimation(0, this.var_b75);
-			this.kingHeadsBackSprite.setCurrentFrameIndex(aUnit.kingIndex);
-		}
-		this.var_c2d = new int[aUnit.charsData.Length][];
-        for (int i5 = 0; i5 < aUnit.charsData.Length; i5++)
+            else
+            {
+                i = aGame.viewportWidth;
+                this.var_b6d = 1;
+                this.var_b7d = 0;
+            }
+            this.tileType = aGame.getTileType(aUnit.positionX, aUnit.positionY);
+            int j = var_b05[this.tileType];
+            int k = var_afd[this.tileType];
+            if ((faInst != null) && (k == var_afd[faInst.tileType]))
+            {
+                this.multipleBgImages = new H_ImageExt[faInst.multipleBgImages.Length];
+                JavaSystem.arraycopy(faInst.multipleBgImages, 0, this.multipleBgImages, 0,
+                        this.multipleBgImages.Length);
+            }
+            else
+            {
+                this.multipleBgImages = new F_Sprite(bgTypeNames[k]).frameImages;
+            }
+            if (this.var_b6d == 1)
+            {
+                for (int m = 0; m < this.multipleBgImages.Length; m++)
+                {
+                    this.multipleBgImages[m] = new H_ImageExt(this.multipleBgImages[m], 1);
+                }
+            }
+            try
+            {
+                if ((faInst != null)
+                        && (j == var_b05[faInst.tileType]))
+                {
+                    this.var_be5 = faInst.var_be5;
+                }
+                else
+                {
+                    this.var_be5 = new H_ImageExt(bgTypeNames[j] + "_bg");
+                }
+                if (this.var_b6d == 1)
+                {
+                    this.var_be5 = new H_ImageExt(this.var_be5, 1);
+                }
+            }
+            catch (Exception localException)
+            {
+            }
+            if (this.var_be5 != null)
+            {
+                this.var_bfd = this.var_be5.imageHeight;
+            }
+            this.var_c05 = (aGame.viewportWidth / this.multipleBgImages[0].imageWidth);
+            if (aGame.viewportWidth % this.multipleBgImages[0].imageWidth != 0)
+            {
+                this.var_c05 += 1;
+            }
+            this.var_c0d = ((aGame.var_3bfb - this.var_bfd) / this.multipleBgImages[0].imageHeight);
+            if ((aGame.var_3bfb - this.var_bfd)
+                    % this.multipleBgImages[0].imageHeight != 0)
+            {
+                this.var_c0d += 1;
+            }
+            this.var_c5d = new byte[this.var_c05][];
+            for (int i23 = 0; i23 < this.var_c05; i23++)
+            {
+                this.var_c5d[i23] = new byte[this.var_c0d];
+            }
+            for (int m = 0; m < this.var_c05; m++)
+            {
+                for (int n = 0; n < this.var_c0d; n++)
+                {
+                    this.var_c5d[m][n] = ((byte)Math.abs(E_MainCanvas.random
+                            .nextInt() % this.multipleBgImages.Length));
+                }
+            }
+            this.var_b8d = new F_Sprite(unitTypeNames[this.unitType], aGame.playersIndexes[aUnit.playerId]);
+            if ((faInst != null)
+                    && (faInst.unitType == this.unitType))
+            {
+                if (faInst.slashSprite != null)
+                {
+                    this.slashSprite = new F_Sprite(faInst.slashSprite);
+                }
+                if (faInst.kingWaveSprite != null)
+                {
+                    this.kingWaveSprite = new F_Sprite(faInst.kingWaveSprite);
+                }
+                if (faInst.archerArrowSprite != null)
+                {
+                    this.archerArrowSprite = new F_Sprite(faInst.archerArrowSprite);
+                }
+                if (faInst.kingHeadsSprite != null)
+                {
+                    this.kingHeadsSprite = new F_Sprite(faInst.kingHeadsSprite);
+                    this.kingHeadsBackSprite = new F_Sprite(faInst.kingHeadsBackSprite);
+                }
+            }
+            else if ((this.unitType == 0) || (this.unitType == 10)
+                    || (this.unitType == 5))
+            {
+                this.slashSprite = new F_Sprite("slash");
+            }
+            else if (this.unitType == 1)
+            {
+                this.archerArrowSprite = new F_Sprite("archer_arrow");
+            }
+            else if (this.unitType == 9)
+            {
+                this.kingWaveSprite = new F_Sprite("kingwave");
+                this.slashSprite = new F_Sprite("kingslash");
+                this.kingHeadsSprite = new F_Sprite("king_heads");
+                this.kingHeadsBackSprite = new F_Sprite("king_heads_back");
+            }
+            else if (this.unitType == 2)
+            {
+                this.kingWaveSprite = new F_Sprite("watermagic");
+                this.archerArrowSprite = new F_Sprite("fish");
+            }
+            else if ((this.unitType == 7) || (this.unitType == 6))
+            {
+                this.archerArrowSprite = new F_Sprite("crater");
+            }
+            else if (this.unitType == 3)
+            {
+                this.kingWaveSprite = new F_Sprite("spell");
+                this.archerArrowSprite = this.kingWaveSprite;
+            }
+            if (this.kingWaveSprite != null)
+            {
+                this.kingWaveSprite.startAnimation(0, this.var_b75);
+            }
+            if (this.archerArrowSprite != null)
+            {
+                this.archerArrowSprite.startAnimation(0, this.var_b75);
+            }
+            if (this.slashSprite != null)
+            {
+                this.slashSprite.startAnimation(0, this.var_b75);
+            }
+            if (this.kingHeadsSprite != null)
+            {
+                this.kingHeadsSprite.startAnimation(aUnit.kingIndex, this.var_b75);
+                this.kingHeadsSprite.setCurrentFrameIndex(aUnit.kingIndex);
+                this.kingHeadsBackSprite.startAnimation(0, this.var_b75);
+                this.kingHeadsBackSprite.setCurrentFrameIndex(aUnit.kingIndex);
+            }
+            this.var_c2d = new int[aUnit.charsData.Length][];
+            for (int i5 = 0; i5 < aUnit.charsData.Length; i5++)
                 this.var_c2d[i5] = new int[2];
-		for (int m = 0; m < this.var_c2d.Length; m++) {
-			this.var_c2d[m][0] = (aUnit.charsData[m][0]
-					* aGame.someCanWidth / 128);
-			if (this.var_b6d == 1) {
-				this.var_c2d[m][0] = (aGame.viewportWidth
-						- this.var_c2d[m][0] - this.var_b8d.frameWidth + i);
-			}
-			this.var_c2d[m][1] = (aUnit.charsData[m][1]
-					* aGame.var_3bfb / 128 - this.var_b8d.frameHeight);
-		}
-		this.unitCharsSprites = new F_Sprite[this.unitStartCharsCount];
-		if ((this.unitType == 4) || (this.unitType == 6)) {
-			this.unitsRotationAngles = new int[this.unitStartCharsCount];
-		}
-		for (int m = 0; m < this.unitStartCharsCount; m++) {
-			this.unitCharsSprites[m] = new F_Sprite(this.var_b8d);
-			aGame.addSpriteTo(this.unitCharsSprites[m]);
-			this.unitCharsSprites[m].setSpritePosition(this.var_c2d[m][0], this.var_c2d[m][1]);
-			this.unitCharsSprites[m].startAnimation(0, this.var_b75);
-			this.unitCharsSprites[m].var_854 = false;
-			this.unitCharsSprites[m].someYOffset3 = 0;
-			if (this.unitType == 6) { // golem
-				this.unitCharsSprites[m].m_isRotating = true;
-				this.unitsRotationAngles[m] = E_MainCanvas.getRandomMax(360);
-				this.unitCharsSprites[m].someYVal1 = (-6 + 4
-						* A_MenuBase.getSin1024(this.unitsRotationAngles[m]) >> 10);
-			} else if (this.unitType == 4) { //wisp
-				this.unitCharsSprites[m].m_isRotating = true;
-				this.unitCharsSprites[m].someYVal1 = (-5 - E_MainCanvas.getRandomMax(10));
-				this.unitsRotationAngles[m] = E_MainCanvas.getRandomMax(360);
-			} else if (this.unitType == 9) { //king
-				this.unitCharsSprites[m].kingHeadSprite = this.kingHeadsSprite;
-				this.unitCharsSprites[m].kingBackSprite = this.kingHeadsBackSprite;
-			}
-		}
-	}
+            for (int m = 0; m < this.var_c2d.Length; m++)
+            {
+                this.var_c2d[m][0] = (aUnit.charsData[m][0]
+                        * aGame.someCanWidth / 128);
+                if (this.var_b6d == 1)
+                {
+                    this.var_c2d[m][0] = (aGame.viewportWidth
+                            - this.var_c2d[m][0] - this.var_b8d.frameWidth + i);
+                }
+                this.var_c2d[m][1] = (aUnit.charsData[m][1]
+                        * aGame.var_3bfb / 128 - this.var_b8d.frameHeight);
+            }
+            this.unitCharsSprites = new F_Sprite[this.unitStartCharsCount];
+            if ((this.unitType == 4) || (this.unitType == 6))
+            {
+                this.unitsRotationAngles = new int[this.unitStartCharsCount];
+            }
+            for (int m = 0; m < this.unitStartCharsCount; m++)
+            {
+                this.unitCharsSprites[m] = new F_Sprite(this.var_b8d);
+                aGame.addSpriteTo(this.unitCharsSprites[m]);
+                this.unitCharsSprites[m].setSpritePosition(this.var_c2d[m][0], this.var_c2d[m][1]);
+                this.unitCharsSprites[m].startAnimation(0, this.var_b75);
+                this.unitCharsSprites[m].var_854 = false;
+                this.unitCharsSprites[m].someYOffset3 = 0;
+                if (this.unitType == 6)
+                { // golem
+                    this.unitCharsSprites[m].m_isRotating = true;
+                    this.unitsRotationAngles[m] = E_MainCanvas.getRandomMax(360);
+                    this.unitCharsSprites[m].someYVal1 = (-6 + 4
+                            * A_MenuBase.getSin1024(this.unitsRotationAngles[m]) >> 10);
+                }
+                else if (this.unitType == 4)
+                { //wisp
+                    this.unitCharsSprites[m].m_isRotating = true;
+                    this.unitCharsSprites[m].someYVal1 = (-5 - E_MainCanvas.getRandomMax(10));
+                    this.unitsRotationAngles[m] = E_MainCanvas.getRandomMax(360);
+                }
+                else if (this.unitType == 9)
+                { //king
+                    this.unitCharsSprites[m].kingHeadSprite = this.kingHeadsSprite;
+                    this.unitCharsSprites[m].kingBackSprite = this.kingHeadsBackSprite;
+                }
+            }
+        }
 
-        public  int sub_1673(F_Sprite sprite, int paramInt)
+        public int sub_1673(F_Sprite sprite, int paramInt)
         {
             if (this.var_b6d == 1)
             {
@@ -230,14 +279,14 @@ namespace aeii
             return paramInt;
         }
 
-        public  void sub_16bb()
+        public void sub_16bb()
         {
             this.var_b2d = true;
             this.var_b7d = 1;
             this.someStartTime7 = this.m_game.time;
         }
 
-        public  void sub_16eb()
+        public void sub_16eb()
         {
             int i;
             int i3;
@@ -791,7 +840,7 @@ namespace aeii
             }
         }
 
-        public  void sub_2730()
+        public void sub_2730()
         {
             for (int i = 0; i < this.unitCharsCount; i++)
             {
@@ -799,7 +848,7 @@ namespace aeii
             }
         }
 
-        public  void sub_2782()
+        public void sub_2782()
         {
             switch (this.var_b7d)
             {
@@ -915,7 +964,7 @@ namespace aeii
             }
         }
 
-        public  void sub_2ae8()
+        public void sub_2ae8()
         {
             if (this.var_c15)
             {
@@ -1009,7 +1058,7 @@ namespace aeii
                         for (int kIt = 0; kIt < this.var_c4d; kIt++)
                         {
                             if (this.unitType == 10) //skeleton
-                            { 
+                            {
                                 if (this.unitCharsSprites[kIt].spriteMovingStepMb != -1)
                                 {
                                     this.unitCharsSprites[kIt].spriteMovingStepMb += 1;
@@ -1180,7 +1229,7 @@ namespace aeii
             }
         }
 
-        public  void sub_3363()
+        public void sub_3363()
         {
             this.var_b3d = true;
             this.var_c25 = (this.unitStartCharsCount - this.unitChars3);
@@ -1249,7 +1298,7 @@ namespace aeii
             this.m_game.addSpriteTo(someSprite);
         }
 
-        public  void sub_35fd(Graphics gr, int inX, int inY)
+        public void sub_35fd(Graphics gr, int inX, int inY)
         {
             gr.translate(inX, inY);
             int x = 0;
@@ -1285,14 +1334,14 @@ namespace aeii
             gr.translate(-inX, -inY);
         }
 
-        public  void drawUnitHealth(Graphics gr)
+        public void drawUnitHealth(Graphics gr)
         {
             int hY = this.m_game.someCanHeight - I_Game.someUnkHeight1 / 2;
             E_MainCanvas.drawCharedString(gr, this.unitHealth + "/" + 100,
                     this.m_game.viewportWidth / 2, hY, 1, 3);
         }
 
-        public  void sub_3788(Graphics gr)
+        public void sub_3788(Graphics gr)
         {
             gr.setColor(4210752);
             for (int i = 0; i < this.unitCharsCount; i++)

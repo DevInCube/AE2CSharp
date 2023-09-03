@@ -5,13 +5,12 @@ using java.lang;
 namespace aeii
 {
 
-    public  class D_Menu : A_MenuBase
+    public class D_Menu : A_MenuBase
     {
-
         public bool[] menuActionsMb = { false, false };
         public int m_bgColorMb = 13553358; // #CECECE light gray
-        public static  int someXPadding = E_MainCanvas.canvasHeight <= 143 ? 1 : 2;
-        public static  int var_fcd = someXPadding * 2 + 1;
+        public static int someXPadding = E_MainCanvas.canvasHeight <= 143 ? 1 : 2;
+        public static int var_fcd = someXPadding * 2 + 1;
         public byte var_fd5 = 2;
         public short var_fdd = 3;
         public static I_Game gameVar;
@@ -203,19 +202,19 @@ namespace aeii
          * @param index
          * @param isEnabled
          */
-        public  void setMenuActionEnabled(byte index, bool isEnabled)
+        public void setMenuActionEnabled(byte index, bool isEnabled)
         {
             this.menuActionsMb[index] = isEnabled;
         }
 
-        public  void setParentMenu(A_MenuBase parMenu)
+        public void setParentMenu(A_MenuBase parMenu)
         {
             this.parentMenu = parMenu;
             // return to parent action
             this.menuActionsMb[1] = (parMenu != null ? true : false);
         }
 
-        public  D_Menu createTitleMenu(String header)
+        public D_Menu createTitleMenu(String header)
         {
             this.somedescMenu = new D_Menu((byte)10, 0);
             this.somedescMenu.createDescDialogMb(null, header, gameVar.someGWidth, -1);
@@ -579,7 +578,7 @@ namespace aeii
             setMenuLoc(paramInt1, paramInt2, paramInt5);
         }
 
-        public  void initWheelMenu(String[] itemString,
+        public void initWheelMenu(String[] itemString,
                 H_ImageExt[] itemImages, int someInX, int inX, int inY,
                 int locAnchor, byte circlesType)
         {
@@ -674,7 +673,7 @@ namespace aeii
             updateMenu(true);
         }
 
-        public  void updateMenu(bool paramBoolean)
+        public void updateMenu(bool paramBoolean)
         {
             if (this.var_fd5 == 3)
             {
@@ -1354,8 +1353,8 @@ namespace aeii
                     int nnY = this.wheelMenuRadius + 2 - (A_MenuBase.getCos2014(angle) * this.var_11cd >> 10);
                     nnY += E_MainCanvas.someMenuShiftHeight;
                     if ((this.var_fd5 == 2) && (wIt == this.activeItemPositionMb))
-                    {                        
-                        this.wheelItemBgImage.drawFrameAt(gr, 1, nnX, nnY, Graphics.HCENTER|Graphics.VCENTER); // active item
+                    {
+                        this.wheelItemBgImage.drawFrameAt(gr, 1, nnX, nnY, Graphics.HCENTER | Graphics.VCENTER); // active item
                         if (this.var_1205 == 0)
                         {
                             i5 = 0;
@@ -1365,7 +1364,7 @@ namespace aeii
                         {
                             int fx = nnX - this.menuItemCenterMb;
                             int fy = nnY - this.menuItemCenterMb;
-                            this.smallSparksMenuSprites[itt].drawCurrentFrame(gr, fx, fy, Graphics.TOP|Graphics.LEFT);
+                            this.smallSparksMenuSprites[itt].drawCurrentFrame(gr, fx, fy, Graphics.TOP | Graphics.LEFT);
                             itt++;
                             // continue; @todo
                         }
@@ -1387,7 +1386,7 @@ namespace aeii
                     {
                         this.smallSparksMenuSprites[it3].drawCurrentFrame(gr,
                                 (this.menuWidth - this.menuItemFrameWidthMb) / 2,
-                                E_MainCanvas.someMenuShiftHeight, Graphics.HCENTER|Graphics.VCENTER);
+                                E_MainCanvas.someMenuShiftHeight, Graphics.HCENTER | Graphics.VCENTER);
                     }
                 }
             }
@@ -1943,17 +1942,17 @@ namespace aeii
             }
         }
 
-        public static  void drawMenuBackground(Graphics gr, int inX,
+        public static void drawMenuBackground(Graphics gr, int inX,
                 int inY, int inW, int inH, int paramInt5)
         {
             drawMenuBackground(gr, inX, inY, inW, inH, paramInt5, 2370117, 2370117, 0, 0);
         }
 
         public static void drawMenuBackground(
-            Graphics gr, 
-            int inX, int inY, int inW, int inH, 
+            Graphics gr,
+            int inX, int inY, int inW, int inH,
             int inMenuTypeMb,
-            int inColor1, int inColor2, 
+            int inColor1, int inColor2,
             int paramInt8, int paramInt9)
         {
             F_Sprite gMenuSprite = gameVar.menuSprite;

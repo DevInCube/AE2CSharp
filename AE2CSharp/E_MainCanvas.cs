@@ -1,5 +1,4 @@
 using java.lang;
-
 using javax.microedition.midlet;
 using javax.microedition.lcdui;
 using java.io;
@@ -11,20 +10,19 @@ using java.util;
 namespace aeii
 {
 
-    public  class E_MainCanvas : Canvas, Runnable, CommandListener
+    public class E_MainCanvas : Canvas, Runnable, CommandListener
     {
-
-        public static  Font font0 = Font.getFont(0, 1, 0);
-        public static  Font font8 = Font.getFont(0, 1, 8);
-        public static  int font8BaselinePos = font8.getBaselinePosition();
-        public static  int someMenuShiftHeight = font8BaselinePos + 6;
-        public static  int font0BaselinePos = font0.getBaselinePosition();
-        public static  int var_139c = font0BaselinePos + 8;
-        public static  short[] numericAndDelStartingChars = { 45, 43 }; //char 45='/' 43= '-' 44='.' 46='0' 57='9'
-        public static  short[] numericEndChars = { 57, 57 };
-        public static  sbyte[][] charFontsCharIndexes = {
-			new sbyte[]{ 10, 11, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
-			new sbyte[]{ 12, -1, 11, -1, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 } 
+        public static Font font0 = Font.getFont(0, 1, 0);
+        public static Font font8 = Font.getFont(0, 1, 8);
+        public static int font8BaselinePos = font8.getBaselinePosition();
+        public static int someMenuShiftHeight = font8BaselinePos + 6;
+        public static int font0BaselinePos = font0.getBaselinePosition();
+        public static int var_139c = font0BaselinePos + 8;
+        public static short[] numericAndDelStartingChars = { 45, 43 }; //char 45='/' 43= '-' 44='.' 46='0' 57='9'
+        public static short[] numericEndChars = { 57, 57 };
+        public static sbyte[][] charFontsCharIndexes = {
+            new sbyte[]{ 10, 11, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+            new sbyte[]{ 12, -1, 11, -1, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }
         };
         private static Display display;
         private bool isRunning = false;
@@ -44,10 +42,10 @@ namespace aeii
         public static int musicPlayerId = -1;
         public static int musicLoopCount;
         public static bool m_notifyShownMb = false;
-        public static  String[] musicNames = { "main_theme", "bg_story",
-			"bg_good", "bg_bad", "battle_good", "battle_bad", "victory",
-			"gameover", "game_complete" };
-        public static  byte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        public static String[] musicNames = { "main_theme", "bg_story",
+            "bg_good", "bg_bad", "battle_good", "battle_bad", "victory",
+            "gameover", "game_complete" };
+        public static byte[] someMusicByteArr = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         public static Player[] musicPlayers;
         public static Player currentMusicPlayer;
         public static bool[] musicPlayersLoaded;
@@ -76,17 +74,17 @@ namespace aeii
             }
         }
 
-        public static  int getRandomMax(int max)
+        public static int getRandomMax(int max)
         {
             return getRandomWithin(0, max);
         }
 
-        public static  int getRandomWithin(int min, int max)
+        public static int getRandomWithin(int min, int max)
         {
             return min + Math.abs(random.nextInt()) % (max - min);
         }
 
-        public static  int getRandomInt()
+        public static int getRandomInt()
         {
             return random.nextInt();
         }
@@ -119,7 +117,7 @@ namespace aeii
             recStore.closeRecordStore();
         }
 
-        public static  int saveDataToStore(String storeName, byte[] data)
+        public static int saveDataToStore(String storeName, byte[] data)
         {
             RecordStore record = RecordStore.openRecordStore(storeName, true);
             int recordSize = record.addRecord(data, 0, data.Length);
@@ -127,14 +125,14 @@ namespace aeii
             return recordSize - 1;
         }
 
-        public static  void deleteStoreRecordByIndex(String recName, int recIndex)
+        public static void deleteStoreRecordByIndex(String recName, int recIndex)
         {
             RecordStore store = RecordStore.openRecordStore(recName, true);
             store.deleteRecord(recIndex + 1);
             store.closeRecordStore();
         }
 
-        public static  int getRecordStoreAvailableSize(String recordName)
+        public static int getRecordStoreAvailableSize(String recordName)
         {
             int size = 0;
             try
@@ -150,22 +148,22 @@ namespace aeii
             return size;
         }
 
-        public static  int getCharedStringWidth(byte charId, String str)
+        public static int getCharedStringWidth(byte charId, String str)
         {
             return charsSprites[charId].frameWidth * str.length();
         }
 
-        public static  int getCharedStringHeight(byte charId)
+        public static int getCharedStringHeight(byte charId)
         {
             return charsSprites[charId].frameHeight;
         }
 
-        public static  void setColor(Graphics gr, int color)
+        public static void setColor(Graphics gr, int color)
         {
             gr.setColor(color);
         }
 
-        public  void showNotify()
+        public void showNotify()
         {
             this.m_notifyUnkFlag = false;
             m_notifyShownMb = false;
@@ -176,7 +174,7 @@ namespace aeii
             }
         }
 
-        public  void hideNotify()
+        public void hideNotify()
         {
             clearActions();
             if (this.mainDrawElement != null)
@@ -196,7 +194,7 @@ namespace aeii
             }
         }
 
-        public static  void drawCharedString(Graphics gr,
+        public static void drawCharedString(Graphics gr,
                 String inStr, int inX, int inY, int charInd, int paramInt4)
         {
             if ((paramInt4 & 0x8) != 0)
@@ -218,7 +216,7 @@ namespace aeii
             drawCharedString(gr, inStr, inX, inY, charInd);
         }
 
-        public static  void drawCharedString(Graphics gr, String inStr, int inX, int inY, int charInt)
+        public static void drawCharedString(Graphics gr, String inStr, int inX, int inY, int charInt)
         {
             int mIt = 0;
             int nLength = inStr.length();
@@ -246,19 +244,19 @@ namespace aeii
             }
         }
 
-        public static  void drawString(Graphics gr, String aString, int centerX, int centerY, int anchor)
+        public static void drawString(Graphics gr, String aString, int centerX, int centerY, int anchor)
         {
             gr.drawString(aString, centerX, centerY - 2, anchor);
         }
 
-        public  void showMenu(A_MenuBase menu)
+        public void showMenu(A_MenuBase menu)
         {
             clearActions();
             menu.onLoad();
             this.mainDrawElement = menu;
         }
 
-        public  void repaintAll()
+        public void repaintAll()
         {
             repaint();
             serviceRepaints();
@@ -280,7 +278,7 @@ namespace aeii
             this.mainDrawElement.onPaint(graphics);
         }
 
-        public  int getGameAction(int paramInt)
+        public int getGameAction(int paramInt)
         {
             try
             {
@@ -332,7 +330,7 @@ namespace aeii
             return 4096;
         }
 
-        public  String getKeyName2(int paramInt)
+        public String getKeyName2(int paramInt)
         {
             int i = 0;
             switch (paramInt)
@@ -392,26 +390,26 @@ namespace aeii
             keyPressed(KEY_NUM5);
         }
 
-        public  bool isAnyActionPressed()
+        public bool isAnyActionPressed()
         {
             return this.someActionsSum != 0;
         }
 
-        public  void clearActions()
+        public void clearActions()
         {
             this.someActionCode = 0;
             this.someActionsSum = 0;
             this.someActionSum2 = 0;
         }
 
-        public  bool invertActionCode(int code)
+        public bool invertActionCode(int code)
         {
             bool isCodeInSum = (this.someActionSum2 & code) != 0;
             this.someActionSum2 &= (int)(code ^ 0xFFFFFFFF);
             return isCodeInSum;
         }
 
-        public  bool someActionCodeIsSet(int actCode)
+        public bool someActionCodeIsSet(int actCode)
         {
             return (this.someActionsSum & actCode) != 0;
         }
@@ -422,13 +420,13 @@ namespace aeii
             clearActionCode(actionCode);
         }
 
-        public  bool isActionLongPressed(int actCode)
+        public bool isActionLongPressed(int actCode)
         {
             long timeElapsed = JavaSystem.currentTimeMillis() - this.someActionStartTime;
             return (this.someActionCode == actCode) && (timeElapsed >= 400L);
         }
 
-        public  void addActionCode(int code)
+        public void addActionCode(int code)
         {
             this.someActionCode = code;
             this.someActionStartTime = JavaSystem.currentTimeMillis();
@@ -436,7 +434,7 @@ namespace aeii
             this.someActionSum2 |= code;
         }
 
-        public  void clearActionCode(int paramInt)
+        public void clearActionCode(int paramInt)
         {
             if (paramInt == this.someActionCode)
             {
@@ -445,7 +443,7 @@ namespace aeii
             this.someActionsSum &= (int)(paramInt ^ 0xFFFFFFFF);
         }
 
-        public  void showFatalError(String errorMsg)
+        public void showFatalError(String errorMsg)
         {
             this.isRunning = false;
             Form errForm = new Form("Fatal error!");
@@ -456,12 +454,12 @@ namespace aeii
             display.setCurrent(errForm);
         }
 
-        public  void stopGame()
+        public void stopGame()
         {
             this.isRunning = false;
         }
 
-        public static  void loadCharsSprites()
+        public static void loadCharsSprites()
         {
             charsSprites[0] = new F_Sprite("chars");
             charsSprites[1] = new F_Sprite("lchars");
@@ -473,8 +471,8 @@ namespace aeii
             {
                 repaintAll();
                 settingsNames = new String[] { A_MenuBase.getLangString(26),
-					A_MenuBase.getLangString(28), A_MenuBase.getLangString(25),
-					A_MenuBase.getLangString(24) };
+                    A_MenuBase.getLangString(28), A_MenuBase.getLangString(25),
+                    A_MenuBase.getLangString(24) };
 
                 I_Game aGame = new I_Game();
                 repaintAll();
@@ -530,7 +528,7 @@ namespace aeii
             }
         }
 
-        public static  void vibrate(int val)
+        public static void vibrate(int val)
         {
             try
             {
@@ -546,13 +544,13 @@ namespace aeii
             }
         }
 
-        public static  void initMusicVars()
+        public static void initMusicVars()
         {
             musicPlayers = new Player[musicNames.Length];
             musicPlayersLoaded = new bool[musicNames.Length];
         }
 
-        public static  void loadMusic(int musicId)
+        public static void loadMusic(int musicId)
         {
             try
             {
@@ -571,12 +569,12 @@ namespace aeii
             }
         }
 
-        public static  void playMusicLooped2(int paramInt1, int paramInt2)
+        public static void playMusicLooped2(int paramInt1, int paramInt2)
         {
             playMusicLooped(paramInt1, paramInt2);
         }
 
-        public static  void stopMusic()
+        public static void stopMusic()
         {
             try
             {
@@ -594,7 +592,7 @@ namespace aeii
             }
         }
 
-        public static  void playMusicLooped(int musicId, int loopCount)
+        public static void playMusicLooped(int musicId, int loopCount)
         {
             try
             {
@@ -635,7 +633,7 @@ namespace aeii
             }
         }
 
-        public static  void stopMusicPlayer(int index)
+        public static void stopMusicPlayer(int index)
         {
             try
             {
@@ -658,7 +656,7 @@ namespace aeii
             }
         }
 
-        public static  void loadResourcesPak(String pakFileName)
+        public static void loadResourcesPak(String pakFileName)
         {
             if (resourcesNames == null)
             {
@@ -688,7 +686,7 @@ namespace aeii
             }
         }
 
-        public static  byte[] getResourceData(String resName)
+        public static byte[] getResourceData(String resName)
         {
             for (int i = 0; i < resourcesNames.Length; i++)
             {
@@ -700,18 +698,18 @@ namespace aeii
             return null;
         }
 
-        public static  InputStream getResourceStream(String resName)
+        public static InputStream getResourceStream(String resName)
         {
             return new ByteArrayInputStream(getResourceData(resName));
         }
 
-        public  void commandAction(Command paramCommand,
+        public void commandAction(Command paramCommand,
                 Displayable paramDisplayable)
         {
             B_MainMIDlet.midlet.notifyDestroyed();
         }
 
-        public  void showMsg(String msg, I_Game game)
+        public void showMsg(String msg, I_Game game)
         {
             D_Menu dialog = new D_Menu((byte)10, 12);
             dialog.createDescDialogMb(null, msg, E_MainCanvas.canvasWidth, -1);

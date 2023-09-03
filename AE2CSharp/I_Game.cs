@@ -4,11 +4,10 @@ using javax.microedition.lcdui;
 using java.io;
 using java.csharp;
 
-namespace aeii{
-
+namespace aeii
+{
     public class I_Game : A_MenuBase, Runnable
     {
-
         public String appPropVersion = "?";
         public static byte someUnkHeight1 = 32;
         public int someGWidth;
@@ -27,28 +26,28 @@ namespace aeii{
         public static int m_actionApply = 1024;
         public static int m_actionCancel = 2048;
         public String[] gameMenuItemsNames = { A_MenuBase.getLangString(66),
-			A_MenuBase.getLangString(70), A_MenuBase.getLangString(71),
-			A_MenuBase.getLangString(4), A_MenuBase.getLangString(60) };
+            A_MenuBase.getLangString(70), A_MenuBase.getLangString(71),
+            A_MenuBase.getLangString(4), A_MenuBase.getLangString(60) };
         public String[] unitActionsNames = { A_MenuBase.getLangString(63),
-			A_MenuBase.getLangString(67), A_MenuBase.getLangString(68),
-			A_MenuBase.getLangString(62), A_MenuBase.getLangString(69),
-			A_MenuBase.getLangString(61), A_MenuBase.getLangString(64) };
+            A_MenuBase.getLangString(67), A_MenuBase.getLangString(68),
+            A_MenuBase.getLangString(62), A_MenuBase.getLangString(69),
+            A_MenuBase.getLangString(61), A_MenuBase.getLangString(64) };
         public H_ImageExt[] actionIconsFrames;
         public String[] mainMenuItemsNames = { A_MenuBase.getLangString(1),
-			A_MenuBase.getLangString(2), A_MenuBase.getLangString(5),
-			A_MenuBase.getLangString(3), A_MenuBase.getLangString(6),
-			A_MenuBase.getLangString(8), A_MenuBase.getLangString(7),
-			A_MenuBase.getLangString(9), A_MenuBase.getLangString(10),
-			A_MenuBase.getLangString(11), A_MenuBase.getLangString(4) };
+            A_MenuBase.getLangString(2), A_MenuBase.getLangString(5),
+            A_MenuBase.getLangString(3), A_MenuBase.getLangString(6),
+            A_MenuBase.getLangString(8), A_MenuBase.getLangString(7),
+            A_MenuBase.getLangString(9), A_MenuBase.getLangString(10),
+            A_MenuBase.getLangString(11), A_MenuBase.getLangString(4) };
         public H_ImageExt[] menuIconsFrames;
         public String[] playerSkirmishChoicesNames = { A_MenuBase.getLangString(35),
-			A_MenuBase.getLangString(36), A_MenuBase.getLangString(37) };
+            A_MenuBase.getLangString(36), A_MenuBase.getLangString(37) };
         public String[] onOffValuesNames = { A_MenuBase.getLangString(29),
-			A_MenuBase.getLangString(30) };
+            A_MenuBase.getLangString(30) };
         public byte[] inGameMenuItems = { 0, 6, 5, 7, 8, 9 };
         public byte[] startMenuItems = { 0, 6, 5, 7, 8, 9 };
         public byte[] playMenuItems = { 1, 2, 3, 4 };
-        public static byte[][] cursorFrameSequences = { 
+        public static byte[][] cursorFrameSequences = {
             new byte[]{ 0, 1 }, // move
             new byte[]{ 2, 3, 4 },  //attack
             new byte[]{ 0, 1 }, // move
@@ -57,30 +56,30 @@ namespace aeii{
         public long cursorFrameStartTime = 0L;
         public long cursorMovingStartTimeMb;
         public static int[][][] playerAlphaColors = {
-			    new int[0][],
-			    new int[][]{ 
-                    new int[]{ 150, 217, 244 }, 
-                    new int[]{ 65, 149, 233 }, 
+                new int[0][],
+                new int[][]{
+                    new int[]{ 150, 217, 244 },
+                    new int[]{ 65, 149, 233 },
                     new int[]{ 0, 100, 198 },
-			        new int[]{ 12, 53, 112 } 
+                    new int[]{ 12, 53, 112 }
                 },
-			    new int[][]{ 
-                    new int[]{ 244, 158, 156 }, 
+                new int[][]{
+                    new int[]{ 244, 158, 156 },
                     new int[]{ 219, 36, 113 },
                     new int[]{ 161, 0, 112 },
-				    new int[]{ 95, 5, 120 } 
+                    new int[]{ 95, 5, 120 }
                 },
-			    new int[][]{ 
-                    new int[]{ 171, 237, 90 }, 
-                    new int[]{ 99, 190, 37 }, 
-                    new int[]{ 0, 153, 55 }, 
-                    new int[]{ 0, 85, 82 } 
+                new int[][]{
+                    new int[]{ 171, 237, 90 },
+                    new int[]{ 99, 190, 37 },
+                    new int[]{ 0, 153, 55 },
+                    new int[]{ 0, 85, 82 }
                 },
-			    new int[][]{ 
-                    new int[]{ 0, 118, 150 }, 
-                    new int[]{ 0, 65, 114 }, 
-                    new int[]{ 0, 43, 75 }, 
-                    new int[]{ 0, 22, 48 } 
+                new int[][]{
+                    new int[]{ 0, 118, 150 },
+                    new int[]{ 0, 65, 114 },
+                    new int[]{ 0, 43, 75 },
+                    new int[]{ 0, 22, 48 }
                 }
             };
         public static int[] playerColors = { 10526880, 26054, 15204434, 39473, 16754 };
@@ -182,7 +181,7 @@ namespace aeii{
         public bool isBlackLoading = false;
         public bool showPressAnyKey;
         public static int[] instrTitlesStringsIds = { 83, 83, 83, 83, 83, 83, 83, 83, 175, 84,
-			84, 84, 175, 147, 159, 151, 155, 167, 171 }; // 83 - GENERAL,...
+            84, 84, 175, 147, 159, 151, 155, 167, 171 }; // 83 - GENERAL,...
         public int helpTipId = -1;
         public D_Menu instructionsMenu;
         public D_Menu instructionsItemsMenu;
@@ -254,9 +253,9 @@ namespace aeii{
         public String[] extraSkirmishMapNamesMb;
         public int[] skirmishMapsIndexes;
         public String[] onlineMenuItemsNames = { A_MenuBase.getLangString(46),
-			A_MenuBase.getLangString(47) };
+            A_MenuBase.getLangString(47) };
         public String[] downloadMenuItemsNames = { A_MenuBase.getLangString(48),
-			A_MenuBase.getLangString(49) };
+            A_MenuBase.getLangString(49) };
         public D_Menu someOnlineMenu;
         public D_Menu onlineMenu;
         public D_Menu newsItemsMenu;
@@ -368,7 +367,7 @@ namespace aeii{
         public A_MenuBase someOnlineParentMenu;
         public int var_3c83;
 
-        private bool skipIntro = true;        
+        private bool skipIntro = true;
 
         public I_Game()
         {
@@ -470,7 +469,7 @@ namespace aeii{
             try
             {
                 byte[] data = E_MainCanvas.getRecordStoreData("settings", 1);
-                if(data.Length == 0) throw new Exception(); //@my
+                if (data.Length == 0) throw new Exception(); //@my
                 this.unlockedScenarioLevelsCount = data[0];
             }
             catch (Exception ex2)
@@ -741,7 +740,7 @@ namespace aeii{
                 }
             }
         }
-        
+
         public void sub_4d3f()
         {
             this.bottomMenuNeedsUpdateUI = true;
@@ -1106,7 +1105,7 @@ namespace aeii{
             H_ImageExt[] menuItemImages = new H_ImageExt[itemsImages.size()];
             itemsNames.copyInto(menuItemNames);
             itemsImages.copyInto(menuItemImages);
-            playWheelMenu.initWheelMenu(menuItemNames, menuItemImages, 
+            playWheelMenu.initWheelMenu(menuItemNames, menuItemImages,
                     this.someCanWidthDiv2, this.someMenuWidth, this.someMenuHeight,
                     Graphics.HCENTER | Graphics.VCENTER, (byte)1);
             playWheelMenu.setParentMenu(menu);
@@ -1127,8 +1126,8 @@ namespace aeii{
             if (this.someCursorYPos * 24 <= this.someGHeight / 2 - 24)
             {
                 this.unitActionsMenu.setTextAndImages(names, images, 0,
-                        this.someGHeight - this.buttonsSprite.frameHeight, 
-                        Graphics.BOTTOM | Graphics.LEFT); 
+                        this.someGHeight - this.buttonsSprite.frameHeight,
+                        Graphics.BOTTOM | Graphics.LEFT);
             }
             else
             {
@@ -1245,7 +1244,7 @@ namespace aeii{
                 delMenu.menuTitleIcon = this.menuIconsFrames[6];
                 dMenu.createDescDialogMb(null, A_MenuBase.getLangString(52),
                         this.someCanWidth, -1); //EMPTY
-                dMenu.setMenuLoc(0, (this.someGHeight + delMenu.menuHeight) / 2, 
+                dMenu.setMenuLoc(0, (this.someGHeight + delMenu.menuHeight) / 2,
                         Graphics.VCENTER | Graphics.LEFT);
                 dMenu.setParentMenu(menu);
                 this.deleteMapMenu = null;
@@ -1472,7 +1471,7 @@ namespace aeii{
                     D_Menu chooseMoneyMenu = new D_Menu((byte)10, 8);
                     chooseMoneyMenu.createDescDialogMb(null,
                             A_MenuBase.getLangString(40), this.viewportWidth, -1);//Money
-                    this.playerOptionsMenu.addChildMenu(chooseMoneyMenu, 0, titleMenuHeight, 
+                    this.playerOptionsMenu.addChildMenu(chooseMoneyMenu, 0, titleMenuHeight,
                         Graphics.LEFT | Graphics.TOP);
                     this.chooseMoneyItemsMenu = new D_Menu((byte)14, 4);
                     String[] skirmishStartMoneyValues = new String[skirmishStartMoneyEnum.Length];
@@ -1568,7 +1567,7 @@ namespace aeii{
                 return;
             }
             if (menu == this.skirmishMapsMenu)
-            {                
+            {
                 int j = this.skirmishMapsItemsMenu.activeItemPositionMb;
                 if ((paramByte == 0) && ((j >= skirmishMapsNames.Length) || (this.skMapUnlockedArr[j] == false)))
                 {
@@ -1981,7 +1980,7 @@ namespace aeii{
                 return;
             }
             if (itemName.Equals(A_MenuBase.getLangString(3))) // SELECT LEVEL
-            { 
+            {
                 this.selectLevelMenu = new D_Menu((byte)11, 0);
                 int countScenLevels = this.unlockedScenarioLevelsCount;
                 if (countScenLevels > 7)
@@ -3967,7 +3966,7 @@ namespace aeii{
         {
             int mapLeft = -this.mapLeftXPix / 24;
             int mapTop = -this.mapTopYPix / 24;
-            if(mapTop < 0)
+            if (mapTop < 0)
             {
                 mapTop = 0;
             }

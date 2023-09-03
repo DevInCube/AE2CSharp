@@ -7,7 +7,6 @@ namespace aeii
 {
     public class C_Unit : F_Sprite
     {
-
         public static byte m_cpuUnitSpeed = 12; //be careful here, 16,18 causes unit move lock 
         public static byte m_defaultSpeed = 6;
         public static byte m_speed = m_defaultSpeed;
@@ -568,9 +567,9 @@ namespace aeii
 
         public void fillWhereUnitCanMove(byte[][] data)
         {
-            fillWhereUnitcanMove(data, 
+            fillWhereUnitcanMove(data,
                 this.positionX, this.positionY,
-                unitsMoveRanges[this.unitTypeId] + this.movementStatusBonus, 
+                unitsMoveRanges[this.unitTypeId] + this.movementStatusBonus,
                 -1, this.unitTypeId,
                 this.playerId, false);
         }

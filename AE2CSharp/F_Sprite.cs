@@ -1,15 +1,11 @@
-using java.lang;
-
 using javax.microedition.lcdui;
 using java.io;
 using java.lang;
-using java.csharp;
 
 namespace aeii
 {
     public class F_Sprite
     {
-
         public H_ImageExt[] frameImages;
         private byte[] frameSequence;
         public int currentFrameIndex = 0;
@@ -66,7 +62,7 @@ namespace aeii
             loadSprite(spriteId, paramByte);
         }
 
-        private  void loadSprite(String spriteId, int paramInt)
+        private void loadSprite(String spriteId, int paramInt)
         {
             InputStream stream = E_MainCanvas.getResourceStream(spriteId + ".sprite");
             int framesCount = (byte)stream.read();
@@ -228,14 +224,14 @@ namespace aeii
             }
         }
 
-        public  void setFrameSequence(byte[] data)
+        public void setFrameSequence(byte[] data)
         {
             this.frameSequence = data;
             this.currentFrameIndex = 0;
             this.frameTime = 0;
         }
 
-        public  void startAnimation(int animationIndex, bool inBool)
+        public void startAnimation(int animationIndex, bool inBool)
         {
             if ((this.frameAnimationsSequences != null) && (animationIndex <= this.frameAnimationsSequences.Length))
             {
@@ -268,7 +264,7 @@ namespace aeii
             }
         }
 
-        public  void drawCurrentFrame(Graphics gr, int inX, int inY, int anchor)
+        public void drawCurrentFrame(Graphics gr, int inX, int inY, int anchor)
         {
             byte index = (byte)this.frameSequence[this.currentFrameIndex];
             drawFrameAt(gr, index, inX, inY, anchor);
@@ -276,7 +272,7 @@ namespace aeii
 
 
 
-        public static  F_Sprite createBouncingText(String str, int inX, int inY, byte charId)
+        public static F_Sprite createBouncingText(String str, int inX, int inY, byte charId)
         {
             int strWidth = E_MainCanvas.getCharedStringWidth(charId, str);
             int strHeight = E_MainCanvas.getCharedStringHeight(charId);
@@ -289,51 +285,62 @@ namespace aeii
             return sprite;
         }
 
-        public static  F_Sprite spriteCopy(F_Sprite sprite,
+        public static F_Sprite spriteCopy(F_Sprite sprite,
                 int paramInt1, int paramInt2, int paramInt3, int paramInt4,
-                int frameTime, byte inSprType) {
-		F_Sprite lspr = null;
-		if (sprite != null) {
-			lspr = new F_Sprite(sprite);
-		} else {
-			lspr = new F_Sprite(0, 0);
-			if ((inSprType == 2) || (inSprType == 4)) {
-				if (inSprType == 4) {
-					lspr.someColor = 15658751;
-				}
-				lspr.someUnusedArr2 = new int[5][];
-				lspr.somePlayersDataS = new short[5][];
-                for(int i=0; i < 5; i++){
-                    lspr.someUnusedArr2[i] = new int[2];
-                    lspr.somePlayersDataS[i] = new short[2];
+                int frameTime, byte inSprType)
+        {
+            F_Sprite lspr = null;
+            if (sprite != null)
+            {
+                lspr = new F_Sprite(sprite);
+            }
+            else
+            {
+                lspr = new F_Sprite(0, 0);
+                if ((inSprType == 2) || (inSprType == 4))
+                {
+                    if (inSprType == 4)
+                    {
+                        lspr.someColor = 15658751;
+                    }
+                    lspr.someUnusedArr2 = new int[5][];
+                    lspr.somePlayersDataS = new short[5][];
+                    for (int i = 0; i < 5; i++)
+                    {
+                        lspr.someUnusedArr2[i] = new int[2];
+                        lspr.somePlayersDataS[i] = new short[2];
+                    }
+                    lspr.someRandUnusedArr = new byte[5];
+                    lspr.someAlwaysTrueArr = new bool[5];
+                    for (int k = 0; k < 5; k++)
+                    {
+                        lspr.someAlwaysTrueArr[k] = true;
+                        if (inSprType == 4)
+                        {
+                            lspr.somePlayersDataS[k][0] = ((short)(E_MainCanvas.random.nextInt() % 4 << 10));
+                            lspr.somePlayersDataS[k][1] = ((short)(E_MainCanvas.random.nextInt() % 4 << 10));
+                        }
+                        else
+                        {
+                            lspr.somePlayersDataS[k][0] = ((short)(Math.abs(E_MainCanvas.random.nextInt()) % 8192 + -4096));
+                            lspr.somePlayersDataS[k][1] = ((short)(Math.abs(E_MainCanvas.random.nextInt()) % 4096 + -2048));
+                        }
+                        lspr.someRandUnusedArr[k] = ((byte)(Math
+                                .abs(E_MainCanvas.random.nextInt()) % 2 + 1));
+                    }
                 }
-				lspr.someRandUnusedArr = new byte[5];
-				lspr.someAlwaysTrueArr = new bool[5];
-				for (int k = 0; k < 5; k++) {
-					lspr.someAlwaysTrueArr[k] = true;
-					if (inSprType == 4) {
-						lspr.somePlayersDataS[k][0] = ((short) (E_MainCanvas.random.nextInt() % 4 << 10));
-						lspr.somePlayersDataS[k][1] = ((short) (E_MainCanvas.random.nextInt() % 4 << 10));
-					} else {
-						lspr.somePlayersDataS[k][0] = ((short) (Math.abs(E_MainCanvas.random.nextInt()) % 8192 + -4096));
-						lspr.somePlayersDataS[k][1] = ((short) (Math.abs(E_MainCanvas.random.nextInt()) % 4096 + -2048));
-					}
-					lspr.someRandUnusedArr[k] = ((byte) (Math
-							.abs(E_MainCanvas.random.nextInt()) % 2 + 1));
-				}
-			}
-		}
-		lspr.m_spriteType = inSprType;
-		lspr.var_81c = paramInt4;
-		lspr.mapFrameTime = frameTime;
-		lspr.someXVal3 = paramInt1;
-		lspr.someYOffset3 = paramInt2;
-		lspr.someYVal3 = paramInt3;
-		lspr.var_854 = true;
-		return lspr;
-	}
+            }
+            lspr.m_spriteType = inSprType;
+            lspr.var_81c = paramInt4;
+            lspr.mapFrameTime = frameTime;
+            lspr.someXVal3 = paramInt1;
+            lspr.someYOffset3 = paramInt2;
+            lspr.someYVal3 = paramInt3;
+            lspr.var_854 = true;
+            return lspr;
+        }
 
-        public  void sub_19ce()
+        public void sub_19ce()
         {
             if (this.m_spriteType != 4)
             {
@@ -535,7 +542,7 @@ namespace aeii
                 int y = this.posYPixel + inY;
                 if (this.spriteString != null)
                 {
-                    E_MainCanvas.drawCharedString(gr, this.spriteString, x, y, this.charFontId, Graphics.HCENTER|Graphics.BOTTOM);
+                    E_MainCanvas.drawCharedString(gr, this.spriteString, x, y, this.charFontId, Graphics.HCENTER | Graphics.BOTTOM);
                     return;
                 }
                 if (this.randPosCounter > 0)
