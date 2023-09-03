@@ -1,79 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9FA24A2-0DC8-4E25-8D1D-B6F0CCD52486}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Java.Core</RootNamespace>
-    <AssemblyName>Java.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyTitle>Java.Core</AssemblyTitle>
+    <Product>Java.Core</Product>
+    <Copyright>Copyright ©  2015</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="java\csharp\Extensions.cs" />
-    <Compile Include="java\csharp\JavaArray.cs" />
-    <Compile Include="java\io\ByteArrayInputStream.cs" />
-    <Compile Include="java\io\DataInputStream.cs" />
-    <Compile Include="java\io\DataOutputStream.cs" />
-    <Compile Include="java\io\InputStream.cs" />
-    <Compile Include="java\io\IOException.cs" />
-    <Compile Include="java\io\OutputStream.cs" />
-    <Compile Include="java\lang\Class.cs" />
-    <Compile Include="java\csharp\ClassResourceLoader.cs" />
-    <Compile Include="java\lang\Exception.cs" />
-    <Compile Include="java\lang\Integer.cs" />
-    <Compile Include="java\lang\JavaSystem.cs" />
-    <Compile Include="java\lang\Math.cs" />
-    <Compile Include="java\lang\IllegalArgumentException.cs" />
-    <Compile Include="java\lang\NullPointerException.cs" />
-    <Compile Include="java\lang\Object.cs" />
-    <Compile Include="java\lang\Runnable.cs" />
-    <Compile Include="java\lang\RuntimeException.cs" />
-    <Compile Include="java\lang\String.cs" />
-    <Compile Include="java\lang\StringBuffer.cs" />
-    <Compile Include="java\lang\Thread.cs" />
-    <Compile Include="java\util\Date.cs" />
-    <Compile Include="java\util\Random.cs" />
-    <Compile Include="java\util\TimeZone.cs" />
-    <Compile Include="java\util\Vector.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
