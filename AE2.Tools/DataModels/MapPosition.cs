@@ -1,4 +1,4 @@
-﻿namespace AE2.Tools.Views.EditorViews
+﻿namespace AE2.Tools.DataModels
 {
     public struct MapPosition
     {
@@ -24,12 +24,12 @@
         {
             if (!(obj is MapPosition)) return false;
             var o = (MapPosition)obj;
-            return (o.X == X && o.Y == Y);            
+            return o.X == X && o.Y == Y;
         }
 
         public bool IsWithin(sbyte x, sbyte y, sbyte w, sbyte h)
         {
-            return (X >= x && X < (x + w)) && (Y >= y && Y < (y + h));
+            return X >= x && X < x + w && Y >= y && Y < y + h;
         }
 
         public bool IsWithin(int x, int y, int w, int h)

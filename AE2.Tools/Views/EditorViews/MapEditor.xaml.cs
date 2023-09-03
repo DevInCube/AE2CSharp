@@ -1,4 +1,6 @@
-﻿using AE2.Tools.Views.EditorViews;
+﻿using AE2.Tools.CustomControls;
+using AE2.Tools.DataModels;
+using AE2.Tools.Enums;
 using java.csharp;
 using java.io;
 using MIDP.WPF.ViewModels;
@@ -8,16 +10,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AE2.Tools.Views
 {
@@ -29,8 +25,9 @@ namespace AE2.Tools.Views
         public const int CELL_SIZE = 24;
         public const byte MIN_MAP_SIZE = 5;
         private byte defaultTile = 0;
-        private byte _DefaultMapWidth = 10, _DefaultMapHeight = 10;
-        private bool _BrushSelection = true, _RectSelection;
+        private byte _DefaultMapWidth = 10;
+        private byte _DefaultMapHeight = 10;
+        private SelectionType _selectionType = SelectionType.Brush;
         private MapPosition RectStartPos = MapPosition.None;
         private List<List<byte>> mapData = new List<List<byte>>();
         private int playersCount = 0;
@@ -65,17 +62,8 @@ namespace AE2.Tools.Views
             set { _DefaultMapHeight = value; OnPropertyChanged(nameof(DefaultMapHeight)); }
         }
 
-        public bool BrushSelection
-        {
-            get => _BrushSelection;
-            set { _BrushSelection = value; OnPropertyChanged(nameof(BrushSelection)); }
-        }
-        public bool RectSelection
-        {
-            get => _RectSelection;
-            set { _RectSelection = value; OnPropertyChanged(nameof(RectSelection)); }
-        }
-
+        public ICommand BrushSelection { get; }
+        public ICommand RectSelection { get; }
         public ICommand AddColumn { get; set; }
         public ICommand RemoveColumn { get; set; }
         public ICommand AddRow { get; set; }
@@ -96,7 +84,7 @@ namespace AE2.Tools.Views
         {           
 
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
 
             E_MainCanvas.loadResourcesPak(null);
             selBitmap = getSelectionBitmap();
@@ -112,15 +100,18 @@ namespace AE2.Tools.Views
             MapCanvas.Children.Add(mapCanvasImage);
             MapCanvas.Children.Add(kingsCanvasImage);
             MapCanvas.Children.Add(mapSelectionCanvasImage);
-            MapCanvas.Children.Add(cursor);          
+            MapCanvas.Children.Add(cursor);
 
-            this.AddColumn = new RelayCommand((o) =>
+            BrushSelection = new SimpleCommand(() => _selectionType = SelectionType.Brush);
+            RectSelection = new SimpleCommand(() => _selectionType = SelectionType.Rectangle);
+
+            AddColumn = new RelayCommand((o) =>
             {
                 foreach (var l in mapData)
                     l.Add(defaultTile);
                 Update();
             });
-            this.RemoveColumn = new RelayCommand((o) =>
+            RemoveColumn = new RelayCommand((o) =>
             {
                 if (MapWidth > MIN_MAP_SIZE)
                 {
@@ -129,7 +120,7 @@ namespace AE2.Tools.Views
                     Update();
                 }
             });
-            this.AddRow = new RelayCommand((o) =>
+            AddRow = new RelayCommand((o) =>
             {
                 var row = new List<byte>();
                 mapData.Add(row);
@@ -137,7 +128,7 @@ namespace AE2.Tools.Views
                     row.Add(defaultTile);
                 Update();
             });
-            this.RemoveRow = new RelayCommand((o) =>
+            RemoveRow = new RelayCommand((o) =>
             {
                 if (MapHeight > MIN_MAP_SIZE)
                 {
@@ -145,7 +136,7 @@ namespace AE2.Tools.Views
                     Update();
                 }
             });
-            this.AddRowCol = new RelayCommand((o) =>
+            AddRowCol = new RelayCommand((o) =>
             {
                 foreach (var l in mapData)
                     l.Add(defaultTile);
@@ -155,7 +146,7 @@ namespace AE2.Tools.Views
                     row.Add(defaultTile);
                 Update();
             });
-            this.RemoveRowCol = new RelayCommand((o) =>
+            RemoveRowCol = new RelayCommand((o) =>
             {
                 if (MapWidth > 5 && MapHeight > 5)
                 {
@@ -341,7 +332,7 @@ namespace AE2.Tools.Views
             Canvas.SetTop(cursor, (double)cursorPos.Y);
             mapSelections.RemoveAll(pos => !pos.IsWithin(0, 0, MapWidth, MapHeight));
            
-            Canvas mapCanvas = this.MapCanvas;
+            Canvas mapCanvas = MapCanvas;
             UpdateMap();            
             UpdateSelections();                       
             OnPropertyChanged(nameof(AddColX));
@@ -545,7 +536,7 @@ namespace AE2.Tools.Views
 
         void ProcessButtons(MouseEventArgs e)
         {
-            if (BrushSelection)
+            if (_selectionType == SelectionType.Brush)
             {
                 if (e.LeftButton.HasFlag(MouseButtonState.Pressed))
                 {
@@ -562,7 +553,7 @@ namespace AE2.Tools.Views
                     mapSelections.Clear();
                 }
             }
-            if (RectSelection && (!RectStartPos.Equals(MapPosition.None)))
+            else if (_selectionType == SelectionType.Rectangle && !RectStartPos.Equals(MapPosition.None))
             {
                 MapPosition cpos = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
                 sbyte minX = Math.Min(cpos.X, RectStartPos.X);
@@ -571,13 +562,17 @@ namespace AE2.Tools.Views
                 sbyte height = (sbyte)Math.Abs(cpos.Y - RectStartPos.Y);
                 mapSelections.Clear();
                 for(int i = minY; i < minY + height+1; i++)
+                {
                     for (int j = minX; j < minX + width + 1; j++)
                     {
                         var pos = new MapPosition(j, i);
                         if (pos.IsWithin(0, 0, MapWidth, MapHeight)
                             && !mapSelections.Contains(pos))
+                        {
                             mapSelections.Add(pos);
+                        }
                     }
+                }
             }
         }
 
@@ -597,21 +592,21 @@ namespace AE2.Tools.Views
 
         private void MapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {           
-            if (BrushSelection)
+            if (_selectionType == SelectionType.Brush)
             {
                 ProcessButtons(e);
             }
-            if (RectSelection)
+            else if (_selectionType == SelectionType.Rectangle)
             {
                 RectStartPos = new MapPosition((byte)(cursorPos.X / CELL_SIZE), (byte)(cursorPos.Y / CELL_SIZE));
             }
+
             UpdateSelections();
         }
 
         private void MapCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //       
-            if (RectSelection)
+            if (_selectionType == SelectionType.Rectangle)
             {
                 RectStartPos = MapPosition.None;
             }

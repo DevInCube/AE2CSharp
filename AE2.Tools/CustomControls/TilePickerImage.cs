@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Controls;
+using AE2.Tools.DataModels;
+using AE2.Tools.Views;
 
-namespace AE2.Tools.Views.EditorViews
+namespace AE2.Tools.CustomControls
 {
     public class TilePickerImage : Canvas
     {
@@ -34,13 +36,13 @@ namespace AE2.Tools.Views.EditorViews
 
         public TilePickerImage()
         {
-            this.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             image = new Image();
-            this.Children.Add(image);
+            Children.Add(image);
 
             selBitmap = MapEditor.getSelectionBitmap();
             selectionImage = new Image();
-            this.Children.Add(selectionImage);
+            Children.Add(selectionImage);
 
             cursor = new Image
             {
@@ -49,23 +51,23 @@ namespace AE2.Tools.Views.EditorViews
                 Height = MapEditor.CELL_SIZE,
                 Opacity = 0
             };
-            this.Children.Add(cursor);            
+            Children.Add(cursor);
 
-            this.MouseMove += TilePickerImage_MouseMove;
-            this.MouseUp += TilePickerImage_MouseUp;
-            this.MouseEnter += TilePickerImage_MouseEnter;
-            this.MouseLeave += TilePickerImage_MouseLeave;
+            MouseMove += TilePickerImage_MouseMove;
+            MouseUp += TilePickerImage_MouseUp;
+            MouseEnter += TilePickerImage_MouseEnter;
+            MouseLeave += TilePickerImage_MouseLeave;
         }
 
         private void UpdateSelection()
         {
-            selectionImage.Width = this.Width;
-            selectionImage.Height = this.Height;
+            selectionImage.Width = Width;
+            selectionImage.Height = Height;
             var mapBitmap = new System.Drawing.Bitmap((int)selectionImage.Width, (int)selectionImage.Height);
             var gr = System.Drawing.Graphics.FromImage(mapBitmap);
 
             gr.DrawImage(selBitmap,
-                   new System.Drawing.Rectangle((int)selPos.X, (int)selPos.Y, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
+                   new System.Drawing.Rectangle(selPos.X, selPos.Y, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
                    new System.Drawing.Rectangle(MapEditor.CELL_SIZE, 0, MapEditor.CELL_SIZE, MapEditor.CELL_SIZE),
                    System.Drawing.GraphicsUnit.Pixel);
 
@@ -84,7 +86,7 @@ namespace AE2.Tools.Views.EditorViews
             {
                 int width = tiles[0].Length;
                 int height = tiles.Length;
-               
+
                 for (int i = 0; i < height; i++)
                     for (int j = 0; j < width; j++)
                     {
@@ -131,12 +133,12 @@ namespace AE2.Tools.Views.EditorViews
         private void TilePickerImage_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             System.Windows.Point mousePos = e.GetPosition(sender as System.Windows.IInputElement);
-            double x = (mousePos.X - mousePos.X % MapEditor.CELL_SIZE);
-            double y = (mousePos.Y - mousePos.Y % MapEditor.CELL_SIZE);
+            double x = mousePos.X - mousePos.X % MapEditor.CELL_SIZE;
+            double y = mousePos.Y - mousePos.Y % MapEditor.CELL_SIZE;
             px = (byte)(x / MapEditor.CELL_SIZE);
             py = (byte)(y / MapEditor.CELL_SIZE);
-            Canvas.SetLeft(cursor, x);
-            Canvas.SetTop(cursor, y);
+            SetLeft(cursor, x);
+            SetTop(cursor, y);
         }
 
         public void SetTiles(byte[][] tiles)
@@ -171,8 +173,8 @@ namespace AE2.Tools.Views.EditorViews
                             gr.DrawImage(tileBmp, j * MapEditor.CELL_SIZE, i * MapEditor.CELL_SIZE);
                     }
                 image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
-                this.Width = image.Width;
-                this.Height = image.Height;
+                Width = image.Width;
+                Height = image.Height;
             }
             if (units != null)
             {
@@ -197,8 +199,8 @@ namespace AE2.Tools.Views.EditorViews
                                System.Drawing.GraphicsUnit.Pixel);
                     }
                 image.Source = MIDP.WPF.Media.ImageHelper.loadBitmap(bmp);
-                this.Width = image.Width;
-                this.Height = image.Height;
+                Width = image.Width;
+                Height = image.Height;
             }
 
         }
