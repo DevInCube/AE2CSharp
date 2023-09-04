@@ -2772,16 +2772,19 @@ namespace aeii
                 updateGameSprites();
                 return;
             }
+
             if (this.gameMode2Mb == 3)
             {
                 sub_c1eb();
                 return;
             }
+
             if (this.gameMode2Mb == 0)
             {
                 updateIntro();
                 return;
             }
+
             updateMapScript();
             if (this.helpTipId != -1)
             {
@@ -2796,10 +2799,12 @@ namespace aeii
                 }
                 this.helpTipId = -1;
             }
+
             if (A_MenuBase.mainCanvas.mainDrawElement != this)
             {
                 return;
             }
+
             if (this.unkState == 0)
             {
                 for (int i = 0; i < this.houseSmokeSprites.Length; i++)
@@ -2819,14 +2824,17 @@ namespace aeii
                     }
                 }
             }
+
             /*if (this.time - this.someStartTime1 >= 300L) {
                 this.var_368b = (!this.var_368b);
                 this.someStartTime1 = this.time;
             }*/
+
             if ((this.isShakingScreen) && (this.time - this.shakeScreenStartTime >= this.shakeScreenMaxTime))
             {
                 this.isShakingScreen = false;
             }
+
             if (this.faStarted)
             {
                 this.waveImageAmplitude += 1;
@@ -2857,6 +2865,7 @@ namespace aeii
                 }
                 return;
             }
+
             if (this.isFading)
             {
                 if (this.isFadingIn)
@@ -2875,10 +2884,12 @@ namespace aeii
                     }
                 }
             }
+
             if (this.unitMovePathPositions != null)
             {
                 this.var_3543 = ((this.var_3543 + 1) % 12);
             }
+
             if (this.var_351b)
             {
                 if (this.var_3a3b == 0)
@@ -2906,11 +2917,13 @@ namespace aeii
                     }
                 }
             }
+
             if ((this.isCursorVisible) && (this.time - this.cursorFrameStartTime >= 200L))
             {
                 this.cursorSprite.nextFrame();
                 this.cursorFrameStartTime = this.time;
             }
+
             int ks = this.someCursorXPos * 24;
             int m = this.someCursorYPos * 24;
             int n = this.cursorSprite.posXPixel;
@@ -2923,6 +2936,7 @@ namespace aeii
             {
                 n -= 8;
             }
+
             if (m > i1)
             {
                 i1 += 8;
@@ -2931,6 +2945,7 @@ namespace aeii
             {
                 i1 -= 8;
             }
+
             this.cursorSprite.setSpritePosition(n, i1);
             //Object localObject2;
             if ((!this.var_3793) && (this.var_378b > 0))
@@ -3739,13 +3754,15 @@ namespace aeii
                 ((C_Unit)this.mapUnitsSprites.elementAt(uIt)).unitUpdate();
                 uIt++;
             }
-            //water blink animation upate
+
+            //water blink animation update
             if (this.time - this.waterBlinkAnimStartTime >= 300L)
             {
                 this.waterBlinkCurFrameInd = ((this.waterBlinkCurFrameInd + 1) % this.waterBlinkAnimFrames.Length);
                 this.allTilesImages[this.someWaterBlinkFrameIndex] = this.waterBlinkAnimFrames[this.waterBlinkCurFrameInd];
                 this.waterBlinkAnimStartTime = this.time;
             }
+
             sub_b79b();
             if ((this.canCancelMb) && (A_MenuBase.mainCanvas.someActionCodeIsSet(m_actionCancel)))
             {
@@ -3772,6 +3789,7 @@ namespace aeii
                 this.canCancelMb = false;
                 this.canApplyMb = false;
             }
+
             for (int it = this.mapEffectsSpritesList.size() - 1; it >= 0; it--)
             {
                 F_Sprite sSprite = (F_Sprite)this.mapEffectsSpritesList.elementAt(it);
@@ -3781,6 +3799,7 @@ namespace aeii
                     this.mapEffectsSpritesList.removeElement(sSprite);
                 }
             }
+
             int jIt = 0;
             int Length = this.someSpritesVector1.size();
             while (jIt < Length)
@@ -3788,6 +3807,7 @@ namespace aeii
                 this.mapEffectsSpritesList.addElement(this.someSpritesVector1.elementAt(jIt));
                 jIt++;
             }
+
             this.someSpritesVector1.removeAllElements();
         }
 
@@ -6161,9 +6181,9 @@ namespace aeii
             return -1;
         }
 
-        public void waitScript(int val)
+        public void waitScript(int timeout)
         {
-            this.waitTimeValue = val;
+            this.waitTimeValue = timeout;
             this.isWaiting = true;
         }
 
@@ -6208,6 +6228,7 @@ namespace aeii
                 this.var_380b = true;
                 this.fadeInColor = 0;
             }
+
             if (this.scenarioMapIndex == 0)
             {
                 this.unlockedUnitsTypeMax = 0;
@@ -6224,6 +6245,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             if (this.scenarioMapIndex == 1)
             {
                 this.unlockedUnitsTypeMax = 1;
@@ -6241,6 +6263,7 @@ namespace aeii
                 A_MenuBase.mainCanvas.showMenu(this.mapNameDialog);
                 return;
             }
+
             if (this.scenarioMapIndex == 2)
             {
                 this.unlockedUnitsTypeMax = 0;
@@ -6262,6 +6285,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             if (this.scenarioMapIndex == 3)
             {
                 this.unlockedUnitsTypeMax = 7;
@@ -6285,6 +6309,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             C_Unit cUnit;
             if (this.scenarioMapIndex == 4)
             {
@@ -6312,6 +6337,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             if (this.scenarioMapIndex == 5)
             {
                 this.unlockedUnitsTypeMax = 7;
@@ -6327,6 +6353,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             C_Unit cUnit2;
             C_Unit cUnit3;
             if (this.scenarioMapIndex == 6)
@@ -6353,6 +6380,7 @@ namespace aeii
                 this.scriptStep = 0;
                 return;
             }
+
             if (this.scenarioMapIndex == 7)
             {
                 this.unlockedUnitsTypeMax = 8;
@@ -6382,6 +6410,7 @@ namespace aeii
             {
                 return;
             }
+
             if (this.var_3b7b)
             {
                 if (this.scriptStep == 0)
@@ -6391,8 +6420,10 @@ namespace aeii
                     this.unkState = 11;
                     this.scriptStep = 1;
                 }
+
                 return;
             }
+
             int i;
             int j;
             String str2;
@@ -6408,25 +6439,28 @@ namespace aeii
                     this.scriptStep += 1;
                     return;
                 }
+
                 if (this.scriptStep == 101)
                 {
                     i = -1;
                     j = -1;
                     int n = 1;
-                    for (int i1 = 0; i1 < this.mapMaxPlayersMb; i1++)
+                    for (int playerIndex = 0; playerIndex < this.mapMaxPlayersMb; playerIndex++)
                     {
-                        if ((this.mapPlayersTypes[i1] != PlayerType.None)
-                                && (((this.playersKings[i1] != null) && (this.playersKings[i1].m_state != UnitState.Dead)) || (countPlayerOwnerCastles(i1) != 0)))
+                        if ((this.mapPlayersTypes[playerIndex] != PlayerType.None) && 
+                            (((this.playersKings[playerIndex] != null) && (this.playersKings[playerIndex].m_state != UnitState.Dead)) || (countPlayerOwnerCastles(playerIndex) != 0)))
                         {
-                            j = i1;
-                            if ((i != -1) && (i != this.playersTeams[i1]))
+                            j = playerIndex;
+                            if ((i != -1) && (i != this.playersTeams[playerIndex]))
                             {
                                 n = 0;
                                 break;
                             }
-                            i = this.playersTeams[i1];
+
+                            i = this.playersTeams[playerIndex];
                         }
                     }
+
                     if (n != 0)
                     {
                         this.isUpdatingMb = false;
@@ -6440,6 +6474,7 @@ namespace aeii
                                 str3 = str3 + " " + A_MenuBase.getLangString(88 + this.playersIndexes[pIndex]) + " "; // player color
                             }
                         }
+
                         str3 = str3 + ")";
                         D_Menu teamWinsDialog = createDialog(null, str3, this.someGHeight, this.viewportHeight, -1);
                         teamWinsDialog.setParentMenu(this);
@@ -6463,12 +6498,15 @@ namespace aeii
                     this.unkState = 11;
                     this.scriptStep += 1;
                 }
+
                 return;
             }
+
             if ((this.gameMode2Mb != 1) || (this.mapModeCampIf0 != 0) || (this.scriptStep == -1))
             {
                 return;
             }
+
             if (this.cameraX != -1)
             {
                 if (sub_b848(this.cameraX, this.cameraY))
@@ -6481,6 +6519,7 @@ namespace aeii
                     return;
                 }
             }
+
             if (this.unkState != 11)
             {
                 i = 1;
@@ -6492,6 +6531,7 @@ namespace aeii
                         break;
                     }
                 }
+
                 if ((i != 0) && (countPlayerOwnerCastles(0) == 0))
                 {
                     sub_1447e();
@@ -6536,8 +6576,6 @@ namespace aeii
             this.unitEndTurnMb = null;
         }
 
-
-
         private void updateScenarioScript1()
         {
             switch (this.scriptStep)
@@ -6546,16 +6584,17 @@ namespace aeii
                     this.scriptStep += 1;
                     break;
                 case 1:
-                    A_MenuBase.mainCanvas.showMenu(this.mapNameDialog);
+                    //A_MenuBase.mainCanvas.showMenu(this.mapNameDialog);
                     waitScript(10);
                     this.scriptStep += 1;
                     break;
                 case 2:
                     this.isFading = true;
-                    getSomeUnit(0, 8, (byte)0).goToPosition(3, 8, false);
-                    getSomeUnit(1, 9, (byte)0).goToPosition(4, 9, false);
-                    getSomeUnit(0, 10, (byte)0).goToPosition(3, 10, false);
-                    moveCameraTo(5, 9);
+                    this.scriptStep = 30; // TODO: test
+                    //getSomeUnit(0, 8, (byte)0).goToPosition(3, 8, false);
+                    //getSomeUnit(1, 9, (byte)0).goToPosition(4, 9, false);
+                    //getSomeUnit(0, 10, (byte)0).goToPosition(3, 10, false);
+                    //moveCameraTo(5, 9);
                     break;
                 case 3:
                     moveCameraTo(9, 3);

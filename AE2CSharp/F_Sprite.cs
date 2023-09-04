@@ -523,6 +523,7 @@ namespace aeii
                         30);
                 return;
             }
+
             if (this.m_spriteType == 3)
             {
                 gr.setColor(0); //black
@@ -545,11 +546,13 @@ namespace aeii
                     E_MainCanvas.drawCharedString(gr, this.spriteString, x, y, this.charFontId, Graphics.HCENTER | Graphics.BOTTOM);
                     return;
                 }
+
                 if (this.randPosCounter > 0)
                 {
                     x += E_MainCanvas.getRandomWithin(-4, 5);
                     y += E_MainCanvas.getRandomWithin(-1, 2);
                 }
+
                 k = this.frameSequence[this.currentFrameIndex];
                 this.frameImages[k].drawImage(gr, x, y);
                 if (this.kingHeadSprite != null)
@@ -565,6 +568,7 @@ namespace aeii
                         sprite = this.kingHeadSprite;
                         sprite.setCurrentFrameIndex(m);
                     }
+
                     sprite.onSpritePaint(gr, x, y);
                 }
             }

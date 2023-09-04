@@ -113,7 +113,7 @@ namespace AE2.Tools.Loaders
             for (short i = 0; i < this.housesDataArr.Length; i = (short)(i + 1))
             {
                 m = this.housesDataArr[i][2];
-                if ((m > 0) && (this.mapPlayersTypes[sub_e276(m)] == 2))
+                if ((m > 0) && (this.mapPlayersTypes[sub_e276(m)] == PlayerType.None))
                 { //NONE
                     occupyHouse(this.housesDataArr[i][0], this.housesDataArr[i][1], 0);
                 }
@@ -131,10 +131,10 @@ namespace AE2.Tools.Loaders
                 int posY = dis.readShort() / 24;
                 byte unitType = (byte)(uType % 12);
                 byte playerId = (byte)sub_e276(1 + uType / 12);
-                if (this.mapPlayersTypes[playerId] != 2)
+                if (this.mapPlayersTypes[playerId] != PlayerType.None)
                 { //not NONE
                     //C_Unit unit1 = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
-                    if (unitType == 9)
+                    if (unitType == UnitType.Commander)
                     {
                         //this.playersKings[playerID] = unit1;
                     }

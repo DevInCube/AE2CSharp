@@ -3,9 +3,11 @@ using java.util;
 using javax.microedition.lcdui;
 using java.io;
 using AE2CSharp.Enums;
+using System.Diagnostics;
 
 namespace aeii
 {
+    [DebuggerDisplay("Unit[name={unitName},player={playerId}]@{positionX},{positionY}")]
     public class C_Unit : F_Sprite
     {
         private const byte MaxLevel = 9;
@@ -709,6 +711,7 @@ namespace aeii
                     this.m_shakeDirection = (!this.m_shakeDirection);
                 }
             }
+
             if (this.m_state == UnitState.Moving) // running
             {
                 if (this.movePathPosIndex >= this.unitMovePathPositions.size())
@@ -793,6 +796,7 @@ namespace aeii
                 nextFrame();
                 return;
             }
+
             if ((this.m_state == UnitState.Default) && (sGame.time - this.unitFrameStartTime >= 200L))
             {
                 nextFrame();

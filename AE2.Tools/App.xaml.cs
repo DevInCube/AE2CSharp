@@ -14,8 +14,8 @@ namespace AE2.Tools
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //StartEmulation();
-            StartMapEditor();
+            StartEmulation();
+            //StartMapEditor();
             //E_MainCanvas.loadResourcesPak(new java.lang.String(""));
             //E_MainCanvas.saveUnpackedResources(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "pak"));
             //Environment.Exit(0);
