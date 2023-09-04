@@ -34,18 +34,18 @@ namespace AE2.Tools.Emulation
         {
             KeyDict = new Dictionary<string, KeyCommand>
             {
-                {"L", new KeyCommand(Key.F1, () => { OnKeyPressed(-6); })},
-                {"R", new KeyCommand(Key.F2, () => { OnKeyPressed(-7); })},
-                {"0", new KeyCommand(Key.NumPad0, () => { OnKeyPressed(Canvas.KEY_NUM0); })},
-                {"1", new KeyCommand(Key.NumPad7, () => { OnKeyPressed(Canvas.KEY_NUM1); })},
-                {"2", new KeyCommand(Key.NumPad8, () => { OnKeyPressed(Canvas.KEY_NUM2); })},
-                {"3", new KeyCommand(Key.NumPad9, () => { OnKeyPressed(Canvas.KEY_NUM3); })},
-                {"4", new KeyCommand(Key.NumPad4, () => { OnKeyPressed(Canvas.KEY_NUM4); })},
-                {"5", new KeyCommand(Key.NumPad5, () => { OnKeyPressed(Canvas.KEY_NUM5); })},
-                {"6", new KeyCommand(Key.NumPad6, () => { OnKeyPressed(Canvas.KEY_NUM6); })},
-                {"7", new KeyCommand(Key.NumPad1, () => { OnKeyPressed(Canvas.KEY_NUM7); })},
-                {"8", new KeyCommand(Key.NumPad2, () => { OnKeyPressed(Canvas.KEY_NUM8); })},
-                {"9", new KeyCommand(Key.NumPad3, () => { OnKeyPressed(Canvas.KEY_NUM9); })}
+                {"L", new KeyCommand(Key.F1, Key.D1, () => { OnKeyPressed(-6); })},
+                {"R", new KeyCommand(Key.F2, Key.D3, () => { OnKeyPressed(-7); })},
+                {"0", new KeyCommand(Key.NumPad0, Key.V, () => { OnKeyPressed(Canvas.KEY_NUM0); })},
+                {"1", new KeyCommand(Key.NumPad7, Key.Q, () => { OnKeyPressed(Canvas.KEY_NUM1); })},
+                {"2", new KeyCommand(Key.NumPad8, Key.W, () => { OnKeyPressed(Canvas.KEY_NUM2); })},
+                {"3", new KeyCommand(Key.NumPad9, Key.E, () => { OnKeyPressed(Canvas.KEY_NUM3); })},
+                {"4", new KeyCommand(Key.NumPad4, Key.A, () => { OnKeyPressed(Canvas.KEY_NUM4); })},
+                {"5", new KeyCommand(Key.NumPad5, Key.S, () => { OnKeyPressed(Canvas.KEY_NUM5); })},
+                {"6", new KeyCommand(Key.NumPad6, Key.D, () => { OnKeyPressed(Canvas.KEY_NUM6); })},
+                {"7", new KeyCommand(Key.NumPad1, Key.Z, () => { OnKeyPressed(Canvas.KEY_NUM7); })},
+                {"8", new KeyCommand(Key.NumPad2, Key.X, () => { OnKeyPressed(Canvas.KEY_NUM8); })},
+                {"9", new KeyCommand(Key.NumPad3, Key.C, () => { OnKeyPressed(Canvas.KEY_NUM9); })}
             };
         }
 

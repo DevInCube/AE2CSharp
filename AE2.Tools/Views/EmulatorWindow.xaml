@@ -17,6 +17,18 @@
         <KeyBinding Command="{Binding KeyDict[8].Command}" Key="{Binding KeyDict[8].Key}"/>
         <KeyBinding Command="{Binding KeyDict[9].Command}" Key="{Binding KeyDict[9].Key}"/>
         <KeyBinding Command="{Binding KeyDict[0].Command}" Key="{Binding KeyDict[0].Key}"/>
+        <KeyBinding Command="{Binding KeyDict[L].Command}" Key="{Binding KeyDict[L].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[R].Command}" Key="{Binding KeyDict[R].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[1].Command}" Key="{Binding KeyDict[1].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[2].Command}" Key="{Binding KeyDict[2].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[3].Command}" Key="{Binding KeyDict[3].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[4].Command}" Key="{Binding KeyDict[4].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[5].Command}" Key="{Binding KeyDict[5].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[6].Command}" Key="{Binding KeyDict[6].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[7].Command}" Key="{Binding KeyDict[7].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[8].Command}" Key="{Binding KeyDict[8].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[9].Command}" Key="{Binding KeyDict[9].Key2}"/>
+        <KeyBinding Command="{Binding KeyDict[0].Command}" Key="{Binding KeyDict[0].Key2}"/>
     </Window.InputBindings>
     <DockPanel Background="WhiteSmoke">
         <ContentControl Content="{Binding Control}" Width="360" Height="480"
