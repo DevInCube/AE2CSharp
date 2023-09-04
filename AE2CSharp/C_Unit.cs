@@ -305,11 +305,18 @@ namespace aeii
             return j;
         }
 
+        /// <summary>
+        /// Some kind of power priority for AI.
+        /// </summary>
         public int getSomePropSum(int inX, int inY, C_Unit unit)
         {
-            return (this.unitAttackMin + this.unitAttackMax + this.unitDefence
-                    + getUnitExtraAttack(unit, inX, inY) + getUnitResistance(
-                    unit, inX, inY)) * this.unitHealthMb / 100;
+            var sum =
+                this.unitAttackMin +
+                this.unitAttackMax +
+                this.unitDefence +
+                getUnitExtraAttack(unit, inX, inY) +
+                getUnitResistance(unit, inX, inY);
+            return (sum) * this.unitHealthMb / 100;
         }
 
         public void fillAttackRangeData(byte[][] mapdata, int inX,
@@ -371,10 +378,10 @@ namespace aeii
             }
         }
 
-        public C_Unit[] getActiveUnitsInAttackRange(int paramInt1, int paramInt2,
+        public C_Unit[] getActiveUnitsInAttackRange(int inX, int inY,
                 byte paramByte)
         {
-            return getPositionUnitsInAttackRange(paramInt1, paramInt2, minUnitRanges[this.unitTypeId],
+            return getPositionUnitsInAttackRange(inX, inY, minUnitRanges[this.unitTypeId],
                     maxUnitRanges[this.unitTypeId], paramByte);
         }
 

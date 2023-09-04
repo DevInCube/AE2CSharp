@@ -6,6 +6,7 @@ using java.csharp;
 using javax.microedition.rms;
 using javax.microedition.media;
 using java.util;
+using AE2CSharp.Enums;
 
 namespace aeii
 {
@@ -532,7 +533,7 @@ namespace aeii
         {
             try
             {
-                if (settings[1] != false)
+                if (settings[Setting.ShakeCamera] != false)
                 {
                     display.vibrate(val * 4);
                 }
@@ -605,7 +606,7 @@ namespace aeii
                 {
                     currentMusicPlayer.stop();
                 }
-                if ((someMusicByteArr[musicId] == 1) && (settings[0] != false))
+                if ((someMusicByteArr[musicId] == 1) && (settings[Setting.LoopMusic] != false))
                 {
                     if (loopCount == 0)
                     {

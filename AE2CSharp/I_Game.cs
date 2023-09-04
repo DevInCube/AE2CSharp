@@ -300,8 +300,8 @@ namespace aeii
         public int playerIncome;
         public static byte[] someUnitsValuesForAImb = { 0, 2, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3 };
         public byte someAIAtkStateMb = 0;
-        public int var_3a73;
-        public int someTileType;
+        public int priorityCellX;
+        public int priorityCellY;
         public C_Unit targetAttUnitCandidateMb;
         public C_Unit targetActionUnitCandidateMb;
         public C_Unit var_3a93;
@@ -981,7 +981,7 @@ namespace aeii
                 this.unkState = 0;
                 clearActiveUnit();
                 this.cursorSprite.setFrameSequence(cursorFrameSequences[0]);
-                if (this.mapPlayersTypes[this.playerId] == 0)
+                if (this.mapPlayersTypes[this.playerId] == PlayerType.AI)
                 {
                     this.aiUnitActionStartTime = this.time;
                     this.someAIAtkStateMb = 6;
@@ -989,7 +989,7 @@ namespace aeii
             }
             else
             {
-                if ((E_MainCanvas.settings[3] != false) && (tombUnit.charsData.Length > 0)) //fight animation
+                if ((E_MainCanvas.settings[Setting.FightAnimation] != false) && (tombUnit.charsData.Length > 0)) //fight animation
                 {
                     this.faStarted = true;
                     this.waveImageAmplitude = 0;
@@ -1049,7 +1049,7 @@ namespace aeii
                 E_MainCanvas.playMusicLooped(12, 1);
             }
             this.unitDyingStartTime = this.time;
-            if (this.mapPlayersTypes[this.playerId] == 0)
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.AI)
             {
                 this.aiUnitActionStartTime = this.time;
                 this.someAIAtkStateMb = 6;
@@ -1518,18 +1518,18 @@ namespace aeii
                     {
                         if (this.choosePlayerMenuList[plIndex].activeItemPositionMb == 2)
                         { //NONE
-                            this.mapPlayersTypes[plIndex] = 2;
+                            this.mapPlayersTypes[plIndex] = PlayerType.None;
                         }
                         else
                         {
                             numPlayers++;
                             if (this.choosePlayerMenuList[plIndex].activeItemPositionMb == 0)
                             { //PLAYER
-                                this.mapPlayersTypes[plIndex] = 1;
+                                this.mapPlayersTypes[plIndex] = PlayerType.Human;
                             }
                             else if (this.choosePlayerMenuList[plIndex].activeItemPositionMb == 1)
                             { //CPU
-                                this.mapPlayersTypes[plIndex] = 0;
+                                this.mapPlayersTypes[plIndex] = PlayerType.AI;
                             }
                             this.playersTeams[plIndex] = ((byte)this.chooseTeamMenuList[plIndex].activeItemPositionMb);
                             if (playersFlags[this.playersTeams[plIndex]] == false)
@@ -1630,7 +1630,7 @@ namespace aeii
             {
                 if (paramByte == 1)
                 {
-                    bool setting1Enabled = E_MainCanvas.settings[0];
+                    bool setting1Enabled = E_MainCanvas.settings[Setting.LoopMusic];
                     int countSettingsChanged = 0;
                     for (int it = 0; it < 4; it++)
                     {
@@ -1645,9 +1645,9 @@ namespace aeii
                     if (countSettingsChanged != 0)
                     {
                         saveSettings();
-                        if (setting1Enabled != E_MainCanvas.settings[0])
+                        if (setting1Enabled != E_MainCanvas.settings[Setting.LoopMusic])
                         {
-                            if (E_MainCanvas.settings[0] == false)
+                            if (E_MainCanvas.settings[Setting.LoopMusic] == false)
                             {
                                 E_MainCanvas.stopMusic();
                                 return;
@@ -1969,7 +1969,7 @@ namespace aeii
                     this.scenarioMapIndex = 0;
                 }
                 this.mapModeCampIf0 = 0;
-                this.mapPlayersTypes[1] = 0;
+                this.mapPlayersTypes[1] = PlayerType.AI;
                 this.isBlackLoading = true;
                 A_MenuBase.mainCanvas.repaintAll();
                 JavaSystem.gc();
@@ -2487,7 +2487,7 @@ namespace aeii
             for (short i = 0; i < this.housesDataArr.Length; i = (short)(i + 1))
             {
                 m = this.housesDataArr[i][2];
-                if ((m > 0) && (this.mapPlayersTypes[getPlayerTurn(m)] == 2))
+                if ((m > 0) && (this.mapPlayersTypes[getPlayerTurn(m)] == PlayerType.None))
                 { //NONE
                     occupyHouse(this.housesDataArr[i][0], this.housesDataArr[i][1], 0);
                 }
@@ -2505,7 +2505,7 @@ namespace aeii
                 int posY = dis.readShort() / 24;
                 sbyte unitType = (sbyte)(uType % 12);
                 sbyte playerID = (sbyte)getPlayerTurn(1 + uType / 12);
-                if (this.mapPlayersTypes[playerID] != 2)
+                if (this.mapPlayersTypes[playerID] != PlayerType.None)
                 { //not NONE
                     C_Unit playerUnit = C_Unit.createUnitOnMap(unitType, playerID, posX, posY);
                     if (unitType == 9)
@@ -2551,7 +2551,7 @@ namespace aeii
                 this.isUpdatingMb = true;
                 for (short i = 0; i < this.mapMaxPlayersMb; i = (short)(i + 1))
                 {
-                    if (this.mapPlayersTypes[i] != 2)
+                    if (this.mapPlayersTypes[i] != PlayerType.None)
                     { // not NONE
                         this.playerId = ((sbyte)i);
                         break;
@@ -2610,7 +2610,7 @@ namespace aeii
             this.m_tempUnit = null;
             fillArrayWithValue(this.someMapData, 0);
             this.var_351b = false;
-            if (this.mapPlayersTypes[this.playerId] == 1)
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.Human)
             { //PLAYER
                 this.var_39c3 = 1;
                 this.isCursorVisible = true;
@@ -2620,7 +2620,8 @@ namespace aeii
                 E_MainCanvas.playMusicLooped(11, 1);
                 return;
             }
-            if (this.mapPlayersTypes[this.playerId] == 0)
+
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.AI)
             { //CPU
                 this.someAIAtkStateMb = 4;
                 this.unkState = 0;
@@ -2784,7 +2785,7 @@ namespace aeii
             updateMapScript();
             if (this.helpTipId != -1)
             {
-                if (E_MainCanvas.settings[2] != false)
+                if (E_MainCanvas.settings[Setting.ShowHelp] != false)
                 { // help setting
                     D_Menu aHelpDialog1 = showUnitDialogMsg(
                             A_MenuBase.getSomeHelpString(196 + this.helpTipId, true),
@@ -2931,7 +2932,7 @@ namespace aeii
                 i1 -= 8;
             }
             this.cursorSprite.setSpritePosition(n, i1);
-            Object localObject2;
+            //Object localObject2;
             if ((!this.var_3793) && (this.var_378b > 0))
             {
                 if (this.var_378b < 2)
@@ -2970,7 +2971,7 @@ namespace aeii
                         {
                             this.var_354b = 1;
                             sub_ddbb();
-                            if (this.mapPlayersTypes[this.playerId] == 1)
+                            if (this.mapPlayersTypes[this.playerId] == PlayerType.Human)
                             { // PLAYER
                                 incomeStr = "" + this.playerIncome;
                             }
@@ -3396,7 +3397,7 @@ namespace aeii
                                         initSomeUnitData(this.activeUnit); //remove cell highlight
                                     }
                                 }
-                                else if (this.mapPlayersTypes[this.playerId] == 0)
+                                else if (this.mapPlayersTypes[this.playerId] == PlayerType.AI)
                                 {
                                     sub_ebb9();
                                 }
@@ -4641,7 +4642,7 @@ namespace aeii
                     }
                     this.hudIcons2Sprite.drawFrameAt(gr, 1, i4, i3, 6);
                     i4 += this.hudIcons2Sprite.frameWidth + 1;
-                    if (this.mapPlayersTypes[this.playerId] == 1)
+                    if (this.mapPlayersTypes[this.playerId] == PlayerType.Human)
                     { //PLAYER
                         E_MainCanvas.drawCharedString(gr, ""
                                 + this.playersMoney[this.playerId], i4, i3, 1, 6);
@@ -4694,7 +4695,7 @@ namespace aeii
                     drawActionButton(gr, m_actionApply, 0, this.someGHeight);
                 }
                 if ((this.gameMode2Mb == 1)
-                        && ((this.mapPlayersTypes[this.playerId] == 0) || (this.unkState == 0))
+                        && ((this.mapPlayersTypes[this.playerId] == PlayerType.AI) || (this.unkState == 0))
                         && (this.unkState != 11))
                 {
                     drawActionButton(gr, m_actionApply, 3, this.someGHeight);
@@ -4879,6 +4880,7 @@ namespace aeii
                     i = unit.positionX;
                     j = unit.positionY;
                 }
+
                 if ((inX == i) && (inY == j))
                 {
                     if ((deadIf1 == 0) && (unit.m_state != UnitState.Dead))
@@ -4890,8 +4892,10 @@ namespace aeii
                         return unit;
                     }
                 }
+
                 it++;
             }
+
             return null;
         }
 
@@ -4915,7 +4919,7 @@ namespace aeii
             this.playerCursorPositions[this.playerId][1] = ((byte)this.someCursorYPos);
             this.currentTurn = ((short)(this.currentTurn + 1));
             this.playerId = ((sbyte)((this.playerId + 1) % this.mapMaxPlayersMb));
-            if (this.mapPlayersTypes[this.playerId] == 2)
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.None)
             { // NONE?
                 sub_ddbb();
                 return;
@@ -4979,14 +4983,14 @@ namespace aeii
                 this.var_3acb[i] = 0;
             }
 
-            if (this.mapPlayersTypes[this.playerId] == 1)
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.Human)
             { // PLAYER?
                 moveCursorToPos(this.playerCursorPositions[this.playerId][0],
                         this.playerCursorPositions[this.playerId][1]);
             }
             this.cursorIsMovingMb = true;
             this.bottomMenuNeedsUpdateUI = true;
-            if (this.mapPlayersTypes[this.playerId] == 0)
+            if (this.mapPlayersTypes[this.playerId] == PlayerType.AI)
             { // CPU
                 initCPUPlayerMb();
             }
@@ -5313,15 +5317,15 @@ namespace aeii
                 }
                 else
                 {
-                    int houseId;
+                    int houseIndex;
                     if (canOccupyVillageOrTown(this.activeUnit.positionX, this.activeUnit.positionY,
                             this.activeUnit))
                     {
-                        houseId = getMapHouseId(this.activeUnit.positionX, this.activeUnit.positionY);
-                        if ((this.var_3b03 != -1) && (this.var_3b03 != houseId))
+                        houseIndex = getMapHouseIndex(this.activeUnit.positionX, this.activeUnit.positionY);
+                        if ((this.var_3b03 != -1) && (this.var_3b03 != houseIndex))
                         {
-                            this.someHouseUnits[this.var_3b03] = this.someHouseUnits[houseId];
-                            this.someHouseUnits[houseId] = this.activeUnit;
+                            this.someHouseUnits[this.var_3b03] = this.someHouseUnits[houseIndex];
+                            this.someHouseUnits[houseIndex] = this.activeUnit;
                         }
                         occupyHouse(this.activeUnit.positionX, this.activeUnit.positionY,
                                 this.playersIndexes[this.activeUnit.playerId]);
@@ -5334,11 +5338,11 @@ namespace aeii
                     else if (canRepairVillages(this.activeUnit.positionX,
                           this.activeUnit.positionY, this.activeUnit))
                     {
-                        houseId = getMapHouseId(this.activeUnit.positionX, this.activeUnit.positionY);
-                        if ((this.var_3b03 != -1) && (this.var_3b03 != houseId))
+                        houseIndex = getMapHouseIndex(this.activeUnit.positionX, this.activeUnit.positionY);
+                        if ((this.var_3b03 != -1) && (this.var_3b03 != houseIndex))
                         {
-                            this.someHouseUnits[this.var_3b03] = this.someHouseUnits[houseId];
-                            this.someHouseUnits[houseId] = this.activeUnit;
+                            this.someHouseUnits[this.var_3b03] = this.someHouseUnits[houseIndex];
+                            this.someHouseUnits[houseIndex] = this.activeUnit;
                         }
                         repairDestroyedHouse((byte)this.houseTileIdStartIndex, this.activeUnit.positionX,
                                 this.activeUnit.positionY);
@@ -5439,9 +5443,9 @@ namespace aeii
                     {
                         if (this.time - this.aiUnitActionStartTime >= 100L) // select cell target
                         {
-                            this.someCursorXPos = this.var_3a73;
-                            this.someCursorYPos = this.someTileType;
-                            this.cursorSprite.setSpritePosition(this.var_3a73 * 24, this.someTileType * 24);
+                            this.someCursorXPos = this.priorityCellX;
+                            this.someCursorYPos = this.priorityCellY;
+                            this.cursorSprite.setSpritePosition(this.priorityCellX * 24, this.priorityCellY * 24);
                             this.unitMovePathPositions = this.activeUnit.getUnitMovePathPositions(
                                     this.activeUnit.positionX, this.activeUnit.positionY,
                                     this.someCursorXPos, this.someCursorYPos);
@@ -5453,7 +5457,7 @@ namespace aeii
                           && (this.time - this.aiUnitActionStartTime >= 100L)) //show target cell
                     {
                         this.unitMovePathPositions = null;
-                        this.activeUnit.goToPosition(this.var_3a73, this.someTileType, true);
+                        this.activeUnit.goToPosition(this.priorityCellX, this.priorityCellY, true);
                         this.someAIAtkStateMb = 2;
                         this.var_3a9b = 0;
                         this.unkState = 2;
@@ -5739,14 +5743,14 @@ namespace aeii
             int i1 = 666;
             int i2 = -1;
             int i3s = -1;
-            int tileType;
+            int cellY;
             int pX;
             byte pY;
             for (int i4 = 0; i4 < this.housesDataArr.Length; i4++)
             {
                 pX = this.housesDataArr[i4][0];
                 pY = (byte)this.housesDataArr[i4][1];
-                tileType = getTileType(pX, pY);
+                cellY = getTileType(pX, pY);
                 bool isOwner = playerIsOwnerOfTile(pX, pY, pxUnit.playerId);
                 this.someAIPosAValArr[i][2] = -6666;
                 C_Unit[] someUnitsInRange;
@@ -5767,8 +5771,8 @@ namespace aeii
                                         someUnitsInRange[itx].positionX,
                                         someUnitsInRange[itx].positionY, null);
                             }
-                            else if (((tileType == TileType.Village) && (someUnitsInRange[itx].hasProperty(UnitProperty.VillageOccupier)))
-                                  || ((tileType == TileType.Town) && (someUnitsInRange[itx].hasProperty(UnitProperty.TownOccupier))))
+                            else if (((cellY == TileType.Village) && (someUnitsInRange[itx].hasProperty(UnitProperty.VillageOccupier)))
+                                  || ((cellY == TileType.Town) && (someUnitsInRange[itx].hasProperty(UnitProperty.TownOccupier))))
                             {
                                 //vilage or castles
                                 this.someAIPosAValArr[i][2] += someUnitsInRange[itx].getSomePropSum(
@@ -5821,8 +5825,8 @@ namespace aeii
                     }
                 }
                 else if (((this.someHouseUnits[i4] == null) || (this.someHouseUnits[i4] == pxUnit))
-                      && (((tileType == TileType.Village) && (pxUnit.hasProperty(UnitProperty.VillageOccupier))) ||
-                          ((tileType == TileType.Town) && (pxUnit.hasProperty(UnitProperty.TownOccupier)))))
+                      && (((cellY == TileType.Village) && (pxUnit.hasProperty(UnitProperty.VillageOccupier))) ||
+                          ((cellY == TileType.Town) && (pxUnit.hasProperty(UnitProperty.TownOccupier)))))
                 {
                     //village or castle
                     int distance1 = Math.abs(pX - pxUnit.positionX) + Math.abs(pY - pxUnit.positionY);
@@ -5842,7 +5846,7 @@ namespace aeii
                 }
                 i++;
             }
-            int i4w;
+            int maxCellPriority;
             if ((pxUnit.unitHealthMb < 50) && (i3s != -1))
             {
                 if (i3s == i2)
@@ -5870,7 +5874,7 @@ namespace aeii
             }
             else
             {
-                i4w = -1;
+                maxCellPriority = -1;
                 pX = -6666;
                 for (pY = 0; pY < i; pY++)
                 {
@@ -5884,105 +5888,107 @@ namespace aeii
                         if (this.someAIPosAValArr[pY][2] > pX)
                         {
                             pX = this.someAIPosAValArr[pY][2];
-                            i4w = pY;
+                            maxCellPriority = pY;
                         }
                     }
                 }
-                if (i4w != -1)
+                if (maxCellPriority != -1)
                 {
                     int someSumVal = pxUnit.getSomePropSum(pxUnit.positionX, pxUnit.positionY, null);
-                    if (i4w < this.someUnits5.Length)
+                    if (maxCellPriority < this.someUnits5.Length)
                     {
-                        this.someUnits5[i4w].m_aiPriority += someSumVal;
+                        this.someUnits5[maxCellPriority].m_aiPriority += someSumVal;
                     }
-                    else if (i4w < this.playersKings.Length + this.someUnits5.Length)
+                    else if (maxCellPriority < this.playersKings.Length + this.someUnits5.Length)
                     {
-                        this.playersKings[(i4w - this.someUnits5.Length)].m_aiPriority += someSumVal;
+                        this.playersKings[(maxCellPriority - this.someUnits5.Length)].m_aiPriority += someSumVal;
                     }
                     else
                     {
-                        this.var_3afb = (i4w - this.playersKings.Length - this.someUnits5.Length);
+                        this.var_3afb = (maxCellPriority - this.playersKings.Length - this.someUnits5.Length);
                         this.var_3acb[this.var_3afb] += someSumVal;
                     }
-                    this.someXPos = this.someAIPosAValArr[i4w][0];
-                    this.someYPos = this.someAIPosAValArr[i4w][1];
+                    this.someXPos = this.someAIPosAValArr[maxCellPriority][0];
+                    this.someYPos = this.someAIPosAValArr[maxCellPriority][1];
                     fillArrayWithValue(this.someMData, 0);
                     C_Unit.fillWhereUnitcanMove(this.someMData, this.someXPos,
                             this.someYPos, 10, -1, pxUnit.unitTypeId,
                             this.playerId, false);
                 }
             }
-            i4w = -10000;
-            int it2 = 0;
+            maxCellPriority = -10000;
+            int cellX = 0;
             int Length2 = this.someMapData.Length;
-            while (it2 < Length2)
+            while (cellX < Length2)
             {
-                tileType = 0;
-                int Length3 = this.someMapData[it2].Length;
-                while (tileType < Length3)
+                cellY = 0;
+                int Length3 = this.someMapData[cellX].Length;
+                while (cellY < Length3)
                 {
                     C_Unit lcUnit;
-                    if ((this.someMapData[it2][tileType] > 0)
-                            && (((lcUnit = getSomeUnit(it2, tileType, (byte)0)) == null)
+                    if ((this.someMapData[cellX][cellY] > 0)
+                            && (((lcUnit = getSomeUnit(cellX, cellY, (byte)0)) == null)
                                     || (lcUnit == pxUnit) || ((this.var_3a93 == null)
                                     && (lcUnit.playerId == pxUnit.playerId) && (lcUnit.m_state == UnitState.Default))))
                     {
-                        int cellPrior;
+                        int cellPriority;
                         if ((!pxUnit.hasProperty(UnitProperty.CatapultRange))
                                 || (lcUnit == pxUnit))
                         { //not catapult
                             C_Unit[] arUnit = pxUnit
-                                    .getActiveUnitsInAttackRange(it2, tileType, (byte)0);
+                                    .getActiveUnitsInAttackRange(cellX, cellY, (byte)0);
                             for (int it13 = 0; it13 < arUnit.Length; it13++)
                             {
-                                cellPrior = getUnitCellPriority(pxUnit, it2, tileType, arUnit[it13], null);
-                                if (cellPrior > i4w)
+                                cellPriority = getUnitCellPriority(pxUnit, cellX, cellY, arUnit[it13], null);
+                                if (cellPriority > maxCellPriority)
                                 {
                                     this.targetActionUnitCandidateMb = null;
                                     this.targetAttUnitCandidateMb = arUnit[it13];
-                                    i4w = cellPrior;
-                                    this.var_3a73 = it2;
-                                    this.someTileType = tileType;
+                                    maxCellPriority = cellPriority;
+                                    this.priorityCellX = cellX;
+                                    this.priorityCellY = cellY;
                                 }
                             }
                         }
+
                         if (pxUnit.hasProperty(UnitProperty.Necromancy))
                         { //raise
-                            this.attackTargetUnits = pxUnit.getActiveUnitsInAttackRange(it2, tileType, (byte)1);
+                            this.attackTargetUnits = pxUnit.getActiveUnitsInAttackRange(cellX, cellY, (byte)1);
                             for (int i12 = 0; i12 < this.attackTargetUnits.Length; i12++)
                             {
-                                cellPrior = getUnitCellPriority(pxUnit, it2, tileType,
+                                cellPriority = getUnitCellPriority(pxUnit, cellX, cellY,
                                         null, this.attackTargetUnits[i12]);
-                                if (cellPrior > i4w)
+                                if (cellPriority > maxCellPriority)
                                 {
                                     this.targetAttUnitCandidateMb = null;
                                     this.targetActionUnitCandidateMb = this.attackTargetUnits[i12];
-                                    i4w = cellPrior;
-                                    this.var_3a73 = it2;
-                                    this.someTileType = tileType;
+                                    maxCellPriority = cellPriority;
+                                    this.priorityCellX = cellX;
+                                    this.priorityCellY = cellY;
                                 }
                             }
                         }
-                        cellPrior = getUnitCellPriority(pxUnit, it2, tileType, null, null);
-                        if (cellPrior > i4w)
+
+                        cellPriority = getUnitCellPriority(pxUnit, cellX, cellY, null, null);
+                        if (cellPriority > maxCellPriority)
                         {
                             this.targetAttUnitCandidateMb = null;
                             this.targetActionUnitCandidateMb = null;
-                            i4w = cellPrior;
-                            this.var_3a73 = it2;
-                            this.someTileType = tileType;
+                            maxCellPriority = cellPriority;
+                            this.priorityCellX = cellX;
+                            this.priorityCellY = cellY;
                         }
                     }
-                    tileType++;
+                    cellY++;
                 }
-                it2++;
+                cellX++;
             }
             if (this.var_3b03 != -1)
             {
-                this.var_3abb[this.var_3b03] = ((byte)(10 - this.someMData[this.var_3a73][this.someTileType]));
+                this.var_3abb[this.var_3b03] = ((byte)(10 - this.someMData[this.priorityCellX][this.priorityCellY]));
             }
             this.var_3a93 = null;
-            C_Unit unit22 = getSomeUnit(this.var_3a73, this.someTileType, (byte)0);
+            C_Unit unit22 = getSomeUnit(this.priorityCellX, this.priorityCellY, (byte)0);
             if ((unit22 != null) && (unit22 != pxUnit))
             {
                 this.var_3a93 = unit22;
@@ -5994,10 +6000,10 @@ namespace aeii
             this.someAIAtkStateMb = 3;
         }
 
-        public int getUnitCellPriority(C_Unit cUnit21, int inX, int inY, C_Unit cUnit1, C_Unit inUnit)
+        public int getUnitCellPriority(C_Unit currentPlayerUnit, int inX, int inY, C_Unit unitOnCell, C_Unit targetedUnit)
         {
             int priority = 0;
-            if ((this.var_3b03 != -1) && (this.playersKings[cUnit21.playerId] != null))
+            if ((this.var_3b03 != -1) && (this.playersKings[currentPlayerUnit.playerId] != null))
             {
                 if (this.someXPos != -1)
                 {
@@ -6007,12 +6013,12 @@ namespace aeii
                     }
                     else
                     {
-                        int j = Math.abs(this.someXPos - cUnit21.positionX)
+                        int j = Math.abs(this.someXPos - currentPlayerUnit.positionX)
                                 + Math.abs(this.someYPos
-                                        - cUnit21.positionY);
+                                        - currentPlayerUnit.positionY);
                         int m = Math.abs(this.someXPos - inX)
                                 + Math.abs(this.someYPos - inY);
-                        priority = 0 + 100 * (j - m) / (C_Unit.unitsMoveRanges[cUnit21.unitTypeId] - 1);
+                        priority = 0 + 100 * (j - m) / (C_Unit.unitsMoveRanges[currentPlayerUnit.unitTypeId] - 1);
                         if (tilesMovements[getTileType(inX, inY)] <= 1)
                         {
                             priority += 20;
@@ -6020,33 +6026,33 @@ namespace aeii
                     }
                 }
 
-                if ((cUnit1 == null)
-                        && (!isInSameTeam(inX, inY, this.playersTeams[cUnit21.playerId])))
+                if ((unitOnCell == null) && 
+                    (!isInSameTeam(inX, inY, this.playersTeams[currentPlayerUnit.playerId])))
                 {
-                    if ((cUnit21.hasProperty(UnitProperty.TownOccupier))
-                            && (getTileType(inX, inY) == TileType.Town))
+                    if ((currentPlayerUnit.hasProperty(UnitProperty.TownOccupier)) && 
+                        (getTileType(inX, inY) == TileType.Town))
                     {
                         priority += 300;
                     }
-                    else if ((cUnit21.hasProperty(UnitProperty.VillageOccupier))
-                          && ((getTileType(inX, inY) == TileType.Village) || (this.mapTilesIds[inX][inY] == TileType.DestroyedVillage)))
+                    else if ((currentPlayerUnit.hasProperty(UnitProperty.VillageOccupier)) && 
+                        ((getTileType(inX, inY) == TileType.Village) || (this.mapTilesIds[inX][inY] == TileType.DestroyedVillage)))
                     {
                         priority += 200;
                     }
                 }
             }
 
-            switch (cUnit21.unitTypeId)
+            switch (currentPlayerUnit.unitTypeId)
             {
                 case UnitType.Sorceress: //magi
-                    if (inUnit != null)
+                    if (targetedUnit != null)
                     {
                         priority += 100;
                     }
                     break;
                 case UnitType.Wisp: //wisp
-                    C_Unit[] someUnits2 = cUnit21.getPositionUnitsInAttackRange(inX, inY, 1, 2, (byte)2);
-                    if (inUnit != null)
+                    C_Unit[] someUnits2 = currentPlayerUnit.getPositionUnitsInAttackRange(inX, inY, 1, 2, (byte)2);
+                    if (targetedUnit != null)
                     {
                         priority += 25 * someUnits2.Length;
                     }
@@ -6059,34 +6065,35 @@ namespace aeii
                     break;
             }
 
-            if (cUnit1 != null)
+            if (unitOnCell != null)
             {
-                if (cUnit1.m_state == UnitState.Removed)
+                if (unitOnCell.m_state == UnitState.Removed)
                 {
-                    int oPlayerId = tileOwnerPlayerIndex(cUnit1.positionX, cUnit1.positionY);
-                    int house1Id = getMapHouseId(cUnit1.positionX, cUnit1.positionY);
-                    if ((oPlayerId != 0) && (house1Id != -1) && (this.someHouseUnits[house1Id] == null))
+                    int oPlayerId = tileOwnerPlayerIndex(unitOnCell.positionX, unitOnCell.positionY);
+                    int house1Index = getMapHouseIndex(unitOnCell.positionX, unitOnCell.positionY);
+                    if ((oPlayerId != 0) && (house1Index != -1) && (this.someHouseUnits[house1Index] == null))
                     {
-                        priority += cUnit21.getSomePropSum(inX, inY, cUnit1) / 2;
+                        priority += currentPlayerUnit.getSomePropSum(inX, inY, unitOnCell) / 2;
                     }
                 }
                 else
                 {
-                    if (!cUnit1.isNearOtherUnit(cUnit21, inX, inY))
+                    if (!unitOnCell.isNearOtherUnit(currentPlayerUnit, inX, inY))
                     {
-                        priority += cUnit21.getSomePropSum(inX, inY, cUnit1) * 2;
+                        priority += currentPlayerUnit.getSomePropSum(inX, inY, unitOnCell) * 2;
                     }
                     else
                     {
-                        priority += cUnit21.getSomePropSum(inX, inY, cUnit1)
+                        priority += currentPlayerUnit.getSomePropSum(inX, inY, unitOnCell)
                                 * 3 / 2
-                                - cUnit1.getSomePropSum(inX, inY, cUnit21);
+                                - unitOnCell.getSomePropSum(inX, inY, currentPlayerUnit);
                     }
-                    if (cUnit1.unitTypeId == UnitType.Commander)
+
+                    if (unitOnCell.unitTypeId == UnitType.Commander)
                     { //king
                         priority += 25;
                     }
-                    else if (cUnit1.unitTypeId == UnitType.Crystal)
+                    else if (unitOnCell.unitTypeId == UnitType.Crystal)
                     { // crystal
                         priority += 100;
                     }
@@ -6094,17 +6101,18 @@ namespace aeii
             }
 
             priority += tilesDefences[getTileType(inX, inY)];
-            if ((cUnit21.unitHealthMb < 100)
-                    && (isInSameTeam(inX, inY, this.playersTeams[cUnit21.playerId])))
+            // Tries to retreat to his building when is low on health.
+            if ((currentPlayerUnit.unitHealthMb < 100) && 
+                (isInSameTeam(inX, inY, this.playersTeams[currentPlayerUnit.playerId])))
             {
-                priority += 100 - cUnit21.unitHealthMb;
+                priority += 100 - currentPlayerUnit.unitHealthMb;
             }
 
-            int house2Id = getMapHouseId(inX, inY);
+            int houseOnCellIndex = getMapHouseIndex(inX, inY);
             if (this.someMData[inX][inY] > 0)
             {
                 int m = this.someMData[inX][inY];
-                int n = 10 - C_Unit.unitsMoveRanges[cUnit21.unitTypeId] / 2;
+                int n = 10 - C_Unit.unitsMoveRanges[currentPlayerUnit.unitTypeId] / 2;
                 if (m > n)
                 {
                     m = n;
@@ -6113,40 +6121,43 @@ namespace aeii
             }
             else if (this.someXPos != -1)
             {
-                int m = Math.abs(this.someXPos - cUnit21.positionX)
-                        + Math.abs(this.someYPos - cUnit21.positionY);
-                int n = Math.abs(this.someXPos - inX)
-                        + Math.abs(this.someYPos - inY);
+                int m = 
+                    Math.abs(this.someXPos - currentPlayerUnit.positionX) + 
+                    Math.abs(this.someYPos - currentPlayerUnit.positionY);
+                int n = 
+                    Math.abs(this.someXPos - inX) + 
+                    Math.abs(this.someYPos - inY);
                 priority += 50 * (m - n)
-                        / (C_Unit.unitsMoveRanges[cUnit21.unitTypeId] - 1);
+                        / (C_Unit.unitsMoveRanges[currentPlayerUnit.unitTypeId] - 1);
             }
 
             C_Unit ssUnit8;
-            if ((house2Id != -1)
-                    && ((ssUnit8 = this.someHouseUnits[house2Id]) != null)
-                    && (ssUnit8 != cUnit21)
+            if ((houseOnCellIndex != -1)
+                    && ((ssUnit8 = this.someHouseUnits[houseOnCellIndex]) != null)
+                    && (ssUnit8 != currentPlayerUnit)
                     && (ssUnit8.m_state == UnitState.Default)
-                    && (this.var_3abb[house2Id] < C_Unit.unitsMoveRanges[ssUnit8.unitTypeId]))
+                    && (this.var_3abb[houseOnCellIndex] < C_Unit.unitsMoveRanges[ssUnit8.unitTypeId]))
             {
                 priority -= 200;
             }
 
             return priority += 20
-                    * (Math.abs(inX - cUnit21.positionX) + Math
-                            .abs(inY - cUnit21.positionY))
-                    / (C_Unit.unitsMoveRanges[cUnit21.unitTypeId] - 1);
+                    * (Math.abs(inX - currentPlayerUnit.positionX) + Math
+                            .abs(inY - currentPlayerUnit.positionY))
+                    / (C_Unit.unitsMoveRanges[currentPlayerUnit.unitTypeId] - 1);
         }
 
-        public int getMapHouseId(int inX, int inY)
+        public int getMapHouseIndex(int inX, int inY)
         {
             for (int i = 0; i < this.housesDataArr.Length; i++)
             {
-                if ((this.housesDataArr[i][0] == inX)
-                        && (this.housesDataArr[i][1] == inY))
+                if ((this.housesDataArr[i][0] == inX) && 
+                    (this.housesDataArr[i][1] == inY))
                 {
                     return i;
                 }
             }
+
             return -1;
         }
 
@@ -6404,7 +6415,7 @@ namespace aeii
                     int n = 1;
                     for (int i1 = 0; i1 < this.mapMaxPlayersMb; i1++)
                     {
-                        if ((this.mapPlayersTypes[i1] != 2)
+                        if ((this.mapPlayersTypes[i1] != PlayerType.None)
                                 && (((this.playersKings[i1] != null) && (this.playersKings[i1].m_state != UnitState.Dead)) || (countPlayerOwnerCastles(i1) != 0)))
                         {
                             j = i1;
@@ -6424,7 +6435,7 @@ namespace aeii
                         str3 = A_MenuBase.replaceStringFirst(81, str2) + "\n("; //%U WINS!
                         for (int pIndex = 0; pIndex < this.mapMaxPlayersMb; pIndex++)
                         {
-                            if ((this.mapPlayersTypes[pIndex] != 2) && (this.playersTeams[pIndex] == this.playersTeams[j]))
+                            if ((this.mapPlayersTypes[pIndex] != PlayerType.None) && (this.playersTeams[pIndex] == this.playersTeams[j]))
                             {
                                 str3 = str3 + " " + A_MenuBase.getLangString(88 + this.playersIndexes[pIndex]) + " "; // player color
                             }
@@ -6433,7 +6444,7 @@ namespace aeii
                         D_Menu teamWinsDialog = createDialog(null, str3, this.someGHeight, this.viewportHeight, -1);
                         teamWinsDialog.setParentMenu(this);
                         A_MenuBase.mainCanvas.showMenu(teamWinsDialog);
-                        if (this.mapPlayersTypes[j] == 1)
+                        if (this.mapPlayersTypes[j] == PlayerType.Human)
                         {
                             E_MainCanvas.playMusicLooped2(6, 1);
                         }
