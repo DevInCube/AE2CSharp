@@ -26,7 +26,7 @@ namespace aeii
         public byte unitCharsCount;
         public sbyte var_b6d;
         public bool var_b75;
-        public int var_b7d = 0;
+        public int faStateMb = 0;
         public static sbyte[] var_b85 = { 3, -3 };
         public F_Sprite var_b8d;
         public F_Sprite kingWaveSprite;
@@ -52,7 +52,7 @@ namespace aeii
         public int[] unitsRotationAngles;
         public int var_c3d;
         public int var_c45 = 20;
-        public int var_c4d;
+        public int someFaUnitCharIndex;
         public int var_c55;
         public byte[][] var_c5d;
         public F_Sprite kingHeadsSprite;
@@ -82,7 +82,7 @@ namespace aeii
             {
                 i = aGame.viewportWidth;
                 this.var_b6d = 1;
-                this.var_b7d = 0;
+                this.faStateMb = 0;
             }
             this.tileType = aGame.getTileType(aUnit.positionX, aUnit.positionY);
             int j = var_b05[this.tileType];
@@ -283,7 +283,7 @@ namespace aeii
         public void sub_16bb()
         {
             this.var_b2d = true;
-            this.var_b7d = 1;
+            this.faStateMb = 1;
             this.someStartTime7 = this.m_game.time;
         }
 
@@ -293,13 +293,13 @@ namespace aeii
             int i3;
             int m;
             F_Sprite fSprite55;
-            switch (this.var_b7d)
+            switch (this.faStateMb)
             {
                 case 1:
                     F_Sprite localClass_f_0454;
                     if (this.unitType == 6)
                     {
-                        if (this.var_c4d == 0)
+                        if (this.someFaUnitCharIndex == 0)
                         {
                             if (this.m_game.time - this.someStartTime7 >= 200L)
                             {
@@ -312,12 +312,12 @@ namespace aeii
                                 if (++this.unitCharIndex >= this.unitCharsCount)
                                 {
                                     this.unitCharIndex = 0;
-                                    this.var_c4d = 1;
+                                    this.someFaUnitCharIndex = 1;
                                     this.someStartTime7 = this.m_game.time;
                                 }
                             }
                         }
-                        else if (this.var_c4d == 1)
+                        else if (this.someFaUnitCharIndex == 1)
                         {
                             if (this.m_game.time - this.someStartTime7 >= 200L)
                             {
@@ -328,12 +328,12 @@ namespace aeii
                                 if (++this.unitCharIndex >= this.unitCharsCount)
                                 {
                                     this.unitCharIndex = 0;
-                                    this.var_c4d = 2;
+                                    this.someFaUnitCharIndex = 2;
                                     this.someStartTime7 = this.m_game.time;
                                 }
                             }
                         }
-                        else if (this.var_c4d == 2)
+                        else if (this.someFaUnitCharIndex == 2)
                         {
                             i = 1;
                             if (this.m_game.time - this.someStartTime7 >= 200L)
@@ -442,13 +442,13 @@ namespace aeii
                             }
                             if (i != 0)
                             {
-                                this.var_c4d = 0;
+                                this.someFaUnitCharIndex = 0;
                                 this.someStartTime7 = this.m_game.time;
-                                this.var_b7d = 4;
+                                this.faStateMb = 4;
                             }
                         }
                     }
-                    else if (this.var_c4d == 0)
+                    else if (this.someFaUnitCharIndex == 0)
                     {
                         if (this.m_game.time - this.someStartTime7 >= 200L)
                         {
@@ -460,12 +460,12 @@ namespace aeii
                             {
                                 this.var_c75 = new F_Sprite[this.unitCharsCount];
                             }
-                            this.var_c4d = 1;
+                            this.someFaUnitCharIndex = 1;
                             this.unitCharIndex = 0;
                             this.someStartTime7 = this.m_game.time;
                         }
                     }
-                    else if (this.var_c4d == 1)
+                    else if (this.someFaUnitCharIndex == 1)
                     {
                         i = 1;
                         if (this.unitCharIndex < this.unitCharsCount)
@@ -626,11 +626,11 @@ namespace aeii
                         {
                             if (this.m_unit.unitTypeId == UnitType.Commander)
                             {
-                                this.var_b7d = 6;
+                                this.faStateMb = 6;
                             }
                             else
                             {
-                                this.var_b7d = 4;
+                                this.faStateMb = 4;
                             }
                             this.var_c55 = 400;
                             if (this.m_unit.unitTypeId == UnitType.Dragon)
@@ -638,7 +638,7 @@ namespace aeii
                                 this.var_c55 = 0;
                             }
                             this.someStartTime7 = this.m_game.time;
-                            this.var_c4d = 0;
+                            this.someFaUnitCharIndex = 0;
                             return;
                         }
                     }
@@ -720,14 +720,14 @@ namespace aeii
                     }
                     if (i != 0)
                     {
-                        this.var_c4d = 0;
-                        this.var_b7d = 4;
+                        this.someFaUnitCharIndex = 0;
+                        this.faStateMb = 4;
                         this.someStartTime7 = this.m_game.time;
                         return;
                     }
                     break;
                 case 4:
-                    if (this.var_c4d == 0)
+                    if (this.someFaUnitCharIndex == 0)
                     {
                         if (this.m_game.time - this.someStartTime7 >= this.var_c55)
                         {
@@ -742,10 +742,10 @@ namespace aeii
                             {
                                 this.var_c7d = C_Unit.unitsChars[this.unitType].Length;
                             }
-                            this.var_c4d = 1;
+                            this.someFaUnitCharIndex = 1;
                         }
                     }
-                    else if (this.var_c4d == 1)
+                    else if (this.someFaUnitCharIndex == 1)
                     {
                         if (--this.var_c7d >= 0)
                         {
@@ -826,7 +826,7 @@ namespace aeii
                                 this.m_game.addSpriteTo(localClass_f_0457);
                             }
                         }
-                        this.var_b7d = 7;
+                        this.faStateMb = 7;
                         this.someStartTime7 = this.m_game.time;
                         return;
                     }
@@ -834,7 +834,7 @@ namespace aeii
                 case 7:
                     if (this.m_game.time - this.someStartTime7 >= 1000L)
                     {
-                        this.var_b7d = 0;
+                        this.faStateMb = 0;
                         this.var_b35 = true;
                     }
                     break;
@@ -851,26 +851,26 @@ namespace aeii
 
         public void sub_2782()
         {
-            switch (this.var_b7d)
+            switch (this.faStateMb)
             {
                 case 1:
-                    if (this.var_c4d == 0)
+                    if (this.someFaUnitCharIndex == 0)
                     {
                         if (this.m_game.time - this.someStartTime7 >= 200L)
                         {
-                            this.var_c4d = 1;
+                            this.someFaUnitCharIndex = 1;
                             this.someStartTime7 = this.m_game.time;
                         }
                     }
                     else
                     {
                         F_Sprite localClass_f_0451;
-                        if (this.var_c4d == 1)
+                        if (this.someFaUnitCharIndex == 1)
                         {
                             this.var_c45 += 5;
                             if (this.var_c45 >= 90)
                             {
-                                this.var_c4d += 1;
+                                this.someFaUnitCharIndex += 1;
                                 this.someStartTime7 = this.m_game.time;
                             }
                             if ((this.var_c45 - 20) % 15 == 0)
@@ -894,12 +894,12 @@ namespace aeii
                                 }
                             }
                         }
-                        else if ((this.var_c4d == 2)
+                        else if ((this.someFaUnitCharIndex == 2)
                               && (this.m_game.time - this.someStartTime7 >= 400L))
                         {
                             this.var_c45 = 20;
                             this.otherFightAnim.sub_3363();
-                            this.var_b7d = 4;
+                            this.faStateMb = 4;
                             this.otherFightAnim.var_c15 = false;
                             this.someStartTime7 = this.m_game.time;
                         }
@@ -931,7 +931,7 @@ namespace aeii
                     if (this.m_game.time - this.someStartTime7 >= 800L)
                     {
                         this.var_b35 = true;
-                        this.var_b7d = 0;
+                        this.faStateMb = 0;
                     }
                     break;
             }
@@ -998,13 +998,13 @@ namespace aeii
                 this.m_game.var_3bf3 = true;
             }
             int i;
-            if ((this.unitType == 8) || (this.unitType == 9) || (this.unitType == 7)
-                    || (this.unitType == 1) || (this.unitType == 3)
-                    || (this.unitType == 2) || (this.unitType == 6))
+            if ((this.unitType == UnitType.Dragon) || (this.unitType == UnitType.Commander) || (this.unitType == UnitType.Catapult)
+                    || (this.unitType == UnitType.Archer) || (this.unitType == UnitType.Sorceress)
+                    || (this.unitType == UnitType.Elemental) || (this.unitType == UnitType.Golem))
             {
                 sub_16eb();
             }
-            else if (this.unitType == 4)
+            else if (this.unitType == UnitType.Wisp)
             {
                 sub_2782();
             }
@@ -1013,26 +1013,27 @@ namespace aeii
                 i = 0;
                 int j;
                 int k;
-                switch (this.var_b7d)
+                switch (this.faStateMb) // fight animation state
                 {
                     case 1:
+                        // waiting for attack to start
                         if (this.m_game.time - this.someStartTime7 >= 200L)
                         {
-                            this.var_b7d = 3;
+                            this.faStateMb = 3;
                         }
                         break;
-                    case 3:
+                    case 3:  // attacker attacks
                         j = 1;
                         F_Sprite fSprite1;
-                        if (this.var_c4d < this.unitCharsCount)
+                        if (this.someFaUnitCharIndex < this.unitCharsCount)
                         {
-                            if ((this.unitType == 0) || (this.unitType == 5))
+                            if ((this.unitType == UnitType.Soldier) || (this.unitType == UnitType.DireWolf))
                             {
-                                this.unitCharsSprites[this.var_c4d].someYVal3 = -6;
+                                this.unitCharsSprites[this.someFaUnitCharIndex].someYVal3 = -6;
                             }
-                            if (this.unitType == 5)
+                            if (this.unitType == UnitType.DireWolf)
                             {
-                                this.unitCharsSprites[this.var_c4d].someXVal3 = (2 * var_b85[this.var_b6d]);
+                                this.unitCharsSprites[this.someFaUnitCharIndex].someXVal3 = (2 * var_b85[this.var_b6d]);
                                 for (int kIt = 0; kIt < 3; kIt++)
                                 {
                                     fSprite1 = F_Sprite.spriteCopy(
@@ -1040,25 +1041,26 @@ namespace aeii
                                             E_MainCanvas.getRandomWithin(-1, 2), 0, -1, 1, 100,
                                             (byte)0);
                                     fSprite1.setSpritePosition(
-                                                    this.unitCharsSprites[this.var_c4d].posXPixel
+                                                    this.unitCharsSprites[this.someFaUnitCharIndex].posXPixel
                                                             + E_MainCanvas
                                                                     .getRandomMax(this.var_b8d.frameWidth
                                                                             - fSprite1.frameWidth),
-                                                    this.unitCharsSprites[this.var_c4d].posYPixel
+                                                    this.unitCharsSprites[this.someFaUnitCharIndex].posYPixel
                                                             + this.var_b8d.frameHeight
                                                             - fSprite1.frameHeight
                                                             + 1);
                                     this.m_game.addSpriteTo(fSprite1);
                                 }
                             }
-                            this.unitCharsSprites[this.var_c4d].someXVal3 = var_b85[this.var_b6d];
-                            this.unitCharsSprites[this.var_c4d].startAnimation(1, this.var_b75);
-                            this.var_c4d += 1;
+                            this.unitCharsSprites[this.someFaUnitCharIndex].someXVal3 = var_b85[this.var_b6d];
+                            this.unitCharsSprites[this.someFaUnitCharIndex].startAnimation(1, this.var_b75);
+                            // character index?
+                            this.someFaUnitCharIndex += 1;
                             j = 0;
                         }
-                        for (int kIt = 0; kIt < this.var_c4d; kIt++)
+                        for (int kIt = 0; kIt < this.someFaUnitCharIndex; kIt++)
                         {
-                            if (this.unitType == 10) //skeleton
+                            if (this.unitType == UnitType.Skeleton) //skeleton
                             {
                                 if (this.unitCharsSprites[kIt].spriteMovingStepMb != -1)
                                 {
@@ -1100,7 +1102,7 @@ namespace aeii
                                 if ((this.unitType == 0) || (this.unitType == 5))
                                 {
                                     this.unitCharsSprites[kIt].startAnimation(2, this.var_b75);
-                                    if (this.unitType == 0)
+                                    if (this.unitType == UnitType.Soldier)
                                     {
                                         fSprite1 = F_Sprite.spriteCopy(this.slashSprite, 0, 0, 0, 1,
                                                 150, (byte)0);
@@ -1112,7 +1114,7 @@ namespace aeii
                                         fSprite1.someYVal1 = (4 - this.unitCharsSprites[kIt].frameHeight);
                                         this.m_game.addSpriteTo(fSprite1);
                                     }
-                                    else if (this.unitType == 5)
+                                    else if (this.unitType == UnitType.DireWolf)
                                     {
                                         fSprite1 = F_Sprite.spriteCopy(
                                                 this.m_game.redsparkSprite, 0, 0, 0, 1, 50,
@@ -1132,8 +1134,8 @@ namespace aeii
                         }
                         if (j != 0)
                         {
-                            this.var_c4d = 0;
-                            this.var_b7d = 6;
+                            this.someFaUnitCharIndex = 0;
+                            this.faStateMb = 6;
                             this.otherFightAnim.sub_3363();
                             this.m_game.startShakingScreen(200);
                             E_MainCanvas.vibrate(200);
@@ -1141,43 +1143,46 @@ namespace aeii
                             this.someStartTime7 = this.m_game.time;
                         }
                         break;
-                    case 6:
-                        if (((this.unitType == 10) && (this.m_game.time
+                    case 6:  // attack finished
+                        if (((this.unitType == UnitType.Skeleton) && (this.m_game.time
                                 - this.someStartTime7 >= 400L))
-                                || (((this.unitType == 0) || (this.unitType == 2) || (this.unitType == 5)) && (this.m_game.time
+                                || (((this.unitType == UnitType.Soldier) || (this.unitType == UnitType.Elemental) || (this.unitType == UnitType.DireWolf)) && (this.m_game.time
                                         - this.someStartTime7 >= 50L)))
                         {
-                            this.var_b7d = 4;
+                            this.faStateMb = 4;
                         }
                         break;
-                    case 4:
+                    case 4:  // attacker returns to position
                         j = 1;
-                        if (this.var_c4d < this.unitCharsCount)
+                        if (this.someFaUnitCharIndex < this.unitCharsCount)
                         {
-                            if ((this.unitType == 0) || (this.unitType == 2)
-                                    || (this.unitType == 5))
+                            if ((this.unitType == UnitType.Soldier) || (this.unitType == UnitType.Elemental)
+                                    || (this.unitType == UnitType.DireWolf))
                             {
-                                this.unitCharsSprites[this.var_c4d].someYVal3 = -6;
+                                this.unitCharsSprites[this.someFaUnitCharIndex].someYVal3 = -6;
                             }
-                            else if (this.unitType == 10)
+                            else if (this.unitType == UnitType.Skeleton)
                             {
-                                this.unitCharsSprites[this.var_c4d].spriteMovingStepMb = 0;
+                                this.unitCharsSprites[this.someFaUnitCharIndex].spriteMovingStepMb = 0;
                             }
-                            if (this.unitType == 5)
+
+                            if (this.unitType == UnitType.DireWolf)
                             {
-                                this.unitCharsSprites[this.var_c4d].someXVal3 = (-2 * var_b85[this.var_b6d]);
+                                this.unitCharsSprites[this.someFaUnitCharIndex].someXVal3 = (-2 * var_b85[this.var_b6d]);
                             }
                             else
                             {
-                                this.unitCharsSprites[this.var_c4d].someXVal3 = (-var_b85[this.var_b6d]);
+                                this.unitCharsSprites[this.someFaUnitCharIndex].someXVal3 = (-var_b85[this.var_b6d]);
                             }
-                            this.unitCharsSprites[this.var_c4d].startAnimation(3, this.var_b75);
-                            this.var_c4d += 1;
+
+                            this.unitCharsSprites[this.someFaUnitCharIndex].startAnimation(3, this.var_b75);
+                            this.someFaUnitCharIndex += 1;
                             j = 0;
                         }
-                        for (k = 0; k < this.var_c4d; k++)
+
+                        for (k = 0; k < this.someFaUnitCharIndex; k++)
                         {
-                            if (this.unitType == 10)
+                            if (this.unitType == UnitType.Skeleton)
                             {
                                 if (this.unitCharsSprites[k].spriteMovingStepMb != -1)
                                 {
@@ -1207,16 +1212,19 @@ namespace aeii
                                 this.unitCharsSprites[k].startAnimation(0, this.var_b75);
                             }
                         }
+
                         if (j != 0)
                         {
-                            this.var_b35 = true;
-                            this.var_b7d = 0;
+                            this.var_b35 = true;  // attacker finished its turn
+                            this.faStateMb = 0;
                             this.someStartTime7 = this.m_game.time;
                         }
+
                         break;
                 }
             }
-            if (this.unitType == 6)
+
+            if (this.unitType == UnitType.Golem)
             { //golem
                 for (i = 0; i < this.unitCharsSprites.Length; i++)
                 {

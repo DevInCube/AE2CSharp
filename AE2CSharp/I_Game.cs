@@ -346,7 +346,7 @@ namespace aeii
         public long shakeScreenMaxTime;
         public long shakeScreenStartTime;
         public bool unitStrikesBackFAMb;
-        public bool var_3be3;
+        public bool isWaveImageAnimationPlaying;
         public bool var_3beb;
         public bool var_3bf3;
         public int var_3bfb;
@@ -579,7 +579,7 @@ namespace aeii
             }
             setLoadingProgress(100);
             E_MainCanvas.playMusicLooped(0, 0);
-            this.gameMode2Mb = 0;
+            this.gameMode2Mb = GameMode.Intro;
         }
 
         public void setLoadingProgress(int value)
@@ -619,11 +619,12 @@ namespace aeii
             this.someGHeight = (this.someCanHeight - someUnkHeight1);
             this.viewportHeight = (this.someGHeight >> 1);
             E_MainCanvas.stopMusic();
-            if (this.gameMode2Mb == 1)
+            if (this.gameMode2Mb == GameMode.Map)
             {
                 return;
             }
-            this.gameMode2Mb = 1;
+
+            this.gameMode2Mb = GameMode.Map;
             C_Unit.loadUnitsProps(this);
             E_MainCanvas.loadResourcesPak("/1.pak");
             this.playersUnitsSprites = JavaArray.New<F_Sprite>(5, 12);
@@ -704,7 +705,7 @@ namespace aeii
         //@Override candidate? @my
         public override void onKeyAction(int unused1, int actionCode)
         {
-            if ((this.mapModeCampIf0 == 0) && (this.gameMode2Mb == 1) && (this.unkState == 0))
+            if ((this.mapModeCampIf0 == 0) && (this.gameMode2Mb == GameMode.Map) && (this.unkState == 0))
             {
                 int i = 0;
                 this.m_strBuf.append(actionCode);
@@ -1652,7 +1653,8 @@ namespace aeii
                                 E_MainCanvas.stopMusic();
                                 return;
                             }
-                            if (this.gameMode2Mb == 1)
+
+                            if (this.gameMode2Mb == GameMode.Map)
                             {
                                 if ((this.unkState != 11) && (this.unkState != 14))
                                 {
@@ -1660,7 +1662,7 @@ namespace aeii
                                             playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
                                 }
                             }
-                            else if (this.gameMode2Mb == 0)
+                            else if (this.gameMode2Mb == GameMode.Intro)
                             {
                                 E_MainCanvas.playMusicLooped(0, 0);
                             }
@@ -1942,7 +1944,7 @@ namespace aeii
             }
             if (itemName.Equals(this.mainMenuItemsNames[0]))
             { // Play
-                if ((this.gameMode2Mb == 0) || (this.unkState != 0))
+                if ((this.gameMode2Mb == GameMode.Intro) || (this.unkState != 0))
                 {
                     showPlayMenu(this.playMenuItems, this.someMenuWidth, this.someMenuHeight,
                             menu);
@@ -2767,19 +2769,19 @@ namespace aeii
         public override void onUpdate()
         {
             this.time += 50L;
-            if (this.gameMode2Mb == 2)
+            if (this.gameMode2Mb == GameMode.FightAnimation)
             { //game mode
                 updateGameSprites();
                 return;
             }
 
-            if (this.gameMode2Mb == 3)
+            if (this.gameMode2Mb == GameMode.Over)
             {
                 sub_c1eb();
                 return;
             }
 
-            if (this.gameMode2Mb == 0)
+            if (this.gameMode2Mb == GameMode.Intro)
             {
                 updateIntro();
                 return;
@@ -2861,6 +2863,7 @@ namespace aeii
                         this.targetAttUnitCandidateMb = null;
                         clearActiveUnit();
                     }
+
                     this.faStarted = false;
                 }
                 return;
@@ -4139,7 +4142,7 @@ namespace aeii
             this.var_39f3 = 0;
             this.var_3a0b = false;
             A_MenuBase.mainCanvas.clearActions();
-            this.gameMode2Mb = 3;
+            this.gameMode2Mb = GameMode.Over;
         }
 
         public void gameOverVictory(String text)
@@ -4156,7 +4159,7 @@ namespace aeii
             this.var_39e3 = (this.someCanHeight - this.var_39db);
             this.var_39f3 = 0;
             A_MenuBase.mainCanvas.clearActions();
-            this.gameMode2Mb = 3;
+            this.gameMode2Mb = GameMode.Over;
         }
 
         public void sub_c1eb()
@@ -4397,7 +4400,7 @@ namespace aeii
         public override void onPaint(Graphics gr)
         {
             int sprLength;
-            if (this.gameMode2Mb == 4)
+            if (this.gameMode2Mb == GameMode.Loading)
             { // loading progress
                 gr.setColor(16777215);
                 gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
@@ -4418,21 +4421,25 @@ namespace aeii
                         * (this.someCanWidth - 6) / 100, i - 4);
                 return;
             }
-            if (this.gameMode2Mb == 2)
+
+            if (this.gameMode2Mb == GameMode.FightAnimation)
             {
                 sub_1480f(gr);
                 return;
             }
-            if (this.gameMode2Mb == 3)
+
+            if (this.gameMode2Mb == GameMode.Over)
             { // intro play
                 playIntro(gr);
                 return;
             }
+
             if (this.isBlackLoading)
             {
                 paintBlackScreenLoading(gr);
                 return;
             }
+
             if (this.faStarted)
             {
                 if (this.waveImageAmplitude >= 16)
@@ -4442,15 +4449,18 @@ namespace aeii
                         paintBlackScreenLoading(gr);
                         return;
                     }
+
                     gr.setColor(0);
                     gr.fillRect(0, 0, this.someCanWidth, this.someCanHeight);
                     return;
                 }
+
                 sub_e77a(gr, 0, this.waveImageAmplitude, 16, this.var_365b, null,
                         0, 0, this.someCanWidth, this.someCanHeight);
                 return;
             }
-            if (this.gameMode2Mb == 0)
+
+            if (this.gameMode2Mb == GameMode.Intro)
             {
                 paintStartLogos(gr);
             }
@@ -4714,7 +4724,7 @@ namespace aeii
                 {
                     drawActionButton(gr, m_actionApply, 0, this.someGHeight);
                 }
-                if ((this.gameMode2Mb == 1)
+                if ((this.gameMode2Mb == GameMode.Map)
                         && ((this.mapPlayersTypes[this.playerId] == PlayerType.AI) || (this.unkState == 0))
                         && (this.unkState != 11))
                 {
@@ -6502,7 +6512,7 @@ namespace aeii
                 return;
             }
 
-            if ((this.gameMode2Mb != 1) || (this.mapModeCampIf0 != 0) || (this.scriptStep == -1))
+            if ((this.gameMode2Mb != GameMode.Map) || (this.mapModeCampIf0 != 0) || (this.scriptStep == -1))
             {
                 return;
             }
@@ -8086,36 +8096,36 @@ namespace aeii
             E_MainCanvas.playMusicLooped(7, 1);
         }
 
-        public void setupUnitsFAmb(C_Unit unit1, C_Unit unit2)
+        public void setupUnitsFAmb(C_Unit attackerUnit, C_Unit attackedUnit)
         {
             JavaSystem.gc();
             this.var_3bfb = (this.someGHeight - this.var_3a43);
-            this.var_3be3 = true;
+            this.isWaveImageAnimationPlaying = true;  // fa fade wave animation enabled?
             this.waveImageAmplitude = 0;
             this.var_3bb3 = false;
-            this.attackerUnitMb = unit1;
-            this.attackedUnitMb = unit2;
+            this.attackerUnitMb = attackerUnit;
+            this.attackedUnitMb = attackedUnit;
             E_MainCanvas.loadResourcesPak("/2.pak");
-            this.faUnit1 = new G_FightAnimation(this, unit1, null);
-            this.faUnit2 = new G_FightAnimation(this, unit2, this.faUnit1);
+            this.faUnit1 = new G_FightAnimation(this, attackerUnit, null);
+            this.faUnit2 = new G_FightAnimation(this, attackedUnit, this.faUnit1);
             this.faUnit1.otherFightAnim = this.faUnit2;
-            unit1.getUnitAttackDamage(unit2);
-            if (unit2.isNearOtherUnit(unit1,
-                    unit1.positionX, unit1.positionY))
+            attackerUnit.getUnitAttackDamage(attackedUnit);
+            if (attackedUnit.isNearOtherUnit(attackerUnit,
+                    attackerUnit.positionX, attackerUnit.positionY))
             {
-                unit2.getUnitAttackDamage(unit1);
+                attackedUnit.getUnitAttackDamage(attackerUnit);
                 this.unitStrikesBackFAMb = true;
             }
             else
             {
                 this.unitStrikesBackFAMb = false;
             }
-            this.faUnit1.unitHealth3 = ((byte)unit1.unitHealthMb);
-            this.faUnit1.unitChars3 = ((byte)unit1.getAliveCharactersCount());
-            this.faUnit2.unitHealth3 = ((byte)unit2.unitHealthMb);
-            this.faUnit2.unitChars3 = ((byte)unit2.getAliveCharactersCount());
+            this.faUnit1.unitHealth3 = ((byte)attackerUnit.unitHealthMb);
+            this.faUnit1.unitChars3 = ((byte)attackerUnit.getAliveCharactersCount());
+            this.faUnit2.unitHealth3 = ((byte)attackedUnit.unitHealthMb);
+            this.faUnit2.unitChars3 = ((byte)attackedUnit.getAliveCharactersCount());
             E_MainCanvas.playMusicLooped(playersFAMusicIds[this.playersIndexes[this.playerId]], 0);
-            this.gameMode2Mb = 2;
+            this.gameMode2Mb = GameMode.FightAnimation;
         }
 
         public void addSpriteTo(F_Sprite sprite)
@@ -8135,12 +8145,14 @@ namespace aeii
             {
                 this.isShakingScreen = false;
             }
+
             F_Sprite sprite;
             for (int i = 0; i < this.gameSprites.size(); i++)
             {
                 sprite = (F_Sprite)this.gameSprites.elementAt(i);
                 sprite.spriteUpdate();
             }
+
             for (int i = 0; i < this.gameSprites.size(); i++)
             {
                 sprite = (F_Sprite)this.gameSprites.elementAt(i);
@@ -8149,20 +8161,23 @@ namespace aeii
                     removeSpriteFrom(sprite);
                 }
             }
+
             this.faUnit1.sub_2ae8();
             this.faUnit2.sub_2ae8();
-            if (this.var_3be3)
+            if (this.isWaveImageAnimationPlaying)
             {
                 this.waveImageAmplitude += 1;
                 if (this.waveImageAmplitude >= 16)
                 {
-                    this.var_3be3 = false;
+                    this.isWaveImageAnimationPlaying = false;
                     this.faUnit1.sub_16bb();
                 }
+
                 this.var_3beb = true;
                 this.var_3bf3 = true;
                 return;
             }
+
             if (this.var_3bb3)
             {
                 if (this.time - this.someStartTime2 >= 300L)
@@ -8172,7 +8187,7 @@ namespace aeii
                     this.faUnit1 = null;
                     this.mapEffectsSpritesList = new Vector();
                     afterUnitsAttacked();
-                    this.gameMode2Mb = 1;
+                    this.gameMode2Mb = GameMode.Map;
                     E_MainCanvas.stopMusic();
                     E_MainCanvas.playMusicLooped(playersMusicIdsMb[this.playersIndexes[this.playerId]], 0);
                     A_MenuBase.mainCanvas.clearActions();
@@ -8188,6 +8203,7 @@ namespace aeii
                     {
                         this.faUnit2.sub_16bb();
                     }
+
                     if (this.faUnit2.var_b35)
                     {
                         this.var_3bb3 = true;
@@ -8211,6 +8227,7 @@ namespace aeii
                 i = E_MainCanvas.getRandomInt() % 10;
                 j = E_MainCanvas.getRandomInt() % 3;
             }
+
             gr.translate(0, this.var_3a43);
             gr.setClip(0, 0, this.someGWidth, this.var_3bfb);
             this.faUnit1.sub_35fd(gr, i, j);
@@ -8249,6 +8266,7 @@ namespace aeii
                     localVector.addElement(sSprite);
                 }
             }
+
             this.gameSprites = localVector;
             for (int k = 0; k < this.gameSprites.size(); k++)
             {
@@ -8267,6 +8285,7 @@ namespace aeii
                 }
                 sSprite.onSpritePaint(gr, 0, sSprite.someYVal1);
             }
+
             gr.translate(0, -this.var_3a43);
             gr.setClip(0, 0, this.someCanWidth, this.someCanHeight);
             if (this.var_3bf3)
@@ -8282,13 +8301,15 @@ namespace aeii
                 this.faUnit2.drawUnitHealth(gr);
                 gr.translate(-this.viewportWidth, 0);
             }
+
             if (this.var_3beb)
             {
                 this.var_3beb = false;
                 drawAttackStatMenu(gr, this.faUnit1.m_unit,
                         this.faUnit2.m_unit, 0);
             }
-            if (this.var_3be3)
+
+            if (this.isWaveImageAnimationPlaying)
             {
                 sub_e77a(gr, 0, this.waveImageAmplitude, 16, 1, null, 0, 0,
                         this.someCanWidth, this.someCanHeight);
