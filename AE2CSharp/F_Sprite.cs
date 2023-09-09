@@ -553,6 +553,12 @@ namespace aeii
                     y += E_MainCanvas.getRandomWithin(-1, 2);
                 }
 
+                // my code, why is this happening?
+                if (this.frameSequence == null)
+                {
+                    return;
+                }
+
                 k = this.frameSequence[this.currentFrameIndex];
                 this.frameImages[k].drawImage(gr, x, y);
                 if (this.kingHeadSprite != null)
